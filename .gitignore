@@ -46,5 +46,5 @@
 **/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 **/.idea
-**/Resources
+**/Ignore
 **/.vsconfig
