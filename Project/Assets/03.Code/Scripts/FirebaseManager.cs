@@ -44,6 +44,25 @@ public class FirebaseManager : Singleton<FirebaseManager>
     }
 
     //로그인
+    public async Task<bool> SignIn(string email, string password)
+    {
+        try
+        {
+            await _auth.SignInWithEmailAndPasswordAsync(email, password);
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            print($"로그인 에러 : {e.Message}");
+
+            return false;
+        }
+    }
 
     //로그아웃
+    public void SignOut()
+    {
+        _auth.SignOut();
+    }
 }
