@@ -11,6 +11,8 @@ public class FirebaseManager : Singleton<FirebaseManager>
 {
     private FirebaseAuth _auth;
     private FirebaseDatabase _database;
+    private FirebaseUser _user;
+
 
     private async void Start()
     {
@@ -19,12 +21,27 @@ public class FirebaseManager : Singleton<FirebaseManager>
             await FirebaseApp.CheckAndFixDependenciesAsync();
 
             _auth = FirebaseAuth.DefaultInstance;
+            _database = FirebaseDatabase.DefaultInstance;
+
+            _auth.StateChanged += AuthStateChanged;
         }
         catch (Exception e)
         {
             print($"파이어베이스 초기화 에러 : {e.Message}");
         }
     }
+
+    private void AuthStateChanged(object sender, EventArgs e)
+    {
+        if (_auth.CurrentUser != _user)
+        {
+
+            //로그인 시
+            _user = _auth.CurrentUser;
+        }
+    }
+
+
 
     //회원가입
     public async Task<bool> Create(string email, string password)
