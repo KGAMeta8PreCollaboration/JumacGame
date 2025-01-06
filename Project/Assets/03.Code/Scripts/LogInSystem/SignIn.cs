@@ -5,34 +5,35 @@ using UnityEngine.UI;
 
 public class SignIn : Popup
 {
-    [SerializeField] private InputField _emailIF;
-    [SerializeField] private InputField _passwordIF;
+	[SerializeField] private InputField _emailIF;
+	[SerializeField] private InputField _passwordIF;
 
-    [SerializeField] private Button _signInButton;
-    [SerializeField] private Button _signUpButton;
+	[SerializeField] private Button _signInButton;
+	[SerializeField] private Button _signUpButton;
 
-    [SerializeField] private Text _errorText;
+	[SerializeField] private Text _errorText;
 
-    private void Start()
-    {
-        _signInButton.onClick.AddListener(LogIn);
-        _signUpButton.onClick.AddListener(SignUpButtonClick);
-    }
+	private void Start()
+	{
+		_signInButton.onClick.AddListener(LogIn);
+		_signUpButton.onClick.AddListener(SignUpButtonClick);
+	}
 
-    private async void LogIn()
-    {
-        if (await FirebaseManager.Instance.SignIn(_emailIF.text, _passwordIF.text))
-        {
-            print("로그인 성공");
-        }
-        else
-        {
-            _errorText.text = "로그인할 수 없습니다.";
-        }
-    }
+	private async void LogIn()
+	{
+		if (await FirebaseManager.Instance.SignIn(_emailIF.text, _passwordIF.text))
+		{
+			_errorText.text = "";
+			PageManager.Instance.PageOpen<CharaterSelect>();
+		}
+		else
+		{
+			_errorText.text = "로그인할 수 없습니다.";
+		}
+	}
 
-    private void SignUpButtonClick()
-    {
-        PopupManager.Instance.PopupOpen<SignUp>();
-    }
+	private void SignUpButtonClick()
+	{
+		PopupManager.Instance.PopupOpen<SignUp>();
+	}
 }
