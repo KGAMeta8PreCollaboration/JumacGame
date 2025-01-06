@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SignUp : MonoBehaviour
+public class SignUp : Popup
 {
     [SerializeField] private InputField _emailIF;
     [SerializeField] private InputField _passwordIF;
@@ -23,7 +23,7 @@ public class SignUp : MonoBehaviour
     {
         if (await FirebaseManager.Instance.Create(_emailIF.text, _passwordIF.text))
         {
-            _alarm.gameObject.SetActive(true);
+            PopupManager.Instance.PopupOpen<Alarm>();
             _alarm.SetAlarm("알림", "계정 생성 완료", CreateAction);
         }
         else
@@ -34,7 +34,6 @@ public class SignUp : MonoBehaviour
 
     private void CreateAction()
     {
-        _signIn.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        PopupManager.Instance.PopupOpen<SignIn>();
     }
 }

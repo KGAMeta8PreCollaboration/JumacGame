@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Alarm : MonoBehaviour
+public class Alarm : Popup
 {
     [SerializeField] private Text _title;
     [SerializeField] private Text _content;

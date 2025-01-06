@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SignIn : MonoBehaviour
+public class SignIn : Popup
 {
     [SerializeField] private InputField _emailIF;
     [SerializeField] private InputField _passwordIF;
 
     [SerializeField] private Button _signInButton;
     [SerializeField] private Button _signUpButton;
-    [SerializeField] private SignUp _signUp;
 
     [SerializeField] private Text _errorText;
 
@@ -34,7 +33,6 @@ public class SignIn : MonoBehaviour
 
     private void SignUpButtonClick()
     {
-        _signUp.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        PopupManager.Instance.PopupOpen<SignUp>();
     }
 }
