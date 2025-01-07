@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+  <string name="firebase_database_url" translatable="false">https://jumac-40ff6-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+  <string name="gcm_defaultSenderId" translatable="false">938700610081</string>
+  <string name="google_storage_bucket" translatable="false">jumac-40ff6.firebasestorage.app</string>
+  <string name="project_id" translatable="false">jumac-40ff6</string>
+  <string name="google_api_key" translatable="false">AIzaSyDNIW01cE2ax33lnix0BbZp9hl6jMCuXSc</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDNIW01cE2ax33lnix0BbZp9hl6jMCuXSc</string>
+  <string name="google_app_id" translatable="false">1:938700610081:android:999a6eedb08a9c4f492160</string>
+</resources>
