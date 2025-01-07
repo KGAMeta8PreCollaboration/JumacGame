@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Firebase.Database;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 public class FirebaseManager : Singleton<FirebaseManager>
 {
@@ -45,7 +46,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
 	{
 		try
 		{
-			// 데이터 읽기
 			DataSnapshot snapshot = await Database.GetReference("a/LoginUsers").GetValueAsync();
 
 			if (snapshot.Exists)
@@ -54,7 +54,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
 
 				foreach (DataSnapshot data in snapshot.Children)
 				{
-					// nickname 필드 존재 여부 확인
 					if (data.HasChild("nickname"))
 					{
 						string nickname = data.Child("nickname").Value?.ToString() ?? "닉네임 없음";
@@ -98,8 +97,12 @@ public class FirebaseManager : Singleton<FirebaseManager>
 		try
 		{
 			AuthResult result = await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
+
+			LogInUserData userData = new LogInUserData(result.User.UserId);
+			string json = JsonConvert.SerializeObject(userData);
+
 			_logInUserRef = Database.GetReference("a").Child("LoginUsers");
-			await _logInUserRef.Child(result.User.UserId).SetValueAsync("");
+			await _logInUserRef.Child(result.User.UserId).SetValueAsync(json);
 			return true;
 		}
 		catch (Exception e)
@@ -117,13 +120,38 @@ public class FirebaseManager : Singleton<FirebaseManager>
 		{
 			AuthResult result = await Auth.SignInWithEmailAndPasswordAsync(email, password);
 
-			string loginTime = DateTime.UtcNow.ToString("o");
+			string logInTime = DateTime.UtcNow.ToString("o");
 
-			await _logInUserRef.Child(result.User.UserId).Child("Timestamp").SetValueAsync(loginTime);
+			_logInUserRef = Database.GetReference("a").Child("LoginUsers");
 
-			Debug.Log($"로그인 성공! 로그인 시간 업데이트: {loginTime}");
+			try
+			{
+				DataSnapshot snapshot = await _logInUserRef.Child(result.User.UserId).GetValueAsync();
+				LogInUserData userData;
+				if (snapshot.Exists)
+				{
+					userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetValue(true).ToString());
+					userData.timestamp = logInTime;
+				}
+				else
+				{
+					userData = new LogInUserData(result.User.UserId, logInTime);
+				}
 
-			return true;
+				string json = JsonConvert.SerializeObject(userData);
+				await _logInUserRef.Child(result.User.UserId).SetValueAsync(json);
+
+				Debug.Log($"로그인 성공! 로그인 시간 업데이트: {logInTime}");
+				return true;
+			}
+			catch (Exception e)
+			{
+				print($"데이터를 가져올 수 없음 : {e.Message}");
+
+				//로그인은 성공했는데 데이터를 못가져 왔으니 로그아웃으로 로그인 못하게 해야 함.
+				SignOut();
+				return false;
+			}
 		}
 		catch (Exception e)
 		{
