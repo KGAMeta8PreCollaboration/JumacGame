@@ -5,23 +5,37 @@ using UnityEngine;
 
 public class PopupManager : Singleton<PopupManager>
 {
-	[SerializeField] private List<Popup> popups = new List<Popup>();
+    [SerializeField] private List<Popup> popups = new List<Popup>();
 
-	private void Start()
-	{
-		PopupOpen<SignIn>();
-	}
+    private Stack<Popup> openPopups = new Stack<Popup>();
 
-	public T PopupOpen<T>() where T : Popup
-	{
-		T @return = null;
-		foreach (Popup popup in popups)
-		{
-			bool isActive = popup is T;
-			popup.gameObject.SetActive(isActive);
-			if (isActive) @return = popup as T;
-		}
-		return @return;
-	}
+    private void Start()
+    {
+        foreach (Popup popup in popups)
+        {
+            popup.gameObject.SetActive(false);
+        }
+
+    }
+
+    public T PopupOpen<T>() where T : Popup
+    {
+        T @return = popups.Find((popup) => popup is T) as T;
+        if (@return != null && !openPopups.Contains(@return))
+        {
+            @return.gameObject.SetActive(true);
+            openPopups.Push(@return);
+        }
+        return @return;
+    }
+
+    public void PopupClose()
+    {
+        if (openPopups.Count > 0)
+        {
+            Popup targetPopup = openPopups.Pop();
+            targetPopup.gameObject.SetActive(false);
+        }
+    }
 
 }
