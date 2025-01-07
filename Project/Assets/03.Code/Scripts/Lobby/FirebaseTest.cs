@@ -4,6 +4,7 @@ using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine.UI;
 
 public class FirebaseTest : MonoBehaviour
 {
@@ -13,73 +14,96 @@ public class FirebaseTest : MonoBehaviour
 	public FirebaseAuth Auth { get; private set; }
 	public FirebaseDatabase DB { get; private set; }
 	public DatabaseReference DBUserRef;
-	public DatabaseReference DBRoomRef;
+	public DatabaseReference DBLobbyRef;
 	public List<LobbyPlayer> lobbyPlayers = new List<LobbyPlayer>();
+	
+	public Button joinButton;
 
 	private string myTableName = "b";
-	
-	private async void Start()
+
+	public async void Init()
 	{
+		joinButton.onClick.AddListener(() =>
+		{
+			JoinLobby("Tmp", "test");
+		});
 		DependencyStatus status = await FirebaseApp.CheckAndFixDependenciesAsync();
 		// print($"status : {status}");
 		// 초기화 성공
+		print($"status : {status}");
 		if (status == DependencyStatus.Available)
 		{
 			// print($"Firebase Init 1");
 			App = FirebaseApp.DefaultInstance;
 			Auth = FirebaseAuth.DefaultInstance;
 			DB = FirebaseDatabase.DefaultInstance;
-			
+
 			DatabaseReference reference = DB.GetReference(myTableName);
 			DBUserRef = reference.Child("Users");
-			DBRoomRef = reference.Child("Rooms");
-			// DBUserRef = DB.GetReference("Users");
-			// DBRoomRef = DB.GetReference("Rooms");
-			// if (DBUserRef != null)
-			// {
-			// 	User user = new User("test", "1234", "1234");
-			// 	string str = JsonConvert.SerializeObject(user);
-			// 	DBUserRef.Child(user.username).SetRawJsonValueAsync(str);
-			// }
-			// else
-			// {
-			// 	Debug.LogWarning("DBReference is null");
-			// }
-			
-			if (DBRoomRef != null)
+			DBLobbyRef = reference.Child("Lobby");
+		}
+	}
+
+	public void CreateLobby(string lobbyName, string username)
+	{
+		Lobby lobby = new Lobby(lobbyName, username);
+		string str = JsonConvert.SerializeObject(lobby);
+		DBLobbyRef.Child(lobbyName).SetRawJsonValueAsync(str);
+	}
+	
+	public async void JoinLobby(string lobbyName, string username)
+	{
+		// Lobby lobby = new Lobby(lobbyName, username);
+		// string str = JsonConvert.SerializeObject(lobby);
+		// DBLobbyRef.Child(lobbyName).SetRawJsonValueAsync(str);
+		print($"2 : {DBLobbyRef}");
+		
+		if (DBLobbyRef != null)
+		{
+			DataSnapshot data = await DBLobbyRef.Child(lobbyName).GetValueAsync();
+			Lobby lobby;
+			// 룸 정보가 있을 경우
+			if (data.Exists)
 			{
-				// print($"Rooms Init");
-				string roomName = "Tmp";
-				DataSnapshot data = await DBRoomRef.Child(roomName).GetValueAsync();
-				Lobby lobby;
-				// 룸 정보가 있을 경우
-				if (data.Exists)
+				lobby = JsonConvert.DeserializeObject<Lobby>(data.GetRawJsonValue());
+				for (int i = 0; i < lobby.userList.Count; i++)
 				{
-					lobby = JsonConvert.DeserializeObject<Lobby>(data.GetRawJsonValue());
-					for (int i = 0; i < lobby.userList.Count; i++)
-					{
-						LobbyPlayer fieldPlayer = Instantiate(playerPrefab);
-						fieldPlayer.gameObject.name = lobby.userList[i].username;
-						fieldPlayer.username = lobby.userList[i].username;
-						fieldPlayer.position = new Vector3(lobby.userList[i].position.x, lobby.userList[i].position.y, lobby.userList[i].position.z);
-						lobbyPlayers.Add(fieldPlayer);
-					}
+					LobbyPlayer lobbyPlayer = Instantiate(playerPrefab);
+					lobbyPlayer.gameObject.name = lobby.userList[i].username;
+					lobbyPlayer.username = lobby.userList[i].username;
+					lobbyPlayer.position = new Vector3(lobby.userList[i].position.x, lobby.userList[i].position.y, lobby.userList[i].position.z);
+					lobbyPlayers.Add(lobbyPlayer);
 				}
-				else
-				{
-					lobby = new Lobby(roomName, "test");
-					string str = JsonConvert.SerializeObject(lobby);
-					DBRoomRef.Child(roomName).SetRawJsonValueAsync(str);
-				}
-				DBRoomRef.Child(roomName).Child("userList").ValueChanged += OnMoved;
-				// DBRoomRef.Child(roomName).Child("userList").ChildChanged += OnChildMoved;
 			}
 			else
 			{
-				Debug.LogWarning("DBReference is null");
+				CreateLobby(lobbyName, username);
 			}
-
+			DBLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
+			// DBRoomRef.Child(lobbyName).Child("userList").ChildChanged += OnChildMoved;
 		}
+		else
+		{
+			Debug.LogWarning("DBReference is null");
+		}
+	}
+	
+	private void Start()
+	{
+		Init();
+		// JoinLobby("Tmp","test");
+		// DBUserRef = DB.GetReference("Users");
+		// DBRoomRef = DB.GetReference("Lobby");
+		// if (DBUserRef != null)
+		// {
+		// 	User user = new User("test", "1234", "1234");
+		// 	string str = JsonConvert.SerializeObject(user);
+		// 	DBUserRef.Child(user.username).SetRawJsonValueAsync(str);
+		// }
+		// else
+		// {
+		// 	Debug.LogWarning("DBReference is null");
+		// }
 
 	}
 	void OnChildMoved(object sender, ChildChangedEventArgs e)
@@ -193,7 +217,7 @@ public class Lobby
 
 	public Lobby()
 	{
-		lobbyName = "roomName";
+		lobbyName = "lobbyName";
 		roomOwner = "roomOwner";
 	}
 

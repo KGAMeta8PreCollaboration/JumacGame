@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LobbyPlayer : MonoBehaviour
 {
 	public string username;
+	public string UID;
 
 	private Vector3 _position;
-	public Vector3 position {
+	public Vector3 position 
+	{
 		get 
 		{
 			return _position;

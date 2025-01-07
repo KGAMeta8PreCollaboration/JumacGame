@@ -13,7 +13,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
     private FirebaseDatabase _database;
     private FirebaseUser _user;
 
-
     private async void Start()
     {
         try
