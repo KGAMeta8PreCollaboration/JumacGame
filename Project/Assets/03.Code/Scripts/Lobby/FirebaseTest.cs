@@ -33,7 +33,6 @@ public class FirebaseTest : MonoBehaviour
 		print($"status : {status}");
 		if (status == DependencyStatus.Available)
 		{
-			// print($"Firebase Init 1");
 			App = FirebaseApp.DefaultInstance;
 			Auth = FirebaseAuth.DefaultInstance;
 			DB = FirebaseDatabase.DefaultInstance;
@@ -57,35 +56,34 @@ public class FirebaseTest : MonoBehaviour
 		// string str = JsonConvert.SerializeObject(lobby);
 		// DBLobbyRef.Child(lobbyName).SetRawJsonValueAsync(str);
 		print($"2 : {DBLobbyRef}");
-		
-		if (DBLobbyRef != null)
+
+		if (DBLobbyRef == null)
 		{
-			DataSnapshot data = await DBLobbyRef.Child(lobbyName).GetValueAsync();
-			Lobby lobby;
-			// 룸 정보가 있을 경우
-			if (data.Exists)
+			Debug.LogWarning("DBReference is null");
+			return;
+		}
+		
+		DataSnapshot data = await DBLobbyRef.Child(lobbyName).GetValueAsync();
+		Lobby lobby;
+		// 로비 정보가 있을때
+		if (data.Exists)
+		{
+			lobby = JsonConvert.DeserializeObject<Lobby>(data.GetRawJsonValue());
+			for (int i = 0; i < lobby.userList.Count; i++)
 			{
-				lobby = JsonConvert.DeserializeObject<Lobby>(data.GetRawJsonValue());
-				for (int i = 0; i < lobby.userList.Count; i++)
-				{
-					LobbyPlayer lobbyPlayer = Instantiate(playerPrefab);
-					lobbyPlayer.gameObject.name = lobby.userList[i].username;
-					lobbyPlayer.username = lobby.userList[i].username;
-					lobbyPlayer.position = new Vector3(lobby.userList[i].position.x, lobby.userList[i].position.y, lobby.userList[i].position.z);
-					lobbyPlayers.Add(lobbyPlayer);
-				}
+				LobbyPlayer lobbyPlayer = Instantiate(playerPrefab);
+				lobbyPlayer.gameObject.name = lobby.userList[i].username;
+				lobbyPlayer.username = lobby.userList[i].username;
+				lobbyPlayer.position = new Vector3(lobby.userList[i].position.x, lobby.userList[i].position.y, lobby.userList[i].position.z);
+				lobbyPlayers.Add(lobbyPlayer);
 			}
-			else
-			{
-				CreateLobby(lobbyName, username);
-			}
-			DBLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
-			// DBRoomRef.Child(lobbyName).Child("userList").ChildChanged += OnChildMoved;
 		}
 		else
 		{
-			Debug.LogWarning("DBReference is null");
+			CreateLobby(lobbyName, username);
 		}
+		DBLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
+		// DBRoomRef.Child(lobbyName).Child("userList").ChildChanged += OnChildMoved;
 	}
 	
 	private void Start()
@@ -104,7 +102,6 @@ public class FirebaseTest : MonoBehaviour
 		// {
 		// 	Debug.LogWarning("DBReference is null");
 		// }
-
 	}
 	void OnChildMoved(object sender, ChildChangedEventArgs e)
 	{
@@ -164,72 +161,4 @@ public class Point
 		this.z = z;
 	}
 }
-public class User
-{
-	public string username;
-	public string email;
-	public string password;
-	
-	public User()
-	{
-		username = "username";
-		email = "email";
-		password = "password";
-	}
 
-	public User(string username, string email, string password)
-	{
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
-}
-
-public class Lobby
-{
-	public class User
-	{
-		public string username;
-		public Point position;
-
-		public User()
-		{
-			username = "username";
-			position = new Point(0,0,0);
-		}
-		
-		public User(string username)
-		{
-			this.username = username;
-			position = new Point(0,0,0);
-		}
-		
-		public User(string username, Vector3 pos)
-		{
-			this.username = username;
-			position = new Point(pos.x,pos.y,pos.z);
-		}
-
-	}
-	public string lobbyName;
-	public string roomOwner;
-	public List<User> userList = new List<User>();
-
-	public Lobby()
-	{
-		lobbyName = "lobbyName";
-		roomOwner = "roomOwner";
-	}
-
-	public Lobby(string lobbyName, string roomOwner)
-	{
-		this.lobbyName = lobbyName;
-		this.roomOwner = roomOwner;
-		userList.Add(new User(lobbyName));
-	}
-
-	public void AddUser(string username, Vector3 position)
-	{
-		userList.Add(new User(username, position));
-	}
-}
