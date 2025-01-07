@@ -39,6 +39,17 @@ public class FirebaseManager : Singleton<FirebaseManager>
         }
     }
 
+    public async void FirebaseCheck()
+    {
+        DataSnapshot snapshot = await Database.GetReference("a/LoginUsers").GetValueAsync();
+        print($"유저 수 : {snapshot.ChildrenCount}");
+
+        foreach (var data in snapshot.Children)
+        {
+            print($"{data.Key} {data.Value.ToString()}");
+        }
+    }
+
     private void AuthStateChanged(object sender, EventArgs e)
     {
         FirebaseAuth senderAuth = sender as FirebaseAuth;
@@ -59,8 +70,9 @@ public class FirebaseManager : Singleton<FirebaseManager>
     {
         try
         {
-            await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
-
+            AuthResult result = await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
+            _userRef = Database.GetReference("a").Child($"LoginUsers/{result.User.UserId}");
+            await _userRef.SetValueAsync("test");
             return true;
         }
         catch (Exception e)
