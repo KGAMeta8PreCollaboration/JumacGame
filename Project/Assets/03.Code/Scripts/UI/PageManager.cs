@@ -6,6 +6,11 @@ public class PageManager : Singleton<PageManager>
 {
 	[SerializeField] private List<Page> pages = new List<Page>();
 
+	private void Start()
+	{
+		PageOpen<TitlePage>();
+	}
+
 	public T PageOpen<T>() where T : Page
 	{
 		T @return = null;

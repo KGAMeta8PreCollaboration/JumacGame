@@ -166,4 +166,62 @@ public class FirebaseManager : Singleton<FirebaseManager>
 	{
 		Auth.SignOut();
 	}
+
+	public async Task<bool> SetNickname(string nickname)
+	{
+		try
+		{
+			DataSnapshot snapshot = await _logInUserRef.Child($"{User.UserId}").GetValueAsync();
+			LogInUserData userData;
+
+			if (snapshot.Exists)
+			{
+				userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetValue(true).ToString());
+				userData.nickname = nickname;
+			}
+			else
+			{
+				userData = new LogInUserData(User.UserId, nickname: nickname);
+			}
+
+			string json = JsonConvert.SerializeObject(userData);
+			await _logInUserRef.Child($"{User.UserId}").SetValueAsync(json);
+			Debug.Log($"닉네임 설정 성공! : {nickname}");
+			return true;
+		}
+		catch (Exception e)
+		{
+			print($"닉네임 설정이 안됌 : {e.Message}");
+			return false;
+		}
+	}
+
+	public async Task<bool> SetKind(string kind)
+	{
+		try
+		{
+			DataSnapshot snapshot = await _logInUserRef.Child($"{User.UserId}").GetValueAsync();
+			LogInUserData userData;
+
+			if (snapshot.Exists)
+			{
+				userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetValue(true).ToString());
+				userData.kind = kind;
+			}
+			else
+			{
+				userData = new LogInUserData(User.UserId, kind: kind);
+			}
+
+			string json = JsonConvert.SerializeObject(userData);
+			await _logInUserRef.Child($"{User.UserId}").SetValueAsync(json);
+			Debug.Log($"종족 설정 성공! : {kind}");
+			return true;
+		}
+		catch (Exception e)
+		{
+			print($"종족 설정이 안됌 : {e.Message}");
+			return false;
+		}
+	}
 }
