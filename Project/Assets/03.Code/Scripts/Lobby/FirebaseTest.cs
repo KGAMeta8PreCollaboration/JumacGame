@@ -4,8 +4,6 @@ using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine;
 using Newtonsoft.Json;
-using Unity.Profiling.LowLevel.Unsafe;
-using UnityEngine.Serialization;
 
 public class FirebaseTest : MonoBehaviour
 {
@@ -22,51 +20,56 @@ public class FirebaseTest : MonoBehaviour
 	
 	private async void Start()
 	{
-		DependencyStatus status = await FirebaseApp.CheckAndFixDependenciesAsync(); 
+		DependencyStatus status = await FirebaseApp.CheckAndFixDependenciesAsync();
+		// print($"status : {status}");
 		// 초기화 성공
 		if (status == DependencyStatus.Available)
 		{
+			// print($"Firebase Init 1");
 			App = FirebaseApp.DefaultInstance;
 			Auth = FirebaseAuth.DefaultInstance;
 			DB = FirebaseDatabase.DefaultInstance;
-
-			DBUserRef = DB.GetReference("Users");
-			DBRoomRef = DB.GetReference("Rooms");
-			if (DBUserRef != null)
-			{
-				User user = new User("test", "1234", "1234");
-				string str = JsonConvert.SerializeObject(user);
-				DBUserRef.Child(user.username).SetRawJsonValueAsync(str);
-			}
-			else
-			{
-				Debug.LogWarning("DBReference is null");
-			}
+			
+			DatabaseReference reference = DB.GetReference(myTableName);
+			DBUserRef = reference.Child("Users");
+			DBRoomRef = reference.Child("Rooms");
+			// DBUserRef = DB.GetReference("Users");
+			// DBRoomRef = DB.GetReference("Rooms");
+			// if (DBUserRef != null)
+			// {
+			// 	User user = new User("test", "1234", "1234");
+			// 	string str = JsonConvert.SerializeObject(user);
+			// 	DBUserRef.Child(user.username).SetRawJsonValueAsync(str);
+			// }
+			// else
+			// {
+			// 	Debug.LogWarning("DBReference is null");
+			// }
 			
 			if (DBRoomRef != null)
 			{
+				// print($"Rooms Init");
 				string roomName = "Tmp";
-
-				// Room room = new Room(roomName, "1q2w3e4r", "testUser");
-				// room.AddUser("testUser2", new Vector3(5, 2, 5));
-				// string str = 
-					// JsonConvert.SerializeObject(room);
-				
-				// DBRoomRef.Child(roomName).SetRawJsonValueAsync(str);
-
 				DataSnapshot data = await DBRoomRef.Child(roomName).GetValueAsync();
-				Room room;
+				Lobby lobby;
+				// 룸 정보가 있을 경우
 				if (data.Exists)
 				{
-					room = JsonConvert.DeserializeObject<Room>(data.GetRawJsonValue());
-					for (int i = 0; i < room.userList.Count; i++)
+					lobby = JsonConvert.DeserializeObject<Lobby>(data.GetRawJsonValue());
+					for (int i = 0; i < lobby.userList.Count; i++)
 					{
 						LobbyPlayer fieldPlayer = Instantiate(playerPrefab);
-						fieldPlayer.gameObject.name = room.userList[i].username;
-						fieldPlayer.username = room.userList[i].username;
-						fieldPlayer.position = new Vector3(room.userList[i].position.x, room.userList[i].position.y, room.userList[i].position.z);
+						fieldPlayer.gameObject.name = lobby.userList[i].username;
+						fieldPlayer.username = lobby.userList[i].username;
+						fieldPlayer.position = new Vector3(lobby.userList[i].position.x, lobby.userList[i].position.y, lobby.userList[i].position.z);
 						lobbyPlayers.Add(fieldPlayer);
 					}
+				}
+				else
+				{
+					lobby = new Lobby(roomName, "test");
+					string str = JsonConvert.SerializeObject(lobby);
+					DBRoomRef.Child(roomName).SetRawJsonValueAsync(str);
 				}
 				DBRoomRef.Child(roomName).Child("userList").ValueChanged += OnMoved;
 				// DBRoomRef.Child(roomName).Child("userList").ChildChanged += OnChildMoved;
@@ -81,11 +84,11 @@ public class FirebaseTest : MonoBehaviour
 	}
 	void OnChildMoved(object sender, ChildChangedEventArgs e)
 	{
-		// print($"child sender :|{sender}");
-		// print($"child sender :|{sender.ToString()}|");
+		print($"child sender :|{sender}");
+		print($"child sender :|{sender.ToString()}|");
 		foreach (DataSnapshot child in e.Snapshot.Children)
 		{
-			Room.User tmp = JsonConvert.DeserializeObject<Room.User>(child.GetRawJsonValue());
+			Lobby.User tmp = JsonConvert.DeserializeObject<Lobby.User>(child.GetRawJsonValue());
 			// print($"c name : {tmp.username}");
 			// print($"c pos : {tmp.position}");
 			lobbyPlayers.Find(x => x.username == tmp.username).position = new Vector3(tmp.position.x, tmp.position.y, tmp.position.z);
@@ -95,12 +98,14 @@ public class FirebaseTest : MonoBehaviour
 	
 	void OnMoved(object sender, ValueChangedEventArgs e)
 	{
-		// print($"parent sender :|{sender}");
+		print($"parent sender :|{sender}");
 		// print($"parent sender :|{sender.ToString()}|");
-		// print($"{}");
+		print($"{e}");
+		print($"{e.Snapshot}");
+		print($"{e.Snapshot.Children}");
 		foreach (DataSnapshot child in e.Snapshot.Children)
 		{
-			Room.User tmp = JsonConvert.DeserializeObject<Room.User>(child.GetRawJsonValue());
+			Lobby.User tmp = JsonConvert.DeserializeObject<Lobby.User>(child.GetRawJsonValue());
 			// print($"p name : {tmp.username}");
 			// print($"p pos : {tmp.position.x}, {tmp.position.y}, {tmp.position.z}");
 			lobbyPlayers.Find(x => x.username == tmp.username).position = new Vector3(tmp.position.x, tmp.position.y, tmp.position.z);
@@ -156,7 +161,7 @@ public class User
 	}
 }
 
-public class Room
+public class Lobby
 {
 	public class User
 	{
@@ -182,24 +187,21 @@ public class Room
 		}
 
 	}
-	public string roomName;
-	public string roomPassword;
+	public string lobbyName;
 	public string roomOwner;
 	public List<User> userList = new List<User>();
 
-	public Room()
+	public Lobby()
 	{
-		roomName = "roomName";
-		roomPassword = "roomPassword";
+		lobbyName = "roomName";
 		roomOwner = "roomOwner";
 	}
 
-	public Room(string roomName, string roomPassword, string roomOwner)
+	public Lobby(string lobbyName, string roomOwner)
 	{
-		this.roomName = roomName;
-		this.roomPassword = roomPassword;
+		this.lobbyName = lobbyName;
 		this.roomOwner = roomOwner;
-		userList.Add(new User(roomName));
+		userList.Add(new User(lobbyName));
 	}
 
 	public void AddUser(string username, Vector3 position)
