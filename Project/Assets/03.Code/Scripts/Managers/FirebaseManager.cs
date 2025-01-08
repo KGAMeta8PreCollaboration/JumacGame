@@ -165,7 +165,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
 		Auth.SignOut();
 	}
 
-	public async Task<bool> SetNickname(string nickname)
+	public async Task<bool> SetNicknameAndRace(string nickname, string race)
 	{
 		try
 		{
@@ -176,49 +176,21 @@ public class FirebaseManager : Singleton<FirebaseManager>
 			{
 				userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
 				userData.nickname = nickname;
-			}
-			else
-			{
-				userData = new LogInUserData(User.UserId, nickname: nickname);
-			}
-
-			string json = JsonConvert.SerializeObject(userData);
-			await _logInUserRef.Child($"{User.UserId}").SetRawJsonValueAsync(json);
-			Debug.Log($"닉네임 설정 성공! : {nickname}");
-			return true;
-		}
-		catch (Exception e)
-		{
-			print($"닉네임 설정이 안됌 : {e.Message}");
-			return false;
-		}
-	}
-
-	public async Task<bool> SetRace(string race)
-	{
-		try
-		{
-			DataSnapshot snapshot = await _logInUserRef.Child($"{User.UserId}").GetValueAsync();
-			LogInUserData userData;
-
-			if (snapshot.Exists)
-			{
-				userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
 				userData.race = race;
+				userData.setNicknameRace = true;
 			}
 			else
 			{
-				userData = new LogInUserData(User.UserId, race: race);
+				userData = new LogInUserData(User.UserId, nickname: nickname, race: race, setNicknameRace: true);
 			}
 
 			string json = JsonConvert.SerializeObject(userData);
 			await _logInUserRef.Child($"{User.UserId}").SetRawJsonValueAsync(json);
-			Debug.Log($"종족 설정 성공! : {race}");
 			return true;
 		}
 		catch (Exception e)
 		{
-			print($"종족 설정이 안됌 : {e.Message}");
+			print(e.Message);
 			return false;
 		}
 	}
@@ -267,13 +239,11 @@ public class FirebaseManager : Singleton<FirebaseManager>
 						string userNickname = userSnapshot.Child("nickname").Value?.ToString();
 						if (userNickname.Equals(nickname))
 						{
-							print($"중복된 닉네임입니다. : {nickname}");
 							return true;
 						}
 					}
 				}
 			}
-			print("사용 가능한 닉네임입니다.");
 			return false;
 		}
 		catch (Exception e)
