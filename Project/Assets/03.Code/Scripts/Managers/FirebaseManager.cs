@@ -252,4 +252,26 @@ public class FirebaseManager : Singleton<FirebaseManager>
 			return true;
 		}
 	}
+
+	public async Task<bool> ExistNicknameAndRace()
+	{
+		try
+		{
+			DataSnapshot snapshot = await _logInUserRef.Child(User.UserId).GetValueAsync();
+			if (snapshot.Exists)
+			{
+				if (snapshot.HasChild("setNicknameRace"))
+				{
+					bool value = (bool)snapshot.Child("setNicknameRace").Value;
+					return value;
+				}
+			}
+			return false;
+		}
+		catch (Exception e)
+		{
+			print(e.Message);
+			return false;
+		}
+	}
 }

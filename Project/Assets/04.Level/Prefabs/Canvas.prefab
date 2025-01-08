@@ -1134,10 +1134,10 @@ RectTransform:
   - {fileID: 65510014658546609}
   m_Father: {fileID: 5425048494992376313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1544.0001, y: -720}
+  m_SizeDelta: {x: 962.6667, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1039352406113304764
 CanvasRenderer:
@@ -2722,7 +2722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2263602111645736259
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2797,7 +2797,7 @@ MonoBehaviour:
   _humanButton: {fileID: 7464163278362428005}
   _ghostButton: {fileID: 3417825940970629860}
   _dokkaebiButton: {fileID: 604184632033314187}
-  _commitButton: {fileID: 0}
+  _commitButton: {fileID: 7443720651580265838}
 --- !u!1 &3713310878336967217
 GameObject:
   m_ObjectHideFlags: 0
@@ -4333,10 +4333,10 @@ RectTransform:
   - {fileID: 4141969195344632745}
   m_Father: {fileID: 5425048494992376313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 481.33334, y: -720}
+  m_SizeDelta: {x: 962.6667, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1904635937296767338
 CanvasRenderer:
@@ -5002,10 +5002,10 @@ RectTransform:
   - {fileID: 4006210593897514218}
   m_Father: {fileID: 5425048494992376313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 2606.6667, y: -720}
+  m_SizeDelta: {x: 962.6667, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6477280730516482932
 CanvasRenderer:
