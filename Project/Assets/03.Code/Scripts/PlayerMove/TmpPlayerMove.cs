@@ -20,6 +20,8 @@ public class TmpPlayerMove : MonoBehaviour
 	public void OnMove(InputAction.CallbackContext context)
 	{
 		Vector2 input = context.ReadValue<Vector2>();
+
+		
 		moveDirection = new Vector3(input.x, 0, input.y);
 	}
 
