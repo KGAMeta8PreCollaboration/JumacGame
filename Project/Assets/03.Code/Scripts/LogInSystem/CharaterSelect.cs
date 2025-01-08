@@ -9,16 +9,22 @@ public class CharaterSelect : Page
     [SerializeField] private Button _ghostButton;
     [SerializeField] private Button _dokkaebiButton;
 
+    private void Awake()
+    {
+        _humanButton.interactable = false;
+        _ghostButton.interactable = false;
+        _dokkaebiButton.interactable = false;
+    }
+
     private void OnEnable()
     {
-        print("되나?");
-        InputFieldPopup nicknameDecidePopup = PopupManager.Instance.PopupOpen<InputFieldPopup>();
+        InputFieldPopup nicknameSelectPopup = PopupManager.Instance.PopupOpen<InputFieldPopup>();
 
-        nicknameDecidePopup.SetPopup("닉네임을 정해주세요", SetNickname);
+        nicknameSelectPopup.SetPopup("닉네임을 정해주세요", SetNickname);
 
-        _humanButton.onClick.AddListener(() => SetCharacter("human"));
-        _ghostButton.onClick.AddListener(() => SetCharacter("ghost"));
-        _dokkaebiButton.onClick.AddListener(() => SetCharacter("dokkaebi"));
+        _humanButton.onClick.AddListener(() => SetRace("human"));
+        _ghostButton.onClick.AddListener(() => SetRace("ghost"));
+        _dokkaebiButton.onClick.AddListener(() => SetRace("dokkaebi"));
     }
 
     private void OnDisable()
@@ -32,7 +38,9 @@ public class CharaterSelect : Page
     {
         if (await FirebaseManager.Instance.SetNickname(nickname))
         {
-
+            _humanButton.interactable = true;
+            _ghostButton.interactable = true;
+            _dokkaebiButton.interactable = true;
         }
         else
         {
@@ -40,11 +48,11 @@ public class CharaterSelect : Page
         }
     }
 
-    public async void SetCharacter(string kind)
+    public async void SetRace(string race)
     {
-        if (await FirebaseManager.Instance.SetKind(kind))
+        if (await FirebaseManager.Instance.SetRace(race))
         {
-
+            PageManager.Instance.PageOpen<ServerSelectPage>();
         }
         else
         {

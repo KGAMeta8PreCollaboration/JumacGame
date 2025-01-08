@@ -7,7 +7,6 @@ public class LobbyTest : MonoBehaviour
 	private FirebaseAuth _auth;
 	private FirebaseDatabase _db;
 
-
 	private void Start()
 	{
 		_auth = FirebaseAuth.DefaultInstance;
