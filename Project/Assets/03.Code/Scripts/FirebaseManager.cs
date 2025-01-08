@@ -196,7 +196,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
         }
     }
 
-    public async Task<bool> SetKind(string kind)
+    public async Task<bool> SetRace(string race)
     {
         try
         {
@@ -206,16 +206,16 @@ public class FirebaseManager : Singleton<FirebaseManager>
             if (snapshot.Exists)
             {
                 userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-                userData.kind = kind;
+                userData.race = race;
             }
             else
             {
-                userData = new LogInUserData(User.UserId, kind: kind);
+                userData = new LogInUserData(User.UserId, race: race);
             }
 
             string json = JsonConvert.SerializeObject(userData);
             await _logInUserRef.Child($"{User.UserId}").SetRawJsonValueAsync(json);
-            Debug.Log($"종족 설정 성공! : {kind}");
+            Debug.Log($"종족 설정 성공! : {race}");
             return true;
         }
         catch (Exception e)
