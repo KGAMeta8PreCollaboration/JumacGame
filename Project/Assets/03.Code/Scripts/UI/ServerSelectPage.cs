@@ -8,6 +8,7 @@ public class ServerSelectPage : Page
 {
     [SerializeField] private Button _hanyangButton;
     [SerializeField] private Button _gaeseongButton;
+    [SerializeField] private string lobbySceneName;
 
     private void OnEnable()
     {
@@ -25,7 +26,7 @@ public class ServerSelectPage : Page
     {
         if (await FirebaseManager.Instance.SetServerName(name))
         {
-            SceneManager.LoadScene("SEOLobbyTest");
+            SceneManager.LoadScene(lobbySceneName);
         }
         else
         {
