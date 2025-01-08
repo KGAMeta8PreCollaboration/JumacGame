@@ -18,7 +18,7 @@ public class CharaterSelect : Page
 
     private void OnEnable()
     {
-        InputFieldPopup nicknameSelectPopup = PopupManager.Instance.PopupOpen<InputFieldPopup>();
+        InputFieldPopup nicknameSelectPopup = PopupManager.Instance.PopupOpen<NicknameSelectPopup>();
 
         nicknameSelectPopup.SetPopup("닉네임을 정해주세요", SetNickname);
 

@@ -251,4 +251,27 @@ public class FirebaseManager : Singleton<FirebaseManager>
             return false;
         }
     }
+
+    public async Task<bool> DuplicateNicknameCheck()
+    {
+        try
+        {
+            DataSnapshot snapshot = await _logInUserRef.GetValueAsync();
+            print(snapshot.Exists);
+            if (snapshot.Exists)
+            {
+                foreach (DataSnapshot snapShot in snapshot.Children)
+                {
+                    var nickname = snapshot.Child("nickname").Value;
+                    print(nickname);
+                }
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            print($"닉네임이 중복됩니다. : {e.Message}");
+            return false;
+        }
+    }
 }
