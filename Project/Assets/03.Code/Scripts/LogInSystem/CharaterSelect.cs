@@ -9,6 +9,13 @@ public class CharaterSelect : Page
     [SerializeField] private Button _ghostButton;
     [SerializeField] private Button _dokkaebiButton;
 
+    private void Awake()
+    {
+        _humanButton.interactable = false;
+        _ghostButton.interactable = false;
+        _dokkaebiButton.interactable = false;
+    }
+
     private void OnEnable()
     {
         InputFieldPopup nicknameSelectPopup = PopupManager.Instance.PopupOpen<InputFieldPopup>();
@@ -31,7 +38,9 @@ public class CharaterSelect : Page
     {
         if (await FirebaseManager.Instance.SetNickname(nickname))
         {
-
+            _humanButton.interactable = true;
+            _ghostButton.interactable = true;
+            _dokkaebiButton.interactable = true;
         }
         else
         {
