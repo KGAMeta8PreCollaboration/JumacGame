@@ -20,6 +20,7 @@ public class SignUpPopup : Popup
     {
         if (await FirebaseManager.Instance.Create(_emailIF.text, _passwordIF.text))
         {
+            PopupManager.Instance.PopupClose();
             PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("알림", "계정 생성 완료");
         }
         else

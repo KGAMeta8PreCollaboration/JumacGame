@@ -5,48 +5,49 @@ using UnityEngine.UI;
 
 public class CharaterSelect : Page
 {
-	[SerializeField] private Button _humanButton;
-	[SerializeField] private Button _ghostButton;
-	[SerializeField] private Button _dokkaebiButton;
+    [SerializeField] private Button _humanButton;
+    [SerializeField] private Button _ghostButton;
+    [SerializeField] private Button _dokkaebiButton;
 
-	private void OnEnable()
-	{
-		InputFieldPopup nicknameDecidePopup = PopupManager.Instance.PopupOpen<InputFieldPopup>();
-		nicknameDecidePopup.SetPopup("¥–≥◊¿”¿ª ¡§«ÿ¡÷ººø‰", SetNickname);
+    private void OnEnable()
+    {
+        InputFieldPopup nicknameDecidePopup = PopupManager.Instance.PopupOpen<InputFieldPopup>();
 
-		_humanButton.onClick.AddListener(() => SetCharacter("human"));
-		_ghostButton.onClick.AddListener(() => SetCharacter("ghost"));
-		_dokkaebiButton.onClick.AddListener(() => SetCharacter("dokkaebi"));
-	}
+        nicknameDecidePopup.SetPopup("ÎãâÎÑ§ÏûÑÏùÑ Ï†ïÌï¥Ï£ºÏÑ∏Ïöî", SetNickname);
 
-	private void OnDisable()
-	{
-		_humanButton.onClick.RemoveAllListeners();
-		_ghostButton.onClick.RemoveAllListeners();
-		_dokkaebiButton.onClick.RemoveAllListeners();
-	}
+        _humanButton.onClick.AddListener(() => SetCharacter("human"));
+        _ghostButton.onClick.AddListener(() => SetCharacter("ghost"));
+        _dokkaebiButton.onClick.AddListener(() => SetCharacter("dokkaebi"));
+    }
 
-	public async void SetNickname(string nickname)
-	{
-		if (await FirebaseManager.Instance.SetNickname(nickname))
-		{
+    private void OnDisable()
+    {
+        _humanButton.onClick.RemoveAllListeners();
+        _ghostButton.onClick.RemoveAllListeners();
+        _dokkaebiButton.onClick.RemoveAllListeners();
+    }
 
-		}
-		else
-		{
+    public async void SetNickname(string nickname)
+    {
+        if (await FirebaseManager.Instance.SetNickname(nickname))
+        {
 
-		}
-	}
+        }
+        else
+        {
 
-	public async void SetCharacter(string kind)
-	{
-		if (await FirebaseManager.Instance.SetKind(kind))
-		{
+        }
+    }
 
-		}
-		else
-		{
+    public async void SetCharacter(string kind)
+    {
+        if (await FirebaseManager.Instance.SetKind(kind))
+        {
 
-		}
-	}
+        }
+        else
+        {
+
+        }
+    }
 }
