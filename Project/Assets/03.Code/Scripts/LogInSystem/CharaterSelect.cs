@@ -5,58 +5,56 @@ using UnityEngine.UI;
 
 public class CharaterSelect : Page
 {
-    [SerializeField] private Button _humanButton;
-    [SerializeField] private Button _ghostButton;
-    [SerializeField] private Button _dokkaebiButton;
+	[SerializeField] private Button _humanButton;
+	[SerializeField] private Button _ghostButton;
+	[SerializeField] private Button _dokkaebiButton;
 
-    private void Awake()
-    {
-        _humanButton.interactable = false;
-        _ghostButton.interactable = false;
-        _dokkaebiButton.interactable = false;
-    }
+	private void Awake()
+	{
+		ButtonsInteractive(false);
+	}
 
-    private void OnEnable()
-    {
-        InputFieldPopup nicknameSelectPopup = PopupManager.Instance.PopupOpen<NicknameSelectPopup>();
+	private void OnEnable()
+	{
+		OpenNicknamePopup();
 
-        nicknameSelectPopup.SetPopup("닉네임을 정해주세요", SetNickname);
+		_humanButton.onClick.AddListener(() => SetRace("human"));
+		_ghostButton.onClick.AddListener(() => SetRace("ghost"));
+		_dokkaebiButton.onClick.AddListener(() => SetRace("dokkaebi"));
+	}
 
-        _humanButton.onClick.AddListener(() => SetRace("human"));
-        _ghostButton.onClick.AddListener(() => SetRace("ghost"));
-        _dokkaebiButton.onClick.AddListener(() => SetRace("dokkaebi"));
-    }
+	private void OnDisable()
+	{
+		_humanButton.onClick.RemoveAllListeners();
+		_ghostButton.onClick.RemoveAllListeners();
+		_dokkaebiButton.onClick.RemoveAllListeners();
+	}
 
-    private void OnDisable()
-    {
-        _humanButton.onClick.RemoveAllListeners();
-        _ghostButton.onClick.RemoveAllListeners();
-        _dokkaebiButton.onClick.RemoveAllListeners();
-    }
+	private void OpenNicknamePopup()
+	{
+		NicknameSelectPopup nicknameSelectPopup = PopupManager.Instance.PopupOpen<NicknameSelectPopup>();
 
-    public async void SetNickname(string nickname)
-    {
-        if (await FirebaseManager.Instance.SetNickname(nickname))
-        {
-            _humanButton.interactable = true;
-            _ghostButton.interactable = true;
-            _dokkaebiButton.interactable = true;
-        }
-        else
-        {
+		nicknameSelectPopup.SetPopup("닉네임을 정해주세요", nicknameSelectPopup.DuplicateCheck);
 
-        }
-    }
+		nicknameSelectPopup.setNicknameAction = () => ButtonsInteractive(true);
+	}
 
-    public async void SetRace(string race)
-    {
-        if (await FirebaseManager.Instance.SetRace(race))
-        {
-            PageManager.Instance.PageOpen<ServerSelectPage>();
-        }
-        else
-        {
+	private void ButtonsInteractive(bool value)
+	{
+		_humanButton.interactable = value;
+		_ghostButton.interactable = value;
+		_dokkaebiButton.interactable = value;
+	}
 
-        }
-    }
+	public async void SetRace(string race)
+	{
+		if (await FirebaseManager.Instance.SetRace(race))
+		{
+			PageManager.Instance.PageOpen<ServerSelectPage>();
+		}
+		else
+		{
+
+		}
+	}
 }

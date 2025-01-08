@@ -6,23 +6,23 @@ using UnityEngine.UI;
 
 public class Popup : MonoBehaviour
 {
-    protected Action closeAction;
+	protected Action closeAction;
 
-    [SerializeField] private Button _closeButton;
+	[SerializeField] protected Button closeButton;
 
-    protected virtual void OnEnable()
-    {
-        _closeButton.onClick.AddListener(CloseButtonClick);
-    }
+	protected virtual void OnEnable()
+	{
+		closeButton.onClick.AddListener(CloseButtonClick);
+	}
 
-    protected virtual void OnDisable()
-    {
-        _closeButton.onClick.RemoveListener(CloseButtonClick);
-    }
+	protected virtual void OnDisable()
+	{
+		closeButton.onClick.RemoveListener(CloseButtonClick);
+	}
 
-    private void CloseButtonClick()
-    {
-        PopupManager.Instance.PopupClose();
-        closeAction?.Invoke();
-    }
+	private void CloseButtonClick()
+	{
+		PopupManager.Instance.PopupClose();
+		closeAction?.Invoke();
+	}
 }

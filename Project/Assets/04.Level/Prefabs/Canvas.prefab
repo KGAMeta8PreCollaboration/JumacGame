@@ -1538,10 +1538,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3adcaebfc8fde074b8b803b6a680470e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _closeButton: {fileID: 4523252288916771904}
-  _titleText: {fileID: 1973742763486262188}
-  _inputField: {fileID: 6180591001743781745}
-  _duplicateCheckButton: {fileID: 2917702302967168871}
+  closeButton: {fileID: 4523252288916771904}
+  titleText: {fileID: 1973742763486262188}
+  inputField: {fileID: 6180591001743781745}
 --- !u!1 &1997638938123531706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5a2b197c64c254a8735a873ec47ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _closeButton: {fileID: 8705131138164088469}
+  closeButton: {fileID: 8705131138164088469}
   _emailIF: {fileID: 3719886048003103162}
   _passwordIF: {fileID: 7148527416840804495}
   _errorText: {fileID: 1241843182859747025}
@@ -3458,10 +3457,10 @@ RectTransform:
   - {fileID: 3902650804525143023}
   m_Father: {fileID: 167363520624324293}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1877.7999, y: -468}
-  m_SizeDelta: {x: 1185.2, y: 936}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5235629732225592197
 CanvasRenderer:
@@ -3780,10 +3779,10 @@ RectTransform:
   - {fileID: 1806586535211889799}
   m_Father: {fileID: 167363520624324293}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 592.6, y: -468}
-  m_SizeDelta: {x: 1185.2, y: 936}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7045892182673388363
 CanvasRenderer:
@@ -4056,7 +4055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fa7171d8de0c94984de66421d07f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _closeButton: {fileID: 3009165924624811785}
+  closeButton: {fileID: 3009165924624811785}
   _emailIF: {fileID: 6841113490482003053}
   _passwordIF: {fileID: 8019029831625222149}
   _signInButton: {fileID: 3060070833195985758}
@@ -4511,7 +4510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9a4ab725ba83f047ac289365d5a9580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _closeButton: {fileID: 858805360341653823}
+  closeButton: {fileID: 858805360341653823}
   _titleText: {fileID: 3625908414480010585}
   _contentText: {fileID: 8599809017917450060}
 --- !u!1 &5596479676797172624
@@ -6955,15 +6954,15 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7117026393367808586}
+  - {fileID: 2263602111645736259}
+  - {fileID: 3880820121526401043}
   - {fileID: 507857684028972551}
   - {fileID: 7909224373208185316}
   - {fileID: 473601145100711139}
-  - {fileID: 2263602111645736259}
-  - {fileID: 7117026393367808586}
   - {fileID: 3358835340314695767}
   - {fileID: 128735902895246859}
   - {fileID: 5684199681690528962}
-  - {fileID: 3880820121526401043}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

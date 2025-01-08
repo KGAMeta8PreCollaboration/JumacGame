@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,30 +6,30 @@ using UnityEngine.UI;
 
 public class NicknameSelectPopup : InputFieldPopup
 {
-    [SerializeField] private Button _duplicateCheckButton;
-    public bool isDuplicate;
+	public Action setNicknameAction;
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        print("1");
-        _duplicateCheckButton.onClick.AddListener(DuplicateCheckButtonClick);
-    }
+	public async void DuplicateCheck(string nickname)
+	{
+		if (await FirebaseManager.Instance.DuplicateNicknameCheck(nickname) == false)
+		{
+			PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("알림", "사용 가능한 닉네임입니다.", () => SetNickname(nickname));
+		}
+		else
+		{
+			PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("알림", "중복된 닉네임입니다.",
+				() => PopupManager.Instance.PopupOpen<NicknameSelectPopup>().SetPopup("닉네임을 정해주세요", DuplicateCheck));
+		}
+	}
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        print("2");
-        _duplicateCheckButton.onClick.RemoveListener(DuplicateCheckButtonClick);
-    }
+	public async void SetNickname(string nickname)
+	{
+		if (await FirebaseManager.Instance.SetNickname(nickname))
+		{
+			setNicknameAction?.Invoke();
+		}
+		else
+		{
 
-    private async void DuplicateCheckButtonClick()
-    {
-        print("3");
-        if (await FirebaseManager.Instance.DuplicateNicknameCheck())
-        {
-            print("4");
-
-        }
-    }
+		}
+	}
 }
