@@ -3,28 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SignIn : MonoBehaviour
+public class SignInPopup : Popup
 {
     [SerializeField] private InputField _emailIF;
     [SerializeField] private InputField _passwordIF;
 
     [SerializeField] private Button _signInButton;
     [SerializeField] private Button _signUpButton;
-    [SerializeField] private SignUp _signUp;
 
     [SerializeField] private Text _errorText;
 
-    private void Start()
+    protected override void OnEnable()
     {
-        _signInButton.onClick.AddListener(LogIn);
+        base.OnEnable();
+        _signInButton.onClick.AddListener(SignInButtonClick);
         _signUpButton.onClick.AddListener(SignUpButtonClick);
     }
 
-    private async void LogIn()
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _signInButton.onClick.RemoveListener(SignInButtonClick);
+        _signUpButton.onClick.RemoveListener(SignUpButtonClick);
+    }
+
+    private async void SignInButtonClick()
     {
         if (await FirebaseManager.Instance.SignIn(_emailIF.text, _passwordIF.text))
         {
-            print("로그인 성공");
+            _errorText.text = "";
+            PopupManager.Instance.PopupClose();
+            PageManager.Instance.PageOpen<CharaterSelect>();
         }
         else
         {
@@ -34,7 +43,6 @@ public class SignIn : MonoBehaviour
 
     private void SignUpButtonClick()
     {
-        _signUp.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        PopupManager.Instance.PopupOpen<SignUpPopup>();
     }
 }
