@@ -89,8 +89,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
         }
     }
 
-
-
     //회원가입
     public async Task<bool> Create(string email, string password)
     {
@@ -221,6 +219,35 @@ public class FirebaseManager : Singleton<FirebaseManager>
         catch (Exception e)
         {
             print($"종족 설정이 안됌 : {e.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> SetServerName(string name)
+    {
+        try
+        {
+            DataSnapshot snapshot = await _logInUserRef.Child($"{User.UserId}").GetValueAsync();
+            LogInUserData userData;
+
+            if (snapshot.Exists)
+            {
+                userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
+                userData.serverName = name;
+            }
+            else
+            {
+                userData = new LogInUserData(User.UserId, serverName: name);
+            }
+
+            string json = JsonConvert.SerializeObject(userData);
+            await _logInUserRef.Child($"{User.UserId}").SetRawJsonValueAsync(json);
+            Debug.Log($"선택한 서버! : {name}");
+            return true;
+        }
+        catch (Exception e)
+        {
+            print($"서버를 선택할 수 없습니다. : {e.Message}");
             return false;
         }
     }

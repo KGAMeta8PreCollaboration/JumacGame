@@ -43,7 +43,7 @@ public class CharaterSelect : Page
     {
         if (await FirebaseManager.Instance.SetRace(race))
         {
-
+            PageManager.Instance.PageOpen<ServerSelectPage>();
         }
         else
         {
