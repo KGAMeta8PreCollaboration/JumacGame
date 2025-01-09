@@ -18,6 +18,6 @@ public class Interactable : MonoBehaviour, IInteractable
 
     private void InteractionButtonClick()
     {
-        SceneManager.LoadScene("SEOMiniGameTest");
+        PopupManager.Instance.PopupOpen<InteractionInfoPopup>();
     }
 }
