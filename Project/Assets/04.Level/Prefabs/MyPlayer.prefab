@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 8061193373205643415}
   - component: {fileID: 7643146646070437106}
   m_Layer: 0
-  m_Name: LobbyPlayer
+  m_Name: MyPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,36 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public partial class Lobby
+public partial class LobbyData
 {
     public string lobbyName;
-    public string lobbyOwner;
-    public List<User> userList = new List<User>();
-    public Dictionary<string, User> userDict = new Dictionary<string, User>();
+    public Dictionary<string, User> userList = new Dictionary<string, User>();
 
-    public Lobby()
+    public LobbyData()
     {
         lobbyName = "lobbyName";
-        lobbyOwner = "roomOwner";
     }
 
-    public Lobby(string lobbyName, string lobbyOwner)
+    public LobbyData(string lobbyName, string lobbyOwner)
     {
         this.lobbyName = lobbyName;
-        this.lobbyOwner = lobbyOwner;
-        userList.Add(new User(lobbyName));
     }
 
-    public void AddUser(string username, Vector3 position)
+    public void AddUser(string uid, string username, Vector3 position)
     {
-        userList.Add(new User(username, position));
+        userList.Add(uid, new User(username, position));
     }
 }
 
 
-public partial class Lobby
+public partial class LobbyData
 {
     /// <summary>
     /// Lobby.User
