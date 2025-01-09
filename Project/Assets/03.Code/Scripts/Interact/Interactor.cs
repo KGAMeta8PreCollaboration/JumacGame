@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class InteractorTest : MonoBehaviour
+public class Interactor : MonoBehaviour
 {
     public RectTransform interactView;
     public float radius;
@@ -25,7 +25,6 @@ public class InteractorTest : MonoBehaviour
         {
             _interactables.Add(interactable);
             interactable.Interact(this);
-            print($"들어왔음 : {interactable}");
         }
     }
 
@@ -34,17 +33,7 @@ public class InteractorTest : MonoBehaviour
         if ((other.TryGetComponent<IInteractable>(out IInteractable interactable) && _interactables.Contains(interactable)))
         {
             _interactables.Remove(interactable);
-
-            if (interactAction != null)
-            {
-                print("interactAction 호출");
-                interactAction.Invoke();
-            }
-            else
-            {
-                print("interactAction이 설정되지 않음");
-            }
-            print($"나갔음 : {interactable}");
+            interactAction?.Invoke();
         }
     }
 }

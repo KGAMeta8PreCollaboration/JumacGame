@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class InteractableTest : MonoBehaviour, IInteractable
+public class Interactable : MonoBehaviour, IInteractable
 {
     [SerializeField] private Button _interactionButtonPrefab;
 
-    public void Interact(InteractorTest interactor)
+    public void Interact(Interactor interactor)
     {
         Button interactButton = Instantiate<Button>(_interactionButtonPrefab, interactor.interactView);
         interactButton.onClick.AddListener(InteractionButtonClick);
@@ -17,6 +18,6 @@ public class InteractableTest : MonoBehaviour, IInteractable
 
     private void InteractionButtonClick()
     {
-        print("가자~~~~ 이세계로!");
+        SceneManager.LoadScene("SEOMiniGameTest");
     }
 }
