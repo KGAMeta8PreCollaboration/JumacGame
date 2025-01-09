@@ -19,6 +19,8 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     private DatabaseReference _dbUserRef;
     private DatabaseReference _dbServerRef;
 
+    private EventHandler<ChildChangedEventArgs> _childAddedHandler;
+
     private LogInUserData _logInUserData;
 
     private string myTableName = "c";
@@ -56,7 +58,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             print($"현재 유저의 이름 : {chatUserData.nickname}");
             print($"현재 유저의 UID : {chatUserData.id}");
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Debug.LogError($"Firebase연결이 안됨 : {e.Message}");
         }
@@ -80,6 +82,45 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         {
             Debug.LogError($"메시지 전송 실패: {e.Message}");
         }
+    }
+
+    public void ReceiveMessage(Action<MessageData> callback)
+    {
+        try
+        {
+            _dbChatRef = Database.GetReference(myTableName).Child(chatUserData.serverName).Child("chats");
+
+            //기존에 남아있을 수 있는 이벤트 제거
+            if (_childAddedHandler != null)
+            {
+                _dbChatRef.ChildAdded -= _childAddedHandler;
+            }
+
+            string logInTime = chatUserData.timestamp;
+
+            _childAddedHandler = (sender, args) =>
+                {
+                    if (args.Snapshot.Exists)
+                    {
+                        string json = args.Snapshot.GetRawJsonValue();
+                        MessageData newMessage = JsonConvert.DeserializeObject<MessageData>(json);
+
+                        print($"메시지 보낸 사람 : {newMessage.SenderId}");
+                        print($"메시지 내용 : {newMessage.Content}");
+
+                        callback?.Invoke(newMessage);
+                    }
+                };
+
+            _dbChatRef.OrderByChild("TimeStamp")
+                .StartAt(logInTime)
+                .ChildAdded += _childAddedHandler;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"메시지 수신 오류: {e.Message}");
+        }
+
     }
 }
 

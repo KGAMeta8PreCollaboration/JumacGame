@@ -1,29 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UILobbyManager : Singleton<UILobbyManager>
 {
 
-    [SerializeField] private List<Page> pageList;
-    [SerializeField] private List<Popup> popupList;
+    [SerializeField] private List<LobbyPage> pageList;
+    [SerializeField] private List<LobbyPopup> popupList;
 
-    private Stack<Popup> openPopupStack = new Stack<Popup>();
+    private Stack<LobbyPopup> openPopupStack = new Stack<LobbyPopup>();
 
     private void Start()
     {
-        PageOpen<LobbyPage>();
+        PageOpen<LobbyUIPage>();
 
-        foreach(Popup popup in popupList)
+        foreach(LobbyPopup popup in popupList)
         {
             popup.gameObject.SetActive(false);
         }
     }
 
-    public T PageOpen<T>() where T : Page
+    public T PageOpen<T>() where T : LobbyPage
     {
         T @return = null;
-        foreach (Page page in pageList)
+        foreach (LobbyPage page in pageList)
         {
             bool isActive = page is T;
             page.gameObject.SetActive(isActive);
@@ -32,7 +33,7 @@ public class UILobbyManager : Singleton<UILobbyManager>
         return @return;
     }
 
-    public T PopupOpen<T>() where T : Popup
+    public T PopupOpen<T>() where T : LobbyPopup
     {
         T @return = popupList.Find((popup) => popup is T) as T;
         print($"스택에 이미 존재 하는 가 :{@return.name}{openPopupStack.Contains(@return)}");
@@ -49,8 +50,19 @@ public class UILobbyManager : Singleton<UILobbyManager>
     {
         if (openPopupStack.Count > 0)
         {
-            Popup targetPopup = openPopupStack.Pop();
+            LobbyPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
+        }
+    }
+
+    public void AllPopupClose()
+    {
+        while (openPopupStack.Count > 0)
+        {
+
+            LobbyPopup targetPopup = openPopupStack.Pop();
+            targetPopup.gameObject.SetActive(false);
+
         }
     }
 }

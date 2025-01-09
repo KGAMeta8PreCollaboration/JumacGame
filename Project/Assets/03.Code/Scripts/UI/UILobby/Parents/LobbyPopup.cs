@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 
-public class Popup : MonoBehaviour
+public class LobbyPopup : MonoBehaviour
 {
     protected Action closeAction;
 
@@ -22,8 +22,7 @@ public class Popup : MonoBehaviour
 
     private void CloseButtonClick()
     {
-        PopupManager.Instance.PopupClose();
+        UILobbyManager.Instance.PopupClose();
         closeAction?.Invoke();
     }
-
 }
