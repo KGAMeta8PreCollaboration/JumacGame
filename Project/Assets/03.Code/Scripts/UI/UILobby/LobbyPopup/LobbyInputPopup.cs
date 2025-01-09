@@ -11,7 +11,7 @@ public class LobbyInputPopup : LobbyPopup
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private Button confirmButton;
-    private Action<string> _callback;
+    private Action<RoomData> _callback;
 
     protected override void OnEnable()
     {
@@ -25,7 +25,7 @@ public class LobbyInputPopup : LobbyPopup
         confirmButton.onClick.RemoveAllListeners();
     }
 
-    public void SetPopup(string title, Action<string> callback = null)
+    public void SetPopup(string title, Action<RoomData> callback = null)
     {
         titleText.text = title;
         _callback = callback;
@@ -34,6 +34,7 @@ public class LobbyInputPopup : LobbyPopup
     private void OnClickConfirmButton()
     {
         UILobbyManager.Instance.PopupClose();
-        _callback?.Invoke(inputField.text);
+        RoomData roomName = new RoomData(inputField.text);
+        _callback?.Invoke(roomName);
     }
 }

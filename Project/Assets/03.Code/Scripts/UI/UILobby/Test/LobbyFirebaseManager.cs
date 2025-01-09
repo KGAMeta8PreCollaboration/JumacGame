@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 {
@@ -18,6 +19,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     private DatabaseReference _dbChatRef;
     private DatabaseReference _dbUserRef;
     private DatabaseReference _dbServerRef;
+    private DatabaseReference _dbRoomRef;
 
     private EventHandler<ChildChangedEventArgs> _childAddedHandler;
 
@@ -120,7 +122,78 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         {
             Debug.LogError($"메시지 수신 오류: {e.Message}");
         }
+    }
 
+    public async void CreateRoom(RoomData roomData)
+    {
+        try
+        {
+            _dbRoomRef = Database.GetReference(myTableName).Child(chatUserData.serverName).Child("rooms");
+            string roomKey = _dbRoomRef.Push().Key;
+
+            print($"방 만든사람 서버 : {chatUserData.serverName}");
+            print($"만든 방 이름 : {roomData.roomName}");
+
+            RoomData newRoom = new RoomData(
+                roomKey,
+                roomData.roomName,
+                chatUserData.id
+                );
+
+            string roomJson = JsonConvert.SerializeObject(newRoom);
+            await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
+
+            print($"방 만들기 완료 : {roomKey}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"방 데이터 만들기 실패 : {e.Message}");
+        }
+    }
+
+    public async void DeleteRoom(RoomData roomData)
+    {
+        try
+        {
+            _dbRoomRef = Database.GetReference(myTableName).
+                Child(chatUserData.serverName).
+                Child("rooms").
+                Child(roomData.roomKey);
+            await _dbRoomRef.RemoveValueAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"방 삭제 중 오류 발생 : {e}");
+        }
+    }
+
+    public async Task<List<RoomData>> FindRoom()
+    {
+        _dbRoomRef = Database.GetReference(myTableName).
+                Child(chatUserData.serverName).
+                Child("rooms");
+        DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
+
+        List<RoomData> waitingRoomList = new List<RoomData>();
+
+        if (!roomSnapshot.Exists)
+        {
+            Debug.Log("방이 없습니다");
+            return waitingRoomList;
+        }
+
+        foreach (DataSnapshot snapshot in roomSnapshot.Children)
+        {
+            string roomJson = snapshot.GetRawJsonValue();
+            RoomData roomData = JsonConvert.DeserializeObject<RoomData>(roomJson);
+
+            if (roomData.state == RoomState.Waiting)
+            {
+                waitingRoomList.Add(roomData);
+            }
+        }
+
+        return waitingRoomList;
     }
 }
 

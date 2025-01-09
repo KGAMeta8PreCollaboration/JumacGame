@@ -20,7 +20,7 @@ public class LobbyPopup : MonoBehaviour
         _closeButton.onClick.RemoveListener(CloseButtonClick);
     }
 
-    private void CloseButtonClick()
+    protected virtual void CloseButtonClick()
     {
         UILobbyManager.Instance.PopupClose();
         closeAction?.Invoke();
