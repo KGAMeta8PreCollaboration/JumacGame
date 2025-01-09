@@ -6,12 +6,12 @@ using System;
 
 public class InputFieldPopup : Popup
 {
-	[SerializeField] private Text _titleText;
-	[SerializeField] private InputField _inputField;
+	[SerializeField] protected Text titleText;
+	[SerializeField] protected InputField inputField;
 
 	public void SetPopup(string title = "", Action<string> callback = null)
 	{
-		_titleText.text = title;
-		closeAction = () => callback(_inputField.text);
+		titleText.text = title;
+		closeAction = () => callback(inputField.text);
 	}
 }
