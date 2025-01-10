@@ -12,6 +12,7 @@ public class ServerSelectPage : Page
 
     private void OnEnable()
     {
+        
         _hanyangButton.onClick.AddListener(() => SetServerName("Hanyang"));
         _gaeseongButton.onClick.AddListener(() => SetServerName("Gaeseong"));
     }

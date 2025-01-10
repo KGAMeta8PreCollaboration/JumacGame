@@ -46,7 +46,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
 	{
 		try
 		{
-			DataSnapshot snapshot = await Database.GetReference("a/LoginUsers").GetValueAsync();
+			DataSnapshot snapshot = await Database.GetReference("b/loginUsers").GetValueAsync();
 
 			if (snapshot.Exists)
 			{
@@ -99,7 +99,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
 			LogInUserData userData = new LogInUserData(result.User.UserId);
 			string json = JsonConvert.SerializeObject(userData);
 
-			_logInUserRef = Database.GetReference("a").Child("LoginUsers");
+			_logInUserRef = Database.GetReference("b").Child("LoginUsers");
 			await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
 			return true;
 		}
@@ -120,7 +120,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
 
 			string logInTime = DateTime.UtcNow.ToString("o");
 
-			_logInUserRef = Database.GetReference("a").Child("LoginUsers");
+			_logInUserRef = Database.GetReference("b").Child("loginUsers");
 
 			try
 			{
