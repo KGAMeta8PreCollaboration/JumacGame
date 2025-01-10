@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   username: 
   UID: 
+  speed: 10
 --- !u!114 &7643146646070437106
 MonoBehaviour:
   m_ObjectHideFlags: 0

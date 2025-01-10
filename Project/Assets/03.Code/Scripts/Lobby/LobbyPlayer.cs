@@ -55,7 +55,7 @@ public class LobbyPlayer : MonoBehaviour
 	private void Update()
 	{
 		if (!_navMeshAgent)
-			position += dir * Time.deltaTime;
+			position += dir * speed * Time.deltaTime;
 	}
 
 }

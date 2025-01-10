@@ -91,12 +91,20 @@ public class LobbyManager : MonoBehaviour
 		else
 			CreateLobby(lobbyName, username);
 		// _dbLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
+
+		// _dbLobbyRef.Child(lobbyName).Child("userList").Child(logInUserData.id).OnDisconnect().RemoveValue();
+		_dbLobbyRef.Child(lobbyName).Child("userList").Child(logInUserData.id).OnDisconnect().RemoveValue();
 		_dbLobbyRef.Child(lobbyName).Child("userList").ChildChanged += OnChildMoved;
 		_dbLobbyRef.Child(lobbyName).Child("userList").ChildAdded += OnChildAdded;
 		_dbLobbyRef.Child(lobbyName).Child("userList").ChildRemoved += OnChildRemoved;
 	}
 	private void OnChildRemoved(object sender, ChildChangedEventArgs e)
 	{
+		if (otherLobbyPlayerDic.ContainsKey(e.Snapshot.Key))
+		{
+			Destroy(otherLobbyPlayerDic[e.Snapshot.Key].gameObject);
+			otherLobbyPlayerDic.Remove(e.Snapshot.Key);
+		}
 		// print($"OnChildRomoved : key : {e.Snapshot.Key}\n" + $"value : {e.Snapshot.GetRawJsonValue()}\n" + "OnChildRomoved end");
 		// throw new System.NotImplementedException();
 	}
@@ -104,7 +112,9 @@ public class LobbyManager : MonoBehaviour
 	{
 		// print("OnChildAdded start");
 		if (e.Snapshot.Key == logInUserData.id)
+		{
 			return;
+		}
 		// print($"OnChildAdded : key : {e.Snapshot.Key}\n" + $"value : {e.Snapshot.GetRawJsonValue()}\n" + "OnChildAdded end");
 		LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
 		CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, 1, user.position.z));
@@ -172,7 +182,7 @@ public class LobbyManager : MonoBehaviour
 		while (true)
 		{
 			SendMyPosition();
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
