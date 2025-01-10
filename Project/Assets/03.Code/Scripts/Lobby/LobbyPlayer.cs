@@ -34,7 +34,7 @@ public class LobbyPlayer : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        _navMeshAgent.SetDestination(pos);
+        _navMeshAgent?.SetDestination(pos);
         // position = pos;
     }
 
