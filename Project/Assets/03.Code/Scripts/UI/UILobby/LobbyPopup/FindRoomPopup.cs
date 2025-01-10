@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FindRoomPopup : LobbyPopup
@@ -66,6 +67,7 @@ public class FindRoomPopup : LobbyPopup
         {
             Debug.Log("선택된 방이 있습니다!");
             //FirebaseManager.Instance.JoinRoom(selectedRoom, FirebaseManager.Instance.CurrentUserData, CheckMatchingSuccess);
+            SceneManager.LoadScene("OmokScene");
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
 {
