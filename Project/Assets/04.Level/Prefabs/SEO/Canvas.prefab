@@ -3957,7 +3957,7 @@ GameObject:
   - component: {fileID: 3880820121526401043}
   - component: {fileID: 3015598143487774704}
   - component: {fileID: 5896628745606428371}
-  - component: {fileID: 6877580274973840323}
+  - component: {fileID: 5096535227880415113}
   m_Layer: 5
   m_Name: ServerSelectPage
   m_TagString: Untagged
@@ -4025,7 +4025,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6877580274973840323
+--- !u!114 &5096535227880415113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4034,12 +4034,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4919117805064466914}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e17e4f5db0197d418cbc0009f72f5db, type: 3}
+  m_Script: {fileID: 11500000, guid: a95c9302937baf44d8281c3d7e167af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hanyangButton: {fileID: 5314406037598391034}
   _gaeseongButton: {fileID: 7790251110052568473}
-  lobbySceneName: YOO
+  lobbySceneName: SEOLobbyTest
 --- !u!1 &5009520995337665174
 GameObject:
   m_ObjectHideFlags: 0
