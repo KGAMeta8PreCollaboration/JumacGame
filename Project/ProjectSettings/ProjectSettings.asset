@@ -163,6 +163,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DefaultCompany.Project
+    Standalone: com.DefaultCompany.Project
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -943,7 +944,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 2
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 598494f1-6288-4a72-ae34-e04d80bf648d
   framebufferDepthMemorylessMode: 0
