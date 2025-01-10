@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Firebase;
@@ -16,6 +17,7 @@ public class LobbyManager : MonoBehaviour
 
     private DatabaseReference _dbLobbyRef;
     private Dictionary<string, LobbyPlayer> otherLobbyPlayerDic = new Dictionary<string, LobbyPlayer>();
+    private DatabaseReference userListRef;
 
     public async void Init()
     {
@@ -93,11 +95,41 @@ public class LobbyManager : MonoBehaviour
         // _dbLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
 
         // _dbLobbyRef.Child(lobbyName).Child("userList").Child(logInUserData.id).OnDisconnect().RemoveValue();
-        _dbLobbyRef.Child(lobbyName).Child("userlist").Child(logInUserData.id).OnDisconnect().RemoveValue();
-        _dbLobbyRef.Child(lobbyName).Child("userlist").ChildChanged += OnChildMoved;
-        _dbLobbyRef.Child(lobbyName).Child("userlist").ChildAdded += OnChildAdded;
-        _dbLobbyRef.Child(lobbyName).Child("userlist").ChildRemoved += OnChildRemoved;
+        userListRef = _dbLobbyRef.Child(logInUserData.serverName).Child("userlist");
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).OnDisconnect().RemoveValue();
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged += OnChildMoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded += OnChildAdded;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved += OnChildRemoved;
+        userListRef.Child(logInUserData.id).OnDisconnect().RemoveValue();
+        userListRef.ChildChanged += OnChildMoved;
+        userListRef.ChildAdded += OnChildAdded;
+        userListRef.ChildRemoved += OnChildRemoved;
     }
+
+    private void OnDestroy()
+    {
+        OnQuit();
+    }
+
+
+    public void OnQuit()
+    {
+        print("OnQuit");
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged -= OnChildMoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded -= OnChildAdded;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved -= OnChildRemoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).RemoveValueAsync();
+        userListRef.ChildChanged -= OnChildMoved;
+        userListRef.ChildAdded -= OnChildAdded;
+        userListRef.ChildRemoved -= OnChildRemoved;
+        userListRef.Child(logInUserData.id).RemoveValueAsync();
+    }
+    
+    private void OnApplicationQuit()
+    {
+        OnQuit();
+    }
+    
     private void OnChildRemoved(object sender, ChildChangedEventArgs e)
     {
         if (otherLobbyPlayerDic.ContainsKey(e.Snapshot.Key))
@@ -131,6 +163,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (e.Snapshot.Key == logInUserData.id)
             return;
+        print("OnChildMoved");
         // print($"OnChildMoved : key : {e.Snapshot.Key}\n" + $"value : {e.Snapshot.GetRawJsonValue()}\n" + "OnChildMoved end");
         if (otherLobbyPlayerDic.ContainsKey(e.Snapshot.Key))
         {
