@@ -7,6 +7,7 @@ using UnityEngine;
 public class Interactor : MonoBehaviour
 {
     public RectTransform interactView;
+    [Range(0, 10)]
     public float radius;
     public Action interactAction;
 

@@ -7,12 +7,19 @@ using UnityEngine.UI;
 public class InteractionInfoPopup : Popup
 {
     [SerializeField] private Button _startButton;
+    [SerializeField] private SentenceData _sentenceDataPrefab;
     public string nextScene;
     public string titleMessage;
-    [SerializeField] private Text _title;
-    [SerializeField] private SentenceData _sentenceDataPrefab;
-    [SerializeField] private RectTransform _description;
     [SerializeField] private List<string> _sentenceList = new List<string>(6);
+
+    private Text _title;
+    private RectTransform _description;
+
+    private void Awake()
+    {
+        _title = transform.Find("InteractionInfoPanel/MainTitle").GetComponent<Text>();
+        _description = transform.Find("InteractionInfoPanel/DescriptionPanel/Description").GetComponent<RectTransform>();
+    }
 
     private void Start()
     {

@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Interactable : MonoBehaviour, IInteractable
+public class ButtonInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private Button _interactionButtonPrefab;
+    public string nextPopup;
 
     public void Interact(Interactor interactor)
     {
@@ -18,6 +19,6 @@ public class Interactable : MonoBehaviour, IInteractable
 
     private void InteractionButtonClick()
     {
-        PopupManager.Instance.PopupOpen<InteractionInfoPopup>();
+        PopupManager.Instance.PopupOpen(nextPopup);
     }
 }
