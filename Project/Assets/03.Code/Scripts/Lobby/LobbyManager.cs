@@ -96,7 +96,7 @@ public class LobbyManager : MonoBehaviour
 
         // _dbLobbyRef.Child(lobbyName).Child("userList").Child(logInUserData.id).OnDisconnect().RemoveValue();
         userListRef = _dbLobbyRef.Child(logInUserData.serverName).Child("userlist");
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).OnDisconnect().RemoveValue();
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).OnDisconnect().RemoveValue();
         // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged += OnChildMoved;
         // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded += OnChildAdded;
         // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved += OnChildRemoved;
@@ -115,13 +115,13 @@ public class LobbyManager : MonoBehaviour
     public void OnQuit()
     {
         print("OnQuit");
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged -= OnChildMoved;
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded -= OnChildAdded;
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved -= OnChildRemoved;
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).RemoveValueAsync();
-        // userListRef.ChildChanged -= OnChildMoved;
-        // userListRef.ChildAdded -= OnChildAdded;
-        // userListRef.ChildRemoved -= OnChildRemoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged -= OnChildMoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded -= OnChildAdded;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved -= OnChildRemoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).RemoveValueAsync();
+        userListRef.ChildChanged -= OnChildMoved;
+        userListRef.ChildAdded -= OnChildAdded;
+        userListRef.ChildRemoved -= OnChildRemoved;
         userListRef.Child(logInUserData.id).RemoveValueAsync();
     }
     
