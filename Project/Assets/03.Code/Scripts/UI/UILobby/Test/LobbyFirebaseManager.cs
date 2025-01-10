@@ -8,7 +8,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
+public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
 {
     public FirebaseAuth Auth { get; private set; }
     public FirebaseDatabase Database { get; private set; }
@@ -25,8 +25,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     private LogInUserData _logInUserData;
 
-    private string myTableName = "c";
-
     private async void Start()
     {
         try
@@ -35,7 +33,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             Database = FirebaseManager.Instance.Database;
             User = FirebaseManager.Instance.User;
 
-            DatabaseReference logInUserData = Database.GetReference("a").Child("LoginUsers");
+            DatabaseReference logInUserData = Database.GetReference("loginusers");
             DataSnapshot logInUserSnapshot = await logInUserData.Child(User.UserId).GetValueAsync();
 
             if (logInUserSnapshot.Exists)
@@ -70,7 +68,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbChatRef = Database.GetReference(myTableName).Child(messageData.SenderServer).Child("chats");
+            _dbChatRef = Database.GetReference(messageData.SenderServer).Child("chats");
             string key = _dbChatRef.Push().Key;
 
             print($"현재 보낸 사람 : {messageData.SenderId}");
@@ -90,7 +88,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbChatRef = Database.GetReference(myTableName).Child(chatUserData.serverName).Child("chats");
+            _dbChatRef = Database.GetReference(chatUserData.serverName).Child("chats");
 
             //기존에 남아있을 수 있는 이벤트 제거
             if (_childAddedHandler != null)
@@ -128,7 +126,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbRoomRef = Database.GetReference(myTableName).Child(chatUserData.serverName).Child("rooms");
+            _dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
             string roomKey = _dbRoomRef.Push().Key;
 
             print($"방 만든사람 서버 : {chatUserData.serverName}");
@@ -155,10 +153,9 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbRoomRef = Database.GetReference(myTableName).
-                Child(chatUserData.serverName).
-                Child("rooms").
-                Child(roomData.roomKey);
+            _dbRoomRef = Database.GetReference(chatUserData.serverName)
+                .Child("rooms")
+                .Child(roomData.roomKey);
             await _dbRoomRef.RemoveValueAsync();
         }
         catch (Exception e)
@@ -169,31 +166,37 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     public async Task<List<RoomData>> FindRoom()
     {
-        _dbRoomRef = Database.GetReference(myTableName).
-                Child(chatUserData.serverName).
-                Child("rooms");
-        DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
-
-        List<RoomData> waitingRoomList = new List<RoomData>();
-
-        if (!roomSnapshot.Exists)
+        try
         {
-            Debug.Log("방이 없습니다");
+            _dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
+            DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
+
+            List<RoomData> waitingRoomList = new List<RoomData>();
+
+            if (!roomSnapshot.Exists)
+            {
+                Debug.Log("방이 없습니다");
+                return waitingRoomList;
+            }
+
+            foreach (DataSnapshot snapshot in roomSnapshot.Children)
+            {
+                string roomJson = snapshot.GetRawJsonValue();
+                RoomData roomData = JsonConvert.DeserializeObject<RoomData>(roomJson);
+
+                if (roomData.state == RoomState.Waiting)
+                {
+                    waitingRoomList.Add(roomData);
+                }
+            }
+
             return waitingRoomList;
         }
-
-        foreach (DataSnapshot snapshot in roomSnapshot.Children)
+        catch (Exception e)
         {
-            string roomJson = snapshot.GetRawJsonValue();
-            RoomData roomData = JsonConvert.DeserializeObject<RoomData>(roomJson);
-
-            if (roomData.state == RoomState.Waiting)
-            {
-                waitingRoomList.Add(roomData);
-            }
+            print($"방 찾기 오류 : {e.Message}");
+            return null;
         }
-
-        return waitingRoomList;
     }
 }
 
