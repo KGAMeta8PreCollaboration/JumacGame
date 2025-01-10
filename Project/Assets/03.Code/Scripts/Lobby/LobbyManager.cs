@@ -17,6 +17,7 @@ public class LobbyManager : MonoBehaviour
 
     private DatabaseReference _dbLobbyRef;
     private Dictionary<string, LobbyPlayer> otherLobbyPlayerDic = new Dictionary<string, LobbyPlayer>();
+    private DatabaseReference userListRef;
 
     public async void Init()
     {
@@ -94,10 +95,15 @@ public class LobbyManager : MonoBehaviour
         // _dbLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
 
         // _dbLobbyRef.Child(lobbyName).Child("userList").Child(logInUserData.id).OnDisconnect().RemoveValue();
+        userListRef = _dbLobbyRef.Child(logInUserData.serverName).Child("userlist");
         _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).OnDisconnect().RemoveValue();
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged += OnChildMoved;
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded += OnChildAdded;
-        _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved += OnChildRemoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged += OnChildMoved;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded += OnChildAdded;
+        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved += OnChildRemoved;
+        userListRef.Child(logInUserData.id).OnDisconnect().RemoveValue();
+        userListRef.ChildChanged += OnChildMoved;
+        userListRef.ChildAdded += OnChildAdded;
+        userListRef.ChildRemoved += OnChildRemoved;
     }
 
     private void OnDestroy()
@@ -106,13 +112,17 @@ public class LobbyManager : MonoBehaviour
     }
 
 
-    private void OnQuit()
+    public void OnQuit()
     {
         print("OnQuit");
         _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged -= OnChildMoved;
         _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded -= OnChildAdded;
         _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved -= OnChildRemoved;
         _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).RemoveValueAsync();
+        // userListRef.ChildChanged -= OnChildMoved;
+        // userListRef.ChildAdded -= OnChildAdded;
+        // userListRef.ChildRemoved -= OnChildRemoved;
+        userListRef.Child(logInUserData.id).RemoveValueAsync();
     }
     
     private void OnApplicationQuit()
