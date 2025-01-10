@@ -17,7 +17,11 @@ public class FirebaseManager : Singleton<FirebaseManager>
 
     private DatabaseReference _logInUserRef;
 
-    [SerializeField] private Text _signInInfo;
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
 
     private async void Start()
     {
@@ -42,51 +46,11 @@ public class FirebaseManager : Singleton<FirebaseManager>
         }
     }
 
-    public async void FirebaseCheck()
-    {
-        try
-        {
-            DataSnapshot snapshot = await Database.GetReference("loginusers").GetValueAsync();
-
-            if (snapshot.Exists)
-            {
-                print($"유저 수: {snapshot.ChildrenCount}");
-
-                foreach (DataSnapshot data in snapshot.Children)
-                {
-                    if (data.HasChild("nickname"))
-                    {
-                        string nickname = data.Child("nickname").Value?.ToString() ?? "닉네임 없음";
-                        print($"{data.Key}: {nickname}");
-                    }
-                    else
-                    {
-                        print($"{data.Key}: nickname 필드가 존재하지 않습니다.");
-                    }
-                }
-            }
-            else
-            {
-                print("해당 경로에 데이터가 없습니다.");
-            }
-        }
-        catch (Exception e)
-        {
-            print($"데이터 읽기 에러: {e.Message}");
-        }
-    }
-
     private void AuthStateChanged(object sender, EventArgs e)
     {
         FirebaseAuth senderAuth = sender as FirebaseAuth;
         if (senderAuth != null)
-        {
-            User = senderAuth.CurrentUser; //로그아웃일 때는 Null, 로그인일 때는 값이 있음
-            if (User != null)
-            {
-                _signInInfo.text = "User : " + User.UserId;
-            }
-        }
+            User = senderAuth.CurrentUser; 
     }
 
     //회원가입
