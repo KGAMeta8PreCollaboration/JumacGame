@@ -50,6 +50,6 @@ public class WaitingPopup : LobbyPopup
     {
         base.CloseButtonClick();
         //여기에서 방 삭제하는 함수 추가
-        LobbyFirebaseManager.Instance.DeleteRoom(waitingRoom);
+        ChatFirebaseManager.Instance.DeleteRoom(waitingRoom);
     }
 }

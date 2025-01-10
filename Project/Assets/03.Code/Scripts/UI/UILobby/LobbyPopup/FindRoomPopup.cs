@@ -36,7 +36,7 @@ public class FindRoomPopup : LobbyPopup
 
     private async void FindRoom()
     {
-        waitingRoomList = await LobbyFirebaseManager.Instance.FindRoom();
+        waitingRoomList = await ChatFirebaseManager.Instance.FindRoom();
 
         if (waitingRoomList.Count < 0)
         {
