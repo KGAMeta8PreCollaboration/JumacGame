@@ -40,8 +40,6 @@ public class LobbyPlayer : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        print($"UID : {UID}" +
-            $"UID : {UID} : {FirebaseManager.Instance.User.UserId}");
 
         if (UID != FirebaseManager.Instance.User.UserId)
             return;

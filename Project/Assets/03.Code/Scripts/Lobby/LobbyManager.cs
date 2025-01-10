@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Firebase;
 using Firebase.Database;
 using UnityEngine;
 using Newtonsoft.Json;
-using UnityEngine.AI;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -48,13 +46,6 @@ public class LobbyManager : MonoBehaviour
         _dbLobbyRef.Child(lobbyName).Child("userlist").Child(uid).SetRawJsonValueAsync(str);
     }
 
-    // private void CreateMyPlayer()
-    // {
-    // 	myLobbyPlayer = Instantiate(playerPrefab);
-    // 	myLobbyPlayer.UID = logInUserData.id;
-    // 	myLobbyPlayer.username = logInUserData.nickname;
-    // }
-
     private void CreatePlayer(string uid, string nickname, Vector3 position)
     {
         LobbyPlayer player = Instantiate(otherPlayerPrefab, position, Quaternion.identity);
@@ -66,7 +57,6 @@ public class LobbyManager : MonoBehaviour
 
     private void CreateMyPlayer(string uid, string nickname, Vector3 position)
     {
-        print("CreateMyPlayer");
         LobbyPlayer player = Instantiate(myPlayerPrefab);
         player.UID = uid;
         player.username = nickname;
@@ -106,7 +96,7 @@ public class LobbyManager : MonoBehaviour
         userListRef.ChildRemoved += OnChildRemoved;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         OnQuit();
     }
@@ -114,7 +104,6 @@ public class LobbyManager : MonoBehaviour
 
     public void OnQuit()
     {
-        print("OnQuit");
         // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged -= OnChildMoved;
         // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded -= OnChildAdded;
         // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved -= OnChildRemoved;
@@ -137,20 +126,15 @@ public class LobbyManager : MonoBehaviour
             Destroy(otherLobbyPlayerDic[e.Snapshot.Key].gameObject);
             otherLobbyPlayerDic.Remove(e.Snapshot.Key);
         }
-        // print($"OnChildRomoved : key : {e.Snapshot.Key}\n" + $"value : {e.Snapshot.GetRawJsonValue()}\n" + "OnChildRomoved end");
-        // throw new System.NotImplementedException();
     }
     private void OnChildAdded(object sender, ChildChangedEventArgs e)
     {
-        // print("OnChildAdded start");
         if (e.Snapshot.Key == logInUserData.id)
         {
             return;
         }
-        // print($"OnChildAdded : key : {e.Snapshot.Key}\n" + $"value : {e.Snapshot.GetRawJsonValue()}\n" + "OnChildAdded end");
         LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
         CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, 1, user.position.z));
-        // print($"user : {user.username} , {user.position}");
     }
 
     private void Start()
@@ -163,8 +147,6 @@ public class LobbyManager : MonoBehaviour
     {
         if (e.Snapshot.Key == logInUserData.id)
             return;
-        print("OnChildMoved");
-        // print($"OnChildMoved : key : {e.Snapshot.Key}\n" + $"value : {e.Snapshot.GetRawJsonValue()}\n" + "OnChildMoved end");
         if (otherLobbyPlayerDic.ContainsKey(e.Snapshot.Key))
         {
             LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
