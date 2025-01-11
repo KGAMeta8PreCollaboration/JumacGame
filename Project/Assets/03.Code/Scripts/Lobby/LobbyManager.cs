@@ -12,10 +12,12 @@ public class LobbyManager : MonoBehaviour
 
     [SerializeField] private LobbyPlayer myPlayerPrefab;
     [SerializeField] private LobbyPlayer otherPlayerPrefab;
+    [SerializeField] private Transform playerSpawnPoint;
 
     private DatabaseReference _dbLobbyRef;
     private Dictionary<string, LobbyPlayer> otherLobbyPlayerDic = new Dictionary<string, LobbyPlayer>();
     private DatabaseReference userListRef;
+    
 
     public async void Init()
     {
@@ -57,10 +59,10 @@ public class LobbyManager : MonoBehaviour
 
     private void CreateMyPlayer(string uid, string nickname, Vector3 position)
     {
-        LobbyPlayer player = Instantiate(myPlayerPrefab);
+        LobbyPlayer player = Instantiate(myPlayerPrefab, playerSpawnPoint.position, Quaternion.identity);
         player.UID = uid;
         player.username = nickname;
-        player.position = position;
+        // player.position = position;
         myLobbyPlayer = player;
     }
 
