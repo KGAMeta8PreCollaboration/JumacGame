@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class RGLightBtnInteract : ButtonInteractable
 {
-    protected override void InteractionButtonClick()
-    {
-        InteractionInfoPopup infoPopup = PopupManager.Instance.PopupOpen("RGLightInfoPopup") as InteractionInfoPopup;
-        infoPopup.onStartButtonClick = () => SceneManager.LoadScene("RGLightMiniGame");
-    }
+	protected override void InteractionButtonClick()
+	{
+		InteractionInfoPopup infoPopup = PopupManager.Instance.PopupOpen("RGLightInfoPopup") as InteractionInfoPopup;
+		infoPopup.onStartButtonClick = () => SceneManager.LoadScene("RGLightMiniGame");
+		infoPopup.onStartButtonClick -= () => SceneManager.LoadScene("RGLightMiniGame");
+	}
 }

@@ -8,8 +8,10 @@ namespace Minigame.RGLight
 	{
 		private void OnTriggerEnter(Collider other)
 		{
-			//여기에 들어 왔다는 것. 골인했다는 것.
-			RGLightManager.Instance.GameResult(true);
+			if (other.TryGetComponent<Minigame.RGLight.Player>(out Minigame.RGLight.Player player))
+			{
+				player.RGLightManager.GameResult(true);
+			}
 		}
 	}
 }

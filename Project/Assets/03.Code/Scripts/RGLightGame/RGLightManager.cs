@@ -5,16 +5,27 @@ using UnityEngine.SceneManagement;
 
 namespace Minigame.RGLight
 {
-	public class RGLightManager : Singleton<RGLightManager>
+	public class RGLightManager : MonoBehaviour
 	{
-		[SerializeField] private GameObject _introPanel;
 		public float introTime;
+		[SerializeField] private GameObject _introPanel;
+		[SerializeField] private Minigame.RGLight.Player _playerPrefab;
+		[SerializeField] private Transform _startPoint;
 
-		protected override void Awake()
+
+
+		private void Awake()
 		{
-			base.Awake();
 			StartCoroutine(IntroCoroutine());
 		}
+
+		private void Start()
+		{
+			Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
+			player.Init(this);
+		}
+
+
 
 		private IEnumerator IntroCoroutine()
 		{
