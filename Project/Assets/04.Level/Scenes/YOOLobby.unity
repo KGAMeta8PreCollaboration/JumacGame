@@ -480,7 +480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &963194226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1190,7 +1190,7 @@ MonoBehaviour:
     race: 
     serverName: 
     setNicknameRace: 0
-  myPlayerPrefab: {fileID: 8061193373205643415, guid: b04d863b56c99274ab5447aa7d4d0be3, type: 3}
+  myPlayerPrefab: {fileID: 3538339968475574004, guid: 1d56e450f1b6be340a12d8ca6e4890eb, type: 3}
   otherPlayerPrefab: {fileID: 8061193373205643415, guid: c853db7b85358cc42aeb53a4322ba600, type: 3}
   playerSpawnPoint: {fileID: 1271046004}
 --- !u!1001 &1933513068

@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 public class LobbyManager : MonoBehaviour
 {
-    public LobbyPlayer myLobbyPlayer;
+    public ClientPlayer myLobbyPlayer;
     [HideInInspector] public LogInUserData logInUserData;
 
-    [SerializeField] private LobbyPlayer myPlayerPrefab;
+    [SerializeField] private GameObject myPlayerPrefab;
     [SerializeField] private LobbyPlayer otherPlayerPrefab;
     [SerializeField] private Transform playerSpawnPoint;
 
@@ -18,7 +18,6 @@ public class LobbyManager : MonoBehaviour
     private Dictionary<string, LobbyPlayer> otherLobbyPlayerDic = new Dictionary<string, LobbyPlayer>();
     private DatabaseReference userListRef;
     
-
     public async void Init()
     {
         DataSnapshot data = await FirebaseManager.Instance.Database.GetReference(
@@ -28,8 +27,6 @@ public class LobbyManager : MonoBehaviour
         if (status == DependencyStatus.Available)
         {
             _dbLobbyRef = FirebaseManager.Instance.Database.GetReference("lobby");
-            //_dbLobbyRef = reference.Child("lobby");
-            //_dbLobbyRef = reference;
         }
         JoinLobby(logInUserData.serverName, logInUserData.nickname);
     }
@@ -39,13 +36,6 @@ public class LobbyManager : MonoBehaviour
         LobbyData lobbyData = new LobbyData(lobbyName, username);
         string str = JsonConvert.SerializeObject(lobbyData);
         _dbLobbyRef.Child(lobbyName).SetRawJsonValueAsync(str);
-    }
-
-    public void AddUser(string lobbyName, string uid, string username, Vector3 position)
-    {
-        LobbyData.User user = new LobbyData.User(username, position);
-        string str = JsonConvert.SerializeObject(user);
-        _dbLobbyRef.Child(lobbyName).Child("userlist").Child(uid).SetRawJsonValueAsync(str);
     }
 
     private void CreatePlayer(string uid, string nickname, Vector3 position)
@@ -59,10 +49,11 @@ public class LobbyManager : MonoBehaviour
 
     private void CreateMyPlayer(string uid, string nickname, Vector3 position)
     {
-        LobbyPlayer player = Instantiate(myPlayerPrefab, playerSpawnPoint.position, Quaternion.identity);
+        ClientPlayer player = 
+            Instantiate(myPlayerPrefab, playerSpawnPoint.position, Quaternion.identity)
+                .GetComponentInChildren<ClientPlayer>();
         player.UID = uid;
         player.username = nickname;
-        // player.position = position;
         myLobbyPlayer = player;
     }
 
@@ -79,19 +70,11 @@ public class LobbyManager : MonoBehaviour
         if (data.Exists)
         {
             CreateMyPlayer(logInUserData.id, username, Vector3.up);
-            // CreatePlayer(logInUserData.id, username, Vector3.zero);
             lobbyData = JsonConvert.DeserializeObject<LobbyData>(data.GetRawJsonValue());
         }
         else
             CreateLobby(lobbyName, username);
-        // _dbLobbyRef.Child(lobbyName).Child("userList").ValueChanged += OnMoved;
-
-        // _dbLobbyRef.Child(lobbyName).Child("userList").Child(logInUserData.id).OnDisconnect().RemoveValue();
         userListRef = _dbLobbyRef.Child(logInUserData.serverName).Child("userlist");
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).OnDisconnect().RemoveValue();
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged += OnChildMoved;
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded += OnChildAdded;
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved += OnChildRemoved;
         userListRef.Child(logInUserData.id).OnDisconnect().RemoveValue();
         userListRef.ChildChanged += OnChildMoved;
         userListRef.ChildAdded += OnChildAdded;
@@ -106,20 +89,16 @@ public class LobbyManager : MonoBehaviour
 
     public void OnQuit()
     {
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildChanged -= OnChildMoved;
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildAdded -= OnChildAdded;
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").ChildRemoved -= OnChildRemoved;
-        // _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).RemoveValueAsync();
         userListRef.ChildChanged -= OnChildMoved;
         userListRef.ChildAdded -= OnChildAdded;
         userListRef.ChildRemoved -= OnChildRemoved;
         userListRef.Child(logInUserData.id).RemoveValueAsync();
     }
     
-    private void OnApplicationQuit()
-    {
-        OnQuit();
-    }
+    // private void OnApplicationQuit()
+    // {
+    //     OnQuit();
+    // }
     
     private void OnChildRemoved(object sender, ChildChangedEventArgs e)
     {
@@ -153,45 +132,12 @@ public class LobbyManager : MonoBehaviour
         {
             LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
             otherLobbyPlayerDic[e.Snapshot.Key].SetPosition(new Vector3(user.position.x, user.position.y, user.position.z));
-            // otherLobbyPlayerDic[e.Snapshot.Key].position = new Vector3(user.position.x, user.position.y, user.position.z);
         }
         else
         {
             LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
             CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, user.position.y, user.position.z));
         }
-
-        // foreach (DataSnapshot child in e.Snapshot.Children)
-        // {
-        // 	try
-        // 	{
-        // 		print($"OnChildMoved child : {child}");
-        // 		print($"OnChildMoved child getraw : {child.GetRawJsonValue()}");
-        // 		LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(child.GetRawJsonValue());
-        // 		if (otherLobbyPlayerDic.TryGetValue(child.Key, out LobbyPlayer value))
-        // 			value.position = new Vector3(user.position.x, user.position.y, user.position.z);
-        // 	}
-        // 	catch (JsonSerializationException ex)
-        // 	{
-        // 		Debug.LogError($"Error deserializing child: {child.GetRawJsonValue()}");
-        // 		Debug.LogError(ex);
-        // 	}
-        // }
-    }
-
-    private void OnMoved(object sender, ValueChangedEventArgs e)
-    {
-        // 생성 처리
-
-        // 변경 처리
-        foreach (DataSnapshot child in e.Snapshot.Children)
-        {
-            LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(child.GetRawJsonValue());
-            if (otherLobbyPlayerDic.TryGetValue(child.Key, out LobbyPlayer value))
-                value.position = new Vector3(user.position.x, user.position.y, user.position.z);
-        }
-
-        // 삭제 처리
     }
 
     private IEnumerator SendPositionCoroutine()
@@ -199,7 +145,7 @@ public class LobbyManager : MonoBehaviour
         while (true)
         {
             SendMyPosition();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -207,14 +153,15 @@ public class LobbyManager : MonoBehaviour
     {
         if (myLobbyPlayer == null)
             return;
+        
         LobbyData.User user = new LobbyData.User(myLobbyPlayer.username,
-            new Vector3(myLobbyPlayer.position.x, myLobbyPlayer.position.y, myLobbyPlayer.position.z));
+            new Vector3(myLobbyPlayer.transform.position.x, 
+                    myLobbyPlayer.transform.position.y, 
+                    myLobbyPlayer.transform.position.z));
         string str = JsonConvert.SerializeObject(user);
         _dbLobbyRef.Child(logInUserData.serverName).Child("userlist").Child(logInUserData.id).SetRawJsonValueAsync(str);
     }
-
 }
-
 
 public class Point
 {
