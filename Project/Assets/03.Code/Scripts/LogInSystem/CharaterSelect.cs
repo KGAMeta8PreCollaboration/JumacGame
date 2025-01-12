@@ -65,7 +65,7 @@ public class CharaterSelect : Page
 	{
 		if (data.IsComplete() && data is not null)
 		{
-			if (await FirebaseManager.Instance.SetNicknameAndRace(data.nickname, data.race))
+			if (await FirebaseManager.Instance.LogInManager.SetNicknameAndRace(data.nickname, data.race))
 			{
 				PageManager.Instance.PageOpen<ServerSelectPage>();
 			}

@@ -29,12 +29,12 @@ public class SignInPopup : Popup
 
 	private async void SignInButtonClick()
 	{
-		if (await FirebaseManager.Instance.SignIn(_emailIF.text, _passwordIF.text))
+		if (await FirebaseManager.Instance.LogInManager.SignIn(_emailIF.text, _passwordIF.text))
 		{
 			_errorText.text = "";
 			PopupManager.Instance.PopupClose();
 
-			if (await FirebaseManager.Instance.ExistNicknameAndRace())
+			if (await FirebaseManager.Instance.LogInManager.ExistNicknameAndRace())
 			{
 				PageManager.Instance.PageOpen<ServerSelectPage>();
 			}
