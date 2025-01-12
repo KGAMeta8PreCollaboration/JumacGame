@@ -18,8 +18,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
 	public LogInManager LogInManager { get; private set; }
 	[SerializeField] private LogInManager _logInManagerPrefab;
 
-	private DatabaseReference _logInUserRef;
-
 	protected override void Awake()
 	{
 		base.Awake();
