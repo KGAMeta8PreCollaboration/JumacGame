@@ -27,7 +27,7 @@ public class LobbyUIPage : LobbyPage
 
     public void SetUserInfo()
     {
-        userNameText.text = ChatFirebaseManager.Instance.chatUserData.nickname;
+        userNameText.text = LobbyFirebaseManager.Instance.chatUserData.nickname;
     }
 
     private void OnClickGoChatButton()

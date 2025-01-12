@@ -19,7 +19,7 @@ public class ChatPopup : LobbyPopup
 
     private void Start()
     {
-        ChatFirebaseManager.Instance.ReceiveMessage(ReceiveMessage);
+        LobbyFirebaseManager.Instance.ReceiveMessage(ReceiveMessage);
     }
 
     protected override void OnEnable()
@@ -34,7 +34,7 @@ public class ChatPopup : LobbyPopup
 
     private void OnClickSendButton()
     {
-        ChatUserData chatUserData = ChatFirebaseManager.Instance.chatUserData;
+        ChatUserData chatUserData = LobbyFirebaseManager.Instance.chatUserData;
 
         MessageData message = new MessageData(
             chatUserData.id,
@@ -43,12 +43,12 @@ public class ChatPopup : LobbyPopup
             inputChat.text
             );
 
-        ChatFirebaseManager.Instance.SendMessage(message);
+        LobbyFirebaseManager.Instance.SendMessage(message);
     }
 
     private void ReceiveMessage(MessageData messageData)
     {
-        string sender = ChatFirebaseManager.Instance.chatUserData.id;
+        string sender = LobbyFirebaseManager.Instance.chatUserData.id;
         GameObject messagePrefab = sender == messageData.SenderId
             ? whiteChatPrefab   //현재 플레이어
             : orangeChatPrefab; //다른 플레이어

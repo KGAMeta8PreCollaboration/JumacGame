@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 [System.Serializable]
 public enum RoomState
@@ -27,6 +28,7 @@ public class RoomData
         this.roomKey = "";
         this.roomName = roomName;
         this.host = "";
+        this.guest = "";
         state = RoomState.Waiting;
         turnList = new List<Turn>();
     }
@@ -36,6 +38,7 @@ public class RoomData
         this.roomKey = roomKey;
         this.roomName = roomName;
         this.host = host;
+        this.guest = "";
         state = RoomState.Waiting;
         turnList = new List<Turn>();
     }

@@ -31,7 +31,7 @@ public class OmokPopup : LobbyPopup
         RoomData newRoom = new RoomData(roomName);
         inputPopup.SetPopup("방 만들기", (newRoom) =>
         {
-            ChatFirebaseManager.Instance.CreateRoom(newRoom);
+            LobbyFirebaseManager.Instance.CreateRoom(newRoom);
             WaitingPopup waitingRoom = UILobbyManager.Instance.PopupOpen<WaitingPopup>();
             waitingRoom.SetWaitingRoom(newRoom, DateTime.Now);
             print($"방 만들기 성공! 방 이름 : {roomName}");

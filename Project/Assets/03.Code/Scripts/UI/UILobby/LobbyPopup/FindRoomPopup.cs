@@ -37,7 +37,7 @@ public class FindRoomPopup : LobbyPopup
 
     private async void FindRoom()
     {
-        waitingRoomList = await ChatFirebaseManager.Instance.FindRoom();
+        waitingRoomList = await LobbyFirebaseManager.Instance.FindRoom();
 
         if (waitingRoomList.Count < 0)
         {
@@ -66,8 +66,10 @@ public class FindRoomPopup : LobbyPopup
         if (selectedRoom != null)
         {
             Debug.Log("선택된 방이 있습니다!");
-            //FirebaseManager.Instance.JoinRoom(selectedRoom, FirebaseManager.Instance.CurrentUserData, CheckMatchingSuccess);
-            SceneManager.LoadScene("OmokScene");
+            if (selectedRoom.state == RoomState.Waiting)
+            {
+                LobbyFirebaseManager.Instance.JoinRoom(selectedRoom, LobbyFirebaseManager.Instance.chatUserData);
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
-public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
+public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 {
     public FirebaseAuth Auth { get; private set; }
     public FirebaseDatabase Database { get; private set; }
@@ -25,6 +25,12 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
     private EventHandler<ChildChangedEventArgs> _childAddedHandler;
 
     private LogInUserData _logInUserData;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
 
     private async void Start()
     {
@@ -64,6 +70,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
             Debug.LogError($"Firebase연결이 안됨 : {e.Message}");
         }
     }
+
 
     public async void SendMessage(MessageData messageData)
     {
@@ -143,6 +150,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
 
             print($"방 만들기 완료 : {roomKey}");
+            MonitorRoomState(newRoom);
         }
         catch (Exception e)
         {
@@ -198,6 +206,68 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
             print($"방 찾기 오류 : {e.Message}");
             return null;
         }
+    }
+
+    public async void JoinRoom(RoomData roomData, ChatUserData chatUserData)
+    {
+        try
+        {
+            _dbRoomRef = Database.GetReference(chatUserData.serverName).Child($"rooms");
+            DataSnapshot roomSnapshot = await _dbRoomRef.Child(roomData.roomKey).GetValueAsync();
+
+            if (roomSnapshot.Exists)
+            {
+                string roomDataJson = roomSnapshot.GetRawJsonValue();
+                roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
+
+                //게스트가 없을 경우
+                if (string.IsNullOrEmpty(roomData.guest))
+                {
+                    roomData.guest = chatUserData.id;
+                    roomData.state = RoomState.Playing;
+
+                    string updateRoomJson = JsonConvert.SerializeObject(roomData);
+                    await _dbRoomRef.Child(roomData.roomKey).SetRawJsonValueAsync(updateRoomJson);
+
+                    MonitorRoomState(roomData);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"방 참여 중 오류 발생 : {e.Message}");
+        }
+    }
+
+    private void MonitorRoomState(RoomData roomData)
+    {
+        _dbRoomRef = Database.GetReference(chatUserData.serverName)
+            .Child($"rooms")
+            .Child(roomData.roomKey);
+
+        _dbRoomRef.ValueChanged += (sender, args) =>
+        {
+            if (args.Snapshot.Exists)
+            {
+                string stateValue = args.Snapshot.Child("state").Value.ToString();
+                print($"바뀌기 전 방의 상태 : {stateValue}");
+
+                if (!string.IsNullOrEmpty(stateValue))
+                {
+                    RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
+                    print($"바뀐 방 상태 : {stateValue}");
+
+                    if (newState == RoomState.Playing)
+                    {
+                        string roomDataJson = JsonConvert.SerializeObject(roomData);
+                        PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
+                        PlayerPrefs.Save();
+
+                        SceneManager.LoadScene("OmokScene");
+                    }
+                }
+            }
+        };
     }
 }
 

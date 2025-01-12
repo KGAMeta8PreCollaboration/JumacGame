@@ -4,13 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class OmokUserData : MonoBehaviour
+public class OmokUserData
 {
     public string id;
     public string nickname;
     public float gold;
 
     public OmokUserData() { }
+
+    public OmokUserData(string id)
+    {
+        this.id = id;
+        nickname = "";
+        gold = 0;
+    }
 
     public OmokUserData(string id, string nickname, float gold)
     {
