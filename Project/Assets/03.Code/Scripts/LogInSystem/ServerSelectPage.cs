@@ -6,33 +6,32 @@ using UnityEngine.UI;
 
 public class ServerSelectPage : Page
 {
-	[SerializeField] private Button _hanyangButton;
-	[SerializeField] private Button _gaeseongButton;
-	[SerializeField] private string lobbySceneName;
+    [SerializeField] private Button _hanyangButton;
+    [SerializeField] private Button _gaeseongButton;
+    [SerializeField] private string lobbySceneName;
 
-	private void OnEnable()
-	{
+    private void OnEnable()
+    {
 
-		_hanyangButton.onClick.AddListener(() => SetServerName("Hanyang"));
-		_gaeseongButton.onClick.AddListener(() => SetServerName("Gaeseong"));
-	}
+        _hanyangButton.onClick.AddListener(() => SetServerName("Hanyang"));
+        _gaeseongButton.onClick.AddListener(() => SetServerName("Gaeseong"));
+    }
 
-	private void OnDisable()
-	{
-		_hanyangButton.onClick.RemoveAllListeners();
-		_gaeseongButton.onClick.RemoveAllListeners();
-	}
+    private void OnDisable()
+    {
+        _hanyangButton.onClick.RemoveAllListeners();
+        _gaeseongButton.onClick.RemoveAllListeners();
+    }
 
-	private async void SetServerName(string name)
-	{
-		if (await FirebaseManager.Instance.LogInManager.SetServerName(name))
-		{
-			Destroy(FirebaseManager.Instance.LogInManager.gameObject);
-			SceneManager.LoadScene(lobbySceneName);
-		}
-		else
-		{
+    private async void SetServerName(string name)
+    {
+        if (await GameManager.Instance.LogInManager.SetServerName(name))
+        {
+            SceneManager.LoadScene(lobbySceneName);
+        }
+        else
+        {
 
-		}
-	}
+        }
+    }
 }

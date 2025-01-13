@@ -9,191 +9,191 @@ using UnityEngine;
 
 public class LogInManager : MonoBehaviour
 {
-	private DatabaseReference _logInUserRef;
+    private DatabaseReference _logInUserRef;
 
-	//È¸¿ø°¡ÀÔ
-	public async Task<bool> Create(string email, string password)
-	{
-		try
-		{
-			AuthResult result = await FirebaseManager.Instance.Auth.CreateUserWithEmailAndPasswordAsync(email, password);
+    //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public async Task<bool> Create(string email, string password)
+    {
+        try
+        {
+            AuthResult result = await GameManager.Instance.FirebaseManager.Auth.CreateUserWithEmailAndPasswordAsync(email, password);
 
-			LogInUserData userData = new LogInUserData(result.User.UserId);
-			string json = JsonConvert.SerializeObject(userData);
+            LogInUserData userData = new LogInUserData(result.User.UserId);
+            string json = JsonConvert.SerializeObject(userData);
 
-			_logInUserRef = FirebaseManager.Instance.Database.GetReference("loginusers");
-			await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
-			return true;
-		}
-		catch (Exception e)
-		{
-			print($"°èÁ¤ »ý¼º ¿¡·¯ : {e.Message}");
+            _logInUserRef = GameManager.Instance.FirebaseManager.Database.GetReference("loginusers");
+            await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
+            return true;
+        }
+        catch (Exception e)
+        {
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	//·Î±×ÀÎ
-	public async Task<bool> SignIn(string email, string password)
-	{
-		try
-		{
-			AuthResult result = await FirebaseManager.Instance.Auth.SignInWithEmailAndPasswordAsync(email, password);
+    //ï¿½Î±ï¿½ï¿½ï¿½
+    public async Task<bool> SignIn(string email, string password)
+    {
+        try
+        {
+            AuthResult result = await GameManager.Instance.FirebaseManager.Auth.SignInWithEmailAndPasswordAsync(email, password);
 
-			string logInTime = DateTime.UtcNow.ToString("o");
+            string logInTime = DateTime.UtcNow.ToString("o");
 
-			_logInUserRef = FirebaseManager.Instance.Database.GetReference("loginusers");
+            _logInUserRef = GameManager.Instance.FirebaseManager.Database.GetReference("loginusers");
 
-			try
-			{
-				DataSnapshot snapshot = await _logInUserRef.Child(result.User.UserId).GetValueAsync();
-				LogInUserData userData;
-				if (snapshot.Exists)
-				{
-					userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-					userData.timestamp = logInTime;
-				}
-				else
-				{
-					userData = new LogInUserData(result.User.UserId, logInTime);
-				}
+            try
+            {
+                DataSnapshot snapshot = await _logInUserRef.Child(result.User.UserId).GetValueAsync();
+                LogInUserData userData;
+                if (snapshot.Exists)
+                {
+                    userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
+                    userData.timestamp = logInTime;
+                }
+                else
+                {
+                    userData = new LogInUserData(result.User.UserId, logInTime);
+                }
 
-				string json = JsonConvert.SerializeObject(userData);
-				await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
+                string json = JsonConvert.SerializeObject(userData);
+                await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
 
-				Debug.Log($"·Î±×ÀÎ ¼º°ø! ·Î±×ÀÎ ½Ã°£ ¾÷µ¥ÀÌÆ®: {logInTime}");
-				return true;
-			}
-			catch (Exception e)
-			{
-				print($"µ¥ÀÌÅÍ¸¦ °¡Á®¿Ã ¼ö ¾øÀ½ : {e.Message}");
+                Debug.Log($"ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®: {logInTime}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                print($"ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
 
-				//·Î±×ÀÎÀº ¼º°øÇß´Âµ¥ µ¥ÀÌÅÍ¸¦ ¸ø°¡Á® ¿ÔÀ¸´Ï ·Î±×¾Æ¿ôÀ¸·Î ·Î±×ÀÎ ¸øÇÏ°Ô ÇØ¾ß ÇÔ.
-				SignOut();
-				return false;
-			}
-		}
-		catch (Exception e)
-		{
-			print($"·Î±×ÀÎ ¿¡·¯ : {e.Message}");
+                //ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±×¾Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ø¾ï¿½ ï¿½ï¿½.
+                SignOut();
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            print($"ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	//·Î±×¾Æ¿ô
-	public void SignOut()
-	{
-		FirebaseManager.Instance.Auth.SignOut();
-	}
+    //ï¿½Î±×¾Æ¿ï¿½
+    public void SignOut()
+    {
+        GameManager.Instance.FirebaseManager.Auth.SignOut();
+    }
 
-	public async Task<bool> SetNicknameAndRace(string nickname, string race)
-	{
-		try
-		{
-			DataSnapshot snapshot = await _logInUserRef.Child($"{FirebaseManager.Instance.User.UserId}").GetValueAsync();
-			LogInUserData userData;
+    public async Task<bool> SetNicknameAndRace(string nickname, string race)
+    {
+        try
+        {
+            DataSnapshot snapshot = await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").GetValueAsync();
+            LogInUserData userData;
 
-			if (snapshot.Exists)
-			{
-				userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-				userData.nickname = nickname;
-				userData.race = race;
-				userData.setNicknameRace = true;
-			}
-			else
-			{
-				userData = new LogInUserData(FirebaseManager.Instance.User.UserId, nickname: nickname, race: race, setNicknameRace: true);
-			}
+            if (snapshot.Exists)
+            {
+                userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
+                userData.nickname = nickname;
+                userData.race = race;
+                userData.setNicknameRace = true;
+            }
+            else
+            {
+                userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, nickname: nickname, race: race, setNicknameRace: true);
+            }
 
-			string json = JsonConvert.SerializeObject(userData);
-			await _logInUserRef.Child($"{FirebaseManager.Instance.User.UserId}").SetRawJsonValueAsync(json);
-			return true;
-		}
-		catch (Exception e)
-		{
-			print(e.Message);
-			return false;
-		}
-	}
+            string json = JsonConvert.SerializeObject(userData);
+            await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").SetRawJsonValueAsync(json);
+            return true;
+        }
+        catch (Exception e)
+        {
+            print(e.Message);
+            return false;
+        }
+    }
 
-	public async Task<bool> SetServerName(string name)
-	{
-		try
-		{
-			DataSnapshot snapshot = await _logInUserRef.Child($"{FirebaseManager.Instance.User.UserId}").GetValueAsync();
-			LogInUserData userData;
+    public async Task<bool> SetServerName(string name)
+    {
+        try
+        {
+            DataSnapshot snapshot = await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").GetValueAsync();
+            LogInUserData userData;
 
-			if (snapshot.Exists)
-			{
-				userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-				userData.serverName = name;
-			}
-			else
-			{
-				userData = new LogInUserData(FirebaseManager.Instance.User.UserId, serverName: name);
-			}
+            if (snapshot.Exists)
+            {
+                userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
+                userData.serverName = name;
+            }
+            else
+            {
+                userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, serverName: name);
+            }
 
-			string json = JsonConvert.SerializeObject(userData);
-			await _logInUserRef.Child($"{FirebaseManager.Instance.User.UserId}").SetRawJsonValueAsync(json);
-			Debug.Log($"¼±ÅÃÇÑ ¼­¹ö! : {name}");
-			return true;
-		}
-		catch (Exception e)
-		{
-			print($"¼­¹ö¸¦ ¼±ÅÃÇÒ ¼ö ¾ø½À´Ï´Ù. : {e.Message}");
-			return false;
-		}
-	}
+            string json = JsonConvert.SerializeObject(userData);
+            await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").SetRawJsonValueAsync(json);
+            Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! : {name}");
+            return true;
+        }
+        catch (Exception e)
+        {
+            print($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. : {e.Message}");
+            return false;
+        }
+    }
 
-	public async Task<bool> DuplicateNicknameCheck(string nickname)
-	{
-		try
-		{
-			DataSnapshot snapshot = await _logInUserRef.GetValueAsync();
+    public async Task<bool> DuplicateNicknameCheck(string nickname)
+    {
+        try
+        {
+            DataSnapshot snapshot = await _logInUserRef.GetValueAsync();
 
-			if (snapshot.Exists)
-			{
-				foreach (DataSnapshot userSnapshot in snapshot.Children)
-				{
-					if (userSnapshot.HasChild("nickname"))
-					{
-						string userNickname = userSnapshot.Child("nickname").Value?.ToString();
-						if (userNickname.Equals(nickname))
-						{
-							return true;
-						}
-					}
-				}
-			}
-			return false;
-		}
-		catch (Exception e)
-		{
-			print($"{e.Message}");
-			return true;
-		}
-	}
+            if (snapshot.Exists)
+            {
+                foreach (DataSnapshot userSnapshot in snapshot.Children)
+                {
+                    if (userSnapshot.HasChild("nickname"))
+                    {
+                        string userNickname = userSnapshot.Child("nickname").Value?.ToString();
+                        if (userNickname.Equals(nickname))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            print($"{e.Message}");
+            return true;
+        }
+    }
 
-	public async Task<bool> ExistNicknameAndRace()
-	{
-		try
-		{
-			DataSnapshot snapshot = await _logInUserRef.Child(FirebaseManager.Instance.User.UserId).GetValueAsync();
-			if (snapshot.Exists)
-			{
-				if (snapshot.HasChild("setNicknameRace"))
-				{
-					bool value = (bool)snapshot.Child("setNicknameRace").Value;
-					return value;
-				}
-			}
-			return false;
-		}
-		catch (Exception e)
-		{
-			print(e.Message);
-			return false;
-		}
-	}
+    public async Task<bool> ExistNicknameAndRace()
+    {
+        try
+        {
+            DataSnapshot snapshot = await _logInUserRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
+            if (snapshot.Exists)
+            {
+                if (snapshot.HasChild("setNicknameRace"))
+                {
+                    bool value = (bool)snapshot.Child("setNicknameRace").Value;
+                    return value;
+                }
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            print(e.Message);
+            return false;
+        }
+    }
 }

@@ -21,13 +21,13 @@ public class LobbyManager : MonoBehaviour
 
     public async void Init()
     {
-        DataSnapshot data = await FirebaseManager.Instance.Database.GetReference(
-            $"loginusers/{FirebaseManager.Instance.Auth.CurrentUser.UserId}").GetValueAsync();
+        DataSnapshot data = await GameManager.Instance.FirebaseManager.Database.GetReference(
+            $"loginusers/{GameManager.Instance.FirebaseManager.Auth.CurrentUser.UserId}").GetValueAsync();
         logInUserData = JsonConvert.DeserializeObject<LogInUserData>(data.GetRawJsonValue());
         DependencyStatus status = await FirebaseApp.CheckAndFixDependenciesAsync();
         if (status == DependencyStatus.Available)
         {
-            _dbLobbyRef = FirebaseManager.Instance.Database.GetReference("lobby");
+            _dbLobbyRef = GameManager.Instance.FirebaseManager.Database.GetReference("lobby");
             //_dbLobbyRef = reference.Child("lobby");
             //_dbLobbyRef = reference;
         }
@@ -124,12 +124,12 @@ public class LobbyManager : MonoBehaviour
         userListRef.ChildRemoved -= OnChildRemoved;
         userListRef.Child(logInUserData.id).RemoveValueAsync();
     }
-    
+
     private void OnApplicationQuit()
     {
         OnQuit();
     }
-    
+
     private void OnChildRemoved(object sender, ChildChangedEventArgs e)
     {
         if (otherLobbyPlayerDic.ContainsKey(e.Snapshot.Key))
