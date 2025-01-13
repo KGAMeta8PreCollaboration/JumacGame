@@ -29,9 +29,9 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
     {
         try
         {
-            Auth = FirebaseManager.Instance.Auth;
-            Database = FirebaseManager.Instance.Database;
-            User = FirebaseManager.Instance.User;
+            Auth = GameManager.Instance.FirebaseManager.Auth;
+            Database = GameManager.Instance.FirebaseManager.Database;
+            User = GameManager.Instance.FirebaseManager.User;
 
             DatabaseReference logInUserData = Database.GetReference("loginusers");
             DataSnapshot logInUserSnapshot = await logInUserData.Child(User.UserId).GetValueAsync();
@@ -48,19 +48,19 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
                     serverName = _logInUserData.serverName,
                     timestamp = _logInUserData.timestamp
                 };
-                //Á¤º¸°¡ ´õ ÇÊ¿äÇÏ¸é ¿©±â¿¡¼­ Ãß°¡ÇÏ¸é µË´Ï´Ù.
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½Ë´Ï´ï¿½.
             }
             else
             {
-                Debug.LogWarning("·Î±×ÀÎµÈ À¯Àú µ¥ÀÌÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogWarning("ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             }
 
-            print($"ÇöÀç À¯ÀúÀÇ ÀÌ¸§ : {chatUserData.nickname}");
-            print($"ÇöÀç À¯ÀúÀÇ UID : {chatUserData.id}");
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : {chatUserData.nickname}");
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UID : {chatUserData.id}");
         }
         catch (Exception e)
         {
-            Debug.LogError($"Firebase¿¬°áÀÌ ¾ÈµÊ : {e.Message}");
+            Debug.LogError($"Firebaseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½ : {e.Message}");
         }
     }
 
@@ -71,16 +71,16 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
             _dbChatRef = Database.GetReference(messageData.SenderServer).Child("chats");
             string key = _dbChatRef.Push().Key;
 
-            print($"ÇöÀç º¸³½ »ç¶÷ : {messageData.SenderId}");
-            print($"¼­¹ö : {messageData.SenderServer}");
-            print($"º¸³½ ³»¿ë : {messageData.Content}");
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : {messageData.SenderId}");
+            print($"ï¿½ï¿½ï¿½ï¿½ : {messageData.SenderServer}");
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {messageData.Content}");
 
             string messageJson = JsonConvert.SerializeObject(messageData);
             await _dbChatRef.Child(key).SetRawJsonValueAsync(messageJson);
         }
         catch (Exception e)
         {
-            Debug.LogError($"¸Þ½ÃÁö Àü¼Û ½ÇÆÐ: {e.Message}");
+            Debug.LogError($"ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {e.Message}");
         }
     }
 
@@ -90,7 +90,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
         {
             _dbChatRef = Database.GetReference(chatUserData.serverName).Child("chats");
 
-            //±âÁ¸¿¡ ³²¾ÆÀÖÀ» ¼ö ÀÖ´Â ÀÌº¥Æ® Á¦°Å
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             if (_childAddedHandler != null)
             {
                 _dbChatRef.ChildAdded -= _childAddedHandler;
@@ -105,8 +105,8 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
                         string json = args.Snapshot.GetRawJsonValue();
                         MessageData newMessage = JsonConvert.DeserializeObject<MessageData>(json);
 
-                        print($"¸Þ½ÃÁö º¸³½ »ç¶÷ : {newMessage.SenderId}");
-                        print($"¸Þ½ÃÁö ³»¿ë : {newMessage.Content}");
+                        print($"ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : {newMessage.SenderId}");
+                        print($"ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {newMessage.Content}");
 
                         callback?.Invoke(newMessage);
                     }
@@ -118,7 +118,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
         }
         catch (Exception e)
         {
-            Debug.LogError($"¸Þ½ÃÁö ¼ö½Å ¿À·ù: {e.Message}");
+            Debug.LogError($"ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {e.Message}");
         }
     }
 
@@ -129,8 +129,8 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
             _dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
             string roomKey = _dbRoomRef.Push().Key;
 
-            print($"¹æ ¸¸µç»ç¶÷ ¼­¹ö : {chatUserData.serverName}");
-            print($"¸¸µç ¹æ ÀÌ¸§ : {roomData.roomName}");
+            print($"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {chatUserData.serverName}");
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¸ï¿½ : {roomData.roomName}");
 
             RoomData newRoom = new RoomData(
                 roomKey,
@@ -141,11 +141,11 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
             string roomJson = JsonConvert.SerializeObject(newRoom);
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
 
-            print($"¹æ ¸¸µé±â ¿Ï·á : {roomKey}");
+            print($"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ : {roomKey}");
         }
         catch (Exception e)
         {
-            Debug.LogError($"¹æ µ¥ÀÌÅÍ ¸¸µé±â ½ÇÆÐ : {e.Message}");
+            Debug.LogError($"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
         }
     }
 
@@ -160,7 +160,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
         }
         catch (Exception e)
         {
-            Debug.LogError($"¹æ »èÁ¦ Áß ¿À·ù ¹ß»ý : {e}");
+            Debug.LogError($"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : {e}");
         }
     }
 
@@ -175,7 +175,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
 
             if (!roomSnapshot.Exists)
             {
-                Debug.Log("¹æÀÌ ¾ø½À´Ï´Ù");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½");
                 return waitingRoomList;
             }
 
@@ -194,7 +194,7 @@ public class ChatFirebaseManager : Singleton<ChatFirebaseManager>
         }
         catch (Exception e)
         {
-            print($"¹æ Ã£±â ¿À·ù : {e.Message}");
+            print($"ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
             return null;
         }
     }
