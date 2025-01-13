@@ -8,14 +8,19 @@ public class PopupManager : Singleton<PopupManager>
     [Header("안이 비어있다면 Reset을 눌러주세용")]
     [SerializeField] private List<Popup> _popups = new List<Popup>();
 
+    private Transform _canvasPos;
     private Transform _openPoupsPos;
     private Transform _popupsPos;
     private Stack<Popup> _openPopups = new Stack<Popup>();
 
     private void Start()
     {
-        _openPoupsPos = GameObject.Find("OpenPopups").transform;
-        _popupsPos = GameObject.Find("Canvas/Popups").transform;
+        _canvasPos = GameObject.Find("Canvas").transform;
+
+        _openPoupsPos = new GameObject("OpenPopups").transform;
+        _openPoupsPos.transform.SetParent(_canvasPos);
+
+        _popupsPos = _canvasPos.Find("Popups");
         foreach (Popup popup in _popups)
         {
             popup.gameObject.SetActive(false);
@@ -42,8 +47,9 @@ public class PopupManager : Singleton<PopupManager>
         foreach (Popup popup in _popups)
         {
             if (popup.name.Equals(name))
-                @return.transform.SetParent(_openPoupsPos);
             {
+                @return = popup;
+                @return.transform.SetParent(_openPoupsPos);
                 popup.gameObject.SetActive(true);
                 @return = popup;
                 _openPopups.Push(@return);
