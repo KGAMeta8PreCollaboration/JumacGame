@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,8 @@ public class InteractionInfoPopup : Popup
 {
     [SerializeField] private Button _startButton;
     [SerializeField] private SentenceData _sentenceDataPrefab;
-    public string nextScene;
     public string titleMessage;
+    public Action onStartButtonClick;
     [SerializeField] private List<string> _sentenceList = new List<string>(6);
 
     private Text _title;
@@ -36,7 +37,7 @@ public class InteractionInfoPopup : Popup
 
     private void StartButtonClick()
     {
-        SceneManager.LoadScene(nextScene);
+        onStartButtonClick?.Invoke();
     }
 
     private void OnDestroy()

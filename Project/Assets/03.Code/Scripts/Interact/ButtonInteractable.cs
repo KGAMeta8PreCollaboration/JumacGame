@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ButtonInteractable : MonoBehaviour, IInteractable
+public abstract class ButtonInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private Button _interactionButtonPrefab;
-    public string nextPopup;
 
     public void Interact(Interactor interactor)
     {
@@ -17,8 +16,5 @@ public class ButtonInteractable : MonoBehaviour, IInteractable
         interactor.interactAction = () => Destroy(interactButton.gameObject);
     }
 
-    private void InteractionButtonClick()
-    {
-        PopupManager.Instance.PopupOpen(nextPopup);
-    }
+    protected abstract void InteractionButtonClick();
 }

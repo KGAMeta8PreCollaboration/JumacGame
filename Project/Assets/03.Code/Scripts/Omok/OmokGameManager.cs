@@ -21,9 +21,9 @@ public class OmokGameManager : Singleton<OmokGameManager>
     {
         try
         {
-            Auth = FirebaseManager.Instance.Auth;
-            Database = FirebaseManager.Instance.Database;
-            User = FirebaseManager.Instance.User;
+            Auth = GameManager.Instance.FirebaseManager.Auth;
+            Database = GameManager.Instance.FirebaseManager.Database;
+            User = GameManager.Instance.FirebaseManager.User;
 
             string currentUserId = Auth.CurrentUser.UserId;
             print($"현재 유저의 Id : {currentUserId}");

@@ -6,23 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/04.Level/Scenes/SEO.unity
-    guid: 2384737f676e6f24d83e1acb3d92751a
+    path: Assets/04.Level/Scenes/YOOLogin.unity
+    guid: cca17899d2bfc7d45b0f527656ec339c
   - enabled: 1
-    path: Assets/04.Level/Scenes/SEOLobbyTest.unity
-    guid: 7b8623e78b624e646bf90c5d24edd6ec
-  - enabled: 1
-    path: Assets/04.Level/Scenes/YOO.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/04.Level/Scenes/LoginScene.unity
-    guid: 4866e15bb318fba4b88840bce7be76ca
-  - enabled: 1
-    path: Assets/04.Level/Scenes/LobbyScene.unity
-    guid: 344288950e978b24a9af735a9639e2da
-  - enabled: 1
-    path: Assets/04.Level/Scenes/OmokScene.unity
-    guid: 327f9bc4817ae7f44aa1692a94560d2d
+    path: Assets/04.Level/Scenes/YOOLobby.unity
+    guid: 5caca0ce6b0ea47439b77a28cf0edfc3
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f294eccd2f1be704c9cdb7f82137f183, type: 2}
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 778598d0afc61114cb87bec2b3fc0105, type: 3}

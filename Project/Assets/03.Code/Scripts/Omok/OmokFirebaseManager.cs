@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
-public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°¡ µÇ´Â SingletonÀ¸·Î º¯°æÇÏ¸é ÁÁÀ» µí ÇÏ´Ù.
+public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ Singletonï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï´ï¿½.
 {
     public FirebaseAuth Auth { get; private set; }
     public FirebaseDatabase Database { get; private set; }
@@ -37,38 +37,38 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
     {
         try
         {
-            Auth = FirebaseManager.Instance.Auth;
-            Database = FirebaseManager.Instance.Database;
-            User = FirebaseManager.Instance.User;
+            Auth = GameManager.Instance.FirebaseManager.Auth;
+            Database = GameManager.Instance.FirebaseManager.Database;
+            User = GameManager.Instance.FirebaseManager.User;
 
             string roomDataJson = PlayerPrefs.GetString("CurrentRoomData", string.Empty);
 
             if (!string.IsNullOrEmpty(roomDataJson))
             {
-                //MonitorRoomState¿¡¼­ ¹Þ¾Æ¿Â Á¤º¸
+                //MonitorRoomStateï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½
                 _currentRoomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
                 _dbRoomRef = Database.GetReference(_currentRoomData.serverName)
                     .Child("rooms")
                     .Child(_currentRoomData.roomKey);
 
-                //±× Á¤º¸¸¦ host¿Í guestÀÇ OmokUserData·Î Ä¡È¯
+                //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ hostï¿½ï¿½ guestï¿½ï¿½ OmokUserDataï¿½ï¿½ Ä¡È¯
                 hostData = new OmokUserData(_currentRoomData.host);
                 guestData = new OmokUserData(_currentRoomData.guest);
                 hostData = await SetUserData(hostData);
                 guestData = await SetUserData(guestData);
 
             }
-            OmokGameManager.Instance.SetUsers(); //-> ³ªÁß¿¡ ±×³É UI·Î ¹Ù·Î ³Ñ°Üµµ µÉ µí ÇÔ
+            OmokGameManager.Instance.SetUsers(); //-> ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½×³ï¿½ UIï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½Ñ°Üµï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
 
             MonitorTurnList();
         }
         catch (Exception e)
         {
-            Debug.LogError($"Firebase¿¬°áÀÌ ¾ÈµÊ : {e.Message}");
+            Debug.LogError($"Firebaseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½ : {e.Message}");
         }
     }
 
-    //id¸¦ ÅëÇØ OmokUserData¸¦ ¸¸µå´Â ÇÔ¼ö
+    //idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ OmokUserDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     private async Task<OmokUserData> SetUserData(OmokUserData userData)
     {
         try
@@ -80,7 +80,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
             {
                 string logInUserJson = logInUserSnapshot.GetRawJsonValue();
                 LogInUserData _longInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
-                print($"OmokFirebase¿¡¼­ È£Ãâ ÇöÀç ·Î±×ÀÎµÈ À¯ÀúÀÇ ÀÌ¸§ : {_longInUserData.nickname}");
+                print($"OmokFirebaseï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : {_longInUserData.nickname}");
 
                 OmokUserData _userData = new OmokUserData
                 (
@@ -93,21 +93,21 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
             }
             else
             {
-                Debug.LogError($"À¯Àú µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ½");
+                Debug.LogError($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return null;
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"À¯Àú µ¥ÀÌÅÍ ¼¼ÆÃ ½ÇÆÐ : {e.Message}");
+            Debug.LogError($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
             return null;
         }
     }
 
     private void Test()
     {
-        print($"È£½ºÆ® Á¤º¸ id : {hostData.id}, Name : {hostData.nickname}, gold : {hostData.gold}");
-        print($"°Ô½ºÆ® Á¤º¸ id : {guestData.id}, Name : {guestData.nickname}, gold : {guestData.gold}");
+        print($"È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ id : {hostData.id}, Name : {hostData.nickname}, gold : {hostData.gold}");
+        print($"ï¿½Ô½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ id : {guestData.id}, Name : {guestData.nickname}, gold : {guestData.gold}");
     }
 
     private void MonitorTurnList()
@@ -128,7 +128,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
 
             if(newTurn != null)
             {
-                Debug.Log($"»õÅÏ : isHostTurn : {newTurn.isHostTurn}, coodinate = {newTurn.coodinate}");
+                Debug.Log($"ï¿½ï¿½ï¿½ï¿½ : isHostTurn : {newTurn.isHostTurn}, coodinate = {newTurn.coodinate}");
 
                 string[] split = newTurn.coodinate.Split(",");
                 int x = int.Parse(split[0]);
@@ -144,7 +144,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
         }
         catch(Exception e)
         {
-            Debug.LogError($"ÅÏ Å×ÀÌ´õ ÆÄ½Ì ¿À·ù : {e.Message}");
+            Debug.LogError($"ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ä½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {e.Message}");
         }
     }
 
@@ -163,12 +163,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
 
         if (_currentRoomData.isHostTurn && !amIHost)
         {
-            Debug.Log("È£½ºÆ® ÅÏÀÎµ¥, ³ª´Â °Ô½ºÆ®! ¾ÆÁ÷ ³» Â÷·Ê°¡ ¾Æ´Ô.");
+            Debug.Log("È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Îµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½Æ®! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ê°ï¿½ ï¿½Æ´ï¿½.");
             return;
         }
         if (!_currentRoomData.isHostTurn && amIHost)
         {
-            Debug.Log("°Ô½ºÆ® ÅÏÀÎµ¥, ³ª´Â È£½ºÆ®! ¾ÆÁ÷ ³» Â÷·Ê°¡ ¾Æ´Ô.");
+            Debug.Log("ï¿½Ô½ï¿½Æ® ï¿½ï¿½ï¿½Îµï¿½, ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Æ®! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ê°ï¿½ ï¿½Æ´ï¿½.");
             return;
         }
 
@@ -189,6 +189,6 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //³ªÁß¿¡ ÆÄ±«°
         string newTurnKey = turnListRef.Push().Key;
         await turnListRef.Child(newTurnKey).SetRawJsonValueAsync(turnJson);
 
-        Debug.Log($"Firebase {turn.coodinate}¿¡ ¾÷·Îµå ¿Ï·á");
+        Debug.Log($"Firebase {turn.coodinate}ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½Ï·ï¿½");
     }
 }

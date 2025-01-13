@@ -34,16 +34,16 @@ public class LobbyPlayer : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        _navMeshAgent.SetDestination(pos);
+        _navMeshAgent?.SetDestination(pos);
         // position = pos;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         print($"UID : {UID}" +
-            $"UID : {UID} : {FirebaseManager.Instance.User.UserId}");
+            $"UID : {UID} : {GameManager.Instance.FirebaseManager.User.UserId}");
 
-        if (UID != FirebaseManager.Instance.User.UserId)
+        if (UID != GameManager.Instance.FirebaseManager.User.UserId)
             return;
         if (!context.performed)
         {
@@ -54,12 +54,4 @@ public class LobbyPlayer : MonoBehaviour
         Vector2 move = context.ReadValue<Vector2>();
         dir = new Vector3(move.x, 0, move.y);
     }
-
-
-    private void Update()
-    {
-        if (!_navMeshAgent)
-            position += dir * speed * Time.deltaTime;
-    }
-
 }
