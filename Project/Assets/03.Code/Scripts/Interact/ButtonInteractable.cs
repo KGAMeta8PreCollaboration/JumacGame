@@ -13,7 +13,7 @@ public abstract class ButtonInteractable : MonoBehaviour, IInteractable
         Button interactButton = Instantiate<Button>(_interactionButtonPrefab, interactor.interactView);
         interactButton.onClick.AddListener(InteractionButtonClick);
 
-        interactor.interactAction = () => Destroy(interactButton.gameObject);
+        interactor.onExitAction = () => Destroy(interactButton.gameObject);
     }
 
     protected abstract void InteractionButtonClick();

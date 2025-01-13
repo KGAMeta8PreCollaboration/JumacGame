@@ -9,9 +9,8 @@ using UnityEngine;
 
 public class LogInManager : MonoBehaviour
 {
-    private DatabaseReference _logInUserRef;
+    private DatabaseReference _logInUsersRef;
 
-    //ȸ������
     public async Task<bool> Create(string email, string password)
     {
         try
@@ -21,8 +20,8 @@ public class LogInManager : MonoBehaviour
             LogInUserData userData = new LogInUserData(result.User.UserId);
             string json = JsonConvert.SerializeObject(userData);
 
-            _logInUserRef = GameManager.Instance.FirebaseManager.Database.GetReference("loginusers");
-            await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
+            _logInUsersRef = GameManager.Instance.FirebaseManager.LogInUsersRef;
+            await _logInUsersRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
             return true;
         }
         catch (Exception e)
@@ -33,7 +32,6 @@ public class LogInManager : MonoBehaviour
         }
     }
 
-    //�α���
     public async Task<bool> SignIn(string email, string password)
     {
         try
@@ -42,11 +40,11 @@ public class LogInManager : MonoBehaviour
 
             string logInTime = DateTime.UtcNow.ToString("o");
 
-            _logInUserRef = GameManager.Instance.FirebaseManager.Database.GetReference("loginusers");
+            _logInUsersRef = GameManager.Instance.FirebaseManager.LogInUsersRef;
 
             try
             {
-                DataSnapshot snapshot = await _logInUserRef.Child(result.User.UserId).GetValueAsync();
+                DataSnapshot snapshot = await _logInUsersRef.Child(result.User.UserId).GetValueAsync();
                 LogInUserData userData;
                 if (snapshot.Exists)
                 {
@@ -59,7 +57,7 @@ public class LogInManager : MonoBehaviour
                 }
 
                 string json = JsonConvert.SerializeObject(userData);
-                await _logInUserRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
+                await _logInUsersRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
 
                 Debug.Log($"�α��� ����! �α��� �ð� ������Ʈ: {logInTime}");
                 return true;
@@ -68,7 +66,6 @@ public class LogInManager : MonoBehaviour
             {
                 print($"�����͸� ������ �� ���� : {e.Message}");
 
-                //�α����� �����ߴµ� �����͸� ������ ������ �α׾ƿ����� �α��� ���ϰ� �ؾ� ��.
                 SignOut();
                 return false;
             }
@@ -81,7 +78,6 @@ public class LogInManager : MonoBehaviour
         }
     }
 
-    //�α׾ƿ�
     public void SignOut()
     {
         GameManager.Instance.FirebaseManager.Auth.SignOut();
@@ -91,7 +87,7 @@ public class LogInManager : MonoBehaviour
     {
         try
         {
-            DataSnapshot snapshot = await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").GetValueAsync();
+            DataSnapshot snapshot = await _logInUsersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").GetValueAsync();
             LogInUserData userData;
 
             if (snapshot.Exists)
@@ -107,7 +103,7 @@ public class LogInManager : MonoBehaviour
             }
 
             string json = JsonConvert.SerializeObject(userData);
-            await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").SetRawJsonValueAsync(json);
+            await _logInUsersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").SetRawJsonValueAsync(json);
             return true;
         }
         catch (Exception e)
@@ -121,7 +117,7 @@ public class LogInManager : MonoBehaviour
     {
         try
         {
-            DataSnapshot snapshot = await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").GetValueAsync();
+            DataSnapshot snapshot = await _logInUsersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").GetValueAsync();
             LogInUserData userData;
 
             if (snapshot.Exists)
@@ -135,7 +131,7 @@ public class LogInManager : MonoBehaviour
             }
 
             string json = JsonConvert.SerializeObject(userData);
-            await _logInUserRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").SetRawJsonValueAsync(json);
+            await _logInUsersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}").SetRawJsonValueAsync(json);
             Debug.Log($"������ ����! : {name}");
             return true;
         }
@@ -150,7 +146,7 @@ public class LogInManager : MonoBehaviour
     {
         try
         {
-            DataSnapshot snapshot = await _logInUserRef.GetValueAsync();
+            DataSnapshot snapshot = await _logInUsersRef.GetValueAsync();
 
             if (snapshot.Exists)
             {
@@ -179,7 +175,7 @@ public class LogInManager : MonoBehaviour
     {
         try
         {
-            DataSnapshot snapshot = await _logInUserRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
+            DataSnapshot snapshot = await _logInUsersRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
             if (snapshot.Exists)
             {
                 if (snapshot.HasChild("setNicknameRace"))

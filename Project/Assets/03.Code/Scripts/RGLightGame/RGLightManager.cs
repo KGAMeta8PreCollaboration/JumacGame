@@ -5,60 +5,61 @@ using UnityEngine.SceneManagement;
 
 namespace Minigame.RGLight
 {
-	public class RGLightManager : MonoBehaviour
-	{
-		public float introTime;
-		[SerializeField] private GameObject _introPanel;
-		[SerializeField] private Minigame.RGLight.Player _playerPrefab;
-		[SerializeField] private Transform _startPoint;
+    public class RGLightManager : MonoBehaviour
+    {
+        public float introTime;
+        public string nextScene;
+        [SerializeField] private GameObject _introPanel;
+        [SerializeField] private Minigame.RGLight.Player _playerPrefab;
+        [SerializeField] private Transform _startPoint;
 
 
 
-		private void Awake()
-		{
-			StartCoroutine(IntroCoroutine());
-		}
+        private void Awake()
+        {
+            StartCoroutine(IntroCoroutine());
+        }
 
-		private void Start()
-		{
-			Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
-			player.Init(this);
-		}
+        private void Start()
+        {
+            Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
+            player.Init(this);
+        }
 
 
 
-		private IEnumerator IntroCoroutine()
-		{
-			_introPanel.SetActive(true);
-			yield return new WaitForSeconds(introTime);
-			_introPanel.SetActive(false);
-		}
+        private IEnumerator IntroCoroutine()
+        {
+            _introPanel.SetActive(true);
+            yield return new WaitForSeconds(introTime);
+            _introPanel.SetActive(false);
+        }
 
-		private void EndGame()
-		{
-			SceneManager.LoadScene("SEOLobbyTest");
-		}
+        private void EndGame()
+        {
+            SceneManager.LoadScene(nextScene);
+        }
 
-		public void GameResult(bool isSuccess)
-		{
-			if (isSuccess)
-			{
-				OnSuccess();
-			}
-			else
-			{
-				OnDefeat();
-			}
-		}
+        public void GameResult(bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                OnSuccess();
+            }
+            else
+            {
+                OnDefeat();
+            }
+        }
 
-		private void OnSuccess()
-		{
-			PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("º∫∞¯", "ƒ¡∆Æ∑—¿Ã ªÏæ∆¿÷≥Î", EndGame);
-		}
+        private void OnSuccess()
+        {
+            PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("ÏÑ±Í≥µ", "Ïª®Ìä∏Î°§Ïù¥ Ï¢ãÎÖ∏", EndGame);
+        }
 
-		private void OnDefeat()
-		{
-			PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("Ω«∆–", "ƒ¡∆Æ∑—¿Ã ∫Œ¡∑«œ≥Î", EndGame);
-		}
-	}
+        private void OnDefeat()
+        {
+            PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("Ïã§Ìå®", "Ïª®Ìä∏Î°§Ïù¥ ÏïàÏ¢ãÎÖ∏", EndGame);
+        }
+    }
 }
