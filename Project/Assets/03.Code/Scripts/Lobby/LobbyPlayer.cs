@@ -40,7 +40,10 @@ public class LobbyPlayer : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (UID != FirebaseManager.Instance.User.UserId)
+        print($"UID : {UID}" +
+            $"UID : {UID} : {GameManager.Instance.FirebaseManager.User.UserId}");
+
+        if (UID != GameManager.Instance.FirebaseManager.User.UserId)
             return;
         if (!context.performed)
         {

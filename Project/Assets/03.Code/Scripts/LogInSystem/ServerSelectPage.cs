@@ -12,7 +12,7 @@ public class ServerSelectPage : Page
 
     private void OnEnable()
     {
-        
+
         _hanyangButton.onClick.AddListener(() => SetServerName("Hanyang"));
         _gaeseongButton.onClick.AddListener(() => SetServerName("Gaeseong"));
     }
@@ -25,7 +25,7 @@ public class ServerSelectPage : Page
 
     private async void SetServerName(string name)
     {
-        if (await FirebaseManager.Instance.SetServerName(name))
+        if (await GameManager.Instance.LogInManager.SetServerName(name))
         {
             SceneManager.LoadScene(lobbySceneName);
         }

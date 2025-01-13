@@ -11,7 +11,7 @@ public class NicknameSelectPopup : InputFieldPopup
 
     public async void DuplicateCheck(string nickname)
     {
-        if (await FirebaseManager.Instance.DuplicateNicknameCheck(nickname) == false && nickname.Length >= 2)
+        if (await GameManager.Instance.LogInManager.DuplicateNicknameCheck(nickname) == false && nickname.Length >= 2)
         {
             NicknameRaceData data = new NicknameRaceData(nickname);
             PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("알림", "사용 가능한 닉네임입니다.", () => NicknameTransfer(data));
