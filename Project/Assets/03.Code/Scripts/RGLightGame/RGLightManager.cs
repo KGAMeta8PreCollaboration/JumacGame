@@ -17,7 +17,8 @@ namespace Minigame.RGLight
         [SerializeField] private Transform _startPoint;
         public int defaultMoney;
 
-
+        public float startTime;
+        public float endTime;
 
         private void Awake()
         {
@@ -28,6 +29,12 @@ namespace Minigame.RGLight
         {
             Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
             player.Init(this);
+            startTime = Time.time;
+        }
+
+        private void Update()
+        {
+            endTime = Time.time;
         }
 
 
@@ -59,13 +66,13 @@ namespace Minigame.RGLight
         private void OnSuccess()
         {
             SetMoney(defaultMoney);
-            PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("성공", "컨트롤이 좋노", EndGame);
+            PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", $"{endTime - startTime}", defaultMoney, EndGame);
         }
 
         private void OnDefeat()
         {
             SetMoney(defaultMoney);
-            PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("실패", "컨트롤이 안좋노", EndGame);
+            PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", $"{endTime - startTime}", defaultMoney, EndGame);
         }
 
         private async void SetMoney(int value)
