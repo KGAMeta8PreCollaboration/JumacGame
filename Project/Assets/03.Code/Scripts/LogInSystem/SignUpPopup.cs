@@ -18,7 +18,7 @@ public class SignUpPopup : Popup
 
     public async void Create()
     {
-        if (await FirebaseManager.Instance.Create(_emailIF.text, _passwordIF.text))
+        if (await GameManager.Instance.LogInManager.Create(_emailIF.text, _passwordIF.text))
         {
             PopupManager.Instance.PopupClose();
             PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("알림", "계정 생성 완료");
