@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PopupManager : Singleton<PopupManager>
 {
+    [Header("안이 비어있다면 Reset을 눌러주세용")]
     [SerializeField] private List<Popup> popups = new List<Popup>();
 
     private Stack<Popup> openPopups = new Stack<Popup>();
@@ -51,6 +52,15 @@ public class PopupManager : Singleton<PopupManager>
         {
             Popup targetPopup = openPopups.Pop();
             targetPopup.gameObject.SetActive(false);
+        }
+    }
+
+    private void Reset()
+    {
+        Popup[] foundPopups = GameObject.FindObjectsOfType<Popup>();
+        foreach (Popup popup in foundPopups)
+        {
+            popups.Add(popup);
         }
     }
 
