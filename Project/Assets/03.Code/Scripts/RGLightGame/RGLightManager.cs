@@ -20,6 +20,7 @@ namespace Minigame.RGLight
 		[SerializeField] private Transform _startPoint;
 		public int defaultMoney;
 
+		public bool IsEndGame { get; private set; }
 		public float startTime;
 		public float endTime;
 
@@ -34,21 +35,23 @@ namespace Minigame.RGLight
 		{
 			Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
 			player.Init(this);
-			startTime = Time.time;
 		}
-
-		private void Update()
-		{
-			endTime = Time.time;
-		}
-
-
 
 		private IEnumerator IntroCoroutine()
 		{
 			_introPanel.SetActive(true);
 			yield return new WaitForSeconds(introTime);
 			_introPanel.SetActive(false);
+		}
+
+		public IEnumerator TimeCheckCoroutine()
+		{
+			startTime = Time.time;
+			while (!IsEndGame)
+			{
+				endTime = Time.time;
+				yield return null;
+			}
 		}
 
 		private void EndGame()
@@ -58,6 +61,7 @@ namespace Minigame.RGLight
 
 		public void GameResult(bool isSuccess)
 		{
+			IsEndGame = true;
 			if (isSuccess)
 			{
 				OnSuccess();
