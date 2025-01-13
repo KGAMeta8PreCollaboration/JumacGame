@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introTime: 4
+  nextScene: SEOLobbyTest
   _introPanel: {fileID: 705205361}
   _playerPrefab: {fileID: 7503567453162253920, guid: 0fdc08f3ce733af40920db4b02adbc86, type: 3}
   _startPoint: {fileID: 1295364047}
@@ -659,7 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c18c97fa3ca9f49a8f7621ffb06e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popups:
+  _popups:
   - {fileID: 975570152}
 --- !u!1 &524249408
 GameObject:
