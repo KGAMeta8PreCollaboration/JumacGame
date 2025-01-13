@@ -29,7 +29,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private async void Start()
@@ -42,7 +42,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
             DatabaseReference logInUserData = Database.GetReference("loginusers");
             DataSnapshot logInUserSnapshot = await logInUserData.Child(User.UserId).GetValueAsync();
-
+            
             if (logInUserSnapshot.Exists)
             {
                 string logInUserJson = logInUserSnapshot.GetRawJsonValue();
@@ -55,7 +55,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                     serverName = _logInUserData.serverName,
                     timestamp = _logInUserData.timestamp
                 };
-                //정보가 더 필요하면 여기에서 추가하면 됩니다.
             }
             else
             {
@@ -143,6 +142,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             RoomData newRoom = new RoomData(
                 roomKey,
                 roomData.roomName,
+                chatUserData.serverName,
                 chatUserData.id
                 );
 
@@ -243,15 +243,17 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         _dbRoomRef = Database.GetReference(chatUserData.serverName)
             .Child($"rooms")
-            .Child(roomData.roomKey);
+            .Child(roomData.roomKey)
+            .Child("state");
 
         _dbRoomRef.ValueChanged += (sender, args) =>
         {
             if (args.Snapshot.Exists)
             {
-                string stateValue = args.Snapshot.Child("state").Value.ToString();
+                string stateValue = args.Snapshot.Value.ToString();
                 print($"바뀌기 전 방의 상태 : {stateValue}");
 
+                //방 상태가 바뀔때만 들어옴
                 if (!string.IsNullOrEmpty(stateValue))
                 {
                     RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
