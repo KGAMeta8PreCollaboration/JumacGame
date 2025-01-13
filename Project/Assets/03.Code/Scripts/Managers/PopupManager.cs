@@ -9,13 +9,13 @@ public class PopupManager : Singleton<PopupManager>
     [SerializeField] private List<Popup> _popups = new List<Popup>();
 
     private Transform _openPoupsPos;
-    private Transform _canvas;
+    private Transform _popupsPos;
     private Stack<Popup> _openPopups = new Stack<Popup>();
 
     private void Start()
     {
         _openPoupsPos = GameObject.Find("OpenPopups").transform;
-        _canvas = GameObject.Find("Canvas").transform;
+        _popupsPos = GameObject.Find("Canvas/Popups").transform;
         foreach (Popup popup in _popups)
         {
             popup.gameObject.SetActive(false);
@@ -57,7 +57,7 @@ public class PopupManager : Singleton<PopupManager>
         if (_openPopups.Count > 0)
         {
             Popup targetPopup = _openPopups.Pop();
-            targetPopup.transform.SetParent(_canvas);
+            targetPopup.transform.SetParent(_popupsPos);
             targetPopup.gameObject.SetActive(false);
         }
     }
