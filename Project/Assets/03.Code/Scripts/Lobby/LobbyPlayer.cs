@@ -54,12 +54,4 @@ public class LobbyPlayer : MonoBehaviour
         Vector2 move = context.ReadValue<Vector2>();
         dir = new Vector3(move.x, 0, move.y);
     }
-
-
-    private void Update()
-    {
-        if (!_navMeshAgent)
-            position += dir * speed * Time.deltaTime;
-    }
-
 }

@@ -623,6 +623,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1643728820386274325, guid: 3effef0fefb972e42931c05ace14273e, type: 3}
+      propertyPath: lobbySceneName
+      value: YOO
+      objectReference: {fileID: 0}
     - target: {fileID: 3915098424142188438, guid: 3effef0fefb972e42931c05ace14273e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
