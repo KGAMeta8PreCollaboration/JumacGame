@@ -846,6 +846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: RGLightGame
 --- !u!1 &1899168203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c18c97fa3ca9f49a8f7621ffb06e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popups:
+  _popups:
   - {fileID: 7881980036173277570}
 --- !u!114 &3158076747182808904
 MonoBehaviour:

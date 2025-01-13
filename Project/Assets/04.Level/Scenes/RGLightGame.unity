@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c18c97fa3ca9f49a8f7621ffb06e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popups:
+  _popups:
   - {fileID: 975570152}
 --- !u!1 &524249408
 GameObject:

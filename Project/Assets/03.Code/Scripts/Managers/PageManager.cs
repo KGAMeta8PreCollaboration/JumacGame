@@ -5,7 +5,7 @@ using UnityEngine;
 public class PageManager : Singleton<PageManager>
 {
     [Header("안이 비어있다면 Reset을 눌러주세용")]
-    [SerializeField] private List<Page> pages = new List<Page>();
+    [SerializeField] private List<Page> _pages = new List<Page>();
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class PageManager : Singleton<PageManager>
     public T PageOpen<T>() where T : Page
     {
         T @return = null;
-        foreach (Page page in pages)
+        foreach (Page page in _pages)
         {
             bool isActive = page is T;
             page.gameObject.SetActive(isActive);
@@ -29,7 +29,7 @@ public class PageManager : Singleton<PageManager>
         Page[] foundPages = GameObject.FindObjectsOfType<Page>();
         foreach (Page page in foundPages)
         {
-            pages.Add(page);
+            _pages.Add(page);
         }
     }
 }

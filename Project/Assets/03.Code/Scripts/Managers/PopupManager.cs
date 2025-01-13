@@ -6,13 +6,17 @@ using UnityEngine;
 public class PopupManager : Singleton<PopupManager>
 {
     [Header("안이 비어있다면 Reset을 눌러주세용")]
-    [SerializeField] private List<Popup> popups = new List<Popup>();
+    [SerializeField] private List<Popup> _popups = new List<Popup>();
 
-    private Stack<Popup> openPopups = new Stack<Popup>();
+    private Transform _openPoupsPos;
+    private Transform _canvas;
+    private Stack<Popup> _openPopups = new Stack<Popup>();
 
     private void Start()
     {
-        foreach (Popup popup in popups)
+        _openPoupsPos = GameObject.Find("OpenPopups").transform;
+        _canvas = GameObject.Find("Canvas").transform;
+        foreach (Popup popup in _popups)
         {
             popup.gameObject.SetActive(false);
         }
@@ -20,13 +24,14 @@ public class PopupManager : Singleton<PopupManager>
 
     public T PopupOpen<T>() where T : Popup
     {
-        T @return = popups.Find((popup) => popup is T) as T;
-        print($"스택에 이미 존재 하는 가 :{@return.name} {openPopups.Contains(@return)}");
-        if (@return != null && !openPopups.Contains(@return))
+        T @return = _popups.Find((popup) => popup is T) as T;
+        print($"스택에 이미 존재 하는 가 :{@return.name} {_openPopups.Contains(@return)}");
+        if (@return != null && !_openPopups.Contains(@return))
         {
             print($"{@return.name}");
+            @return.transform.SetParent(_openPoupsPos);
             @return.gameObject.SetActive(true);
-            openPopups.Push(@return);
+            _openPopups.Push(@return);
         }
         return @return;
     }
@@ -34,13 +39,14 @@ public class PopupManager : Singleton<PopupManager>
     public Popup PopupOpen(string name)
     {
         Popup @return = null;
-        foreach (Popup popup in popups)
+        foreach (Popup popup in _popups)
         {
             if (popup.name.Equals(name))
+                @return.transform.SetParent(_openPoupsPos);
             {
                 popup.gameObject.SetActive(true);
                 @return = popup;
-                openPopups.Push(@return);
+                _openPopups.Push(@return);
             }
         }
         return @return;
@@ -48,9 +54,10 @@ public class PopupManager : Singleton<PopupManager>
 
     public void PopupClose()
     {
-        if (openPopups.Count > 0)
+        if (_openPopups.Count > 0)
         {
-            Popup targetPopup = openPopups.Pop();
+            Popup targetPopup = _openPopups.Pop();
+            targetPopup.transform.SetParent(_canvas);
             targetPopup.gameObject.SetActive(false);
         }
     }
@@ -60,7 +67,7 @@ public class PopupManager : Singleton<PopupManager>
         Popup[] foundPopups = GameObject.FindObjectsOfType<Popup>();
         foreach (Popup popup in foundPopups)
         {
-            popups.Add(popup);
+            _popups.Add(popup);
         }
     }
 
