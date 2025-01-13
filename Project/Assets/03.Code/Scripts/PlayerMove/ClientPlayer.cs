@@ -35,8 +35,8 @@ public class ClientPlayer : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (UID != GameManager.Instance.FirebaseManager.User.UserId)
-            return;
+        // if (UID != GameManager.Instance.FirebaseManager.User.UserId)
+        //     return;
         Vector2 input = context.ReadValue<Vector2>();
         moveDirection = new Vector3(input.x, 0, input.y);
     }
@@ -61,7 +61,7 @@ public class ClientPlayer : MonoBehaviour
         Vector3 forwardMove = transform.forward * moveDirection.z * speed * Time.deltaTime;
         Vector3 rightMove = transform.right * moveDirection.x * speed * Time.deltaTime;
         Vector3 move = forwardMove + rightMove;
-        print(transform.position - move);
+        // print(transform.position - move);
         rb.MovePosition(transform.position - move);
     }
 }
