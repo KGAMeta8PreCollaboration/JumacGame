@@ -82,7 +82,27 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: citizen3(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: NPC_Citizen3_Mesh_0
+      parentName: citizen3(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.99946165, y: 0.014839366, z: 0.016683845, w: 0.024039106}
+      scale: {x: 99.99999, y: 100.00001, z: 100.00001}
+    - name: SubMesh_0
+      parentName: NPC_Citizen3_Mesh_0
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -9.313226e-10, y: -9.895302e-10, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: SubMesh_1
+      parentName: NPC_Citizen3_Mesh_0
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -9.313226e-10, y: -9.895302e-10, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
