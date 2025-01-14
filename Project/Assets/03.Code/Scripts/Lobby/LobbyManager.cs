@@ -54,6 +54,8 @@ public class LobbyManager : MonoBehaviour
         ClientPlayer player = 
             Instantiate(myPlayerPrefab, playerSpawnPoint.position, Quaternion.identity)
                 .GetComponentInChildren<ClientPlayer>();
+        print($"race : {logInUserData.race}");
+        player.Init(uid, nickname, logInUserData.race);
         player.UID = uid;
         player.username = nickname;
         myLobbyPlayer = player;
@@ -71,8 +73,8 @@ public class LobbyManager : MonoBehaviour
         // 로비 정보가 있을때
         if (data.Exists)
         {
-            CreateMyPlayer(logInUserData.id, username, Vector3.up);
             lobbyData = JsonConvert.DeserializeObject<LobbyData>(data.GetRawJsonValue());
+            CreateMyPlayer(logInUserData.id, username, Vector3.up);
         }
         else
             CreateLobby(lobbyName, username);

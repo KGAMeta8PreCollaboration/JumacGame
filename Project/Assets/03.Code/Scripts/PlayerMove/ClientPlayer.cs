@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +7,7 @@ public class ClientPlayer : MonoBehaviour
 {
     public string username;
     public string UID;
+    public string race;
     [SerializeField] private float speed = 5f;
 
     public float jumpPower = 5.0f;
@@ -14,6 +17,33 @@ public class ClientPlayer : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     public Rigidbody rb;
     private bool isJump;
+
+    [SerializeField] private List<GameObject> characterList;
+
+    private void Reset()
+    {
+        speed = 10f;
+        jumpPower = 40f;
+        // 자식 오브젝트의 이름중 Models오브젝트의 자식들을 리스트에 저장
+        for (int i = 0; i < transform.Find("Models").childCount; i++)
+            characterList.Add(transform.Find("Models").GetChild(i).gameObject);
+    }
+
+    public void Init(string uid, string nickname, string race)
+    {
+        UID = uid;
+        username = nickname;
+        this.race = race;
+        if (UserRace.human.ToString() == race)
+            characterList[0].SetActive(true);
+        else if (UserRace.dokkaebi.ToString() == race)
+            characterList[1].SetActive(true);
+        else if (UserRace.ghost.ToString() == race)
+            characterList[2].SetActive(true);
+        else
+            characterList[3].SetActive(true);
+    }
+    
     public Vector3 position
     {
         get
@@ -31,6 +61,7 @@ public class ClientPlayer : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         isJump = false;
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
