@@ -40,7 +40,7 @@ public class SignInPopup : Popup
             }
             else
             {
-                PageManager.Instance.PageOpen<CharaterSelect>();
+                PageManager.Instance.PageOpen<CharaterSelectPage>().OpenNicknamePopup();
             }
         }
         else

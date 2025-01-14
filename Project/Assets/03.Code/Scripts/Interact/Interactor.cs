@@ -9,7 +9,7 @@ public class Interactor : MonoBehaviour
     public RectTransform interactView;
     [Range(0, 10)]
     public float radius;
-    public Action interactAction;
+    public Action onExitAction;
 
     private SphereCollider _coll;
     private List<IInteractable> _interactables = new List<IInteractable>();
@@ -18,6 +18,12 @@ public class Interactor : MonoBehaviour
     {
         _coll = GetComponent<SphereCollider>();
         _coll.radius = radius;
+    }
+
+    private void Start()
+    {
+        interactView = GameObject.Find("InteractView").GetComponent<RectTransform>();
+        print(interactView);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,7 +40,7 @@ public class Interactor : MonoBehaviour
         if ((other.TryGetComponent<IInteractable>(out IInteractable interactable) && _interactables.Contains(interactable)))
         {
             _interactables.Remove(interactable);
-            interactAction?.Invoke();
+            onExitAction?.Invoke();
         }
     }
 }
