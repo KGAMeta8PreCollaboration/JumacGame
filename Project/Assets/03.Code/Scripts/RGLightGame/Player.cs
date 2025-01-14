@@ -7,10 +7,10 @@ namespace Minigame.RGLight
 {
 	public class Player : MonoBehaviour
 	{
-		public string id;
 		public float moveSpeed;
 		public RGLightManager RGLightManager { get; private set; }
 
+		public PlayerDistanceTracker playerDistanceTracker { get; private set; }
 		private PlayerInputManager _playerInputManager;
 		private Rigidbody _playerRigidbody;
 
@@ -29,6 +29,7 @@ namespace Minigame.RGLight
 		{
 			_playerInputManager = GetComponent<PlayerInputManager>();
 			_playerRigidbody = GetComponent<Rigidbody>();
+			playerDistanceTracker = GetComponent<PlayerDistanceTracker>();
 			RGLightManager = manager;
 			CinemachineVirtualCamera cvc = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
 			cvc.Follow = transform;

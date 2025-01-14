@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2206667427486665711}
   - component: {fileID: 7503567453162253920}
   - component: {fileID: 3663090094351484750}
+  - component: {fileID: -3833545906240466508}
   m_Layer: 0
   m_Name: RGLightPlayer
   m_TagString: Untagged
@@ -268,7 +269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad641ffe23be54340b9d99fe8cc0677c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
   moveSpeed: 10
+  endLine: {fileID: 0}
 --- !u!114 &3663090094351484750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,3 +284,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff7dd65e8c0a05449b5cc63927a78e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3833545906240466508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231805777884220614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbc862eba5d06642b583f5dfcd0e77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startLine: {fileID: 0}
+  endLine: {fileID: 0}

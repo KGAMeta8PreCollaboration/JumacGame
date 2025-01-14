@@ -20,11 +20,18 @@ namespace Minigame.RGLight
 		[SerializeField] private Transform _startPoint;
 		public int defaultMoney;
 
-		public bool IsEndGame { get; private set; }
+		public float limitTime;
 		public float startTime;
 		public float endTime;
+		public bool IsEndGame { get; private set; }
+		public bool OverTime { get { return (limitTime <= TimeDiff); } }
+		public float RemainTime { get { return limitTime - TimeDiff; } }
+		public float TimeDiff { get { return endTime - startTime; } }
+		public MainPage MainPage { get; private set; }
 
 		private DatabaseReference _rglightRef;
+
+		private Minigame.RGLight.Player _player;
 
 		private void Awake()
 		{
@@ -34,6 +41,7 @@ namespace Minigame.RGLight
 		private void Start()
 		{
 			Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
+			_player = player.GetComponent<Player>();
 			player.Init(this);
 		}
 
@@ -50,6 +58,18 @@ namespace Minigame.RGLight
 			while (!IsEndGame)
 			{
 				endTime = Time.time;
+				if (OverTime) GameResult(false);
+				yield return null;
+			}
+		}
+
+		public IEnumerator MainPageUpdateCoroutine()
+		{
+			MainPage = PageManager.Instance.PageOpen<MainPage>();
+			while (!IsEndGame)
+			{
+				MainPage.SetRemainTime(ConvertToMinutesAndSeconds(RemainTime));
+				MainPage.SetMoveDistance(_player.playerDistanceTracker.PlayerDistance);
 				yield return null;
 			}
 		}
@@ -77,17 +97,16 @@ namespace Minigame.RGLight
 			SetMoney(defaultMoney);
 			SetScore(50);
 
-			float timeDiff = endTime - startTime;
-			string durationTime = ConvertToMinutesAndSeconds(timeDiff);
+			string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
 			PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
 		}
 
 		private void OnDefeat()
 		{
 			SetMoney(defaultMoney);
+			SetScore(50);
 
-			float timeDiff = endTime - startTime;
-			string durationTime = ConvertToMinutesAndSeconds(timeDiff);
+			string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
 			PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);
 		}
 
