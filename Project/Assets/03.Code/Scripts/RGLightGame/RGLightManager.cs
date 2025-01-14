@@ -72,14 +72,12 @@ namespace Minigame.RGLight
 			}
 		}
 
-		private async void OnSuccess()
+		private void OnSuccess()
 		{
 			SetMoney(defaultMoney);
+			SetScore(50);
+
 			float timeDiff = endTime - startTime;
-			string time = timeDiff.ToString("F2");
-
-			if (await NewRecordCheck(timeDiff)) SetDurationTime(time);
-
 			string durationTime = ConvertToMinutesAndSeconds(timeDiff);
 			PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
 		}
@@ -87,7 +85,9 @@ namespace Minigame.RGLight
 		private void OnDefeat()
 		{
 			SetMoney(defaultMoney);
-			string durationTime = ConvertToMinutesAndSeconds(endTime - startTime);
+
+			float timeDiff = endTime - startTime;
+			string durationTime = ConvertToMinutesAndSeconds(timeDiff);
 			PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);
 		}
 
@@ -110,13 +110,11 @@ namespace Minigame.RGLight
 				if (snapshot.Exists)
 				{
 					userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-					int money = value;
-					if (int.TryParse(userData.money, out int result)) money += result;
-					userData.money = money.ToString();
+					userData.money += value;
 				}
 				else
 				{
-					userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, money: value.ToString());
+					userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, money: value);
 				}
 
 				string json = JsonConvert.SerializeObject(userData);
@@ -128,54 +126,30 @@ namespace Minigame.RGLight
 			}
 		}
 
-		private async void SetDurationTime(string time)
+		private async void SetScore(int value)
 		{
 			try
 			{
-				string json = JsonConvert.SerializeObject(time);
+				_rglightRef = GameManager.Instance.FirebaseManager.MinigamesRef.Child("rglight");
+				DataSnapshot snapshot = await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
+				RGLightUserData userData;
+
+				if (snapshot.Exists)
+				{
+					userData = JsonConvert.DeserializeObject<RGLightUserData>(snapshot.GetRawJsonValue());
+					userData.score += value;
+				}
+				else
+				{
+					userData = new RGLightUserData(value);
+				}
+
+				string json = JsonConvert.SerializeObject(userData);
 				await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).SetRawJsonValueAsync(json);
 			}
 			catch (Exception e)
 			{
 				print(e.Message);
-			}
-		}
-
-		public async Task<bool> NewRecordCheck(float time)
-		{
-			try
-			{
-				DatabaseReference miniGames = GameManager.Instance.FirebaseManager.MinigamesRef;
-				_rglightRef = miniGames.Child("rglight");
-				DataSnapshot snapshot = await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
-
-				if (snapshot.Exists)
-				{
-					string timeStr = JsonConvert.DeserializeObject<string>(snapshot.GetRawJsonValue());
-					if (float.TryParse(timeStr, out float value))
-					{
-						print(value);
-						if (time < value)
-						{
-							return true;
-						}
-						else
-						{
-							return false;
-						}
-					}
-					else
-					{
-						Debug.LogError("변환할 수 없습니다.");
-						return false;
-					}
-				}
-				return true;
-			}
-			catch (Exception e)
-			{
-				print(e.Message);
-				return false;
 			}
 		}
 	}
