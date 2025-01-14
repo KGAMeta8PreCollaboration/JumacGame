@@ -22,12 +22,12 @@ public class Board : MonoBehaviour
     private void Start()
     {
         MeshRenderer renderer = GetComponent<MeshRenderer>();
-        boardSize = renderer.bounds.size.x; // -> 0.47(º¸µåÆÇ º¯ÀÇ ±æÀÌ)
+        boardSize = renderer.bounds.size.x; // -> 0.47(í•œ ë³€ì˜ ê¸¸ì´)
 
-        cellSize = boardSize / (gridCount - 1); // -> 0.03357143(cellÇÑÄ­ Å©±â)
-        boardStartPos = new Vector3(-boardSize / 2, 0, -boardSize / 2); //(ÁÂÃø ¾Æ·¡°¡ 0,0)
+        cellSize = boardSize / (gridCount - 1); // -> 0.03357143(cellí•œì¹¸ì˜ í¬ê¸°)
+        boardStartPos = new Vector3(-boardSize / 2, 0, -boardSize / 2); //(ë³´ë“œì˜ ì‹œì‘ì  0,0)
 
-        //º¸µåÆÇ ÃÊ±âÈ­ÀÎµ¥ OnEnable¿¡ µé¾î¿Í¾ßÇÒÁöµµ
+        //ë‚˜ì¤‘ì— OnEableë„ ìƒê°í•´ë´ì•¼ê² ë‹¤.
         boardState = new int[gridCount, gridCount];
 
         for (int i = 0; i < gridCount; i++)
@@ -46,11 +46,11 @@ public class Board : MonoBehaviour
 
         Vector2 inputPosition = GetInputPosition();
 
-        // Raycast·Î ¿ùµå ÁÂÇ¥ °è»ê
         Ray ray = Camera.main.ScreenPointToRay(inputPosition);
         
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            //ì—¬ê¸°ì—ì„œ ì‹¤ì œ í¬ì¸íŠ¸ë¥¼ indexë¡œ ì¹˜í™˜
             Vector2Int boardIndex = GetBoardIndex(hit.point);
 
             if (boardIndex.x >= 0 && boardIndex.x < gridCount && 
@@ -61,7 +61,7 @@ public class Board : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Clicked outside the board!");
+                Debug.LogWarning("ê±°ê¸´ ë³´ë“œê°€ ì•„ë‹˜!");
             }
         }
     }
@@ -77,7 +77,7 @@ public class Board : MonoBehaviour
         {
             return Mouse.current.position.ReadValue();
         }
-        return Vector2.zero; // ÀÔ·Â ¾øÀ½
+        return Vector2.zero;
     }
 
     private Vector2Int GetBoardIndex(Vector3 position)
@@ -95,28 +95,23 @@ public class Board : MonoBehaviour
     {
         if (boardState[index.x, index.y] != 0)
         {
-            Debug.LogError($"¹ÙµÏµ¹ÀÌ ÀÌ¹Ì ÀÖ½À´Ï´Ù");
+            Debug.LogError($"ì´ë¯¸ ëŒì´ ìˆìŠµë‹ˆë‹¤!");
             return;
         }
 
         boardState[index.x, index.y] = isHostTurn ? 1 : 2;
 
-
-        //Vector3 position = new Vector3(
-        //    boardStartPos.x + index.x * cellSize,
-        //    0.101704126f,
-        //    boardStartPos.z + index.y * cellSize
-        //    );
         GameObject stonePrefab = isHostTurn ? blackStonePrefab : whiteStonePrefab;
         GameObject stone = Instantiate(stonePrefab);
+
         Vector3 position = new Vector3(
             boardStartPos.x + index.x * cellSize,
             0.0928f,
             boardStartPos.z + index.y * cellSize
             );
+
         stone.transform.position = position;
         //stone.transform.localScale = new Vector3(556, 556, 556);
-        //stone.transform.localPosition =  new Vector3(stone.transform.localPosition.x, 1.0225521f, stone.transform.localPosition.z);
         stone.transform.SetParent(transform);
     }
 }

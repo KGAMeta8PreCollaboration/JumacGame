@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.UI;
 using UnityEngine.UIElements;
 
 public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿� �ı��� �Ǵ� Singleton���� �����ϸ� ���� �� �ϴ�.
@@ -45,30 +46,30 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
             if (!string.IsNullOrEmpty(roomDataJson))
             {
-                //MonitorRoomState���� �޾ƿ� ����
+                //MonitorRoomState에서 가져온 CurrentRoomData로 정보 넘겨줌
                 _currentRoomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
                 _dbRoomRef = Database.GetReference(_currentRoomData.serverName)
                     .Child("rooms")
                     .Child(_currentRoomData.roomKey);
 
-                //�� ������ host�� guest�� OmokUserData�� ġȯ
+                //그 넘겨준 정보로 host와 guest 정보를 OmokUserData로 치환함
                 hostData = new OmokUserData(_currentRoomData.host);
                 guestData = new OmokUserData(_currentRoomData.guest);
                 hostData = await SetUserData(hostData);
                 guestData = await SetUserData(guestData);
 
             }
-            OmokGameManager.Instance.SetUsers(); //-> ���߿� �׳� UI�� �ٷ� �Ѱܵ� �� �� ��
+            OmokGameManager.Instance.SetUsers(); //-> 이건 나중에 OmokUIManager에서 실행해도 좋을 듯 하다
 
             MonitorTurnList();
         }
         catch (Exception e)
         {
-            Debug.LogError($"Firebase������ �ȵ� : {e.Message}");
+            Debug.LogError($"Firebase방 참조 오류 : {e.Message}");
         }
     }
 
-    //id�� ���� OmokUserData�� ����� �Լ�
+    //id를 OmokUserData로 치환해주는 함수
     private async Task<OmokUserData> SetUserData(OmokUserData userData)
     {
         try
@@ -80,7 +81,6 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
             {
                 string logInUserJson = logInUserSnapshot.GetRawJsonValue();
                 LogInUserData _longInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
-                print($"OmokFirebase���� ȣ�� ���� �α��ε� ������ �̸� : {_longInUserData.nickname}");
 
                 OmokUserData _userData = new OmokUserData
                 (
@@ -93,23 +93,24 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
             }
             else
             {
-                Debug.LogError($"���� �����Ͱ� �������� ����");
+                Debug.LogError($"로그인한 유저의 정보가 없습니다");
                 return null;
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"���� ������ ���� ���� : {e.Message}");
+            Debug.LogError($"Firebase 로그인 유저 참조 오류 : {e.Message}");
             return null;
         }
     }
 
     private void Test()
     {
-        print($"ȣ��Ʈ ���� id : {hostData.id}, Name : {hostData.nickname}, gold : {hostData.gold}");
-        print($"�Խ�Ʈ ���� id : {guestData.id}, Name : {guestData.nickname}, gold : {guestData.gold}");
+        print($"호스트의 정보 id : {hostData.id}, Name : {hostData.nickname}, gold : {hostData.gold}");
+        print($"게스트의 정보 id : {guestData.id}, Name : {guestData.nickname}, gold : {guestData.gold}");
     }
 
+    //RoomData에 turnList정보가 바뀔 때 마다 실행됨
     private void MonitorTurnList()
     {
         DatabaseReference turnListRef = _dbRoomRef.Child("turnList");
@@ -128,7 +129,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
             if(newTurn != null)
             {
-                Debug.Log($"���� : isHostTurn : {newTurn.isHostTurn}, coodinate = {newTurn.coodinate}");
+                Debug.Log($"현재 턴의 정보 : isHostTurn : {newTurn.isHostTurn}, coodinate = {newTurn.coodinate}");
 
                 string[] split = newTurn.coodinate.Split(",");
                 int x = int.Parse(split[0]);
@@ -163,12 +164,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
         if (_currentRoomData.isHostTurn && !amIHost)
         {
-            Debug.Log("ȣ��Ʈ ���ε�, ���� �Խ�Ʈ! ���� �� ���ʰ� �ƴ�.");
+            Debug.Log("현재 호스트 턴인데, 나는 게스트!.");
             return;
         }
         if (!_currentRoomData.isHostTurn && amIHost)
         {
-            Debug.Log("�Խ�Ʈ ���ε�, ���� ȣ��Ʈ! ���� �� ���ʰ� �ƴ�.");
+            Debug.Log("현재 게스트 턴인데, 나는 호스트!.");
             return;
         }
 
@@ -183,12 +184,18 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
     private async void AddTurnToFirebase(Turn turn)
     {
-        DatabaseReference turnListRef = _dbRoomRef.Child("turnList");
+        try
+        {
+            DatabaseReference turnListRef = _dbRoomRef.Child("turnList");
 
-        string turnJson = JsonConvert.SerializeObject(turn);
-        string newTurnKey = turnListRef.Push().Key;
-        await turnListRef.Child(newTurnKey).SetRawJsonValueAsync(turnJson);
+            string turnJson = JsonConvert.SerializeObject(turn);
+            await turnListRef.Child($"{turn.turnCount}").SetRawJsonValueAsync(turnJson);
 
-        Debug.Log($"Firebase {turn.coodinate}�� ���ε� �Ϸ�");
+            Debug.Log($"{turn.turnCount}번째 수 : {turn.coodinate}");
+        }
+        catch(Exception e)
+        {
+            Debug.LogError($"Firebase 턴 참조 오류 {e.Message}");
+        }
     }
 }

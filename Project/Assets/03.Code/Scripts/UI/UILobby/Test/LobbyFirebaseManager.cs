@@ -61,12 +61,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 Debug.LogError("로그인 할 유저의 Id가 없습니다.");
             }
 
-            print($" : {chatUserData.nickname}");
-            print($"���� ������ UID : {chatUserData.id}");
+            print($"로그인한 유저의 이름 : {chatUserData.nickname}");
+            print($"로그인한 유저의 ID : {chatUserData.id}");
         }
         catch (Exception e)
         {
-            Debug.LogError($"Firebase������ �ȵ� : {e.Message}");
+            Debug.LogError($"Firebase연결 오류 : {e.Message}");
         }
     }
 
@@ -78,16 +78,16 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             _dbChatRef = Database.GetReference(messageData.SenderServer).Child("chats");
             string key = _dbChatRef.Push().Key;
 
-            print($"���� ���� ���?: {messageData.SenderId}");
-            print($"���� : {messageData.SenderServer}");
-            print($"���� ���� : {messageData.Content}");
+            print($"메시지 보낸사람 Id: {messageData.SenderId}");
+            print($"보낸 서버 : {messageData.SenderServer}");
+            print($"보낸 내용 : {messageData.Content}");
 
             string messageJson = JsonConvert.SerializeObject(messageData);
             await _dbChatRef.Child(key).SetRawJsonValueAsync(messageJson);
         }
         catch (Exception e)
         {
-            Debug.LogError($"�޽��� ���� ����: {e.Message}");
+            Debug.LogError($"Firebase연결 오류: {e.Message}");
         }
     }
 
@@ -97,7 +97,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         {
             _dbChatRef = Database.GetReference(chatUserData.serverName).Child("chats");
 
-            //������ �������� �� �ִ� �̺�Ʈ ����
             if (_childAddedHandler != null)
             {
                 _dbChatRef.ChildAdded -= _childAddedHandler;
@@ -112,20 +111,21 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                         string json = args.Snapshot.GetRawJsonValue();
                         MessageData newMessage = JsonConvert.DeserializeObject<MessageData>(json);
 
-                        print($"�޽��� ���� ���?: {newMessage.SenderId}");
-                        print($"�޽��� ���� : {newMessage.Content}");
+                        print($"메시지 보낸 사람 : {newMessage.SenderId}");
+                        print($"보낸 내용 : {newMessage.Content}");
 
                         callback?.Invoke(newMessage);
                     }
                 };
 
+            //로그인 한 시간 기준으로 메시지 받음
             _dbChatRef.OrderByChild("TimeStamp")
                 .StartAt(logInTime)
                 .ChildAdded += _childAddedHandler;
         }
         catch (Exception e)
         {
-            Debug.LogError($"�޽��� ���� ����: {e.Message}");
+            Debug.LogError($"Firebase 메시지 참조 오류 : {e.Message}");
         }
     }
 
@@ -136,8 +136,8 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             _dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
             string roomKey = _dbRoomRef.Push().Key;
 
-            print($"�� ������ ���� : {chatUserData.serverName}");
-            print($"���� �� �̸� : {roomData.roomName}");
+            print($"방장의 서버 이름 : {chatUserData.serverName}");
+            print($"만든 방의 이름 : {roomData.roomName}");
 
             RoomData newRoom = new RoomData(
                 roomKey,
@@ -149,12 +149,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             string roomJson = JsonConvert.SerializeObject(newRoom);
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
 
-            print($"�� ����� �Ϸ� : {roomKey}");
+            print($"방의 Key : {roomKey}");
             MonitorRoomState(newRoom);
         }
         catch (Exception e)
         {
-            Debug.LogError($"�� ������ �����?���� : {e.Message}");
+            Debug.LogError($"Firebase 방 참조 오류 : {e.Message}");
         }
     }
 
@@ -169,7 +169,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
         catch (Exception e)
         {
-            Debug.LogError($"�� ���� �� ���� �߻� : {e}");
+            Debug.LogError($"Firebase 방 참조 오류 : {e}");
         }
     }
 
@@ -184,7 +184,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
             if (!roomSnapshot.Exists)
             {
-                Debug.Log("���� �����ϴ�");
+                Debug.Log("방이 존재하지 않습니다");
                 return waitingRoomList;
             }
 
@@ -203,7 +203,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
         catch (Exception e)
         {
-            print($"�� ã�� ���� : {e.Message}");
+            print($"Firebase 방 참조 오류 : {e.Message}");
             return null;
         }
     }
@@ -220,7 +220,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 string roomDataJson = roomSnapshot.GetRawJsonValue();
                 roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
 
-                //�Խ�Ʈ�� ���� ���
                 if (string.IsNullOrEmpty(roomData.guest))
                 {
                     roomData.guest = chatUserData.id;
@@ -235,7 +234,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
         catch (Exception e)
         {
-            Debug.LogError($"�� ���� �� ���� �߻� : {e.Message}");
+            Debug.LogError($"Firebase 방 참조 오류 : {e.Message}");
         }
     }
 
@@ -251,13 +250,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             if (args.Snapshot.Exists)
             {
                 string stateValue = args.Snapshot.Value.ToString();
-                print($"�ٲ�� �� ���� ���� : {stateValue}");
+                print($"바뀌기 전 방 상태 : {stateValue}");
 
-                //�� ���°� �ٲ𶧸� ����
                 if (!string.IsNullOrEmpty(stateValue))
                 {
                     RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
-                    print($"�ٲ� �� ���� : {stateValue}");
+                    print($"바뀐 후 방 상태 : {stateValue}");
 
                     if (newState == RoomState.Playing)
                     {
