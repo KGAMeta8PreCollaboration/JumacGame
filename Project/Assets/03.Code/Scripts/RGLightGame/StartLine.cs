@@ -17,6 +17,7 @@ public class StartLine : MonoBehaviour
 		{
 			_coll.enabled = false;
 			StartCoroutine(player.RGLightManager.TimeCheckCoroutine());
+			StartCoroutine(player.RGLightManager.MainPageUpdateCoroutine());
 		}
 	}
 }
