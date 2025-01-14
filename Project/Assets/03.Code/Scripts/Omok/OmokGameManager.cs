@@ -26,31 +26,31 @@ public class OmokGameManager : Singleton<OmokGameManager>
             User = GameManager.Instance.FirebaseManager.User;
 
             string currentUserId = Auth.CurrentUser.UserId;
-            print($"ÇöÀç À¯ÀúÀÇ Id : {currentUserId}");
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Id : {currentUserId}");
 
             string hostId = OmokFirebaseManager.Instance.hostData.id;
-            print($"È£½ºÆ® Id : {hostId}");
+            print($"È£ï¿½ï¿½Æ® Id : {hostId}");
             string guestId = OmokFirebaseManager.Instance.guestData.id;
-            print($"°Ô½ºÆ® Id : {guestId}");
+            print($"ï¿½Ô½ï¿½Æ® Id : {guestId}");
 
             OmokUIManager.Instance.SetUserInfoPrefab(OmokFirebaseManager.Instance.hostData, OmokFirebaseManager.Instance.guestData);
 
             if (currentUserId == hostId)
             {
-                print("ÇöÀç Á¢¼ÓÀÚ´Â È£½ºÆ®ÀÔ´Ï´Ù");
+                print("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ È£ï¿½ï¿½Æ®ï¿½Ô´Ï´ï¿½");
             }
             else if (currentUserId == guestId)
             {
-                print("ÇöÀç Á¢¼ÓÀÚ´Â °Ô½ºÆ®ÀÔ´Ï´Ù");
+                print("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½Ô½ï¿½Æ®ï¿½Ô´Ï´ï¿½");
             }
             else
             {
-                print("È£½ºÆ®µµ, °Ô½ºÆ®µµ ¾Æ´Õ´Ï´Ù");
+                print("È£ï¿½ï¿½Æ®ï¿½ï¿½, ï¿½Ô½ï¿½Æ®ï¿½ï¿½ ï¿½Æ´Õ´Ï´ï¿½");
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Firebase¿¬°áÀÌ ¾ÈµÊ : {e.Message}");    
+            Debug.LogError($"Firebaseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½ : {e.Message}");    
         }
     }
 

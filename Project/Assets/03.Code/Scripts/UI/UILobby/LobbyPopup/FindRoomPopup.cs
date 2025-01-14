@@ -41,7 +41,7 @@ public class FindRoomPopup : LobbyPopup
 
         if (waitingRoomList.Count < 0)
         {
-            Debug.Log("¹æÀÌ ¾ø´Ù");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
 
         foreach (RoomData roomData in waitingRoomList)
@@ -60,12 +60,12 @@ public class FindRoomPopup : LobbyPopup
     {
         if (selectedRoom == null)
         {
-            Debug.Log("¼±ÅÃµÈ ¹æÀÌ ¾ø½À´Ï´Ù");
+            Debug.Log("ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½");
         }
 
         if (selectedRoom != null)
         {
-            Debug.Log("¼±ÅÃµÈ ¹æÀÌ ÀÖ½À´Ï´Ù!");
+            Debug.Log("ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½!");
             if (selectedRoom.state == RoomState.Waiting)
             {
                 LobbyFirebaseManager.Instance.JoinRoom(selectedRoom, LobbyFirebaseManager.Instance.chatUserData);

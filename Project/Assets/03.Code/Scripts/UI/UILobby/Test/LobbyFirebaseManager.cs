@@ -58,10 +58,10 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             }
             else
             {
-                Debug.LogWarning("О©╫н╠О©╫О©╫н╣О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫м╦О©╫ цёО©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫о╢О©╫.");
+                Debug.LogError("К║°Й╥╦Л²╦ М∙═ Л°═Л═─Л²≤ IdЙ╟─ Л≈├Л┼╣К▀┬К▀╓.");
             }
 
-            print($"О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫л╦О©╫ : {chatUserData.nickname}");
+            print($" : {chatUserData.nickname}");
             print($"О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ UID : {chatUserData.id}");
         }
         catch (Exception e)
@@ -78,7 +78,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             _dbChatRef = Database.GetReference(messageData.SenderServer).Child("chats");
             string key = _dbChatRef.Push().Key;
 
-            print($"О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©?: {messageData.SenderId}");
+            print($"О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫?: {messageData.SenderId}");
             print($"О©╫О©╫О©╫О©╫ : {messageData.SenderServer}");
             print($"О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ : {messageData.Content}");
 
@@ -112,7 +112,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                         string json = args.Snapshot.GetRawJsonValue();
                         MessageData newMessage = JsonConvert.DeserializeObject<MessageData>(json);
 
-                        print($"О©╫ч╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©?: {newMessage.SenderId}");
+                        print($"О©╫ч╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫?: {newMessage.SenderId}");
                         print($"О©╫ч╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ : {newMessage.Content}");
 
                         callback?.Invoke(newMessage);
@@ -149,12 +149,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             string roomJson = JsonConvert.SerializeObject(newRoom);
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
 
-            print($"╧Ф ╦╦╣И╠Б ©о╥А : {roomKey}");
+            print($"О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫о╥О©╫ : {roomKey}");
             MonitorRoomState(newRoom);
         }
         catch (Exception e)
         {
-            Debug.LogError($"О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©?О©╫О©╫О©╫О©╫ : {e.Message}");
+            Debug.LogError($"О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫?О©╫О©╫О©╫О©╫ : {e.Message}");
         }
     }
 
@@ -220,7 +220,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 string roomDataJson = roomSnapshot.GetRawJsonValue();
                 roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
 
-                //╟т╫╨ф╝╟║ ╬Ью╩ ╟Ф©Л
+                //О©╫т╫О©╫ф╝О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫
                 if (string.IsNullOrEmpty(roomData.guest))
                 {
                     roomData.guest = chatUserData.id;
@@ -235,7 +235,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
         catch (Exception e)
         {
-            Debug.LogError($"╧Ф бЭ©╘ аъ ©ю╥Ы ╧ъ╩Щ : {e.Message}");
+            Debug.LogError($"О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫ъ╩О©╫ : {e.Message}");
         }
     }
 
@@ -251,13 +251,13 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             if (args.Snapshot.Exists)
             {
                 string stateValue = args.Snapshot.Value.ToString();
-                print($"╧ы╡Н╠Б юЭ ╧Фюг ╩Себ : {stateValue}");
+                print($"О©╫ы╡О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ : {stateValue}");
 
-                //╧Ф ╩Себ╟║ ╧ы╡П╤╖╦╦ ╣И╬Н©х
+                //О©╫О©╫ О©╫О©╫О©╫б╟О©╫ О©╫ы╡П╤╖╦О©╫ О©╫О©╫О©╫О©╫
                 if (!string.IsNullOrEmpty(stateValue))
                 {
                     RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
-                    print($"╧ы╡О ╧Ф ╩Себ : {stateValue}");
+                    print($"О©╫ы╡О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ : {stateValue}");
 
                     if (newState == RoomState.Playing)
                     {
