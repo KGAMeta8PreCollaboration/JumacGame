@@ -25,16 +25,14 @@ public class OmokPopup : LobbyPopup
 
     private void OnClickMakeRoomButton()
     {
-        //¹öÆ°À» ´©¸¦¶§ PopupÀÌ ²¨Áö´Â ·ÎÁ÷À» ¾î¶»°Ô ÇÒ²«Áö Á¤ÇØ¾ßÇÑ´Ù.
         LobbyInputPopup inputPopup = UILobbyManager.Instance.PopupOpen<LobbyInputPopup>();
         string roomName = "";
         RoomData newRoom = new RoomData(roomName);
-        inputPopup.SetPopup("¹æ ¸¸µé±â", (newRoom) =>
+        inputPopup.SetPopup("ë°© ì´ë¦„ ì„¤ì •", (newRoom) =>
         {
             LobbyFirebaseManager.Instance.CreateRoom(newRoom);
             WaitingPopup waitingRoom = UILobbyManager.Instance.PopupOpen<WaitingPopup>();
             waitingRoom.SetWaitingRoom(newRoom, DateTime.Now);
-            print($"¹æ ¸¸µé±â ¼º°ø! ¹æ ÀÌ¸§ : {roomName}");
         }
         );
     }

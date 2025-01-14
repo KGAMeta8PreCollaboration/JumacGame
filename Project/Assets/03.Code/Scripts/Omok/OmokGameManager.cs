@@ -33,7 +33,7 @@ public class OmokGameManager : Singleton<OmokGameManager>
             string guestId = OmokFirebaseManager.Instance.guestData.id;
             print($"�Խ�Ʈ Id : {guestId}");
 
-            OmokUIManager.Instance.SetUserInfoPrefab(OmokFirebaseManager.Instance.hostData, OmokFirebaseManager.Instance.guestData);
+            
 
             if (currentUserId == hostId)
             {

@@ -110,6 +110,55 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
         print($"게스트의 정보 id : {guestData.id}, Name : {guestData.nickname}, gold : {guestData.gold}");
     }
 
+
+    //private int _turnCount = 0;
+
+    public void RequestPlaceStone(Vector2Int boardIndex)
+    {
+        bool amIHost = Auth.CurrentUser.UserId == _currentRoomData.host;
+
+        //턴이 맞지 않을때는 이곳이 실행됨
+        if (_currentRoomData.isHostTurn && !amIHost)
+        {
+            Debug.Log("현재 호스트 턴인데, 나는 게스트!.");
+            return;
+        }
+        if (!_currentRoomData.isHostTurn && amIHost)
+        {
+            Debug.Log("현재 게스트 턴인데, 나는 호스트!.");
+            return;
+        }
+
+        //_turnCount++;
+
+        Turn newTurn = new Turn
+        {
+            coodinate = $"{boardIndex.x}, {boardIndex.y}",
+            isHostTurn = amIHost,
+            turnCount = _currentRoomData.turnCount //여기에서 turnCount = 1
+        };
+
+        //board.PlaceStone(newTurn.isHostTurn, new Vector2Int(boardIndex.x, boardIndex.y));
+        AddTurnToFirebase(newTurn);
+    }
+
+    private async void AddTurnToFirebase(Turn turn)
+    {
+        try
+        {
+            DatabaseReference turnListRef = _dbRoomRef.Child("turnList");
+
+            string turnJson = JsonConvert.SerializeObject(turn);
+            await turnListRef.Child($"{turn.turnCount}").SetRawJsonValueAsync(turnJson);
+
+            Debug.Log($"{turn.turnCount}번째 수 : {turn.coodinate}");
+        }
+        catch(Exception e)
+        {
+            Debug.LogError($"Firebase 턴 참조 오류 {e.Message}");
+        }
+    }
+
     //RoomData에 turnList정보가 바뀔 때 마다 실행됨
     private void MonitorTurnList()
     {
@@ -137,65 +186,27 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
                 board.PlaceStone(newTurn.isHostTurn, new Vector2Int(x, y));
 
-                _currentRoomData.isHostTurn = !newTurn.isHostTurn;
-                _currentRoomData.turnCount++;
+                //_currentRoomData.isHostTurn = !newTurn.isHostTurn;
+                //_currentRoomData.turnCount++;
 
-                UpdateRoomData(_currentRoomData.isHostTurn, _currentRoomData.turnCount);
+                UpdateRoomData(newTurn.isHostTurn, newTurn.turnCount);
             }
         }
         catch(Exception e)
         {
-            Debug.LogError($"�� ���̴� �Ľ� ���� : {e.Message}");
+            Debug.LogError($"Firebase 턴 참조 오류 : {e.Message}");
         }
     }
 
     private async void UpdateRoomData(bool isHostTurn, int turnCount)
     {
+        _currentRoomData.isHostTurn = !isHostTurn;
+        _currentRoomData.turnCount = turnCount + 1;
+
         Dictionary<string, object> updateDic = new Dictionary<string, object>();
-        updateDic["isHostTurn"] = isHostTurn;
-        updateDic["turnCount"] = turnCount;
+        updateDic["isHostTurn"] = _currentRoomData.isHostTurn;
+        updateDic["turnCount"] = _currentRoomData.turnCount;
 
         await _dbRoomRef.UpdateChildrenAsync(updateDic);
-    }
-
-    public void RequestPlaceStone(Vector2Int boardIndex)
-    {
-        bool amIHost = User.UserId == _currentRoomData.host;
-
-        if (_currentRoomData.isHostTurn && !amIHost)
-        {
-            Debug.Log("현재 호스트 턴인데, 나는 게스트!.");
-            return;
-        }
-        if (!_currentRoomData.isHostTurn && amIHost)
-        {
-            Debug.Log("현재 게스트 턴인데, 나는 호스트!.");
-            return;
-        }
-
-        Turn newTurn = new Turn
-        {
-            isHostTurn = amIHost,
-            coodinate = $"{boardIndex.x}, {boardIndex.y}"
-        };
-
-        AddTurnToFirebase(newTurn);
-    }
-
-    private async void AddTurnToFirebase(Turn turn)
-    {
-        try
-        {
-            DatabaseReference turnListRef = _dbRoomRef.Child("turnList");
-
-            string turnJson = JsonConvert.SerializeObject(turn);
-            await turnListRef.Child($"{turn.turnCount}").SetRawJsonValueAsync(turnJson);
-
-            Debug.Log($"{turn.turnCount}번째 수 : {turn.coodinate}");
-        }
-        catch(Exception e)
-        {
-            Debug.LogError($"Firebase 턴 참조 오류 {e.Message}");
-        }
     }
 }

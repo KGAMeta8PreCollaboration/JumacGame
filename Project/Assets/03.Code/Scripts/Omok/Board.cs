@@ -56,6 +56,12 @@ public class Board : MonoBehaviour
             if (boardIndex.x >= 0 && boardIndex.x < gridCount && 
                 boardIndex.y >= 0 && boardIndex.y < gridCount)
             {
+                if (IsStoneHere(boardIndex) == true)
+                {
+                    Debug.LogError("이미 돌이 있음!");
+                    return;
+                }
+
                 print(boardIndex);
                 OmokFirebaseManager.Instance.RequestPlaceStone(boardIndex);
             }
@@ -91,13 +97,25 @@ public class Board : MonoBehaviour
         return new Vector2Int(col, row);
     }
 
-    public void PlaceStone(bool isHostTurn, Vector2Int index)
+    private bool IsStoneHere(Vector2Int index)
     {
         if (boardState[index.x, index.y] != 0)
         {
-            Debug.LogError($"이미 돌이 있습니다!");
-            return;
+            return true;
         }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void PlaceStone(bool isHostTurn, Vector2Int index)
+    {
+        //if (boardState[index.x, index.y] != 0)
+        //{
+        //    Debug.LogError($"이미 돌이 있습니다!");
+        //    return;
+        //}
 
         boardState[index.x, index.y] = isHostTurn ? 1 : 2;
 

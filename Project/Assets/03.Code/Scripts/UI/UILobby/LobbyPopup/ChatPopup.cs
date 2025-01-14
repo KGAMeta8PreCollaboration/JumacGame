@@ -50,8 +50,8 @@ public class ChatPopup : LobbyPopup
     {
         string sender = LobbyFirebaseManager.Instance.chatUserData.id;
         GameObject messagePrefab = sender == messageData.SenderId
-            ? whiteChatPrefab   //현재 플레이어
-            : orangeChatPrefab; //다른 플레이어
+            ? whiteChatPrefab   
+            : orangeChatPrefab; 
 
         GameObject receivedMessageObj = Instantiate(messagePrefab, textArea);
         MessagePrefab receivedMessagePrefab = receivedMessageObj.GetComponent<MessagePrefab>();

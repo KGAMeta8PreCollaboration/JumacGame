@@ -11,7 +11,7 @@ public class LobbyUIPage : LobbyPage
     [SerializeField] private TextMeshProUGUI userNameText;
     [SerializeField] private Button goChatButton;
     [SerializeField] private Button goOmokButton;
-    [SerializeField] private Button lobbyInButton; //¿Ã∞« ∞Êµø¥‘≤®
+    [SerializeField] private Button lobbyInButton; 
 
     private void OnEnable()
     {

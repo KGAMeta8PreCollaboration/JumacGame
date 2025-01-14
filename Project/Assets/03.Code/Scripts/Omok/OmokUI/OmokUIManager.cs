@@ -5,24 +5,57 @@ using UnityEngine;
 
 public class OmokUIManager : Singleton<OmokUIManager>
 {
-    [SerializeField] private GameObject leftUserInfoPrefab;
-    [SerializeField] private GameObject rightUserInfoPrefab;
+    [SerializeField] private List<OmokUIPage> pageList;
+    [SerializeField] private List<OmokUIPopup> popupList;
 
-    protected override void Awake()
+    private Stack<OmokUIPopup> openPopupStack = new Stack<OmokUIPopup>();
+
+    private void Start()
     {
-        base.Awake();
-        //DontDestroyOnLoad(gameObject);
+        PageOpen<OmokUIPage>();
     }
 
-    public void SetUserInfoPrefab(OmokUserData player, OmokUserData opponent)
+    public T PageOpen<T>() where T : OmokUIPage
     {
-        GameObject leftUserInfoObj = Instantiate(leftUserInfoPrefab, transform);
-        GameObject rightUserInfoObj = Instantiate(rightUserInfoPrefab, transform);
+        T @return = null;
+        foreach (OmokUIPage page in pageList)
+        {
+            bool isActive = page is T;
+            page.gameObject.SetActive(isActive);
+            if (isActive) @return = page as T;
+        }
 
-        LeftUserInfo leftUserInfo = leftUserInfoObj.GetComponent<LeftUserInfo>();
-        leftUserInfo.SetPrefab(player.nickname, "임시", false);
+        return @return;
+    }
 
-        RightUserInfo rightUserInfo = rightUserInfoObj.GetComponent<RightUserInfo>();
-        rightUserInfo.SetPrefab(opponent.nickname, "임시", true);
+    public T PopupOpen<T>() where T : OmokUIPopup
+    {
+        T @return = popupList.Find((popup) => popup is T) as T;
+        if (@return != null && !openPopupStack.Contains(@return))
+        {
+            print($"{@return.name}");
+            @return.gameObject.SetActive(true);
+            openPopupStack.Push(@return);
+        }
+        return @return;
+    }
+
+    public void PopupClose()
+    {
+        if (openPopupStack.Count > 0)
+        {
+            OmokUIPopup targetPopup = openPopupStack.Pop();
+            targetPopup.gameObject.SetActive(false);
+        }
+    }
+
+    public void AllPopupClose()
+    {
+        while (openPopupStack.Count > 0)
+        {
+
+            OmokUIPopup targetPopup = openPopupStack.Pop();
+            targetPopup.gameObject.SetActive(false);
+        }
     }
 }
