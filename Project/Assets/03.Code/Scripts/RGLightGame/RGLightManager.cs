@@ -3,11 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Minigame.RGLight
 {
@@ -18,6 +15,8 @@ namespace Minigame.RGLight
         [SerializeField] private GameObject _introPanel;
         [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private Transform _startPoint;
+        [SerializeField] private CageManager _cageManagerPrefab;
+        [SerializeField] private RGLightGame _rglightGamePrefab;
         public int defaultMoney;
 
         public float limitTime;
@@ -35,6 +34,8 @@ namespace Minigame.RGLight
         private DatabaseReference _rglightRef;
 
         private Minigame.RGLight.Player _player;
+        private CageManager _cageManager;
+        private RGLightGame _rglightGame;
         private int _addMoney;
 
         private void Awake()
@@ -45,8 +46,24 @@ namespace Minigame.RGLight
         private void Start()
         {
             Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
-            _player = player.GetComponent<Player>();
+            _player = player;
             player.Init(this);
+
+            _cageManager = Instantiate(_cageManagerPrefab, transform);
+            _rglightGame = Instantiate(_rglightGamePrefab, transform);
+
+            _cageManager.Init(this);
+            _rglightGame.Init(this);
+
+            _rglightGame.endSentenceAction += () => _cageManager.Spawn(_player.transform);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+
+            }
         }
 
         private IEnumerator IntroCoroutine()
@@ -58,6 +75,7 @@ namespace Minigame.RGLight
 
         public IEnumerator TimeCheckCoroutine()
         {
+            StartCoroutine(_rglightGame.ReadSentence());
             startTime = Time.time;
             while (!IsEndGame)
             {
