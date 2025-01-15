@@ -4,22 +4,16 @@ using UnityEngine;
 
 namespace Minigame.RGLight
 {
-
-    public class EndLine : MonoBehaviour
+    public class Money : MonoBehaviour
     {
-        private Collider _coll;
-
-        private void Awake()
-        {
-            _coll = GetComponent<Collider>();
-        }
+        public int moneyAmount;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<Minigame.RGLight.Player>(out Minigame.RGLight.Player player))
             {
-                _coll.enabled = false;
-                player.RGLightManager.GameResult(true);
+                player.RGLightManager.AddMoney(moneyAmount);
+                Destroy(gameObject);
             }
         }
     }

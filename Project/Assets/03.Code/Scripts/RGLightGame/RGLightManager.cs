@@ -1,7 +1,13 @@
+using Firebase.Database;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Minigame.RGLight
 {
@@ -12,8 +18,24 @@ namespace Minigame.RGLight
         [SerializeField] private GameObject _introPanel;
         [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private Transform _startPoint;
+        public int defaultMoney;
 
+        public float limitTime;
+        public float startTime;
+        public float endTime;
 
+        public float mainPageUpdateInterval;
+
+        public bool IsEndGame { get; private set; }
+        public bool OverTime { get { return (limitTime <= TimeDiff); } }
+        public float RemainTime { get { return limitTime - TimeDiff; } }
+        public float TimeDiff { get { return endTime - startTime; } }
+        public MainPage MainPage { get; private set; }
+
+        private DatabaseReference _rglightRef;
+
+        private Minigame.RGLight.Player _player;
+        private int _addMoney;
 
         private void Awake()
         {
@@ -23,16 +45,42 @@ namespace Minigame.RGLight
         private void Start()
         {
             Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
+            _player = player.GetComponent<Player>();
             player.Init(this);
         }
-
-
 
         private IEnumerator IntroCoroutine()
         {
             _introPanel.SetActive(true);
             yield return new WaitForSeconds(introTime);
             _introPanel.SetActive(false);
+        }
+
+        public IEnumerator TimeCheckCoroutine()
+        {
+            startTime = Time.time;
+            while (!IsEndGame)
+            {
+                endTime = Time.time;
+                if (OverTime) GameResult(false);
+                yield return null;
+            }
+        }
+
+        public IEnumerator MainPageUpdateCoroutine()
+        {
+            MainPage = PageManager.Instance.PageOpen<MainPage>();
+            while (!IsEndGame)
+            {
+                MainPage.SetRemainTime(ConvertToMinutesAndSeconds(RemainTime));
+                MainPage.SetMoveDistance(_player.playerDistanceTracker.PlayerDistance);
+                yield return new WaitForSeconds(mainPageUpdateInterval);
+            }
+        }
+
+        public void AddMoney(int value)
+        {
+            _addMoney += value;
         }
 
         private void EndGame()
@@ -42,6 +90,7 @@ namespace Minigame.RGLight
 
         public void GameResult(bool isSuccess)
         {
+            IsEndGame = true;
             if (isSuccess)
             {
                 OnSuccess();
@@ -54,12 +103,83 @@ namespace Minigame.RGLight
 
         private void OnSuccess()
         {
-            PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("성공", "컨트롤이 좋노", EndGame);
+            SetMoney(defaultMoney + _addMoney);
+            print(defaultMoney + _addMoney);
+            SetScore(_player.playerDistanceTracker.ScoreByDistance());
+
+            string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
+            PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
         }
 
         private void OnDefeat()
         {
-            PopupManager.Instance.PopupOpen<AlarmPopup>().SetPopup("실패", "컨트롤이 안좋노", EndGame);
+            SetMoney(defaultMoney);
+            SetScore(_player.playerDistanceTracker.ScoreByDistance());
+
+            string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
+            PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);
+        }
+
+        string ConvertToMinutesAndSeconds(float time)
+        {
+            int minutes = Mathf.FloorToInt(time / 60);
+            int seconds = Mathf.FloorToInt(time % 60);
+            int milliseconds = Mathf.FloorToInt((time % 1) * 100);
+            return $"{minutes:D2}:{seconds:D2}:{milliseconds:D2}";
+        }
+
+        private async void SetMoney(int value)
+        {
+            try
+            {
+                DatabaseReference logInUsers = GameManager.Instance.FirebaseManager.LogInUsersRef;
+                DataSnapshot snapshot = await logInUsers.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
+                LogInUserData userData;
+
+                if (snapshot.Exists)
+                {
+                    userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
+                    userData.money += value;
+                }
+                else
+                {
+                    userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, money: value);
+                }
+
+                string json = JsonConvert.SerializeObject(userData);
+                await logInUsers.Child(GameManager.Instance.FirebaseManager.User.UserId).SetRawJsonValueAsync(json);
+            }
+            catch (Exception e)
+            {
+                print(e.Message);
+            }
+        }
+
+        private async void SetScore(int value)
+        {
+            try
+            {
+                _rglightRef = GameManager.Instance.FirebaseManager.MinigamesRef.Child("rglight");
+                DataSnapshot snapshot = await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
+                RGLightUserData userData;
+
+                if (snapshot.Exists)
+                {
+                    userData = JsonConvert.DeserializeObject<RGLightUserData>(snapshot.GetRawJsonValue());
+                    userData.score += value;
+                }
+                else
+                {
+                    userData = new RGLightUserData(value);
+                }
+
+                string json = JsonConvert.SerializeObject(userData);
+                await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).SetRawJsonValueAsync(json);
+            }
+            catch (Exception e)
+            {
+                print(e.Message);
+            }
         }
     }
 }
