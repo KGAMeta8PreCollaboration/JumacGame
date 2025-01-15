@@ -5,19 +5,19 @@ using UnityEngine.UI;
 
 namespace Minigame.RGLight
 {
-	public class MainPage : Page
-	{
-		[SerializeField] private Text _remainTimeText;
-		[SerializeField] private Text _moveDistanceText;
+    public class MainPage : Page
+    {
+        [SerializeField] private Text _remainTimeText;
+        [SerializeField] private Text _moveDistanceText;
 
-		public void SetRemainTime(string time)
-		{
-			_moveDistanceText.text = time;
-		}
+        public void SetRemainTime(string time)
+        {
+            _remainTimeText.text = time;
+        }
 
-		public void SetMoveDistance(float distance)
-		{
-			_moveDistanceText.text = distance.ToString() + "m";
-		}
-	}
+        public void SetMoveDistance(float distance)
+        {
+            _moveDistanceText.text = distance.ToString() + "m";
+        }
+    }
 }

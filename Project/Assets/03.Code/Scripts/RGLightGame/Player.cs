@@ -5,35 +5,36 @@ using UnityEngine;
 
 namespace Minigame.RGLight
 {
-	public class Player : MonoBehaviour
-	{
-		public float moveSpeed;
-		public RGLightManager RGLightManager { get; private set; }
+    public class Player : MonoBehaviour
+    {
+        public float moveSpeed;
+        public RGLightManager RGLightManager { get; private set; }
 
-		public PlayerDistanceTracker playerDistanceTracker { get; private set; }
-		private PlayerInputManager _playerInputManager;
-		private Rigidbody _playerRigidbody;
+        public PlayerDistanceTracker playerDistanceTracker { get; private set; }
+        private PlayerInputManager _playerInputManager;
+        private Rigidbody _playerRigidbody;
 
-		private void FixedUpdate()
-		{
-			Move(_playerInputManager.InputMoveDir);
-		}
+        private void FixedUpdate()
+        {
+            if (RGLightManager.IsEndGame) return;
+            Move(_playerInputManager.InputMoveDir);
+        }
 
-		private void Move(Vector2 input)
-		{
-			Vector3 actualMove = new Vector3(input.x, 0, input.y).normalized * moveSpeed * Time.fixedDeltaTime;
-			_playerRigidbody.MovePosition(_playerRigidbody.position + actualMove);
-		}
+        private void Move(Vector2 input)
+        {
+            Vector3 actualMove = new Vector3(input.x, 0, input.y).normalized * moveSpeed * Time.fixedDeltaTime;
+            _playerRigidbody.MovePosition(_playerRigidbody.position + actualMove);
+        }
 
-		public void Init(RGLightManager manager)
-		{
-			_playerInputManager = GetComponent<PlayerInputManager>();
-			_playerRigidbody = GetComponent<Rigidbody>();
-			playerDistanceTracker = GetComponent<PlayerDistanceTracker>();
-			RGLightManager = manager;
-			CinemachineVirtualCamera cvc = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
-			cvc.Follow = transform;
-			cvc.LookAt = transform;
-		}
-	}
+        public void Init(RGLightManager manager)
+        {
+            _playerInputManager = GetComponent<PlayerInputManager>();
+            _playerRigidbody = GetComponent<Rigidbody>();
+            playerDistanceTracker = GetComponent<PlayerDistanceTracker>();
+            RGLightManager = manager;
+            CinemachineVirtualCamera cvc = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
+            cvc.Follow = transform;
+            cvc.LookAt = transform;
+        }
+    }
 }

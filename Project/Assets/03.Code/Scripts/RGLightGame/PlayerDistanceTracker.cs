@@ -2,37 +2,55 @@ using Minigame.RGLight;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public class PlayerDistanceTracker : MonoBehaviour
+
+namespace Minigame.RGLight
 {
-	public float PlayerDistance
-	{
-		get
-		{
-			return System.MathF.Round(_playerDistance, 2);
-		}
-	}
+    public class PlayerDistanceTracker : MonoBehaviour
+    {
+        public float bottom;
+        public float middle;
 
-	private Transform _startLine;
-	private Transform _endLine;
+        public int bscore;
+        public int mscore;
+        public int tscore;
 
-	private float _totalUnityDistance;
-	private float _playerDistance;
+        public float PlayerDistance
+        {
+            get
+            {
+                return System.MathF.Round(_playerDistance, 2);
+            }
+        }
 
-	private void Awake()
-	{
-		_startLine = GameObject.FindObjectOfType<StartLine>().transform;
-		_endLine = GameObject.FindObjectOfType<EndLine>().transform;
-	}
+        private Transform _startLine;
+        private Transform _endLine;
 
-	private void Start()
-	{
-		_totalUnityDistance = _endLine.position.z - _startLine.position.z;
-	}
+        private float _totalUnityDistance;
+        private float _playerDistance;
 
-	private void Update()
-	{
-		float playerUnityDistance = transform.position.z - _startLine.position.z;
+        private void Awake()
+        {
+            _startLine = GameObject.FindObjectOfType<StartLine>().transform;
+            _endLine = GameObject.FindObjectOfType<EndLine>().transform;
+        }
 
-		_playerDistance = Mathf.Clamp01(playerUnityDistance / _totalUnityDistance) * 150f;
-	}
+        private void Start()
+        {
+            _totalUnityDistance = _endLine.position.z - _startLine.position.z;
+        }
+
+        private void Update()
+        {
+            float playerUnityDistance = transform.position.z - _startLine.position.z;
+
+            _playerDistance = Mathf.Clamp01(playerUnityDistance / _totalUnityDistance) * 150f;
+        }
+
+        public int ScoreByDistance()
+        {
+            if (PlayerDistance <= bottom) return bscore;
+            else if (PlayerDistance <= middle) return mscore;
+            else return tscore;
+        }
+    }
 }

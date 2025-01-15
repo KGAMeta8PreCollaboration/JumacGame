@@ -269,9 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad641ffe23be54340b9d99fe8cc0677c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
   moveSpeed: 10
-  endLine: {fileID: 0}
 --- !u!114 &3663090094351484750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,5 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbc862eba5d06642b583f5dfcd0e77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLine: {fileID: 0}
-  endLine: {fileID: 0}
+  bottom: 50
+  middle: 100
+  bscore: 5
+  mscore: 10
+  tscore: 20
