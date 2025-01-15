@@ -24,6 +24,9 @@ public class CameraMovement : MonoBehaviour
 	public void OnLook(InputAction.CallbackContext context)
 	{
 		Vector2 input = context.ReadValue<Vector2>();
+		Vector2 pointerPosition = Pointer.current.position.ReadValue();
+		if (pointerPosition.x < Screen.width / 2)
+			return;
 		rotX += input.y * sensitivity * Time.deltaTime;
 		rotY += input.x * sensitivity * Time.deltaTime;
 	}

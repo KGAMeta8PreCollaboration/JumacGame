@@ -28,8 +28,6 @@ public class LobbyManager : MonoBehaviour
         if (status == DependencyStatus.Available)
         {
             _dbLobbyRef = GameManager.Instance.FirebaseManager.Database.GetReference("lobby");
-            //_dbLobbyRef = reference.Child("lobby");
-            //_dbLobbyRef = reference;
         }
         JoinLobby(logInUserData.serverName, logInUserData.nickname);
     }
@@ -115,11 +113,8 @@ public class LobbyManager : MonoBehaviour
             return;
         }
         LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
-        print($"remote user uid : {e.Snapshot.Key}");
-        // data.Wait();
         DataSnapshot data = await GameManager.Instance.FirebaseManager.LogInUsersRef.Child(e.Snapshot.Key).GetValueAsync();
         string a = data.GetRawJsonValue();
-        print($"11111 : {data.Child("race")}");
         CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, 1, user.position.z), data.Child("race").Value.ToString());
     }
 
