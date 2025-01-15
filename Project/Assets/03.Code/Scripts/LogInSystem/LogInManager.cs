@@ -65,7 +65,7 @@ public class LogInManager : MonoBehaviour
             catch (Exception e)
             {
                 print($"�����͸� ������ �� ���� : {e.Message}");
-
+                Debug.LogWarning($"1111 :{e.Data}, {e.Message}");
                 SignOut();
                 return false;
             }
@@ -73,6 +73,7 @@ public class LogInManager : MonoBehaviour
         catch (Exception e)
         {
             print($"�α��� ���� : {e.Message}");
+            Debug.LogWarning($"2222 : {e.Data},  {e.Message}");
 
             return false;
         }
