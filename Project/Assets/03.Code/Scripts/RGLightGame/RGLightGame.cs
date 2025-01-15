@@ -2,10 +2,12 @@ using Minigame.RGLight;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RGLightGame : MonoBehaviour
 {
+    private TextMeshProUGUI _charText;
     public string sentence;
     public float blankInterval;
     public float notBlankInterval;
@@ -27,20 +29,24 @@ public class RGLightGame : MonoBehaviour
             if (c.Equals(' '))
             {
                 print(c);
+                _charText.text = c.ToString();
                 yield return new WaitForSeconds(blankInterval);
             }
             else
             {
                 print(c);
+                _charText.text = c.ToString();
                 yield return new WaitForSeconds(notBlankInterval);
             }
         }
 
-        if(!RGLightManager.IsEndGame) endSentenceAction?.Invoke();
+        _charText.text = "";
+        if (!RGLightManager.IsEndGame) endSentenceAction?.Invoke();
     }
 
     public void Init(RGLightManager manager)
     {
         RGLightManager = manager;
+        _charText = GameObject.Find("Char").GetComponent<TextMeshProUGUI>();
     }
 }
