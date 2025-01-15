@@ -60,12 +60,11 @@ public class FindRoomPopup : LobbyPopup
     {
         if (selectedRoom == null)
         {
-            Debug.Log("���õ� ���� �����ϴ�");
+            Debug.Log("방이 없습니다");
         }
 
         if (selectedRoom != null)
         {
-            Debug.Log("���õ� ���� �ֽ��ϴ�!");
             if (selectedRoom.state == RoomState.Waiting)
             {
                 LobbyFirebaseManager.Instance.JoinRoom(selectedRoom, LobbyFirebaseManager.Instance.chatUserData);

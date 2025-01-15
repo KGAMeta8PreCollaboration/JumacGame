@@ -5,30 +5,44 @@ using UnityEngine;
 
 public class OmokUIManager : Singleton<OmokUIManager>
 {
-    [SerializeField] private List<OmokUIPage> pageList;
-    [SerializeField] private List<OmokUIPopup> popupList;
+    [SerializeField] private List<OmokPage> pageList;
+    [SerializeField] private List<OmokPopup> popupList;
 
-    private Stack<OmokUIPopup> openPopupStack = new Stack<OmokUIPopup>();
+    private Stack<OmokPopup> openPopupStack = new Stack<OmokPopup>();
+    protected override void Awake()
+    {
+        base.Awake();
+        //DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
-        PageOpen<OmokUIPage>();
+        //PageOpen<OmokPage>();
     }
 
-    public T PageOpen<T>() where T : OmokUIPage
+    public T PageOpen<T>() where T : OmokPage
     {
         T @return = null;
-        foreach (OmokUIPage page in pageList)
+        foreach (OmokPage page in pageList)
         {
             bool isActive = page is T;
             page.gameObject.SetActive(isActive);
             if (isActive) @return = page as T;
         }
-
         return @return;
     }
 
-    public T PopupOpen<T>() where T : OmokUIPopup
+    public T PageUse<T>() where T : OmokPage
+    {
+        T @return = null;
+        foreach (OmokPage page in pageList)
+        {
+            @return = page as T;
+        }
+        return @return;
+    }
+
+    public T PopupOpen<T>() where T : OmokPopup
     {
         T @return = popupList.Find((popup) => popup is T) as T;
         if (@return != null && !openPopupStack.Contains(@return))
@@ -44,7 +58,7 @@ public class OmokUIManager : Singleton<OmokUIManager>
     {
         if (openPopupStack.Count > 0)
         {
-            OmokUIPopup targetPopup = openPopupStack.Pop();
+            OmokPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
         }
     }
@@ -53,8 +67,7 @@ public class OmokUIManager : Singleton<OmokUIManager>
     {
         while (openPopupStack.Count > 0)
         {
-
-            OmokUIPopup targetPopup = openPopupStack.Pop();
+            OmokPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
         }
     }

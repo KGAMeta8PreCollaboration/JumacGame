@@ -37,6 +37,6 @@ public class LobbyUIPage : LobbyPage
 
     private void OnClickGoOmokButton()
     {
-        UILobbyManager.Instance.PopupOpen<OmokPopup>();
+        UILobbyManager.Instance.PopupOpen<MakeOmokRoomPopup>();
     }
 }

@@ -24,12 +24,13 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     private EventHandler<ChildChangedEventArgs> _childAddedHandler;
 
+    private RoomData _roomData;
     private LogInUserData _logInUserData;
 
     protected override void Awake()
     {
         base.Awake();
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     private async void Start()
@@ -42,7 +43,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
             DatabaseReference logInUserData = Database.GetReference("loginusers");
             DataSnapshot logInUserSnapshot = await logInUserData.Child(User.UserId).GetValueAsync();
-            
+
             if (logInUserSnapshot.Exists)
             {
                 string logInUserJson = logInUserSnapshot.GetRawJsonValue();
@@ -225,11 +226,21 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                     roomData.guest = chatUserData.id;
                     roomData.state = RoomState.Playing;
 
-                    string updateRoomJson = JsonConvert.SerializeObject(roomData);
+                    _roomData = roomData;
+
+                    string updateRoomJson = JsonConvert.SerializeObject(_roomData);
                     await _dbRoomRef.Child(roomData.roomKey).SetRawJsonValueAsync(updateRoomJson);
 
-                    MonitorRoomState(roomData);
+                    MonitorRoomState(_roomData);
                 }
+                else
+                {
+                    Debug.LogError("게스트가 이미 있습니다");
+                }
+            }
+            else
+            {
+                Debug.LogError("해당 방의 Snapshot이 없음");
             }
         }
         catch (Exception e)
@@ -238,6 +249,8 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
     }
 
+    private RoomState _previousState = RoomState.Waiting;
+
     private void MonitorRoomState(RoomData roomData)
     {
         _dbRoomRef = Database.GetReference(chatUserData.serverName)
@@ -245,25 +258,45 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             .Child(roomData.roomKey)
             .Child("state");
 
-        _dbRoomRef.ValueChanged += (sender, args) =>
+        _dbRoomRef.ValueChanged += async (sender, args) =>
         {
             if (args.Snapshot.Exists)
             {
                 string stateValue = args.Snapshot.Value.ToString();
                 print($"바뀌기 전 방 상태 : {stateValue}");
 
-                if (!string.IsNullOrEmpty(stateValue))
+                RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
+
+                if (newState != _previousState)
                 {
-                    RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
+                    _previousState = newState;
+
                     print($"바뀐 후 방 상태 : {stateValue}");
 
                     if (newState == RoomState.Playing)
                     {
-                        string roomDataJson = JsonConvert.SerializeObject(roomData);
-                        PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
-                        PlayerPrefs.Save();
+                        DatabaseReference lastRoomRef = Database.GetReference(chatUserData.serverName)
+                        .Child("rooms")
+                        .Child(roomData.roomKey);
 
+                        DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
+
+                        //string json = snapshot.GetRawJsonValue();
+                        //RoomData lastRoomData = JsonConvert.DeserializeObject<RoomData>(json);
+
+                        if (snapshot.Exists)
+                        {
+                            string roomDataJson = snapshot.GetRawJsonValue();
+                            PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
+                            PlayerPrefs.Save();
+
+                        }
                         SceneManager.LoadScene("OmokScene");
+                    }
+
+                    else if (newState == RoomState.Finished)
+                    {
+                        //여기서는 게임 종료
                     }
                 }
             }

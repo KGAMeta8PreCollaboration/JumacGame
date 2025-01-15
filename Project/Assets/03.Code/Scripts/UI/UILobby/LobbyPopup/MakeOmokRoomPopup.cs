@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OmokPopup : LobbyPopup
+public class MakeOmokRoomPopup : LobbyPopup
 {
     [SerializeField] private Button makeRoomButton;
     [SerializeField] private Button findRoomButton;

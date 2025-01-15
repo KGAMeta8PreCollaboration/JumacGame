@@ -13,7 +13,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UIElements;
 
-public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿� �ı��� �Ǵ� Singleton���� �����ϸ� ���� �� �ϴ�.
+public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 {
     public FirebaseAuth Auth { get; private set; }
     public FirebaseDatabase Database { get; private set; }
@@ -21,8 +21,8 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
     private LogInUserData _logInUserData;
     private DatabaseReference _dbRoomRef;
-    private RoomData _currentRoomData;
 
+    public RoomData currentRoomData;
     public OmokUserData hostData;
     public OmokUserData guestData;
 
@@ -47,21 +47,21 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
             if (!string.IsNullOrEmpty(roomDataJson))
             {
                 //MonitorRoomState에서 가져온 CurrentRoomData로 정보 넘겨줌
-                _currentRoomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
-                _dbRoomRef = Database.GetReference(_currentRoomData.serverName)
+                currentRoomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
+                _dbRoomRef = Database.GetReference(currentRoomData.serverName)
                     .Child("rooms")
-                    .Child(_currentRoomData.roomKey);
+                    .Child(currentRoomData.roomKey);
 
                 //그 넘겨준 정보로 host와 guest 정보를 OmokUserData로 치환함
-                hostData = new OmokUserData(_currentRoomData.host);
-                guestData = new OmokUserData(_currentRoomData.guest);
+                hostData = new OmokUserData(currentRoomData.host);
+                guestData = new OmokUserData(currentRoomData.guest);
+                print($"현재 게스트 id : {currentRoomData.guest}");
                 hostData = await SetUserData(hostData);
                 guestData = await SetUserData(guestData);
 
             }
-            OmokGameManager.Instance.SetUsers(); //-> 이건 나중에 OmokUIManager에서 실행해도 좋을 듯 하다
-
             MonitorTurnList();
+            OmokUIManager.Instance.PageOpen<OmokUIPage>().Init(currentRoomData);
         }
         catch (Exception e)
         {
@@ -115,15 +115,15 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
     public void RequestPlaceStone(Vector2Int boardIndex)
     {
-        bool amIHost = Auth.CurrentUser.UserId == _currentRoomData.host;
+        bool amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
 
         //턴이 맞지 않을때는 이곳이 실행됨
-        if (_currentRoomData.isHostTurn && !amIHost)
+        if (currentRoomData.isHostTurn && !amIHost)
         {
             Debug.Log("현재 호스트 턴인데, 나는 게스트!.");
             return;
         }
-        if (!_currentRoomData.isHostTurn && amIHost)
+        if (!currentRoomData.isHostTurn && amIHost)
         {
             Debug.Log("현재 게스트 턴인데, 나는 호스트!.");
             return;
@@ -135,7 +135,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
         {
             coodinate = $"{boardIndex.x}, {boardIndex.y}",
             isHostTurn = amIHost,
-            turnCount = _currentRoomData.turnCount //여기에서 turnCount = 1
+            turnCount = currentRoomData.turnCount //여기에서 turnCount = 1
         };
 
         //board.PlaceStone(newTurn.isHostTurn, new Vector2Int(boardIndex.x, boardIndex.y));
@@ -200,12 +200,13 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager> //���߿�
 
     private async void UpdateRoomData(bool isHostTurn, int turnCount)
     {
-        _currentRoomData.isHostTurn = !isHostTurn;
-        _currentRoomData.turnCount = turnCount + 1;
+        currentRoomData.isHostTurn = !isHostTurn;
+        currentRoomData.turnCount = turnCount + 1;
+        OmokUIManager.Instance.PageUse<OmokUIPage>().UpdateTurnInfo(currentRoomData.turnCount + 1);
 
         Dictionary<string, object> updateDic = new Dictionary<string, object>();
-        updateDic["isHostTurn"] = _currentRoomData.isHostTurn;
-        updateDic["turnCount"] = _currentRoomData.turnCount;
+        updateDic["isHostTurn"] = currentRoomData.isHostTurn;
+        updateDic["turnCount"] = currentRoomData.turnCount;
 
         await _dbRoomRef.UpdateChildrenAsync(updateDic);
     }

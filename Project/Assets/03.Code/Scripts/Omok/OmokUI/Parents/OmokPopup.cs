@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OmokUIPopup : MonoBehaviour
+public class OmokPopup : MonoBehaviour
 {
     protected Action closeAction;
 

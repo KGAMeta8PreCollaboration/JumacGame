@@ -328,6 +328,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5389294111174138453, guid: f755d25fe2ff60e4b952ed682df72f5a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10.549805
+      objectReference: {fileID: 0}
     - target: {fileID: 7769738861135951687, guid: f755d25fe2ff60e4b952ed682df72f5a, type: 3}
       propertyPath: m_Name
       value: RightUserInfo
@@ -342,6 +346,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1893121642826289286, guid: f755d25fe2ff60e4b952ed682df72f5a, type: 3}
   m_PrefabInstance: {fileID: 485783051}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &485783053 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7074894307827010659, guid: f755d25fe2ff60e4b952ed682df72f5a, type: 3}
+  m_PrefabInstance: {fileID: 485783051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78fcc99a5ba1804abc1a4c439dc9b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504383039
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +668,7 @@ GameObject:
   - component: {fileID: 704794085}
   - component: {fileID: 704794084}
   m_Layer: 5
-  m_Name: TurnNumText
+  m_Name: TurnCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,8 +905,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e292636baa73871448704de653c30ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftUserInfoPrefab: {fileID: 5047486563848347478, guid: 31a00e461ac1fdd45ab7948d06a07e49, type: 3}
-  rightUserInfoPrefab: {fileID: 7769738861135951687, guid: f755d25fe2ff60e4b952ed682df72f5a, type: 3}
+  pageList:
+  - {fileID: 843416014}
+  popupList: []
 --- !u!1 &843416012
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &843416013
 RectTransform:
   m_ObjectHideFlags: 0
@@ -946,6 +962,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33600aeb5f341ec49941e460ea062d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnCountText: {fileID: 704794084}
+  turnUserName: {fileID: 1419108871}
+  rightUserInfoPrefab: {fileID: 485783053}
+  leftUserInfoPrefab: {fileID: 1501628840}
+  giveUpButton: {fileID: 606650235}
 --- !u!1 &1115911549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1286,6 +1307,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9025738905233326802, guid: 31a00e461ac1fdd45ab7948d06a07e49, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10.060059
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1296,6 +1321,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6361519462576855584, guid: 31a00e461ac1fdd45ab7948d06a07e49, type: 3}
   m_PrefabInstance: {fileID: 1501628838}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1501628840 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8132876475945590074, guid: 31a00e461ac1fdd45ab7948d06a07e49, type: 3}
+  m_PrefabInstance: {fileID: 1501628838}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5dd7e0cc802734d9e531049f95cd3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1647958461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,6 +1487,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3f91abededb8b459a2f64ca582367e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentRoomData:
+    roomKey: 
+    roomName: 
+    serverName: 
+    host: 
+    guest: 
+    isHostTurn: 0
+    turnCount: 0
+    state: 0
+    turnList: []
   hostData:
     id: 
     nickname: 

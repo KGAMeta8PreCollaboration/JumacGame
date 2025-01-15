@@ -10,15 +10,15 @@ public class RightUserInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI recordText;
     [SerializeField] private Image stoneImage;
 
-    public void SetPrefab(string nickName, string record, bool isBlackStone)
+    public void SetPrefab(OmokUserData omokUserData, bool isHost)
     {
-        this.nickNameText.text = nickName;
-        this.recordText.text = record;
-        if (isBlackStone)
+        this.nickNameText.text = omokUserData.nickname;
+        this.recordText.text = $"승 : {omokUserData.win} 패 : {omokUserData.lose}";
+        if (isHost)
         {
             stoneImage.color = Color.black;
         }
-        else if (!isBlackStone)
+        else if (!isHost)
         {
             stoneImage.color= Color.white;
         }

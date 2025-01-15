@@ -255,6 +255,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: LobbyCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4070420005540400549, guid: 2cb0df2a08867ce48b9bdefbbffee97d, type: 3}
+      propertyPath: m_Name
+      value: MakeOmokRoomPopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070420005540400549, guid: 2cb0df2a08867ce48b9bdefbbffee97d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7469575389467287146, guid: 2cb0df2a08867ce48b9bdefbbffee97d, type: 3}
       propertyPath: m_IsActive
       value: 0
