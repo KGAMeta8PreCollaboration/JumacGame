@@ -210,4 +210,10 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
         await _dbRoomRef.UpdateChildrenAsync(updateDic);
     }
+
+    public bool AmIHost()
+    {
+        string myUserId = GameManager.Instance.FirebaseManager.Auth.CurrentUser.UserId;
+        return myUserId == currentRoomData.host;
+    }
 }

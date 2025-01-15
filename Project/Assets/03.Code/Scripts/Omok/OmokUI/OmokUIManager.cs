@@ -12,12 +12,14 @@ public class OmokUIManager : Singleton<OmokUIManager>
     protected override void Awake()
     {
         base.Awake();
-        //DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        //PageOpen<OmokPage>();
+        foreach (OmokPage page in pageList)
+        {
+            page.gameObject.SetActive(false);
+        }
+        foreach (OmokPopup popup in popupList)
+        {
+            popup.gameObject.SetActive(false);
+        }
     }
 
     public T PageOpen<T>() where T : OmokPage

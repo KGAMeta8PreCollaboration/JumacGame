@@ -17,7 +17,7 @@ public class Board : MonoBehaviour
     private float cellSize;
     private Vector3 boardStartPos;
 
-    private int[,] boardState;
+    private int[,] boardState; //0 -> 기본, 1 -> 흑, 2 -> 백
 
     private void Start()
     {
@@ -111,13 +111,9 @@ public class Board : MonoBehaviour
 
     public void PlaceStone(bool isHostTurn, Vector2Int index)
     {
-        //if (boardState[index.x, index.y] != 0)
-        //{
-        //    Debug.LogError($"이미 돌이 있습니다!");
-        //    return;
-        //}
-
         boardState[index.x, index.y] = isHostTurn ? 1 : 2;
+        int isFive = CheckFive(boardState[index.x, index.y]);
+
 
         GameObject stonePrefab = isHostTurn ? blackStonePrefab : whiteStonePrefab;
         GameObject stone = Instantiate(stonePrefab);
@@ -131,5 +127,85 @@ public class Board : MonoBehaviour
         stone.transform.position = position;
         //stone.transform.localScale = new Vector3(556, 556, 556);
         stone.transform.SetParent(transform);
+
+        if (isFive == 1)
+        {
+            Debug.LogWarning("오목이 됨");
+
+            //나는 호스트인가?
+            bool amIHost = OmokFirebaseManager.Instance.AmIHost();
+            
+            //승자가 호스트인가?
+            bool winnerIsHost = isHostTurn;
+
+            //승자와 내가 상태가 같으면 우승자
+            bool iAmWinner = (amIHost == winnerIsHost);
+
+            GameEndUIPage popup = OmokUIManager.Instance.PopupOpen<GameEndUIPage>();
+            popup.AmIWinner(iAmWinner);
+        }
+    }
+
+    //0 -> None, 1 -> 오목, 2 -> 오목이상
+    private int CheckFive(int now)
+    {
+        for (int i = 0; i < gridCount; i++)
+        {
+            for (int j = 0; j < gridCount; j++)
+            {
+                if (boardState[i, j] != now) continue;
+
+                // ->
+                if (IsInRange(j + 4)  
+                    && boardState[i, j + 1] == now
+                    && boardState[i, j + 2] == now
+                    && boardState[i, j + 3] == now
+                    && boardState[i, j + 4] == now)
+                {
+                    return (IsInRange(j + 5) && boardState[i, j + 5] == now) ? 2 : 1;
+                }
+
+                // ↓
+                else if (IsInRange(i + 4)
+                    && boardState[i + 1, j] == now
+                    && boardState[i + 2, j] == now
+                    && boardState[i + 3, j] == now
+                    && boardState[i + 4, j] == now)
+                {
+                    return (IsInRange(i + 5) && boardState[i + 5, j] == now) ? 2 : 1;
+                }
+
+                // ↗
+                else if (IsInRange(i + 4, j + 4)
+                    && boardState[i + 1, j + 1] == now
+                    && boardState[i + 2, j + 2] == now
+                    && boardState[i + 3, j + 3] == now
+                    && boardState[i + 4, j + 4] == now)
+                {
+                    return (IsInRange(i + 5, j + 5) && boardState[i + 5, j + 5] == now) ? 2 : 1;
+                }
+
+                // ↖
+                else if (IsInRange(i - 4, j + 4)
+                    && boardState[i - 1, j + 1] == now
+                    && boardState[i - 2, j + 2] == now
+                    && boardState[i - 3, j + 3] == now
+                    && boardState[i - 4, j + 4] == now)
+                {
+                    return (IsInRange(i - 5, j + 5) && boardState[i - 5, j + 5] == now) ? 2 : 1;
+                }
+            }
+        }
+        return 0 ;
+    }
+
+    //판을 벗어나지는 않았는지 확인하는 함수
+    private bool IsInRange(params int[] v)
+    {
+        for (int i = 0; i < v.Length; i++)
+        {
+            if (!(v[i] >= 0 && v[i] < gridCount)) return false; 
+        }
+        return true;
     }
 }

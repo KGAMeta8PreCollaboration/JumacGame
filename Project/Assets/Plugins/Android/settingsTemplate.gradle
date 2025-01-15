@@ -17,8 +17,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 // Android Resolver Repos Start
+        def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
         maven {
-            url "file:///C:/Users/gmlwo/Desktop/heejae/Jumak/Project/Assets/GeneratedLocalRepo/Firebase/m2repository" // Assets/Firebase/Editor/AppDependencies.xml:22, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/DatabaseDependencies.xml:22
+            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Assets/Firebase/Editor/AppDependencies.xml:22, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/DatabaseDependencies.xml:22
         }
         mavenLocal()
 // Android Resolver Repos End
