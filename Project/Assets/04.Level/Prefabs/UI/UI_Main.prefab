@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 128873100790810465}
   - component: {fileID: 8503033305349304300}
   - component: {fileID: 3595213631321083053}
+  - component: {fileID: 1152221832922354455}
   m_Layer: 5
   m_Name: JUMP
   m_TagString: Untagged
@@ -137,6 +138,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.3019608}
   m_EffectDistance: {x: 0, y: -7}
   m_UseGraphicAlpha: 1
+--- !u!114 &1152221832922354455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299335702335196866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0f5406375cd5f245999b671616ed6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localPlayer: {fileID: 0}
 --- !u!1 &469696748201291475
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +739,7 @@ GameObject:
   - component: {fileID: 5203687205604783115}
   - component: {fileID: 3488994195422476557}
   - component: {fileID: 5253268027883495243}
+  - component: {fileID: 6748914638835184866}
   m_Layer: 5
   m_Name: Dash
   m_TagString: Untagged
@@ -849,6 +864,21 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.3019608}
   m_EffectDistance: {x: 0, y: -7}
   m_UseGraphicAlpha: 1
+--- !u!114 &6748914638835184866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492222448382649621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8aea84ce4ed08a47bd1d113cc075d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localPlayer: {fileID: 0}
+  dashPower: 10
+  isHolding: 0
 --- !u!1 &2687687097454472003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,13 +1773,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd34346168cc62143937032279012ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handle: {fileID: 9089477740013583260}
-  maxDistance: 150
+  dir: {x: 0, y: 0}
   focusObjects:
   - {fileID: 533173335398324394}
   - {fileID: 1683925034817017699}
   - {fileID: 5218437799550360678}
   - {fileID: 5245693360468931514}
+  handle: {fileID: 9089477740013583260}
+  maxDistance: 150
 --- !u!1 &8468186709888265761
 GameObject:
   m_ObjectHideFlags: 0

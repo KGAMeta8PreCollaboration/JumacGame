@@ -7,15 +7,13 @@ public class LocalPlayer : MonoBehaviour
     public string username;
     public string UID;
     public string race;
-    [SerializeField] private float speed = 5f;
-
+    public float speed = 5f;
     public float jumpPower = 5.0f;
-
     private Vector3 _position;
     private Vector3 dir;
-    private Vector3 moveDirection = Vector3.zero;
+    public Vector3 moveDirection = Vector3.zero;
     public Rigidbody rb;
-    private bool isJump;
+    private bool _isJump;
 
     [SerializeField] private List<GameObject> characterList;
 
@@ -59,23 +57,26 @@ public class LocalPlayer : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        isJump = false;
+        _isJump = false;
 
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        // if (UID != GameManager.Instance.FirebaseManager.User.UserId)
-        //     return;
         Vector2 input = context.ReadValue<Vector2>();
         moveDirection = new Vector3(input.x, 0, input.y);
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (isJump)
+        Jump();
+    }
+
+    public void Jump()
+    {
+        if (_isJump)
             return;
-        isJump = true;
+        _isJump = true;
         rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
     }
 
@@ -83,7 +84,7 @@ public class LocalPlayer : MonoBehaviour
     {
         // 부딪힌 방향이 바닥인지를 확인하고 바닥이면 점프 가능한 상태로 만들어준다.
         if (other.contacts[0].normal.y > 0.7f)
-            isJump = false;
+            _isJump = false;
     }
 
     private void LateUpdate()
@@ -94,4 +95,5 @@ public class LocalPlayer : MonoBehaviour
         // print(transform.position - move);
         rb.MovePosition(transform.position - move);
     }
+
 }

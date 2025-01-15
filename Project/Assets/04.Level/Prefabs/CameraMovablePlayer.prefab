@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 6909182224725353708}
   - component: {fileID: 6766516088643280536}
   - component: {fileID: 2164444569677606975}
+  - component: {fileID: 2645908191655900796}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -562,6 +563,7 @@ MonoBehaviour:
   username: 
   UID: 
   speed: 20
+  characterList: []
 --- !u!135 &6766516088643280536
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -597,6 +599,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactView: {fileID: 0}
   radius: 1
+--- !u!114 &2645908191655900796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147569428395746178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8290ca7d412e8c2469c4bb6aaa0341a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6407798051511609620
 GameObject:
   m_ObjectHideFlags: 0

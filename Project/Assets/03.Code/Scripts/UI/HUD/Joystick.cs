@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,11 +12,13 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 		BottomLeft,
 		BottomRight
 	}
+
+	public Vector2 dir;
 	
-	public RectTransform handle;
-	public float maxDistance = 150f;
+	[SerializeField] private GameObject[] focusObjects;
+	[SerializeField] private RectTransform handle;
+	[SerializeField] private float maxDistance = 150f;
 	
-	public GameObject[] focusObjects;
 	
 	private Vector2 _startPosition;
 
@@ -62,8 +62,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 		else
 			handle.position = _startPosition + (position - _startPosition);
 		
-		Vector2 dir = (_startPosition - (Vector2)handle.position).normalized;
-		print("dir : " + dir);
+		dir = (_startPosition - (Vector2)handle.position).normalized;
 		if (dir == Vector2.zero)
 			SetFocusObjectsActive(FocusDirection.None);
 		else if (dir.x > 0 && dir.y < 0)
