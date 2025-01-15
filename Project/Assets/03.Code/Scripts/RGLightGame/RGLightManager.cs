@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Minigame.RGLight
@@ -12,6 +13,7 @@ namespace Minigame.RGLight
     {
         public float introTime;
         public string nextScene;
+        public Younghee younghee;
         [SerializeField] private GameObject _introPanel;
         [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private Transform _startPoint;
@@ -55,15 +57,20 @@ namespace Minigame.RGLight
             _cageManager.Init(this);
             _rglightGame.Init(this);
 
-            _rglightGame.endSentenceAction += () => _cageManager.Spawn(_player.transform);
+            _rglightGame.endSentenceAction = OnEndSentence;
+            younghee.endSkillAction = OnEndSkill;
         }
 
-        private void Update()
+        public void OnEndSentence()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
+            _cageManager.Spawn(_player.transform);
+            StartCoroutine(younghee.UseSkill());
+        }
 
-            }
+        public void OnEndSkill()
+        {
+            _cageManager.DestroyCage();
+            StartCoroutine(_rglightGame.ControllReadSentence());
         }
 
         private IEnumerator IntroCoroutine()
@@ -198,6 +205,12 @@ namespace Minigame.RGLight
             {
                 print(e.Message);
             }
+        }
+
+        private void OnDestroy()
+        {
+            _rglightGame.endSentenceAction -= OnEndSentence;
+            younghee.endSkillAction -= OnEndSkill;
         }
     }
 }

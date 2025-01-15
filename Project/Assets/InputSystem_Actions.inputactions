@@ -1018,6 +1018,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Test",
+            "id": "858d2f3e-8b30-4f69-a594-cc2e24de3559",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "a0cc080d-4972-41fa-8abf-f992b35064ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7c78f2a6-f3a2-4993-bb99-f056039a961e",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

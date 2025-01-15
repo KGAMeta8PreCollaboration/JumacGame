@@ -13,6 +13,12 @@ public class RGLightGame : MonoBehaviour
 
     public RGLightManager RGLightManager { get; private set; }
 
+    public IEnumerator ControllReadSentence()
+    {
+        yield return new WaitForSeconds(5f);
+        StartCoroutine(ReadSentence());
+    }
+
     public IEnumerator ReadSentence()
     {
         char[] array = sentence.ToCharArray();
@@ -29,7 +35,8 @@ public class RGLightGame : MonoBehaviour
                 yield return new WaitForSeconds(notBlankInterval);
             }
         }
-        endSentenceAction?.Invoke();
+
+        if(!RGLightManager.IsEndGame) endSentenceAction?.Invoke();
     }
 
     public void Init(RGLightManager manager)
