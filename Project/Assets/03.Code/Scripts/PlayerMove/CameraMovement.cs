@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,8 +36,8 @@ public class CameraMovement : MonoBehaviour
 		dirNormalized = realCamera.localPosition.normalized;
 		finalDistance = realCamera.localPosition.magnitude;
 
-		Cursor.visible = false;
-		Cursor.lockState = CursorLockMode.Locked;
+		// Cursor.visible = false;
+		// Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	private void Update()
