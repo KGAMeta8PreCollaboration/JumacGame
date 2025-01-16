@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FindRoomPopup : LobbyPopup
@@ -36,11 +37,11 @@ public class FindRoomPopup : LobbyPopup
 
     private async void FindRoom()
     {
-        waitingRoomList = await ChatFirebaseManager.Instance.FindRoom();
+        waitingRoomList = await LobbyFirebaseManager.Instance.FindRoom();
 
         if (waitingRoomList.Count < 0)
         {
-            Debug.Log("¹æÀÌ ¾ø´Ù");
+            Debug.Log("ë°©ì´ ì—†ìŠµë‹ˆë‹¤");
         }
 
         foreach (RoomData roomData in waitingRoomList)
@@ -59,13 +60,15 @@ public class FindRoomPopup : LobbyPopup
     {
         if (selectedRoom == null)
         {
-            Debug.Log("¼±ÅÃµÈ ¹æÀÌ ¾ø½À´Ï´Ù");
+            Debug.Log("ë°©ì´ ì—†ìŠµë‹ˆë‹¤");
         }
 
         if (selectedRoom != null)
         {
-            Debug.Log("¼±ÅÃµÈ ¹æÀÌ ÀÖ½À´Ï´Ù!");
-            //FirebaseManager.Instance.JoinRoom(selectedRoom, FirebaseManager.Instance.CurrentUserData, CheckMatchingSuccess);
+            if (selectedRoom.state == RoomState.Waiting)
+            {
+                LobbyFirebaseManager.Instance.JoinRoom(selectedRoom, LobbyFirebaseManager.Instance.chatUserData);
+            }
         }
     }
 }
