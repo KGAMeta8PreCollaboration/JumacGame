@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +24,9 @@ public class CameraMovement : MonoBehaviour
 	public void OnLook(InputAction.CallbackContext context)
 	{
 		Vector2 input = context.ReadValue<Vector2>();
+		Vector2 pointerPosition = Pointer.current.position.ReadValue();
+		if (pointerPosition.x < Screen.width / 2)
+			return;
 		rotX += input.y * sensitivity * Time.deltaTime;
 		rotY += input.x * sensitivity * Time.deltaTime;
 	}
@@ -37,8 +39,8 @@ public class CameraMovement : MonoBehaviour
 		dirNormalized = realCamera.localPosition.normalized;
 		finalDistance = realCamera.localPosition.magnitude;
 
-		//Cursor.visible = false;
-		//Cursor.lockState = CursorLockMode.Locked;
+		// Cursor.visible = false;
+		// Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	private void Update()

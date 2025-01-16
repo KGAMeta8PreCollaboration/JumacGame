@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
 using UnityEngine;
@@ -7,15 +8,15 @@ using Newtonsoft.Json;
 
 public class LobbyManager : MonoBehaviour
 {
-    public ClientPlayer myLobbyPlayer;
+    public LocalPlayer myLobbyPlayer;
     [HideInInspector] public LogInUserData logInUserData;
 
     [SerializeField] private GameObject myPlayerPrefab;
-    [SerializeField] private LobbyPlayer otherPlayerPrefab;
+    [SerializeField] private RemotePlayer otherPlayerPrefab;
     [SerializeField] private Transform playerSpawnPoint;
 
     private DatabaseReference _dbLobbyRef;
-    private Dictionary<string, LobbyPlayer> otherLobbyPlayerDic = new Dictionary<string, LobbyPlayer>();
+    private Dictionary<string, RemotePlayer> otherLobbyPlayerDic = new Dictionary<string, RemotePlayer>();
     private DatabaseReference userListRef;
     
     public async void Init()
@@ -27,8 +28,6 @@ public class LobbyManager : MonoBehaviour
         if (status == DependencyStatus.Available)
         {
             _dbLobbyRef = GameManager.Instance.FirebaseManager.Database.GetReference("lobby");
-            //_dbLobbyRef = reference.Child("lobby");
-            //_dbLobbyRef = reference;
         }
         JoinLobby(logInUserData.serverName, logInUserData.nickname);
     }
@@ -40,22 +39,19 @@ public class LobbyManager : MonoBehaviour
         _dbLobbyRef.Child(lobbyName).SetRawJsonValueAsync(str);
     }
 
-    private void CreatePlayer(string uid, string nickname, Vector3 position)
+    private void CreatePlayer(string uid, string nickname, Vector3 position, string race)
     {
-        LobbyPlayer player = Instantiate(otherPlayerPrefab, position, Quaternion.identity);
-        player.UID = uid;
-        player.username = nickname;
-        player.position = position;
+        RemotePlayer player = Instantiate(otherPlayerPrefab, position, Quaternion.identity);
+        player.Init(uid, nickname, position, race);
         otherLobbyPlayerDic.Add(uid, player);
     }
 
     private void CreateMyPlayer(string uid, string nickname, Vector3 position)
     {
-        ClientPlayer player = 
+        LocalPlayer player = 
             Instantiate(myPlayerPrefab, playerSpawnPoint.position, Quaternion.identity)
-                .GetComponentInChildren<ClientPlayer>();
-        player.UID = uid;
-        player.username = nickname;
+                .GetComponentInChildren<LocalPlayer>();
+        player.Init(uid, nickname, logInUserData.race);
         myLobbyPlayer = player;
     }
 
@@ -71,8 +67,8 @@ public class LobbyManager : MonoBehaviour
         // 로비 정보가 있을때
         if (data.Exists)
         {
-            CreateMyPlayer(logInUserData.id, username, Vector3.up);
             lobbyData = JsonConvert.DeserializeObject<LobbyData>(data.GetRawJsonValue());
+            CreateMyPlayer(logInUserData.id, username, Vector3.up);
         }
         else
             CreateLobby(lobbyName, username);
@@ -110,14 +106,16 @@ public class LobbyManager : MonoBehaviour
             otherLobbyPlayerDic.Remove(e.Snapshot.Key);
         }
     }
-    private void OnChildAdded(object sender, ChildChangedEventArgs e)
+    private async void OnChildAdded(object sender, ChildChangedEventArgs e)
     {
         if (e.Snapshot.Key == logInUserData.id)
         {
             return;
         }
         LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
-        CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, 1, user.position.z));
+        DataSnapshot data = await GameManager.Instance.FirebaseManager.LogInUsersRef.Child(e.Snapshot.Key).GetValueAsync();
+        string a = data.GetRawJsonValue();
+        CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, 1, user.position.z), data.Child("race").Value.ToString());
     }
 
     private void Start()
@@ -137,8 +135,9 @@ public class LobbyManager : MonoBehaviour
         }
         else
         {
+            Debug.LogError("플레이어 없는데 움직이네..?");
             LobbyData.User user = JsonConvert.DeserializeObject<LobbyData.User>(e.Snapshot.GetRawJsonValue());
-            CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, user.position.y, user.position.z));
+            // CreatePlayer(e.Snapshot.Key, user.username, new Vector3(user.position.x, user.position.y, user.position.z));
         }
     }
 

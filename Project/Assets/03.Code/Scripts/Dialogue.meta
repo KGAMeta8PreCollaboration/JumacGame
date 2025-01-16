@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Project/Assets/03.Code/Scripts/Dialogue.meta
 guid: ec6eba55baf8bfa4e84394e2aded4fc3
+========
+guid: 9406a6bf1198b92409549730138c016e
+>>>>>>>> KIMJEONGHWAN2:Project/Assets/03.Code/Scripts/PlayerMove.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

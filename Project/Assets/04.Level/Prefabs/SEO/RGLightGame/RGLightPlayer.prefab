@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 2206667427486665711}
   - component: {fileID: 7503567453162253920}
   - component: {fileID: 3663090094351484750}
+  - component: {fileID: -3833545906240466508}
+  - component: {fileID: -1887835838673895162}
   m_Layer: 0
   m_Name: RGLightPlayer
   m_TagString: Untagged
@@ -137,7 +139,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &2206667427486665711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +253,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ba0f7d80-11bc-42b1-9310-ae4feb727cf7
+    m_ActionName: Dialogue/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0cc080d-4972-41fa-8abf-f992b35064ab
+    m_ActionName: Test/New action[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -268,7 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad641ffe23be54340b9d99fe8cc0677c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 5
+  maxHealth: 6
 --- !u!114 &3663090094351484750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,3 +292,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff7dd65e8c0a05449b5cc63927a78e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3833545906240466508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231805777884220614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbc862eba5d06642b583f5dfcd0e77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceRewards:
+  - maxDistance: 50
+    score: 5
+    money: 2
+  - maxDistance: 100
+    score: 10
+    money: 3
+  - maxDistance: 150
+    score: 20
+    money: 4
+--- !u!114 &-1887835838673895162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231805777884220614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a51825669de7b45b17121074e9a896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 15
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 8
