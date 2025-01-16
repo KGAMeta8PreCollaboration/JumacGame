@@ -278,7 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad641ffe23be54340b9d99fe8cc0677c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
+  moveSpeed: 5
+  maxHealth: 6
 --- !u!114 &3663090094351484750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,11 +304,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbc862eba5d06642b583f5dfcd0e77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottom: 50
-  middle: 100
-  bscore: 5
-  mscore: 10
-  tscore: 20
+  distanceRewards:
+  - maxDistance: 50
+    score: 5
+    money: 2
+  - maxDistance: 100
+    score: 10
+    money: 3
+  - maxDistance: 150
+    score: 20
+    money: 4
 --- !u!114 &-1887835838673895162
 MonoBehaviour:
   m_ObjectHideFlags: 0

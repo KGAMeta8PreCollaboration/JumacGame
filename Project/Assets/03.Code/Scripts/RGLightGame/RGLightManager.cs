@@ -65,7 +65,7 @@ namespace Minigame.RGLight
         public void OnEndSentence()
         {
             _cageManager.Spawn(_player.PlayerRay.CalcSpawnPoint());
-            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.moneyCountByDistance());
+            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.GetMoney());
             StartCoroutine(younghee.UseSkill());
         }
 
@@ -132,7 +132,7 @@ namespace Minigame.RGLight
         {
             SetMoney(defaultMoney + _addMoney);
             print(defaultMoney + _addMoney);
-            SetScore(_player.PlayerDistanceTracker.ScoreByDistance());
+            SetScore(_player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
@@ -141,7 +141,7 @@ namespace Minigame.RGLight
         private void OnDefeat()
         {
             SetMoney(defaultMoney);
-            SetScore(_player.PlayerDistanceTracker.ScoreByDistance());
+            SetScore(_player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);

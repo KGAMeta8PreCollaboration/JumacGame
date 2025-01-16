@@ -1,4 +1,5 @@
 using Minigame.RGLight;
+using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
@@ -7,12 +8,15 @@ namespace Minigame.RGLight
 {
     public class PlayerDistanceTracker : MonoBehaviour
     {
-        public float bottom;
-        public float middle;
+        [System.Serializable]
+        public struct DistanceReward
+        {
+            public float maxDistance;
+            public int score;
+            public int money;
+        }
 
-        public int bscore;
-        public int mscore;
-        public int tscore;
+        public List<DistanceReward> distanceRewards = new List<DistanceReward>();
 
         public float PlayerDistance
         {
@@ -46,18 +50,24 @@ namespace Minigame.RGLight
             _playerDistance = Mathf.Clamp01(playerUnityDistance / _totalUnityDistance) * 150f;
         }
 
-        public int ScoreByDistance()
+        public int GetScore()
         {
-            if (PlayerDistance <= bottom) return bscore;
-            else if (PlayerDistance <= middle) return mscore;
-            else return tscore;
+            return GetReward().score;
         }
 
-        public int moneyCountByDistance()
+        public int GetMoney()
         {
-            if (PlayerDistance <= bottom) return 2;
-            else if (PlayerDistance <= middle) return 3;
-            else return 4;
+            return GetReward().money;
+        }
+
+        private DistanceReward GetReward()
+        {
+            foreach (DistanceReward reward in distanceRewards)
+            {
+                if (PlayerDistance <= reward.maxDistance)
+                    return reward;
+            }
+            return distanceRewards[distanceRewards.Count - 1];
         }
     }
 }
