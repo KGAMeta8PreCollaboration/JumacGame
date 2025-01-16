@@ -11,6 +11,8 @@ namespace Minigame.RGLight
         public int maxHealth;
         private int _curHealth;
 
+        public bool isDead;
+
         public RGLightManager RGLightManager { get; private set; }
 
         public PlayerDistanceTracker PlayerDistanceTracker { get; private set; }
@@ -28,6 +30,19 @@ namespace Minigame.RGLight
         {
             Vector3 actualMove = new Vector3(input.x, 0, input.y).normalized * moveSpeed * Time.fixedDeltaTime;
             _playerRigidbody.MovePosition(_playerRigidbody.position + actualMove);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _curHealth -= damage;
+            if (_curHealth <= 0 && !isDead) Die();
+        }
+
+        private void Die()
+        {
+            isDead = true;
+            _curHealth = 0;
+            RGLightManager.GameResult(false);
         }
 
         public void Init(RGLightManager manager)

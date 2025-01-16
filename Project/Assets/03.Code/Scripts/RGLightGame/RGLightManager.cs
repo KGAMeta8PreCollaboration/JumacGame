@@ -64,6 +64,7 @@ namespace Minigame.RGLight
 
         public void OnEndSentence()
         {
+            if (IsEndGame) return;
             _cageManager.Spawn(_player.PlayerRay.CalcSpawnPoint());
             moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.GetMoney());
             StartCoroutine(younghee.UseSkill());
@@ -71,6 +72,7 @@ namespace Minigame.RGLight
 
         public void OnEndSkill()
         {
+            if (IsEndGame) return;
             _cageManager.DestroyCage();
             StartCoroutine(_rglightGame.ControllReadSentence());
         }
