@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b954309560c54bf4eae7f81d7d8031a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sentence: "\uBB34\uAD81\uD654 \uAF43\uC774 \uD53C\uC5C8\uC2B5\uB2C8 \uB2E4"
-  blankInterval: 1
-  notBlankInterval: 0.3
+  slowW: 3
+  mask: {fileID: 0}
+  startMaskPos: 160
+  endMaskPos: 1840
+  duration: 2
+  sentencePrefab: {fileID: 4711851839270507807, guid: 3dc76d62e41f37b40bb1f344a1e6079f, type: 3}

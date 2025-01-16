@@ -86,7 +86,6 @@ namespace Minigame.RGLight
 
         public IEnumerator TimeCheckCoroutine()
         {
-            StartCoroutine(_rglightGame.ReadSentence());
             startTime = Time.time;
             while (!IsEndGame)
             {
@@ -94,6 +93,11 @@ namespace Minigame.RGLight
                 if (OverTime) GameResult(false);
                 yield return null;
             }
+        }
+
+        public void GameStart()
+        {
+            StartCoroutine(_rglightGame.ReadSentence2());
         }
 
         public IEnumerator MainPageUpdateCoroutine()
