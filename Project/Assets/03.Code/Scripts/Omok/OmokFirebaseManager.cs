@@ -55,12 +55,8 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
                 LastTimeHandler.Instance.SetRef(_dbRoomRef);
 
                 //그 넘겨준 정보로 host와 guest 정보를 OmokUserData로 치환함
-                hostData = new OmokUserData(currentRoomData.host);
-                guestData = new OmokUserData(currentRoomData.guest);
-                print($"현재 게스트 id : {currentRoomData.guest}");
-                hostData = await SetUserData(hostData);
-                guestData = await SetUserData(guestData);
-
+                hostData = await SetUserData(currentRoomData.host);
+                guestData = await SetUserData(currentRoomData.guest);
             }
             MonitorTurnList();
             OmokUIManager.Instance.PageOpen<OmokUIPage>().Init(currentRoomData);
@@ -72,31 +68,29 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     }
 
     //id를 OmokUserData로 치환해주는 함수
-    private async Task<OmokUserData> SetUserData(OmokUserData userData)
+    private async Task<OmokUserData> SetUserData(string id)
     {
         try
         {
-            DatabaseReference logInUserData = Database.GetReference("loginusers");
-            DataSnapshot logInUserSnapshot = await logInUserData.Child(userData.id).GetValueAsync();
+            DatabaseReference omokDataRef = Database.GetReference("omokuserdata")
+                .Child(id);
 
-            if (logInUserSnapshot.Exists)
+            DataSnapshot omokDataSnapshot = await omokDataRef.GetValueAsync();
+
+            //스냅샷이 존재하면 그대로 끌어다 쓰면 된다
+            if (omokDataSnapshot.Exists)
             {
-                string logInUserJson = logInUserSnapshot.GetRawJsonValue();
-                LogInUserData _longInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
+                string omokUserJson = omokDataSnapshot.GetRawJsonValue();
+                OmokUserData omokUserData = JsonConvert.DeserializeObject<OmokUserData>(omokUserJson);
 
-                OmokUserData _userData = new OmokUserData
-                (
-                    _longInUserData.id,
-                    _longInUserData.nickname,
-                    0
-                );
 
-                return _userData;
+                return omokUserData;
             }
+            //존재하지 않으면 UserId만 존재하는 OmokUSerData로 바꿔준다
             else
             {
-                Debug.LogError($"로그인한 유저의 정보가 없습니다");
-                return null;
+                OmokUserData newOmokUserData = new OmokUserData(id);
+                return newOmokUserData;
             }
         }
         catch (Exception e)
@@ -111,9 +105,6 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         print($"호스트의 정보 id : {hostData.id}, Name : {hostData.nickname}, gold : {hostData.gold}");
         print($"게스트의 정보 id : {guestData.id}, Name : {guestData.nickname}, gold : {guestData.gold}");
     }
-
-
-    //private int _turnCount = 0;
 
     public void RequestPlaceStone(Vector2Int boardIndex)
     {
@@ -220,6 +211,45 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     {
         string myUserId = GameManager.Instance.FirebaseManager.Auth.CurrentUser.UserId;
         return myUserId == currentRoomData.host;
+    }
+
+    public async void UpdateOmokUserData(bool amIWin)
+    {
+        //리더보드 정보 최신화
+        DatabaseReference omokLeaderBoardRef = Database.GetReference("leaderboard")
+            .Child("omok")
+            .Child(Auth.CurrentUser.UserId);
+
+        OmokUserData myOmokData = currentRoomData.host == Auth.CurrentUser.UserId ? hostData : guestData;
+
+        //omokuser정보 최신화
+        DatabaseReference myOmokDataRef = Database.GetReference("omokuserdata")
+            .Child(myOmokData.id);
+
+        OmokLeaderBoardData omokLeaderBoardData = new OmokLeaderBoardData();
+        //이겼을때
+        if (amIWin == true)
+        {
+            print("승리점수 얻음");
+            omokLeaderBoardData.win = myOmokData.win + 1;
+            omokLeaderBoardData.lose = myOmokData.lose;
+
+            myOmokData.win++;
+        }
+        else
+        {
+            print("패배점수 얻음");
+            omokLeaderBoardData.win = myOmokData.win;
+            omokLeaderBoardData.lose = myOmokData.lose + 1;
+
+            myOmokData.lose++;
+        }
+
+        string omokLeaderBoardDataJson = JsonConvert.SerializeObject(omokLeaderBoardData);
+        await omokLeaderBoardRef.SetRawJsonValueAsync(omokLeaderBoardDataJson);
+
+        string myOmokDataJson = JsonConvert.SerializeObject(myOmokData);
+        await myOmokDataRef.SetRawJsonValueAsync(myOmokDataJson);
     }
 
     public async void ExitGame()

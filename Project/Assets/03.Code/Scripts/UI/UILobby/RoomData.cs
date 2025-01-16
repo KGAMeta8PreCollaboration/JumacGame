@@ -17,6 +17,7 @@ public class RoomData
     public string roomKey;
     public string roomName;
     public string serverName;
+    public int betting;
     public string host;
     public string guest;
     public bool isHostTurn;
@@ -26,10 +27,12 @@ public class RoomData
 
     public RoomData() { }
 
-    public RoomData(string roomName)
+    //방 만들때 필요한 생성자
+    public RoomData(string roomName, int betting)
     {
         this.roomKey = "";
         this.roomName = roomName;
+        this.betting = betting;
         this.serverName = "";
         this.host = "";
         this.guest = "";
@@ -39,10 +42,11 @@ public class RoomData
         turnList = new List<Turn>();
     }
 
-    public RoomData(string roomKey, string roomName, string serverName, string host)
+    public RoomData(string roomKey, string roomName, int betting, string serverName, string host)
     {
         this.roomKey = roomKey;
         this.roomName = roomName;
+        this.betting = betting;
         this.serverName = serverName;
         this.host = host;
         this.guest = "";

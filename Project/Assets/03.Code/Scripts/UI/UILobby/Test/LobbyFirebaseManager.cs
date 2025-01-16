@@ -30,7 +30,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     protected override void Awake()
     {
         base.Awake();
-        //DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
     }
 
     private async void Start()
@@ -70,7 +70,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             Debug.LogError($"Firebase연결 오류 : {e.Message}");
         }
     }
-
 
     public async void SendMessage(MessageData messageData)
     {
@@ -143,6 +142,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             RoomData newRoom = new RoomData(
                 roomKey,
                 roomData.roomName,
+                roomData.betting,
                 chatUserData.serverName,
                 chatUserData.id
                 );

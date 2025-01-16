@@ -54,4 +54,11 @@ public class OmokGameManager : Singleton<OmokGameManager>
         }
     }
 
+    public void UpdateOmokUserData(bool isWin)
+    {
+        if (isWin == true)
+        {
+
+        }
+    }
 }

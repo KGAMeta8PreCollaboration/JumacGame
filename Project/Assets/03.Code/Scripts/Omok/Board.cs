@@ -135,17 +135,7 @@ public class Board : MonoBehaviour
         {
             Debug.LogWarning("오목이 됨");
 
-            //나는 호스트인가?
-            bool amIHost = OmokFirebaseManager.Instance.AmIHost();
-            
-            //승자가 호스트인가?
-            bool winnerIsHost = isHostTurn;
-
-            //승자와 내가 상태가 같으면 우승자
-            bool iAmWinner = (amIHost == winnerIsHost);
-
-            GameEndUIPage popup = OmokUIManager.Instance.PopupOpen<GameEndUIPage>();
-            popup.AmIWinner(iAmWinner);
+            ResultPopup(isHostTurn);
         }
     }
 
@@ -210,5 +200,21 @@ public class Board : MonoBehaviour
             if (!(v[i] >= 0 && v[i] < gridCount)) return false; 
         }
         return true;
+    }
+
+    private void ResultPopup(bool isHostTurn)
+    {
+        //나는 호스트인가?
+        bool amIHost = OmokFirebaseManager.Instance.AmIHost();
+
+        //승자가 호스트인가?
+        bool winnerIsHost = isHostTurn;
+
+        //승자와 내가 상태가 같으면 우승자
+        bool iAmWinner = (amIHost == winnerIsHost);
+
+        GameEndUIPage popup = OmokUIManager.Instance.PopupOpen<GameEndUIPage>();
+        popup.AmIWinner(iAmWinner);
+        OmokFirebaseManager.Instance.UpdateOmokUserData(iAmWinner);
     }
 }
