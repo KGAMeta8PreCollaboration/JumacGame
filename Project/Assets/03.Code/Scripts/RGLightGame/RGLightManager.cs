@@ -186,7 +186,7 @@ namespace Minigame.RGLight
         {
             try
             {
-                _rglightRef = GameManager.Instance.FirebaseManager.MinigamesRef.Child("rglight");
+                _rglightRef = GameManager.Instance.FirebaseManager.LeaderBoardRef.Child("rglight");
                 DataSnapshot snapshot = await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
                 RGLightUserData userData;
 
