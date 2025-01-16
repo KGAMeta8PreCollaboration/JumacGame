@@ -13,7 +13,7 @@ namespace Minigame.RGLight
     {
         public float introTime;
         public string nextScene;
-        [SerializeField] private MoneySpawner moneySpawner;
+        [SerializeField] private GoldSpawner moneySpawner;
         [SerializeField] private Younghee younghee;
         [SerializeField] private GameObject _introPanel;
         [SerializeField] private Minigame.RGLight.Player _playerPrefab;
@@ -172,11 +172,11 @@ namespace Minigame.RGLight
                 if (snapshot.Exists)
                 {
                     userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-                    userData.money += value;
+                    userData.gold += value;
                 }
                 else
                 {
-                    userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, money: value);
+                    userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, gold: value);
                 }
 
                 string json = JsonConvert.SerializeObject(userData);

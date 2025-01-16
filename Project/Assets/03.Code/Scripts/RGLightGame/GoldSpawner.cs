@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoneySpawner : MonoBehaviour
+public class GoldSpawner : MonoBehaviour
 {
-    [SerializeField] private Money _moneyPrefab;
+    [SerializeField] private Gold _goldPrefab;
     public Vector3 spawnSize = new Vector3(29, 0, 29);
 
     public void Spawn(Vector3 cageCenter, int count)
@@ -13,7 +13,7 @@ public class MoneySpawner : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Vector3 randomPosition = GetRandomPositionInCage(cageCenter);
-            Instantiate(_moneyPrefab, randomPosition, Quaternion.identity);
+            Instantiate(_goldPrefab, randomPosition, Quaternion.identity);
         }
     }
 

@@ -2094,7 +2094,7 @@ GameObject:
   - component: {fileID: 1297967469}
   - component: {fileID: 1297967468}
   m_Layer: 0
-  m_Name: MoneySpawner
+  m_Name: GoldSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2112,7 +2112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466c46c5f8ca9704fa5d07c32a9412c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moneyPrefab: {fileID: 8704252402482125020, guid: 5d4d714ba402d714c8bfb1824445819d, type: 3}
+  _goldPrefab: {fileID: 1968404097758718698, guid: 5d4d714ba402d714c8bfb1824445819d, type: 3}
   spawnSize: {x: 29, y: 0, z: 29}
 --- !u!4 &1297967469
 Transform:

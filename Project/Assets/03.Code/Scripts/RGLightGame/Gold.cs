@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Minigame.RGLight
 {
-    public class Money : MonoBehaviour
+    public class Gold : MonoBehaviour
     {
         public int moneyAmount;
 
