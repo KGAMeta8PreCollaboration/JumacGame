@@ -14,10 +14,8 @@ public class OmokUIPage : OmokPage
     [SerializeField] private LeftUserInfo leftUserInfoPrefab;
     [SerializeField] private Button giveUpButton;
 
-    private void OnEnable()
-    {
-        //Init(OmokFirebaseManager.Instance.currentRoomData);
-    }
+    [SerializeField] private TextMeshProUGUI rightTimeText; //현재 플레이어 시간 텍스트
+    [SerializeField] private TextMeshProUGUI leftTimeText;  //현재 상대 플레이어 시간 텍스트 
 
     private void Awake()
     {
@@ -58,6 +56,6 @@ public class OmokUIPage : OmokPage
 
     private void OnClickGiveUpButton()
     {
-
+        OmokUIManager.Instance.PopupOpen<TwoButtonPopup>().SetPopup("정말 기권하시겠습니까?", OmokFirebaseManager.Instance.ExitGame);
     }
 }

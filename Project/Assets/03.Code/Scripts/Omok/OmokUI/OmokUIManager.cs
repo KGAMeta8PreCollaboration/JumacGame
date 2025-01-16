@@ -8,7 +8,7 @@ public class OmokUIManager : Singleton<OmokUIManager>
     [SerializeField] private List<OmokPage> pageList;
     [SerializeField] private List<OmokPopup> popupList;
 
-    private Stack<OmokPopup> openPopupStack = new Stack<OmokPopup>();
+    public Stack<OmokPopup> openPopupStack = new Stack<OmokPopup>();
     protected override void Awake()
     {
         base.Awake();

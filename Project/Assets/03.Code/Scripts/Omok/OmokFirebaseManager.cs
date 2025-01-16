@@ -52,6 +52,8 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
                     .Child("rooms")
                     .Child(currentRoomData.roomKey);
 
+                LastTimeHandler.Instance.SetRef(_dbRoomRef);
+
                 //그 넘겨준 정보로 host와 guest 정보를 OmokUserData로 치환함
                 hostData = new OmokUserData(currentRoomData.host);
                 guestData = new OmokUserData(currentRoomData.guest);
@@ -202,6 +204,9 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     {
         currentRoomData.isHostTurn = !isHostTurn;
         currentRoomData.turnCount = turnCount + 1;
+
+        LastTimeHandler.Instance.HandleTime();
+
         OmokUIManager.Instance.PageUse<OmokUIPage>().UpdateTurnInfo(currentRoomData.turnCount + 1);
 
         Dictionary<string, object> updateDic = new Dictionary<string, object>();
@@ -215,5 +220,11 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     {
         string myUserId = GameManager.Instance.FirebaseManager.Auth.CurrentUser.UserId;
         return myUserId == currentRoomData.host;
+    }
+
+    public async void ExitGame()
+    {
+        DatabaseReference stateRef = _dbRoomRef.Child($"state");
+        await _dbRoomRef.Child($"state").SetRawJsonValueAsync(((int)RoomState.Finished).ToString());
     }
 }

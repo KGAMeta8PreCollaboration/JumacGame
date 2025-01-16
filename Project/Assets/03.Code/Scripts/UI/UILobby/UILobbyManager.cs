@@ -58,10 +58,8 @@ public class UILobbyManager : Singleton<UILobbyManager>
     {
         while (openPopupStack.Count > 0)
         {
-
             LobbyPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
-
         }
     }
 }

@@ -44,6 +44,9 @@ public class Board : MonoBehaviour
         if (!context.performed)
             return;
 
+        if (OmokUIManager.Instance.openPopupStack.Count >= 1)
+            return;
+
         Vector2 inputPosition = GetInputPosition();
 
         Ray ray = Camera.main.ScreenPointToRay(inputPosition);

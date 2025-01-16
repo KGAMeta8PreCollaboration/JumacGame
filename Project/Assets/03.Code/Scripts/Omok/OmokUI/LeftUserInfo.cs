@@ -8,6 +8,7 @@ public class LeftUserInfo : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nickNameText;
     [SerializeField] private TextMeshProUGUI recordText;
+    [SerializeField] private TextMeshProUGUI lastTimeText;
     [SerializeField] private Image stoneImage;
 
     public void SetPrefab(OmokUserData omokUserData, bool isHost)

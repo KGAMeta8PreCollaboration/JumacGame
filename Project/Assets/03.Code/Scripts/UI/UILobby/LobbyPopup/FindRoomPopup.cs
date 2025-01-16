@@ -41,7 +41,7 @@ public class FindRoomPopup : LobbyPopup
 
         if (waitingRoomList.Count < 0)
         {
-            Debug.Log("���� ����");
+            Debug.Log("방이 없습니다");
         }
 
         foreach (RoomData roomData in waitingRoomList)

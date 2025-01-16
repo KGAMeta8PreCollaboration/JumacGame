@@ -30,7 +30,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private async void Start()
@@ -251,7 +251,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     private RoomState _previousState = RoomState.Waiting;
 
-    private void MonitorRoomState(RoomData roomData)
+    public void MonitorRoomState(RoomData roomData)
     {
         _dbRoomRef = Database.GetReference(chatUserData.serverName)
             .Child($"rooms")
@@ -296,7 +296,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
                     else if (newState == RoomState.Finished)
                     {
-                        //여기서는 게임 종료
+                        SceneManager.LoadScene("YOOLobby");
                     }
                 }
             }

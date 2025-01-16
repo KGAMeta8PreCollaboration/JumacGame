@@ -23,7 +23,6 @@ public class WaitingRoomPrefab : MonoBehaviour
         findRoomPopup = FindObjectOfType<FindRoomPopup>();
         roomToggle.onValueChanged.AddListener(OnButtonClicked);
 
-        //이게 있어야 하나만 누르는 기능이 가능해짐
         if (toggleGroup != null)
         {
             roomToggle.group = toggleGroup;
@@ -48,7 +47,6 @@ public class WaitingRoomPrefab : MonoBehaviour
         {
             backgroundImage.color = Color.gray;
             findRoomPopup.SelectRoom(roomData);
-            print($"현재 누르고 있는 방 이름 : {roomData.roomName}");
         }
         else
         {

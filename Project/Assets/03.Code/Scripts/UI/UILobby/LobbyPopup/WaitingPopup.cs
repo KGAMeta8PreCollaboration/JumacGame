@@ -11,7 +11,7 @@ public class WaitingPopup : LobbyPopup
 
     private DateTime creationTime;
 
-    private RoomData waitingRoom; //´ë±â¹æÀº ÇÏ³ª¸¸ ¸¸µé ¼ö ÀÖ¾î¼­ List°¡ ¾Æ´Ñ RoomData ÇüÅÂÀÌ´Ù.
+    private RoomData waitingRoom; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö¾î¼­ Listï¿½ï¿½ ï¿½Æ´ï¿½ RoomData ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 
     protected override void OnEnable()
     {
@@ -49,7 +49,6 @@ public class WaitingPopup : LobbyPopup
     protected override void CloseButtonClick()
     {
         base.CloseButtonClick();
-        //¿©±â¿¡¼­ ¹æ »èÁ¦ÇÏ´Â ÇÔ¼ö Ãß°¡
         LobbyFirebaseManager.Instance.DeleteRoom(waitingRoom);
     }
 }
