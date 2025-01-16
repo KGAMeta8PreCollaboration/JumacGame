@@ -6,23 +6,23 @@ using UnityEngine;
 
 public class CageManager : MonoBehaviour
 {
-	[SerializeField] private GameObject _cagePrefab;
-	public RGLightManager RGLightManager { get; private set; }
+    [SerializeField] private GameObject _cagePrefab;
+    public RGLightManager RGLightManager { get; private set; }
 
-	private GameObject _cage;
+    private GameObject _cage;
 
-	public void Spawn(Vector3 spawnPoint)
-	{
-		_cage = Instantiate(_cagePrefab, spawnPoint, Quaternion.identity);
-	}
+    public void Spawn(Vector3 spawnPoint)
+    {
+        _cage = Instantiate(_cagePrefab, spawnPoint, Quaternion.identity);
+    }
 
-	public void DestroyCage()
-	{
-		Destroy(_cage);
-	}
+    public void DestroyCage()
+    {
+        Destroy(_cage);
+    }
 
-	public void Init(RGLightManager manager)
-	{
-		RGLightManager = manager;
-	}
+    public void Init(RGLightManager manager)
+    {
+        RGLightManager = manager;
+    }
 }

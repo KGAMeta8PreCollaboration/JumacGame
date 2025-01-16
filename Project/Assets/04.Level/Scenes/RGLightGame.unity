@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   introTime: 4
   nextScene: SEOLobbyTest
+  moneySpawner: {fileID: 1297967468}
   younghee: {fileID: 1927144522486559089}
   _introPanel: {fileID: 705205361}
   _playerPrefab: {fileID: 7503567453162253920, guid: 0fdc08f3ce733af40920db4b02adbc86, type: 3}
@@ -2217,6 +2218,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 153792914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1297967467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1297967469}
+  - component: {fileID: 1297967468}
+  m_Layer: 0
+  m_Name: MoneySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1297967468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297967467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 466c46c5f8ca9704fa5d07c32a9412c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moneyPrefab: {fileID: 8704252402482125020, guid: 5d4d714ba402d714c8bfb1824445819d, type: 3}
+  moneyCount: 2
+--- !u!4 &1297967469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297967467}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1311618722
 GameObject:
   m_ObjectHideFlags: 0
@@ -3747,3 +3794,4 @@ SceneRoots:
   - {fileID: 405245137}
   - {fileID: 691673515}
   - {fileID: 1927144522486559088}
+  - {fileID: 1297967469}
