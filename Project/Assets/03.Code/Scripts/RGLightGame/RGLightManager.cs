@@ -36,7 +36,7 @@ namespace Minigame.RGLight
 
         private DatabaseReference _rglightRef;
 
-        private Minigame.RGLight.Player _player;
+        public Minigame.RGLight.Player player { get; private set; }
         private CageManager _cageManager;
         private RGLightGame _rglightGame;
         private int _addMoney;
@@ -48,8 +48,7 @@ namespace Minigame.RGLight
 
         private void Start()
         {
-            Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
-            _player = player;
+            player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
             player.Init(this);
 
             _cageManager = Instantiate(_cageManagerPrefab, transform);
@@ -65,8 +64,8 @@ namespace Minigame.RGLight
         public void OnEndSentence()
         {
             if (IsEndGame) return;
-            _cageManager.Spawn(_player.PlayerRay.CalcSpawnPoint());
-            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.GetMoney());
+            _cageManager.Spawn(player.PlayerRay.CalcSpawnPoint());
+            moneySpawner.Spawn(player.PlayerRay.CalcSpawnPoint(), player.PlayerDistanceTracker.GetMoney());
             StartCoroutine(younghee.UseSkill());
         }
 
@@ -106,7 +105,7 @@ namespace Minigame.RGLight
             while (!IsEndGame)
             {
                 MainPage.SetRemainTime(ConvertToMinutesAndSeconds(RemainTime));
-                MainPage.SetMoveDistance(_player.PlayerDistanceTracker.PlayerDistance);
+                MainPage.SetMoveDistance(player.PlayerDistanceTracker.PlayerDistance);
                 yield return new WaitForSeconds(mainPageUpdateInterval);
             }
         }
@@ -138,7 +137,7 @@ namespace Minigame.RGLight
         {
             SetMoney(defaultMoney + _addMoney);
             print(defaultMoney + _addMoney);
-            SetScore(_player.PlayerDistanceTracker.GetScore());
+            SetScore(player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
@@ -147,7 +146,7 @@ namespace Minigame.RGLight
         private void OnDefeat()
         {
             SetMoney(defaultMoney);
-            SetScore(_player.PlayerDistanceTracker.GetScore());
+            SetScore(player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);
