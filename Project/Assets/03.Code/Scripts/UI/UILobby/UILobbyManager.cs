@@ -36,7 +36,6 @@ public class UILobbyManager : Singleton<UILobbyManager>
     public T PopupOpen<T>() where T : LobbyPopup
     {
         T @return = popupList.Find((popup) => popup is T) as T;
-        print($"스택에 이미 존재 하는 가 :{@return.name}{openPopupStack.Contains(@return)}");
         if (@return != null && !openPopupStack.Contains(@return))
         {
             print($"{@return.name}");
@@ -59,10 +58,8 @@ public class UILobbyManager : Singleton<UILobbyManager>
     {
         while (openPopupStack.Count > 0)
         {
-
             LobbyPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
-
         }
     }
 }

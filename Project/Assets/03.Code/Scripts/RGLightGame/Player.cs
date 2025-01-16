@@ -8,9 +8,15 @@ namespace Minigame.RGLight
     public class Player : MonoBehaviour
     {
         public float moveSpeed;
+        public int maxHealth;
+        private int _curHealth;
+
+        public bool isDead;
+
         public RGLightManager RGLightManager { get; private set; }
 
-        public PlayerDistanceTracker playerDistanceTracker { get; private set; }
+        public PlayerDistanceTracker PlayerDistanceTracker { get; private set; }
+        public PlayerRay PlayerRay { get; private set; }
         private PlayerInputManager _playerInputManager;
         private Rigidbody _playerRigidbody;
 
@@ -26,15 +32,31 @@ namespace Minigame.RGLight
             _playerRigidbody.MovePosition(_playerRigidbody.position + actualMove);
         }
 
+        public void TakeDamage(int damage)
+        {
+            _curHealth -= damage;
+            if (_curHealth <= 0 && !isDead) Die();
+        }
+
+        private void Die()
+        {
+            isDead = true;
+            _curHealth = 0;
+            RGLightManager.GameResult(false);
+        }
+
         public void Init(RGLightManager manager)
         {
             _playerInputManager = GetComponent<PlayerInputManager>();
             _playerRigidbody = GetComponent<Rigidbody>();
-            playerDistanceTracker = GetComponent<PlayerDistanceTracker>();
+            PlayerDistanceTracker = GetComponent<PlayerDistanceTracker>();
+            PlayerRay = GetComponent<PlayerRay>();
             RGLightManager = manager;
             CinemachineVirtualCamera cvc = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
             cvc.Follow = transform;
             cvc.LookAt = transform;
+
+            _curHealth = maxHealth;
         }
     }
 }
