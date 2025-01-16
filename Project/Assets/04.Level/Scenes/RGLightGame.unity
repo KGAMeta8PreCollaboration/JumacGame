@@ -3393,10 +3393,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9f8bb786f87204f9e321e8d34d6f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleSrcTime: 4
+  circleSrcTime: 2
   circleSrcMax: 1
-  _circleIndicateSrcPrefab: {fileID: 286695534907638360, guid: f5e02d8e94cf550478e25d38fb7839ac, type: 3}
+  circleSpawnInterval: 0.5
+  gridSize: 3
+  cageWidth: 30
+  cageHeight: 30
+  strikeCount: 3
   _circleIndicateDesPrefab: {fileID: 6296582074932737622, guid: ff6305e17ab488343afa1219994e9dbd, type: 3}
+  _circleIndicateSrcPrefab: {fileID: 286695534907638360, guid: f5e02d8e94cf550478e25d38fb7839ac, type: 3}
+  _lightningPrefab: {fileID: 6226725332911658949, guid: 5d4d714ba402d714c8bfb1824445819d, type: 3}
 --- !u!23 &275902567973907088
 MeshRenderer:
   m_ObjectHideFlags: 0

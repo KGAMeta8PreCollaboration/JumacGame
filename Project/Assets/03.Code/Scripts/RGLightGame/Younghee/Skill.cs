@@ -1,10 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Skill : MonoBehaviour
 {
-    public abstract void UseSkill();
+	public Action onSkillComplete;
 
-    public abstract void Init(Younghee younghee);
+	public abstract void UseSkill();
+
+	public abstract void Init(Younghee younghee);
+
+	protected void CompleteSkill()
+	{
+		onSkillComplete?.Invoke();
+	}
 }
