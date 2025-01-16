@@ -24,7 +24,7 @@ public class LeaderBoard : MonoBehaviour
 
 	public string gameName = "omok";
 
-	private async void Start()
+	private void Start()
 	{
 		OmokRank();
 	}
