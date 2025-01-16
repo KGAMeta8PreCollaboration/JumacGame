@@ -296,7 +296,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
                     else if (newState == RoomState.Finished)
                     {
-                        SceneManager.LoadScene("YOOLobby");
+                        SceneManager.LoadScene("DES");
                     }
                 }
             }
