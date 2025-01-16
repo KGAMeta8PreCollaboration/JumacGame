@@ -3,11 +3,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Minigame.RGLight
 {
@@ -15,9 +13,13 @@ namespace Minigame.RGLight
     {
         public float introTime;
         public string nextScene;
+        [SerializeField] private GoldSpawner moneySpawner;
+        [SerializeField] private Younghee younghee;
         [SerializeField] private GameObject _introPanel;
         [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private Transform _startPoint;
+        [SerializeField] private CageManager _cageManagerPrefab;
+        [SerializeField] private RGLightGame _rglightGamePrefab;
         public int defaultMoney;
 
         public float limitTime;
@@ -35,6 +37,8 @@ namespace Minigame.RGLight
         private DatabaseReference _rglightRef;
 
         private Minigame.RGLight.Player _player;
+        private CageManager _cageManager;
+        private RGLightGame _rglightGame;
         private int _addMoney;
 
         private void Awake()
@@ -45,8 +49,32 @@ namespace Minigame.RGLight
         private void Start()
         {
             Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
-            _player = player.GetComponent<Player>();
+            _player = player;
             player.Init(this);
+
+            _cageManager = Instantiate(_cageManagerPrefab, transform);
+            _rglightGame = Instantiate(_rglightGamePrefab, transform);
+
+            _cageManager.Init(this);
+            _rglightGame.Init(this);
+
+            _rglightGame.endSentenceAction = OnEndSentence;
+            younghee.endSkillAction = OnEndSkill;
+        }
+
+        public void OnEndSentence()
+        {
+            if (IsEndGame) return;
+            _cageManager.Spawn(_player.PlayerRay.CalcSpawnPoint());
+            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.GetMoney());
+            StartCoroutine(younghee.UseSkill());
+        }
+
+        public void OnEndSkill()
+        {
+            if (IsEndGame) return;
+            _cageManager.DestroyCage();
+            StartCoroutine(_rglightGame.ControllReadSentence());
         }
 
         private IEnumerator IntroCoroutine()
@@ -67,13 +95,18 @@ namespace Minigame.RGLight
             }
         }
 
+        public void GameStart()
+        {
+            StartCoroutine(_rglightGame.ReadSentence2());
+        }
+
         public IEnumerator MainPageUpdateCoroutine()
         {
             MainPage = PageManager.Instance.PageOpen<MainPage>();
             while (!IsEndGame)
             {
                 MainPage.SetRemainTime(ConvertToMinutesAndSeconds(RemainTime));
-                MainPage.SetMoveDistance(_player.playerDistanceTracker.PlayerDistance);
+                MainPage.SetMoveDistance(_player.PlayerDistanceTracker.PlayerDistance);
                 yield return new WaitForSeconds(mainPageUpdateInterval);
             }
         }
@@ -105,7 +138,7 @@ namespace Minigame.RGLight
         {
             SetMoney(defaultMoney + _addMoney);
             print(defaultMoney + _addMoney);
-            SetScore(_player.playerDistanceTracker.ScoreByDistance());
+            SetScore(_player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
@@ -114,7 +147,7 @@ namespace Minigame.RGLight
         private void OnDefeat()
         {
             SetMoney(defaultMoney);
-            SetScore(_player.playerDistanceTracker.ScoreByDistance());
+            SetScore(_player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);
@@ -139,11 +172,11 @@ namespace Minigame.RGLight
                 if (snapshot.Exists)
                 {
                     userData = JsonConvert.DeserializeObject<LogInUserData>(snapshot.GetRawJsonValue());
-                    userData.money += value;
+                    userData.gold += value;
                 }
                 else
                 {
-                    userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, money: value);
+                    userData = new LogInUserData(GameManager.Instance.FirebaseManager.User.UserId, gold: value);
                 }
 
                 string json = JsonConvert.SerializeObject(userData);
@@ -159,7 +192,7 @@ namespace Minigame.RGLight
         {
             try
             {
-                _rglightRef = GameManager.Instance.FirebaseManager.MinigamesRef.Child("rglight");
+                _rglightRef = GameManager.Instance.FirebaseManager.LeaderBoardRef.Child("rglight");
                 DataSnapshot snapshot = await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
                 RGLightUserData userData;
 
@@ -180,6 +213,12 @@ namespace Minigame.RGLight
             {
                 print(e.Message);
             }
+        }
+
+        private void OnDestroy()
+        {
+            _rglightGame.endSentenceAction -= OnEndSentence;
+            younghee.endSkillAction -= OnEndSkill;
         }
     }
 }
