@@ -52,5 +52,12 @@ namespace Minigame.RGLight
             else if (PlayerDistance <= middle) return mscore;
             else return tscore;
         }
+
+        public int moneyCountByDistance()
+        {
+            if (PlayerDistance <= bottom) return 2;
+            else if (PlayerDistance <= middle) return 3;
+            else return 4;
+        }
     }
 }

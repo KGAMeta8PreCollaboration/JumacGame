@@ -6,12 +6,11 @@ using UnityEngine;
 public class MoneySpawner : MonoBehaviour
 {
     [SerializeField] private Money _moneyPrefab;
-    [SerializeField] private int moneyCount = 2;
     public Vector3 spawnSize = new Vector3(29, 0, 29);
 
-    public void Spawn(Vector3 cageCenter)
+    public void Spawn(Vector3 cageCenter, int count)
     {
-        for (int i = 0; i < moneyCount; i++)
+        for (int i = 0; i < count; i++)
         {
             Vector3 randomPosition = GetRandomPositionInCage(cageCenter);
             Instantiate(_moneyPrefab, randomPosition, Quaternion.identity);

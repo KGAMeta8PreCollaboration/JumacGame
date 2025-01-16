@@ -65,7 +65,7 @@ namespace Minigame.RGLight
         public void OnEndSentence()
         {
             _cageManager.Spawn(_player.PlayerRay.CalcSpawnPoint());
-            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint());
+            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.moneyCountByDistance());
             StartCoroutine(younghee.UseSkill());
         }
 
