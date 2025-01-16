@@ -89,7 +89,13 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             //존재하지 않으면 UserId만 존재하는 OmokUSerData로 바꿔준다
             else
             {
-                OmokUserData newOmokUserData = new OmokUserData(id);
+                DatabaseReference lobbyUserData = Database.GetReference("loginusers")
+                    .Child(id);
+                DataSnapshot lobbyUserDataSnapshot = await lobbyUserData.GetValueAsync();
+                string lobbyUserDataJson = lobbyUserDataSnapshot.GetRawJsonValue();
+                LogInUserData logInUserData = JsonConvert.DeserializeObject<LogInUserData>(lobbyUserDataJson);
+
+                OmokUserData newOmokUserData = new OmokUserData(id, logInUserData.nickname, logInUserData.gold);
                 return newOmokUserData;
             }
         }
@@ -231,6 +237,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         if (amIWin == true)
         {
             print("승리점수 얻음");
+            omokLeaderBoardData.nickName = myOmokData.nickname;
             omokLeaderBoardData.win = myOmokData.win + 1;
             omokLeaderBoardData.lose = myOmokData.lose;
 
@@ -239,6 +246,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         else
         {
             print("패배점수 얻음");
+            omokLeaderBoardData.nickName = myOmokData.nickname;
             omokLeaderBoardData.win = myOmokData.win;
             omokLeaderBoardData.lose = myOmokData.lose + 1;
 
