@@ -163,6 +163,10 @@ PrefabInstance:
       value: -600
       objectReference: {fileID: 0}
     - target: {fileID: 576775084791579628, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
+      propertyPath: leaderBoardType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 576775084791579628, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: leaderBoardPanelPrefab
       value: 
       objectReference: {fileID: 2847767870327222708, guid: 95c96e057c3430b44b6ca503be2d85cc, type: 3}
@@ -184,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1534930146963235616, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -583
       objectReference: {fileID: 0}
     - target: {fileID: 1673423144940193406, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_AnchorMax.y
@@ -318,6 +322,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JegiLeaderboard
       objectReference: {fileID: 0}
+    - target: {fileID: 3763375025445873547, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5344933277394652022, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -409,6 +417,10 @@ PrefabInstance:
       value: -600
       objectReference: {fileID: 0}
     - target: {fileID: 576775084791579628, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
+      propertyPath: leaderBoardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 576775084791579628, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: leaderBoardPanelPrefab
       value: 
       objectReference: {fileID: 2847767870327222708, guid: 95c96e057c3430b44b6ca503be2d85cc, type: 3}
@@ -430,7 +442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1534930146963235616, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -583
       objectReference: {fileID: 0}
     - target: {fileID: 1673423144940193406, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_AnchorMax.y
@@ -563,6 +575,10 @@ PrefabInstance:
     - target: {fileID: 3763375025445873547, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_Name
       value: RGLeaderboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763375025445873547, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5344933277394652022, guid: 7ea486c476ead5b42bc3dd5ff9422c16, type: 3}
       propertyPath: m_AnchorMax.y
