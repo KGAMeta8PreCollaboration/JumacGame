@@ -35,8 +35,8 @@ public class Younghee : MonoBehaviour
 
             skillComplete.Add(false);
 
-            int index = i;
-            selectedSkill.onSkillComplete += () => skillComplete[index] = true;
+            int snapshot = i;
+            selectedSkill.onSkillComplete += () => skillComplete[snapshot] = true;
 
             selectedSkill.UseSkill();
 
@@ -45,6 +45,10 @@ public class Younghee : MonoBehaviour
 
         yield return new WaitUntil(() => skillComplete.TrueForAll(status => status));
         print("1페이지입니다");
+        foreach (bool status in skillComplete)
+        {
+            print(status);
+        }
         endSkillAction?.Invoke();
     }
 
