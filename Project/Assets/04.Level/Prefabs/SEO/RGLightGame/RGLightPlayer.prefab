@@ -280,6 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   maxHealth: 6
+  isDead: 0
 --- !u!114 &3663090094351484750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +315,19 @@ MonoBehaviour:
   - maxDistance: 150
     score: 20
     money: 4
+  distanceInfos:
+  - maxDistance: 50
+    sentenceSpeed: 5
+    skillCount: 3
+    skillInterval: 1
+  - maxDistance: 100
+    sentenceSpeed: 3
+    skillCount: 4
+    skillInterval: 0.7
+  - maxDistance: 150
+    sentenceSpeed: 2
+    skillCount: 5
+    skillInterval: 0.5
 --- !u!114 &-1887835838673895162
 MonoBehaviour:
   m_ObjectHideFlags: 0

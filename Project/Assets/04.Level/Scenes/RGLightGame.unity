@@ -171,8 +171,8 @@ MonoBehaviour:
   moneySpawner: {fileID: 1297967468}
   younghee: {fileID: 1927144522486559089}
   _introPanel: {fileID: 705205361}
-  _playerPrefab: {fileID: 7503567453162253920, guid: 0fdc08f3ce733af40920db4b02adbc86, type: 3}
   _startPoint: {fileID: 1295364047}
+  _playerPrefab: {fileID: 7503567453162253920, guid: 0fdc08f3ce733af40920db4b02adbc86, type: 3}
   _cageManagerPrefab: {fileID: 5775595017916883048, guid: 97c1b96eccae6df409322e88586c093b, type: 3}
   _rglightGamePrefab: {fileID: 7736871315764141505, guid: 2ba6ed91370303546a828c0c2b374bdf, type: 3}
   defaultMoney: 50
@@ -3393,13 +3393,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9f8bb786f87204f9e321e8d34d6f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleSrcTime: 2
+  circleSrcTime: 1
   circleSrcMax: 1
-  circleSpawnInterval: 0.5
+  circleSpawnInterval: 1
   gridSize: 3
   cageWidth: 30
   cageHeight: 30
-  strikeCount: 3
+  strikeCount: 1
   _circleIndicateDesPrefab: {fileID: 6296582074932737622, guid: ff6305e17ab488343afa1219994e9dbd, type: 3}
   _circleIndicateSrcPrefab: {fileID: 286695534907638360, guid: f5e02d8e94cf550478e25d38fb7839ac, type: 3}
   _lightningPrefab: {fileID: 6226725332911658949, guid: 5d4d714ba402d714c8bfb1824445819d, type: 3}
@@ -3553,6 +3553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bea634c6500e4483f16cac1ef13b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillCount: 0
   RGLightManager: {fileID: 10087369}
 --- !u!4 &2033820568861680911
 Transform:
