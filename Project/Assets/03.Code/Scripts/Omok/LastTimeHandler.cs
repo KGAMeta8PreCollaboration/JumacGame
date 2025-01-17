@@ -19,7 +19,6 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
     public void SetRef(DatabaseReference turnRef)
     {
         _turnRef = turnRef;
-        //HandleTime();
     }
 
     private Coroutine _leftCo;
@@ -41,33 +40,24 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
 
         if (isMyTurn)
         {
-            if (_leftCo != null)
-            {
-                StopCoroutine(_leftCo);
-                _leftCo = null;
-            }
+            if (_leftCo != null) StopCoroutine(_leftCo);
             leftTimeText.text = $"남은 시간 : 30 : 00";
 
             if (_rightCo != null) StopCoroutine(_rightCo);
-            _rightCo = StartCoroutine(HandleTimeCoroutine(rightTimeText));
+            _rightCo = StartCoroutine(HandleTimeCoroutine(rightTimeText, true));
         }
 
         else
         {
-            if (_rightCo != null)
-            {
-                StopCoroutine(_rightCo);
-                _rightCo = null;
-            }
-
+            if (_rightCo != null) StopCoroutine(_rightCo);
             rightTimeText.text = $"남은 시간 : 30 : 00";
 
             if (_leftCo != null) StopCoroutine(_leftCo);
-            _leftCo = StartCoroutine(HandleTimeCoroutine(leftTimeText));
+            _leftCo = StartCoroutine(HandleTimeCoroutine(leftTimeText, false));
         }
     }
 
-    private IEnumerator HandleTimeCoroutine(TextMeshProUGUI timeText)
+    private IEnumerator HandleTimeCoroutine(TextMeshProUGUI timeText, bool isMyTimer)
     {
         while (true)
         {
@@ -76,9 +66,17 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
             if (lastTime.TotalSeconds <= 0)
             {
                 timeText.text = "남은 시간  : 00 : 00";
+                bool amIWin = true;
 
                 //여기에서 타임 초과되면 나올 UI띄우기
-
+                if (isMyTimer)
+                {
+                    OmokFirebaseManager.Instance.UpdateOmokUserData(!amIWin);
+                }
+                else
+                {
+                    OmokFirebaseManager.Instance.UpdateOmokUserData(amIWin);
+                }
                 yield break;
             }
 

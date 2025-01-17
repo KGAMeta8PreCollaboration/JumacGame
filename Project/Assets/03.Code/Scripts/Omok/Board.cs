@@ -131,11 +131,12 @@ public class Board : MonoBehaviour
         //stone.transform.localScale = new Vector3(556, 556, 556);
         stone.transform.SetParent(transform);
 
+        //오목이 되면
         if (isFive == 1)
         {
-            Debug.LogWarning("오목이 됨");
-
-            ResultPopup(isHostTurn);
+            bool result = AmIWinner(isHostTurn);
+            ResultPopup(result);
+            OmokFirebaseManager.Instance.UpdateOmokUserData(result);
         }
     }
 
@@ -204,17 +205,21 @@ public class Board : MonoBehaviour
 
     private void ResultPopup(bool isHostTurn)
     {
-        //나는 호스트인가?
+        GameEndUIPage popup = OmokUIManager.Instance.PopupOpen<GameEndUIPage>();
+        popup.AmIWinner(isHostTurn);
+    }
+
+    //파라미터로 승리할때의 턴을 넣으면 승리했는지 아닌지 나온다
+    private bool AmIWinner(bool isHostTurn)
+    {
+        //내 턴이 무엇인지 확인 true -> Host, false -> guest
         bool amIHost = OmokFirebaseManager.Instance.AmIHost();
 
-        //승자가 호스트인가?
+        //승리할때 턴 주인 = isHostTurn
         bool winnerIsHost = isHostTurn;
 
-        //승자와 내가 상태가 같으면 우승자
-        bool iAmWinner = (amIHost == winnerIsHost);
+        bool amIWinner = (amIHost == winnerIsHost);
 
-        GameEndUIPage popup = OmokUIManager.Instance.PopupOpen<GameEndUIPage>();
-        popup.AmIWinner(iAmWinner);
-        OmokFirebaseManager.Instance.UpdateOmokUserData(iAmWinner);
+        return amIWinner;
     }
 }

@@ -53,7 +53,7 @@ public class WaitingRoomPrefab : MonoBehaviour
             {
                 float winPersent = ((float)omokUserData.win / (omokUserData.win + omokUserData.lose)) * 100;
                 print($"승률 : {winPersent}");
-                hostInfoText.text = $"{omokUserData.nickname}(승률 {winPersent}%)";
+                hostInfoText.text = $"{omokUserData.nickname}(승률 {winPersent:F2}%)";
                 print("승리 조건 있음");
             }
 

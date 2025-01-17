@@ -43,6 +43,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             User = GameManager.Instance.FirebaseManager.User;
 
             string roomDataJson = PlayerPrefs.GetString("CurrentRoomData", string.Empty);
+            print($"roomDataJson에 담겨있는 정보 : {roomDataJson}");
 
             if (!string.IsNullOrEmpty(roomDataJson))
             {
@@ -202,6 +203,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         currentRoomData.isHostTurn = !isHostTurn;
         currentRoomData.turnCount = turnCount + 1;
 
+        //수를 둘 때마다 시간이 흐름
         LastTimeHandler.Instance.HandleTime();
 
         OmokUIManager.Instance.PageUse<OmokUIPage>().UpdateTurnInfo(currentRoomData.turnCount + 1);
@@ -219,6 +221,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         return myUserId == currentRoomData.host;
     }
 
+    //여기에서 리더보드와 omokuserdata 둘 다 정보를 업데이트해줌
     public async void UpdateOmokUserData(bool amIWin)
     {
         //리더보드 정보 최신화

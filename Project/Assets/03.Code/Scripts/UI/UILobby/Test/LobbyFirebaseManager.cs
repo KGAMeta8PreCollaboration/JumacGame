@@ -253,12 +253,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     public void MonitorRoomState(RoomData roomData)
     {
-        _dbRoomRef = Database.GetReference(chatUserData.serverName)
+        DatabaseReference roomStateRef = Database.GetReference(chatUserData.serverName)
             .Child($"rooms")
             .Child(roomData.roomKey)
             .Child("state");
 
-        _dbRoomRef.ValueChanged += async (sender, args) =>
+        roomStateRef.ValueChanged += async (sender, args) =>
         {
             if (args.Snapshot.Exists)
             {
