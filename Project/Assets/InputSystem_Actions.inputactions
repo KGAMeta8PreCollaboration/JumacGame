@@ -1024,9 +1024,27 @@
             "id": "858d2f3e-8b30-4f69-a594-cc2e24de3559",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Z",
                     "type": "Button",
-                    "id": "a0cc080d-4972-41fa-8abf-f992b35064ab",
+                    "id": "b77320e2-1fb0-4429-be89-2a71e2ca6614",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "X",
+                    "type": "Button",
+                    "id": "e6481416-9d04-432d-bd31-88bbc383e023",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "C",
+                    "type": "Button",
+                    "id": "92eb9018-5218-45fc-82e7-abff53de9bbd",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1036,12 +1054,34 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "7c78f2a6-f3a2-4993-bb99-f056039a961e",
-                    "path": "<Keyboard>/q",
+                    "id": "63b23daf-fe84-467e-9b21-1c20800b1b7e",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "New action",
+                    "groups": "",
+                    "action": "Z",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4785ac9-eb00-4e07-ba8b-a9f397f3cb11",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d13f6155-8938-4646-8059-d0edf625d9ad",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "C",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
