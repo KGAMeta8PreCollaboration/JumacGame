@@ -33,10 +33,10 @@ public class LeaderBoard : MonoBehaviour
 
 	private void Start()
 	{
-		OmokRank();
+		PullRank();
 	}
 	
-	private async void OmokRank()
+	private async void PullRank()
 	{
 		try
 		{
@@ -45,30 +45,30 @@ public class LeaderBoard : MonoBehaviour
 			Auth = FirebaseAuth.DefaultInstance;
 			Database = FirebaseDatabase.DefaultInstance;
 
-			_omokRef = Database.GetReference($"leaderboard/{leaderBoardType}");
+			_omokRef = Database.GetReference($"leaderboard/{leaderBoardType.ToString()}");
 			_loginusersRef = Database.GetReference($"loginusers");
-
-			DataSnapshot data = await _omokRef.GetValueAsync();
-			int rank = 1;
-			List<KeyValuePair<int, string>> rankList = new List<KeyValuePair<int, string>>();
-			foreach (DataSnapshot item in data.Children)
-			{
-				string nickname = item.Child("nickName").Value.ToString();
-				int score = int.Parse(item.Child("score").Value.ToString());
-				rankList.Add(new KeyValuePair<int, string>(score, nickname));
-			}
-
-			rankList.Sort((x, y) => y.Key.CompareTo(x.Key));
-
-			foreach (KeyValuePair<int, string> kvp in rankList)
-			{
-				LeaderBoardPanel panel = Instantiate(leaderBoardPanelPrefab, panelSpawnPoint);
-				panel.SetData(kvp.Value, kvp.Key, rank++);
-			}
 		}
 		catch (Exception e)
 		{
 			Debug.LogError($"파이어베이스 초기화 에러 : {e.Message}");
+		}
+		
+		DataSnapshot data = await _omokRef.GetValueAsync();
+		int rank = 1;
+		List<KeyValuePair<int, string>> rankList = new List<KeyValuePair<int, string>>();
+		foreach (DataSnapshot item in data.Children)
+		{
+			string nickname = item.Child("nickname").Value.ToString();
+			int score = int.Parse(item.Child("score").Value.ToString());
+			rankList.Add(new KeyValuePair<int, string>(score, nickname));
+		}
+
+		rankList.Sort((x, y) => y.Key.CompareTo(x.Key));
+
+		foreach (KeyValuePair<int, string> kvp in rankList)
+		{
+			LeaderBoardPanel panel = Instantiate(leaderBoardPanelPrefab, panelSpawnPoint);
+			panel.SetData(kvp.Value, kvp.Key, rank++);
 		}
 	}
 }
