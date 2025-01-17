@@ -146,6 +146,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 chatUserData.serverName,
                 chatUserData.id
                 );
+            newRoom.turnList = new List<Turn>();
 
             string roomJson = JsonConvert.SerializeObject(newRoom);
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
@@ -223,8 +224,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
                 if (string.IsNullOrEmpty(roomData.guest))
                 {
+                    Turn turn = new Turn("(0,0)", true, 1);
+                    List<Turn> temp = new List<Turn>();
                     roomData.guest = chatUserData.id;
                     roomData.state = RoomState.Playing;
+                    roomData.turnList = temp;
+                    roomData.turnList.Add(turn);
 
                     _roomData = roomData;
 

@@ -54,7 +54,8 @@ public class Board : MonoBehaviour
         doPlaceButton.onClick.AddListener(OnClickDoPlaceStoneButton);
     }
 
-    public async void OnClick(InputAction.CallbackContext context)
+
+    public void OnClick(InputAction.CallbackContext context)
     {
         if (!context.performed)
             return;
@@ -62,11 +63,11 @@ public class Board : MonoBehaviour
         if (OmokUIManager.Instance.openPopupStack.Count >= 1)
             return;
 
-        if (OmokFirebaseManager.Instance.currentRoomData != null)
-        {
-            Debug.Log("아직 Firebase가 연결되지 않음");
-            return;
-        }
+        //if (OmokFirebaseManager.Instance.currentRoomData == null)
+        //{
+        //    Debug.Log("아직 Firebase가 연결되지 않음");
+        //    return;
+        //}
         Vector2 inputPosition = GetInputPosition();
 
         Ray ray = Camera.main.ScreenPointToRay(inputPosition);
@@ -85,15 +86,15 @@ public class Board : MonoBehaviour
                     return;
                 }
 
-                bool isMyTurn = await OmokFirebaseManager.Instance.IsMyTurn();
+                //bool amIHost = OmokFirebaseManager.Instance.AmIHost();
 
-                if (isMyTurn)
-                {
+                //if (isMyTurn)
+                //{
                     tempStoneIndex = boardIndex;
                     ShowTempStoneImage(boardIndex);
                     //OmokFirebaseManager.Instance.RequestPlaceStone(boardIndex);
                     //Instantiate(tempStoneImagePrefab, new Vector3(boardIndex.x, boardIndex.y, 0), Quaternion.identity, tempStoneUI);
-                }
+                
             }
             else
             {
@@ -284,11 +285,12 @@ public class Board : MonoBehaviour
     private bool AmIWinner(bool isHostTurn)
     {
         //내 턴이 무엇인지 확인 true -> Host, false -> guest
-        bool amIHost = OmokFirebaseManager.Instance.AmIHost();
+        bool amIHost = GameManager.Instance.FirebaseManager.User.UserId == OmokFirebaseManager.Instance.currentRoomData.host;
 
         //승리할때 턴 주인 = isHostTurn
         bool winnerIsHost = isHostTurn;
 
+        
         bool amIWinner = (amIHost == winnerIsHost);
 
         return amIWinner;

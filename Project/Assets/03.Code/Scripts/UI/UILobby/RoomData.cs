@@ -25,7 +25,7 @@ public class RoomData
     public bool hostExited;
     public bool guestExited;
     public RoomState state;
-    public List<Turn> turnList = new List<Turn>();
+    public List<Turn> turnList;
 
     public RoomData() { }
 
@@ -66,7 +66,16 @@ public class RoomData
 [System.Serializable]
 public class Turn
 {
-    public int turnCount;
-    public bool isHostTurn;
-    public string coodinate;
+    public string coodinate { get; set; } = "0,0";
+    public bool isHostTurn { get; set; } = false;
+    public int turnCount { get; set; } = 0;
+
+    public Turn() { }
+
+    public Turn(string coodinate, bool isHostTurn, int turnCount)
+    {
+        this.coodinate=coodinate;
+        this.isHostTurn=isHostTurn;
+        this.turnCount=turnCount;
+    }
 }

@@ -1628,6 +1628,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 678926354}
+  titleText: {fileID: 0}
+  contentText: {fileID: 0}
+  goldText: {fileID: 0}
 --- !u!114 &739640163 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7498531976765470478, guid: 31a00e461ac1fdd45ab7948d06a07e49, type: 3}
