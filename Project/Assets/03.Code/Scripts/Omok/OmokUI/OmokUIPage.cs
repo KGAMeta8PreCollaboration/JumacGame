@@ -55,6 +55,6 @@ public class OmokUIPage : OmokPage
 
     private void OnClickGiveUpButton()
     {
-        OmokUIManager.Instance.PopupOpen<TwoButtonPopup>().SetPopup("정말 기권하시겠습니까?", OmokFirebaseManager.Instance.ExitGame);
+        OmokUIManager.Instance.PopupOpen<OmokTwoButtonPopup>().SetPopup("정말 기권하시겠습니까?", OmokFirebaseManager.Instance.ExitGame);
     }
 }

@@ -1512,7 +1512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847078226684785435, guid: 2af2fd0c9b1cac347b658c3353e6a8f9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5913528617402051398, guid: 2af2fd0c9b1cac347b658c3353e6a8f9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1926,6 +1926,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -750
       objectReference: {fileID: 0}
+    - target: {fileID: 8008709269259449496, guid: 2af2fd0c9b1cac347b658c3353e6a8f9, type: 3}
+      propertyPath: waitingRoomPrefab
+      value: 
+      objectReference: {fileID: 5726120682160397412, guid: 1aa7cd265f8b34640845711303f0ecf7, type: 3}
     - target: {fileID: 8093522909748811094, guid: 2af2fd0c9b1cac347b658c3353e6a8f9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

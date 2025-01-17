@@ -22,6 +22,8 @@ public class RoomData
     public string guest;
     public bool isHostTurn;
     public int turnCount;
+    public bool hostExited;
+    public bool guestExited;
     public RoomState state;
     public List<Turn> turnList = new List<Turn>();
 
@@ -38,6 +40,8 @@ public class RoomData
         this.guest = "";
         isHostTurn = true;
         turnCount = 0;
+        hostExited = false;
+        guestExited = false;
         state = RoomState.Waiting;
         turnList = new List<Turn>();
     }
@@ -52,6 +56,8 @@ public class RoomData
         this.guest = "";
         isHostTurn = true;
         turnCount = 0;
+        hostExited = false;
+        guestExited = false;
         state = RoomState.Waiting;
         turnList = new List<Turn>();
     }

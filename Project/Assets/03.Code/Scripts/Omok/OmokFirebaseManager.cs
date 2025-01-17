@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
@@ -34,6 +35,8 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         //DontDestroyOnLoad(gameObject);
     }
 
+    private bool _isDataLoaded = false; // 데이터 로딩 상태 플래그
+
     private async void Start()
     {
         try
@@ -42,16 +45,31 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             Database = GameManager.Instance.FirebaseManager.Database;
             User = GameManager.Instance.FirebaseManager.User;
 
-            string roomDataJson = PlayerPrefs.GetString("CurrentRoomData", string.Empty);
+            string userId = User.UserId;
+
+            string roomKey = await FindRoomKeyByUserId(userId);
+
+            if (string.IsNullOrEmpty(roomKey))
+            {
+                Debug.LogError("방 키를 찾을 수 없습니다.");
+                return;
+            }
+
+            Debug.Log($"찾은 roomKey : {roomKey}");
+
+            _dbRoomRef = Database.GetReference(LobbyFirebaseManager.Instance.chatUserData.serverName)
+                .Child("rooms")
+                .Child(roomKey);
+
+            DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
+            string roomDataJson = roomSnapshot.GetRawJsonValue();
+
             print($"roomDataJson에 담겨있는 정보 : {roomDataJson}");
 
             if (!string.IsNullOrEmpty(roomDataJson))
             {
                 //MonitorRoomState에서 가져온 CurrentRoomData로 정보 넘겨줌
                 currentRoomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
-                _dbRoomRef = Database.GetReference(currentRoomData.serverName)
-                    .Child("rooms")
-                    .Child(currentRoomData.roomKey);
 
                 LastTimeHandler.Instance.SetRef(_dbRoomRef);
 
@@ -61,10 +79,56 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             }
             MonitorTurnList();
             OmokUIManager.Instance.PageOpen<OmokUIPage>().Init(currentRoomData);
-        }
+            _isDataLoaded = true;
+}
         catch (Exception e)
         {
             Debug.LogError($"Firebase방 참조 오류 : {e.Message}");
+        }
+    }
+
+    private async Task<string> FindRoomKeyByUserId(string userId)
+    {
+        try
+        {
+            DatabaseReference userRef = Database.GetReference("loginusers").Child(userId);
+            DataSnapshot userSnapshot = await userRef.GetValueAsync();
+
+            if (!userSnapshot.Exists)
+            {
+                Debug.LogError("유저 데이터가 존재하지 않습니다.");
+                return null;
+            }
+            string serverName = userSnapshot.Child("serverName").Value.ToString();
+            Debug.Log($"서버 이름 : {serverName}");
+
+            DatabaseReference roomRef = Database.GetReference(serverName).Child("rooms");
+            DataSnapshot roomsSnapshot = await roomRef.GetValueAsync();
+
+            if (!roomsSnapshot.Exists)
+            {
+                Debug.LogWarning("해당 서버에 방이 없습니다.");
+                return null;
+            }
+            foreach (DataSnapshot roomSnapshot in roomsSnapshot.Children)
+            {
+                string hostId = roomSnapshot.Child("host").Value.ToString();
+                string guestId = roomSnapshot.Child("guest").Value.ToString();
+
+                if (hostId == userId || guestId == userId)
+                {
+                    Debug.Log($"찾은 방 키: {roomSnapshot.Key}");
+                    return roomSnapshot.Key;
+                }
+            }
+            Debug.LogWarning("유저가 속한 방을 찾을 수 없습니다.");
+            return null;
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Firebase 쿼리 오류: {e.Message}");
+            return null;
         }
     }
 
@@ -115,6 +179,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
     public void RequestPlaceStone(Vector2Int boardIndex)
     {
+        if (!_isDataLoaded || currentRoomData == null)
+        {
+            Debug.LogWarning("currentRoomData가 초기화되지 않았습니다.");
+            return;
+        }
+
         bool amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
 
         //턴이 맞지 않을때는 이곳이 실행됨
@@ -153,7 +223,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
             Debug.Log($"{turn.turnCount}번째 수 : {turn.coodinate}");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError($"Firebase 턴 참조 오류 {e.Message}");
         }
@@ -176,7 +246,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             string turnJson = args.Snapshot.GetRawJsonValue();
             Turn newTurn = JsonConvert.DeserializeObject<Turn>(turnJson);
 
-            if(newTurn != null)
+            if (newTurn != null)
             {
                 Debug.Log($"현재 턴의 정보 : isHostTurn : {newTurn.isHostTurn}, coodinate = {newTurn.coodinate}");
 
@@ -192,7 +262,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
                 UpdateRoomData(newTurn.isHostTurn, newTurn.turnCount);
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError($"Firebase 턴 참조 오류 : {e.Message}");
         }
@@ -217,8 +287,42 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
     public bool AmIHost()
     {
-        string myUserId = GameManager.Instance.FirebaseManager.Auth.CurrentUser.UserId;
+        if (_isDataLoaded == false)
+        {
+            Debug.LogWarning("데이터 로딩이 완료되지 않았습니다.");
+            return false;
+        }
+        string myUserId = GameManager.Instance.FirebaseManager.User.UserId;
+        print($"currentRoomData : {currentRoomData}");
+        print($"currentRoomData.host : {currentRoomData.host}");
         return myUserId == currentRoomData.host;
+    }
+
+    private bool _isHostTurn;
+    public async Task<bool> IsMyTurn()
+    {
+        bool isMyTurn;
+        //내가 호스트인지 확인
+        bool amIHost = AmIHost();
+
+        DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
+
+        if (roomSnapshot.Exists)
+        {
+            string roomDataJson = roomSnapshot.GetRawJsonValue();
+            RoomData roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
+
+            if (roomData.turnCount % 2 == 0)
+            {
+                _isHostTurn = true;
+            }
+            else
+            {
+                _isHostTurn = false;
+            }
+        }
+
+        return isMyTurn = amIHost == _isHostTurn;
     }
 
     //여기에서 리더보드와 omokuserdata 둘 다 정보를 업데이트해줌
@@ -240,18 +344,20 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         if (amIWin == true)
         {
             print("승리점수 얻음");
-            omokLeaderBoardData.nickName = myOmokData.nickname;
+            omokLeaderBoardData.nickname = myOmokData.nickname;
             omokLeaderBoardData.win = myOmokData.win + 1;
             omokLeaderBoardData.lose = myOmokData.lose;
+            omokLeaderBoardData.score = omokLeaderBoardData.win * 10 - omokLeaderBoardData.lose * 5;
 
             myOmokData.win++;
         }
         else
         {
             print("패배점수 얻음");
-            omokLeaderBoardData.nickName = myOmokData.nickname;
+            omokLeaderBoardData.nickname = myOmokData.nickname;
             omokLeaderBoardData.win = myOmokData.win;
             omokLeaderBoardData.lose = myOmokData.lose + 1;
+            omokLeaderBoardData.score = omokLeaderBoardData.win * 10 - omokLeaderBoardData.lose * 5;
 
             myOmokData.lose++;
         }
@@ -263,9 +369,25 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         await myOmokDataRef.SetRawJsonValueAsync(myOmokDataJson);
     }
 
-    public async void ExitGame()
+    public async void ExitGame(bool isSurrender)
     {
-        DatabaseReference stateRef = _dbRoomRef.Child($"state");
-        await _dbRoomRef.Child($"state").SetRawJsonValueAsync(((int)RoomState.Finished).ToString());
+        try
+        {
+            bool amIHost = AmIHost();
+            string playerKey = amIHost ? "hostExited" : "guestExited";
+
+            await _dbRoomRef.Child(playerKey).SetValueAsync(true);
+
+            if (isSurrender)
+            {
+                UpdateOmokUserData(false);
+            }
+
+            SceneManager.LoadScene("DES");
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"호스트 게스트 존재가 확인되지 않음 : {e.Message}");
+        }
     }
 }

@@ -5,27 +5,41 @@ using System.Security.Claims;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Board : MonoBehaviour
 {
     [SerializeField] private GameObject blackStonePrefab;
     [SerializeField] private GameObject whiteStonePrefab;
+    [SerializeField] private GameObject redStonePrefab;
+    [SerializeField] UnityEngine.UI.Button doPlaceButton;
     [SerializeField] private int gridCount = 15;
 
-    private float boardSize;
-    private float cellSize;
-    private Vector3 boardStartPos;
+    private float _boardSize;
+    private float _cellSize;
+    private Vector3 _boardStartPos;
+    private Vector2Int? tempStoneIndex = null; //임시 돌의 위치(없으면 null)
 
     private int[,] boardState; //0 -> 기본, 1 -> 흑, 2 -> 백
+
+    //private void OnEnable()
+    //{
+    //    doPlaceButton.onClick.AddListener(OnClickDoPlaceStoneButton);
+    //}
+
+    private void OnDisable()
+    {
+        doPlaceButton.onClick.RemoveAllListeners();
+    }
 
     private void Start()
     {
         MeshRenderer renderer = GetComponent<MeshRenderer>();
-        boardSize = renderer.bounds.size.x; // -> 0.47(한 변의 길이)
+        _boardSize = renderer.bounds.size.x; // -> 0.47(한 변의 길이)
 
-        cellSize = boardSize / (gridCount - 1); // -> 0.03357143(cell한칸의 크기)
-        boardStartPos = new Vector3(-boardSize / 2, 0, -boardSize / 2); //(보드의 시작점 0,0)
+        _cellSize = _boardSize / (gridCount - 1); // -> 0.03357143(cell한칸의 크기)
+        _boardStartPos = new Vector3(-_boardSize / 2, 0, -_boardSize / 2); //(보드의 시작점 0,0)
 
         //나중에 OnEable도 생각해봐야겠다.
         boardState = new int[gridCount, gridCount];
@@ -37,9 +51,10 @@ public class Board : MonoBehaviour
                 boardState[i, j] = 0;
             }
         }
+        doPlaceButton.onClick.AddListener(OnClickDoPlaceStoneButton);
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    public async void OnClick(InputAction.CallbackContext context)
     {
         if (!context.performed)
             return;
@@ -47,6 +62,11 @@ public class Board : MonoBehaviour
         if (OmokUIManager.Instance.openPopupStack.Count >= 1)
             return;
 
+        if (OmokFirebaseManager.Instance.currentRoomData != null)
+        {
+            Debug.Log("아직 Firebase가 연결되지 않음");
+            return;
+        }
         Vector2 inputPosition = GetInputPosition();
 
         Ray ray = Camera.main.ScreenPointToRay(inputPosition);
@@ -61,12 +81,19 @@ public class Board : MonoBehaviour
             {
                 if (IsStoneHere(boardIndex) == true)
                 {
-                    Debug.LogError("이미 돌이 있음!");
+                    Debug.LogWarning("이미 돌이 있음!");
                     return;
                 }
 
-                print(boardIndex);
-                OmokFirebaseManager.Instance.RequestPlaceStone(boardIndex);
+                bool isMyTurn = await OmokFirebaseManager.Instance.IsMyTurn();
+
+                if (isMyTurn)
+                {
+                    tempStoneIndex = boardIndex;
+                    ShowTempStoneImage(boardIndex);
+                    //OmokFirebaseManager.Instance.RequestPlaceStone(boardIndex);
+                    //Instantiate(tempStoneImagePrefab, new Vector3(boardIndex.x, boardIndex.y, 0), Quaternion.identity, tempStoneUI);
+                }
             }
             else
             {
@@ -91,11 +118,11 @@ public class Board : MonoBehaviour
 
     private Vector2Int GetBoardIndex(Vector3 position)
     {
-        float xOffset = position.x - boardStartPos.x;
-        float zOffset = position.z - boardStartPos.z;
+        float xOffset = position.x - _boardStartPos.x;
+        float zOffset = position.z - _boardStartPos.z;
 
-        int col = Mathf.RoundToInt(xOffset / cellSize);
-        int row = Mathf.RoundToInt(zOffset / cellSize);
+        int col = Mathf.RoundToInt(xOffset / _cellSize);
+        int row = Mathf.RoundToInt(zOffset / _cellSize);
 
         return new Vector2Int(col, row);
     }
@@ -112,6 +139,49 @@ public class Board : MonoBehaviour
         }
     }
 
+    private GameObject _redStoneObj;
+
+    private void ShowTempStoneImage(Vector2Int index)
+    {
+        if (_redStoneObj != null)
+        {
+            Destroy(_redStoneObj);
+        }
+
+        _redStoneObj = Instantiate(redStonePrefab);
+
+        Vector3 position = new Vector3(
+            _boardStartPos.x + index.x * _cellSize,
+            0.0928f,
+            _boardStartPos.z + index.y * _cellSize
+            );
+
+        _redStoneObj.transform.position = position;
+        _redStoneObj.transform.SetParent(transform);
+    }
+
+    private void OnClickDoPlaceStoneButton()
+    {
+        if (tempStoneIndex == null)
+        {
+            Debug.LogWarning("착수 위치를 고르세요");
+            return;
+        }
+
+        Vector2Int index = tempStoneIndex.Value;
+
+        if (boardState[index.x, index.y] != 0)
+        {
+            Debug.LogWarning("거기는 돌이 있습니다!");
+            return;
+        }
+
+        OmokFirebaseManager.Instance.RequestPlaceStone(index);
+
+        tempStoneIndex = null;
+        Destroy(_redStoneObj);
+    }
+
     public void PlaceStone(bool isHostTurn, Vector2Int index)
     {
         boardState[index.x, index.y] = isHostTurn ? 1 : 2;
@@ -122,9 +192,9 @@ public class Board : MonoBehaviour
         GameObject stone = Instantiate(stonePrefab);
 
         Vector3 position = new Vector3(
-            boardStartPos.x + index.x * cellSize,
+            _boardStartPos.x + index.x * _cellSize,
             0.0928f,
-            boardStartPos.z + index.y * cellSize
+            _boardStartPos.z + index.y * _cellSize
             );
 
         stone.transform.position = position;
@@ -137,6 +207,7 @@ public class Board : MonoBehaviour
             bool result = AmIWinner(isHostTurn);
             ResultPopup(result);
             OmokFirebaseManager.Instance.UpdateOmokUserData(result);
+            LastTimeHandler.Instance.IsOnGame(false);
         }
     }
 
@@ -205,8 +276,8 @@ public class Board : MonoBehaviour
 
     private void ResultPopup(bool isHostTurn)
     {
-        GameEndUIPage popup = OmokUIManager.Instance.PopupOpen<GameEndUIPage>();
-        popup.AmIWinner(isHostTurn);
+        OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+        popup.AmIWinner(isHostTurn, OmokFirebaseManager.Instance.currentRoomData.betting);
     }
 
     //파라미터로 승리할때의 턴을 넣으면 승리했는지 아닌지 나온다

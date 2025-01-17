@@ -13,12 +13,15 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
 
     private DatabaseReference _turnRef;
 
-    private TimeSpan turnDuration = TimeSpan.FromSeconds(30);
-    private DateTime turnEndTime;
+    private TimeSpan _turnDuration = TimeSpan.FromSeconds(30);
+    private DateTime _turnEndTime;
+    private bool _isOnGame;
+    
 
     public void SetRef(DatabaseReference turnRef)
     {
         _turnRef = turnRef;
+        _isOnGame = true;
     }
 
     private Coroutine _leftCo;
@@ -36,9 +39,9 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
         bool isMyTurn = ((amIHost && isHostTurn) || (!amIHost && !isHostTurn));
 
         //여기서 턴 시간 초기화
-        turnEndTime = DateTime.Now.Add(turnDuration);
+        _turnEndTime = DateTime.Now.Add(_turnDuration);
 
-        if (isMyTurn)
+        if (isMyTurn && _isOnGame == true)
         {
             if (_leftCo != null) StopCoroutine(_leftCo);
             leftTimeText.text = $"남은 시간 : 30 : 00";
@@ -57,11 +60,17 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
         }
     }
 
+    public void IsOnGame(bool isOnGame)
+    {
+        _isOnGame = isOnGame;
+        print($"onGame의 상태 : {_isOnGame}");
+    }
+
     private IEnumerator HandleTimeCoroutine(TextMeshProUGUI timeText, bool isMyTimer)
     {
-        while (true)
+        while (_isOnGame)
         {
-            TimeSpan lastTime = turnEndTime - DateTime.Now;
+            TimeSpan lastTime = _turnEndTime - DateTime.Now;
 
             if (lastTime.TotalSeconds <= 0)
             {
@@ -72,11 +81,16 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
                 if (isMyTimer)
                 {
                     OmokFirebaseManager.Instance.UpdateOmokUserData(!amIWin);
+                    OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+                    popup.AmIWinner(!amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
                 }
                 else
                 {
                     OmokFirebaseManager.Instance.UpdateOmokUserData(amIWin);
+                    OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+                    popup.AmIWinner(amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
                 }
+                _isOnGame = false;
                 yield break;
             }
 

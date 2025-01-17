@@ -30,7 +30,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     protected override void Awake()
     {
         base.Awake();
-        //DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
+        DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
     }
 
     private async void Start()
@@ -279,19 +279,21 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                         .Child("rooms")
                         .Child(roomData.roomKey);
 
-                        DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
+                        //DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
+
+                        SceneManager.LoadScene("OmokScene");
 
                         //string json = snapshot.GetRawJsonValue();
                         //RoomData lastRoomData = JsonConvert.DeserializeObject<RoomData>(json);
 
-                        if (snapshot.Exists)
-                        {
-                            string roomDataJson = snapshot.GetRawJsonValue();
-                            PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
-                            PlayerPrefs.Save();
+                        //if (snapshot.Exists)
+                        //{
+                        //    string roomDataJson = snapshot.GetRawJsonValue();
+                        //    PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
+                        //    PlayerPrefs.Save();
 
-                        }
-                        SceneManager.LoadScene("OmokScene");
+                        //}
+                        //SceneManager.LoadScene("OmokScene");
                     }
 
                     else if (newState == RoomState.Finished)

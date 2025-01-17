@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class OmokLeaderBoardData
 {
-    public string nickName;
+    public string nickname;
+    public int score;
     public int win;
     public int lose;
 }
