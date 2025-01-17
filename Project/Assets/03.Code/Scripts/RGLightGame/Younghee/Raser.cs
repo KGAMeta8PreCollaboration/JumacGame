@@ -28,13 +28,12 @@ public class Raser : Skill
 
     public override void UseSkill()
     {
-        Vector3 cageCenter = _younghee.RGLightManager.player.PlayerRay.CalcSpawnPoint();
-        StartCoroutine(SpawnLightningInCage(cageCenter));
+        List<Vector3> cellCenters = _younghee.RGLightManager.CageManager.cage.GetCellCenters();
+        StartCoroutine(SpawnLightningInCage(cellCenters));
     }
 
-    private IEnumerator SpawnLightningInCage(Vector3 cageCenter)
+    private IEnumerator SpawnLightningInCage(List<Vector3> cellCenters)
     {
-        List<Vector3> cellCenters = CalculateCellCenters(cageCenter, cageWidth, cageHeight, gridSize);
         List<Vector3> selectedCells = SelectRandomCells(cellCenters, strikeCount);
 
         foreach (Vector3 target in selectedCells)
@@ -42,7 +41,7 @@ public class Raser : Skill
             StartCoroutine(StrikeLightning(target));
         }
 
-        yield return new WaitForSeconds(circleSrcTime + 0.1f);
+        yield return new WaitForSeconds(circleSrcTime + 0.5f);
 
         CompleteSkill();
     }
@@ -58,28 +57,6 @@ public class Raser : Skill
 
         Destroy(circle);
         Destroy(circleDes);
-    }
-
-    private List<Vector3> CalculateCellCenters(Vector3 center, float width, float height, int gridSize)
-    {
-        List<Vector3> cellCenters = new List<Vector3>();
-        float cellWidth = width / gridSize;
-        float cellHeight = height / gridSize;
-
-        for (int row = 0; row < gridSize; row++)
-        {
-            for (int col = 0; col < gridSize; col++)
-            {
-                Vector3 cellCenter = new Vector3(
-                    center.x - width / 2f + cellWidth * (col + 0.5f),
-                    0.14f,
-                    center.z - height / 2f + cellHeight * (row + 0.5f)
-                );
-                cellCenters.Add(cellCenter);
-            }
-        }
-
-        return cellCenters;
     }
 
     private List<Vector3> SelectRandomCells(List<Vector3> cellCenters, int count)

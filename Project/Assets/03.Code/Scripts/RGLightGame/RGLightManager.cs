@@ -40,7 +40,7 @@ namespace Minigame.RGLight
         private DatabaseReference _rglightRef;
 
         public Minigame.RGLight.Player player { get; private set; }
-        private CageManager _cageManager;
+        public CageManager CageManager { get; private set; }
         private RGLightGame _rglightGame;
         private int _addMoney;
 
@@ -51,10 +51,10 @@ namespace Minigame.RGLight
 
         private void Start()
         {
-            _cageManager = Instantiate(_cageManagerPrefab, transform);
+            CageManager = Instantiate(_cageManagerPrefab, transform);
             _rglightGame = Instantiate(_rglightGamePrefab, transform);
 
-            _cageManager.Init(this);
+            CageManager.Init(this);
             _rglightGame.Init(this);
 
             _rglightGame.endSentenceAction = OnEndSentence;
@@ -64,7 +64,7 @@ namespace Minigame.RGLight
         public void OnEndSentence()
         {
             if (IsEndGame) return;
-            _cageManager.Spawn(player.PlayerRay.CalcSpawnPoint());
+            CageManager.Spawn(player.PlayerRay.CalcSpawnPoint());
             moneySpawner.Spawn(player.PlayerRay.CalcSpawnPoint(), player.PlayerDistanceTracker.GetMoney());
             younghee.UseSkill();
         }
@@ -72,7 +72,7 @@ namespace Minigame.RGLight
         public void OnEndSkill()
         {
             if (IsEndGame) return;
-            _cageManager.DestroyCage();
+            CageManager.DestroyCage();
             StartCoroutine(_rglightGame.ControllReadSentence());
         }
 
