@@ -33,7 +33,7 @@ public class Younghee : MonoBehaviour
 	{
 		for (int i = 0; i < count; i++)
 		{
-			Skill selectedSkill = _skills[0];
+			Skill selectedSkill = _skills[1];
 
 			selectedSkill.UseSkill();
 

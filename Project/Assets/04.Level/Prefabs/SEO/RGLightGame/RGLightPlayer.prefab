@@ -326,7 +326,7 @@ MonoBehaviour:
   distanceInfos:
   - maxDistance: 50
     sentenceSpeed: 5
-    skillCount: 3
+    skillCount: 1
     skillInterval: 1
   - maxDistance: 100
     sentenceSpeed: 3

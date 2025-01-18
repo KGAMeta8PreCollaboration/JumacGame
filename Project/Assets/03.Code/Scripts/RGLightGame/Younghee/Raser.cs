@@ -39,7 +39,7 @@ public class Raser : Skill
 		StartCoroutine(StrikeLightning(selectedCell, () =>
 		{
 			skillComplete = true;
-			print("skillComplete 설정됨");
+			print("skillComplete: true");
 		}));
 
 		// 이 코루틴의 skillComplete가 true가 될 때까지 대기
