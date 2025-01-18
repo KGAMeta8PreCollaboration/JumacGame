@@ -55,7 +55,7 @@ public class Board : MonoBehaviour
     }
 
 
-    public void OnClick(InputAction.CallbackContext context)
+    public async void OnClick(InputAction.CallbackContext context)
     {
         if (!context.performed)
             return;
@@ -86,15 +86,16 @@ public class Board : MonoBehaviour
                     return;
                 }
 
-                //bool amIHost = OmokFirebaseManager.Instance.AmIHost();
+                bool amIHost = OmokFirebaseManager.Instance.AmIHost();
+                bool isMyTurn = await OmokFirebaseManager.Instance.IsMyTurn();
 
-                //if (isMyTurn)
-                //{
+                if (isMyTurn)
+                {
                     tempStoneIndex = boardIndex;
                     ShowTempStoneImage(boardIndex);
                     //OmokFirebaseManager.Instance.RequestPlaceStone(boardIndex);
                     //Instantiate(tempStoneImagePrefab, new Vector3(boardIndex.x, boardIndex.y, 0), Quaternion.identity, tempStoneUI);
-                
+                }
             }
             else
             {

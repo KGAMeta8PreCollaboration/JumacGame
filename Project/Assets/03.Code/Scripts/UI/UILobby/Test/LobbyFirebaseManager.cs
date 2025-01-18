@@ -146,7 +146,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 chatUserData.serverName,
                 chatUserData.id
                 );
-            newRoom.turnList = new List<Turn>();
 
             string roomJson = JsonConvert.SerializeObject(newRoom);
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
@@ -221,15 +220,21 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             {
                 string roomDataJson = roomSnapshot.GetRawJsonValue();
                 roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
+                
+                if (roomData.state != RoomState.Waiting)
+                {
+                    Debug.LogWarning("해당 방은 이미 게임 중이거나 종료된 상태입니다.");
+                    return;
+                }
 
                 if (string.IsNullOrEmpty(roomData.guest))
                 {
-                    Turn turn = new Turn("(0,0)", true, 1);
-                    List<Turn> temp = new List<Turn>();
+                    //Turn turn = new Turn("(0,0)", true, 1);
+                    //List<Turn> temp = new List<Turn>();
                     roomData.guest = chatUserData.id;
                     roomData.state = RoomState.Playing;
-                    roomData.turnList = temp;
-                    roomData.turnList.Add(turn);
+                    //roomData.turnList = temp;
+                    //roomData.turnList.Add(turn);
 
                     _roomData = roomData;
 
@@ -303,7 +308,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
                     else if (newState == RoomState.Finished)
                     {
-                        SceneManager.LoadScene("DES");
+                        //SceneManager.LoadScene("DES");
                     }
                 }
             }

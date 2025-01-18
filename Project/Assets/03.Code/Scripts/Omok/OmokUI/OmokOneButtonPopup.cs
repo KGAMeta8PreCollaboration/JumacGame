@@ -13,12 +13,14 @@ public class OmokOneButtonPopup : OmokPopup
     {
         base.OnEnable();
         closeAction += OmokFirebaseManager.Instance.ExitGame;
+        Debug.Log("closeAction에 ExitGame 등록됨");
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
         closeAction -= OmokFirebaseManager.Instance.ExitGame;
+        Debug.Log("closeAction에서 ExitGame 제거됨");
     }
 
     public void AmIWinner(bool amIWin, int gold)
@@ -40,8 +42,9 @@ public class OmokOneButtonPopup : OmokPopup
 
     protected override void CloseButtonClick()
     {
+        Debug.Log("CloseButton 클릭됨");
+        closeAction.Invoke(false);
         base.CloseButtonClick();
         //surrender가 아니니까 fasle를 붙힌다
-        closeAction?.Invoke(false);
     }
 }

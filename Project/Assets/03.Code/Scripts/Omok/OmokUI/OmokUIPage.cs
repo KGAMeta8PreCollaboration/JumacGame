@@ -14,10 +14,10 @@ public class OmokUIPage : OmokPage
     [SerializeField] private LeftUserInfo leftUserInfoPrefab;
     [SerializeField] private Button giveUpButton;
 
-    //private void Awake()
-    //{
-    //    giveUpButton.onClick.AddListener(OnClickGiveUpButton);
-    //}
+    private void Awake()
+    {
+        giveUpButton.onClick.AddListener(OnClickGiveUpButton);
+    }
 
     public void Init(RoomData roomData)
     {
@@ -26,18 +26,18 @@ public class OmokUIPage : OmokPage
             turnCountText.text = $"{roomData.turnCount + 1}수째.";
             turnUserName.text = $"{OmokFirebaseManager.Instance.hostData.nickname}님의 턴입니다";
 
-            bool isBlackStone = true;
+            bool amIHost = true;
             //내가 호스트일때
             if (roomData.host == OmokFirebaseManager.Instance.Auth.CurrentUser.UserId)
             {
                 //오른쪽에는 호스트(나)의 정보, 돌의 색은 = true
-                rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, isBlackStone);
-                leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !isBlackStone);
+                rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, amIHost);
+                leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !amIHost);
             }
             else if (roomData.host != OmokFirebaseManager.Instance.Auth.CurrentUser.UserId)
             {
-                rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !isBlackStone);
-                leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, isBlackStone);
+                rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !amIHost);
+                leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, amIHost);
             }
         }
         catch (Exception e)

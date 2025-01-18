@@ -66,9 +66,9 @@ public class RoomData
 [System.Serializable]
 public class Turn
 {
-    public string coodinate { get; set; } = "0,0";
-    public bool isHostTurn { get; set; } = false;
-    public int turnCount { get; set; } = 0;
+    public string coodinate;
+    public bool isHostTurn;
+    public int turnCount;
 
     public Turn() { }
 

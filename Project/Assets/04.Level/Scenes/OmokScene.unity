@@ -994,50 +994,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504383039}
   m_CullTransparentMesh: 1
---- !u!1 &585775038
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 585775040}
-  - component: {fileID: 585775039}
-  m_Layer: 0
-  m_Name: OmokGameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &585775039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585775038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d1d428d8fe1a374ab182b0914542baa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &585775040
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585775038}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1857.795, y: 655.82166, z: -1.9971584}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &591261147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,6 +1236,76 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606650233}
   m_CullTransparentMesh: 1
+--- !u!1 &638480786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638480787}
+  - component: {fileID: 638480788}
+  m_Layer: 0
+  m_Name: OmokFirebaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &638480787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638480786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1544, y: 720, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &638480788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638480786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3f91abededb8b459a2f64ca582367e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRoomData:
+    roomKey: 
+    roomName: 
+    serverName: 
+    betting: 0
+    host: 
+    guest: 
+    isHostTurn: 0
+    turnCount: 0
+    hostExited: 0
+    guestExited: 0
+    state: 0
+    turnList: []
+  hostData:
+    id: 
+    nickname: 
+    gold: 0
+    win: 0
+    lose: 0
+  guestData:
+    id: 
+    nickname: 
+    gold: 0
+    win: 0
+    lose: 0
+  board: {fileID: 6697621764418071045}
 --- !u!1 &678926352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,9 +1654,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 678926354}
-  titleText: {fileID: 0}
-  contentText: {fileID: 0}
-  goldText: {fileID: 0}
+  titleText: {fileID: 1416764831}
+  contentText: {fileID: 367696718}
+  goldText: {fileID: 1604265140}
 --- !u!114 &739640163 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7498531976765470478, guid: 31a00e461ac1fdd45ab7948d06a07e49, type: 3}
@@ -3851,7 +3877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1875450494
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4023,76 +4049,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938284934}
   m_CullTransparentMesh: 1
---- !u!1 &2006901488
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2006901489}
-  - component: {fileID: 2006901490}
-  m_Layer: 0
-  m_Name: OmokFirebaseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2006901489
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006901488}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1446.6279, y: 654.7342, z: -3.6537101}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2006901490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006901488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a3f91abededb8b459a2f64ca582367e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentRoomData:
-    roomKey: 
-    roomName: 
-    serverName: 
-    betting: 0
-    host: 
-    guest: 
-    isHostTurn: 0
-    turnCount: 0
-    hostExited: 0
-    guestExited: 0
-    state: 0
-    turnList: []
-  hostData:
-    id: 
-    nickname: 
-    gold: 0
-    win: 0
-    lose: 0
-  guestData:
-    id: 
-    nickname: 
-    gold: 0
-    win: 0
-    lose: 0
-  board: {fileID: 6697621764418071045}
 --- !u!1 &2051075140
 GameObject:
   m_ObjectHideFlags: 0
@@ -6121,8 +6077,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 330244692}
   - {fileID: 1288158787}
-  - {fileID: 2006901489}
   - {fileID: 1115911550}
   - {fileID: 811661027}
-  - {fileID: 585775040}
   - {fileID: 1023579944}
+  - {fileID: 638480787}
