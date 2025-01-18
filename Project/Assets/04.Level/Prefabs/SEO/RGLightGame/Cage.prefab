@@ -468,3 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4755acb5eaad8d34998db22fcfb256aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 30
+  height: 30
+  gridSize: 5
+  blueSphere: {fileID: 6226725332911658949, guid: 95ad5ca250fb8614193c0f593476a22a, type: 3}
+  redSphere: {fileID: 6226725332911658949, guid: f8fcace5f89b4b840ac7b45a43e88332, type: 3}

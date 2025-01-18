@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxHealth: 6
+  maxHealth: 100
   isDead: 0
 --- !u!114 &3663090094351484750
 MonoBehaviour:
