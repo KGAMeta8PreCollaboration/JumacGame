@@ -8,6 +8,7 @@ public class SlotPanel : MonoBehaviour
     public InventoryPanel inventoryPanel;
     public int slotNumber { get; set; }
     public bool isOccupied { get; private set; }
+    public bool isEquipped { get; private set; }
     
     public Item item { get; private set; }
 

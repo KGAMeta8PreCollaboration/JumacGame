@@ -18,8 +18,9 @@ public class Inventory : MonoBehaviour
 		{
 			return false;
 		}
+		print("인벤토리 아이템 추가 액션 : " + OnItemAdded + "index = " + slotNumber);
 		OnItemAdded?.Invoke(slotNumber, item);
-		itemDictionary.Add(slotNumber, item);
+		itemDictionary[slotNumber] = item;
 		return true;
 	}
 	
@@ -39,8 +40,10 @@ public class Inventory : MonoBehaviour
 	
 	public bool Remove(int slotNumber)
 	{
+		print("인벤토리 리무브 1");
 		if (itemDictionary.ContainsKey(slotNumber))
 		{
+			print("인벤토리 리무브 2");
 			OnItemRemoved?.Invoke(slotNumber, itemDictionary[slotNumber]);
 			itemDictionary.Remove(slotNumber);
 			return true;
@@ -48,6 +51,13 @@ public class Inventory : MonoBehaviour
 		return false;
 	}
 	
+	public void RemoveWithoutEvent(int slotNumber)
+	{
+		if (itemDictionary.ContainsKey(slotNumber))
+		{
+			itemDictionary.Remove(slotNumber);
+		}
+	}
 	public Item GetItem(int slotNumber)
 	{
 		Item item = null;
@@ -63,7 +73,6 @@ public class Inventory : MonoBehaviour
 		}
 		if (itemDictionary.ContainsValue(weapon))
 		{ 
-			print( $"장착중인 무기 : {weapon.damage}");
 			equippedWeapon = weapon;
 			equippedWeapon.Equip();
 		}
