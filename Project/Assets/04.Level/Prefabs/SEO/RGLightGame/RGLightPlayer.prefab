@@ -259,8 +259,16 @@ MonoBehaviour:
     m_ActionName: Dialogue/Interact[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a0cc080d-4972-41fa-8abf-f992b35064ab
-    m_ActionName: Test/New action[/Keyboard/q]
+    m_ActionId: b77320e2-1fb0-4429-be89-2a71e2ca6614
+    m_ActionName: Test/Z[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e6481416-9d04-432d-bd31-88bbc383e023
+    m_ActionName: Test/X[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92eb9018-5218-45fc-82e7-abff53de9bbd
+    m_ActionName: Test/C[/Keyboard/c]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

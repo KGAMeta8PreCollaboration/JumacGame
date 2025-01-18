@@ -6,105 +6,96 @@ using System;
 
 public class Younghee : MonoBehaviour
 {
-    public RGLightManager RGLightManager;
-    public Action endSkillAction;
-    private List<Skill> _skills = new List<Skill>();
+	public RGLightManager RGLightManager;
+	public Action endSkillAction;
+	private List<Skill> _skills = new List<Skill>();
 
-    private void Awake()
-    {
-        FindSkill();
-    }
+	private void Awake()
+	{
+		FindSkill();
+	}
 
-    public void UseSkill()
-    {
-        int count = RGLightManager.player.PlayerDistanceTracker.GetSkillCount();
-        float interval = RGLightManager.player.PlayerDistanceTracker.GetSkillInterval();
+	public void UseSkill()
+	{
+		int count = RGLightManager.player.PlayerDistanceTracker.GetSkillCount();
+		float interval = RGLightManager.player.PlayerDistanceTracker.GetSkillInterval();
 
-        if (RGLightManager.player.PlayerDistanceTracker.PlayerDistance <= 50f) StartCoroutine(Phase1(count, interval));
-        else if (RGLightManager.player.PlayerDistanceTracker.PlayerDistance <= 100f) StartCoroutine(Phase2(count, interval));
-        else StartCoroutine(Phase3(count, interval));
-    }
+		skillDone.Clear();
 
-    public IEnumerator Phase1(int count, float interval)
-    {
-        List<bool> skillComplete = new List<bool>();
+		if (RGLightManager.player.PlayerDistanceTracker.PlayerDistance <= 50f) StartCoroutine(Phase1(count, interval));
+		else if (RGLightManager.player.PlayerDistanceTracker.PlayerDistance <= 100f) StartCoroutine(Phase2(count, interval));
+		else StartCoroutine(Phase3(count, interval));
+	}
 
-        for (int i = 0; i < count; i++)
-        {
-            Skill selectedSkill = _skills[0];
+	public List<bool> skillDone = new List<bool>();
 
-            skillComplete.Add(false);
+	public IEnumerator Phase1(int count, float interval)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			Skill selectedSkill = _skills[0];
 
-            int snapshot = i;
-            selectedSkill.onSkillComplete += () => skillComplete[snapshot] = true;
+			selectedSkill.UseSkill();
 
-            selectedSkill.UseSkill();
+			yield return new WaitForSeconds(interval);
+		}
 
-            yield return new WaitForSeconds(interval);
-        }
+		while (skillDone.Count != count)
+		{
+			yield return null;
+		}
 
-        yield return new WaitUntil(() => skillComplete.TrueForAll(status => status));
-        print("1페이지입니다");
-        foreach (bool status in skillComplete)
-        {
-            print(status);
-        }
-        endSkillAction?.Invoke();
-    }
+		print("1페이지입니다");
+		endSkillAction?.Invoke();
+	}
 
-    public IEnumerator Phase2(int count, float interval)
-    {
-        List<bool> skillComplete = new List<bool>();
+	public IEnumerator Phase2(int count, float interval)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			Skill selectedSkill = _skills[0];
 
-        for (int i = 0; i < count; i++)
-        {
-            Skill selectedSkill = _skills[0];
+			selectedSkill.UseSkill();
 
-            skillComplete.Add(false);
+			yield return new WaitForSeconds(interval);
+		}
 
-            int index = i;
-            selectedSkill.onSkillComplete += () => skillComplete[index] = true;
+		while (skillDone.Count != count)
+		{
+			yield return null;
+		}
 
-            selectedSkill.UseSkill();
+		print("2페이지입니다");
+		endSkillAction?.Invoke();
+	}
 
-            yield return new WaitForSeconds(interval);
-        }
+	public IEnumerator Phase3(int count, float interval)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			Skill selectedSkill = _skills[0];
 
-        yield return new WaitUntil(() => skillComplete.TrueForAll(status => status));
-        print("2페이지입니다");
-        endSkillAction?.Invoke();
-    }
+			selectedSkill.UseSkill();
 
-    public IEnumerator Phase3(int count, float interval)
-    {
-        List<bool> skillComplete = new List<bool>();
+			yield return new WaitForSeconds(interval);
+		}
 
-        for (int i = 0; i < count; i++)
-        {
-            Skill selectedSkill = _skills[0];
+		while (skillDone.Count != count)
+		{
+			yield return null;
+		}
 
-            skillComplete.Add(false);
+		print("3페이지입니다");
+		endSkillAction?.Invoke();
+	}
 
-            int index = i;
-            selectedSkill.onSkillComplete += () => skillComplete[index] = true;
-
-            selectedSkill.UseSkill();
-
-            yield return new WaitForSeconds(interval);
-        }
-
-        yield return new WaitUntil(() => skillComplete.TrueForAll(status => status));
-        print("3페이지입니다");
-        endSkillAction?.Invoke();
-    }
-
-    public void FindSkill()
-    {
-        Skill[] skills = transform.GetComponentsInChildren<Skill>();
-        foreach (Skill skill in skills)
-        {
-            _skills.Add(skill);
-            skill.Init(this);
-        }
-    }
+	public void FindSkill()
+	{
+		Skill[] skills = transform.GetComponentsInChildren<Skill>();
+		foreach (Skill skill in skills)
+		{
+			_skills.Add(skill);
+			skill.Init(this);
+		}
+	}
 }
