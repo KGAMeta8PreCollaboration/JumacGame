@@ -6,11 +6,14 @@ public class Inventory : MonoBehaviour
 { 
 	public event Action<int, Item> OnItemAdded;
 	public event Action<int, Item> OnItemRemoved;
+	public event Action<EquipItem> OnEquipItem;
+	public event Action<EquipItem> OnUnequipItem;
 	public Weapon equippedWeapon { get; private set; }
 	public Armor equippedArmor { get; private set; }
 	public Accessory equippedAccessory { get; private set; }
 	
 	private Dictionary<int, Item> itemDictionary = new Dictionary<int, Item>();
+	
 
 	public bool Add(int slotNumber, Item item)
 	{
@@ -40,10 +43,8 @@ public class Inventory : MonoBehaviour
 	
 	public bool Remove(int slotNumber)
 	{
-		print("인벤토리 리무브 1");
 		if (itemDictionary.ContainsKey(slotNumber))
 		{
-			print("인벤토리 리무브 2");
 			OnItemRemoved?.Invoke(slotNumber, itemDictionary[slotNumber]);
 			itemDictionary.Remove(slotNumber);
 			return true;
@@ -63,6 +64,28 @@ public class Inventory : MonoBehaviour
 		Item item = null;
 		itemDictionary.TryGetValue(slotNumber, out item);
 		return item;
+	}
+	
+	public void EquipItem(int slotNumber)
+	{
+		Item item = GetItem(slotNumber);
+		if (item is not EquipItem equipItem)
+			return;
+		if (item is Weapon)
+		{
+			EquipWeapon(item as Weapon);
+		}
+		else if (item is Armor)
+		{
+			EquipArmor(item as Armor);
+		}
+		else if (item is Accessory)
+		{
+			EquipAccessory(item as Accessory);
+		}
+		else
+			return;
+		OnEquipItem?.Invoke(equipItem);
 	}
 	
 	public void EquipWeapon(Weapon weapon)
@@ -102,5 +125,16 @@ public class Inventory : MonoBehaviour
 			equippedAccessory = accessory;
 			equippedAccessory.Equip();
 		}
+	}
+	
+	
+	public void UnequipItem(int slotNumber)
+	{
+		Item item = GetItem(slotNumber);
+		if (item is EquipItem equipItem)
+			equipItem.Unequip();
+		else
+			return;
+		OnUnequipItem?.Invoke(equipItem);
 	}
 }

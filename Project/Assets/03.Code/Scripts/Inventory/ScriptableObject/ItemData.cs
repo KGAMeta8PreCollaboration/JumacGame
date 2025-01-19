@@ -7,4 +7,5 @@ public abstract class ItemData : ScriptableObject
 	public int id;
 	public string itemName;
 	public GameObject icon;
+	public string[] descriptions;
 }

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SlotPanel : MonoBehaviour
+public class SlotPanel : MonoBehaviour, IPointerClickHandler
 {
     public InventoryPanel inventoryPanel;
     public int slotNumber { get; set; }
@@ -29,5 +30,13 @@ public class SlotPanel : MonoBehaviour
         item = null;
         isOccupied = false;
         Destroy(icon.gameObject);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!isOccupied)
+            return;
+        inventoryPanel.itemPopup.SetItem(item, slotNumber);
+        inventoryPanel.itemPopup.OpenPopup();
+        // inventoryPanel.RemoveButtonClick(slotNumber);
     }
 }
