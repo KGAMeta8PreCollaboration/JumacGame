@@ -3100,7 +3100,7 @@ MonoBehaviour:
   squareMaxHeight: 5.7
   squareWidth: 1
   _squarePrefab: {fileID: 7741057117474828092, guid: 4b6c37cacbee39541a23b17e7fc7a05d, type: 3}
-  _effectPrefab: {fileID: 5081540165651370290, guid: a47e0575cfd141a4db68a39a1314550d, type: 3}
+  _effectPrefab: {fileID: 4943082739280794052, guid: eae1f0729b3500b49919614196562d30, type: 3}
 --- !u!1 &1899168203
 GameObject:
   m_ObjectHideFlags: 0

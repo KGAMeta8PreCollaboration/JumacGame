@@ -32,12 +32,23 @@ public class RedSquare : Skill
 		List<Vector3> topPoints = outerCellCenters.FindAll(point => Mathf.Approximately(point.z, topZ));
 
 		// 위쪽 점에서 1, 3, 5번째 선택
-		List<Vector3> selectedPoints = new List<Vector3>
+		List<Vector3> oddPoints = new List<Vector3>
 		{
 			topPoints[0], // 1번째 점
             topPoints[2], // 3번째 점
             topPoints[4]  // 5번째 점
         };
+		List<Vector3> evenPoints = new List<Vector3>
+		{
+			topPoints[1],
+			topPoints[3]
+		};
+
+		List<Vector3> selectedPoints;
+
+		float random = UnityEngine.Random.Range(0, 100f);
+		if (random <= 50) selectedPoints = oddPoints;
+		else selectedPoints = evenPoints;
 
 		StartCoroutine(ExecuteSkillAtPoints(selectedPoints));
 	}
@@ -51,7 +62,6 @@ public class RedSquare : Skill
 			StartCoroutine(StrikeSquare(point, () =>
 			{
 				skillComplete = true;
-				print("skillComplete: true");
 			}));
 		}
 
@@ -73,15 +83,12 @@ public class RedSquare : Skill
 
 		// 이펙트 생성
 		GameObject effect = Instantiate(_effectPrefab, target, Quaternion.Euler(-90f, 0f, 0f));
-		//GameObject effect2 = Instantiate(_effectPrefab, target, Quaternion.Euler(90f, 0f, 0f));
-		//GameObject effect3 = Instantiate(_effectPrefab, target, Quaternion.identity);
 
 		Destroy(square);
-		Destroy(effect);
 
 		yield return new WaitForSeconds(1.5f);
 		print("기관총 이펙트 삭제");
-		//Destroy(effect);
+		Destroy(effect);
 
 		// 완료 상태 알림
 		onComplete?.Invoke();

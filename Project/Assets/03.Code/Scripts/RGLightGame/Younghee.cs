@@ -33,7 +33,18 @@ public class Younghee : MonoBehaviour
 	{
 		for (int i = 0; i < count; i++)
 		{
-			Skill selectedSkill = _skills[1];
+			Skill selectedSkill;
+			float random = UnityEngine.Random.Range(0, 100f);
+			if (random <= 90)
+			{
+				selectedSkill = _skills[0];
+				print("레이저 스킬");
+			}
+			else
+			{
+				selectedSkill = _skills[1];
+				print("기관총 스킬");
+			}
 
 			selectedSkill.UseSkill();
 
@@ -45,7 +56,7 @@ public class Younghee : MonoBehaviour
 			yield return null;
 		}
 
-		print("1페이지입니다");
+		print("1페이지 스킬이 모두 종료되었습니다");
 		endSkillAction?.Invoke();
 	}
 
