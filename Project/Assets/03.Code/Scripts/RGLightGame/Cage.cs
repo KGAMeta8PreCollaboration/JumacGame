@@ -32,7 +32,7 @@ public class Cage : MonoBehaviour
 			{
 				Vector3 cellCenter = new Vector3(
 					cageCenter.x - width / 2f + cellWidth * (col + 0.5f),
-					cageCenter.y,
+					0.13f,
 					cageCenter.z - height / 2f + cellHeight * (row + 0.5f)
 				);
 				_cellCenters.Add(cellCenter);
@@ -55,7 +55,7 @@ public class Cage : MonoBehaviour
 		for (int col = 0; col < gridSize; col++)
 		{
 			float x = cageCenter.x - width / 2f + cellWidth * (col + 0.5f);
-			float y = cageCenter.y;
+			float y = 0.13f;
 			float z = cageCenter.z + height / 2f; // 위쪽 Y = +15
 			_outerCellCenters.Add(new Vector3(x, y, z));
 			Vector3 cellCenter = new Vector3(x, y, z);
@@ -66,7 +66,7 @@ public class Cage : MonoBehaviour
 		for (int col = 0; col < gridSize; col++)
 		{
 			float x = cageCenter.x - width / 2f + cellWidth * (col + 0.5f);
-			float y = cageCenter.y;
+			float y = 0.13f;
 			float z = cageCenter.z - height / 2f; // 아래쪽 Y = -15
 			_outerCellCenters.Add(new Vector3(x, y, z));
 			Vector3 cellCenter = new Vector3(x, y, z);
@@ -77,7 +77,7 @@ public class Cage : MonoBehaviour
 		for (int row = 0; row < gridSize; row++)
 		{
 			float x = cageCenter.x - width / 2f; // 왼쪽 X = -15
-			float y = cageCenter.y;
+			float y = 0.13f;
 			float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
 			_outerCellCenters.Add(new Vector3(x, y, z));
 			Vector3 cellCenter = new Vector3(x, y, z);
@@ -88,7 +88,7 @@ public class Cage : MonoBehaviour
 		for (int row = 0; row < gridSize; row++)
 		{
 			float x = cageCenter.x + width / 2f; // 오른쪽 X = +15
-			float y = cageCenter.y;
+			float y = 0.13f;
 			float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
 			_outerCellCenters.Add(new Vector3(x, y, z));
 			Vector3 cellCenter = new Vector3(x, y, z);

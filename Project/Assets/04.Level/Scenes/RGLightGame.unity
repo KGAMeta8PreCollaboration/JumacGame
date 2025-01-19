@@ -795,6 +795,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _popups:
   - {fileID: 975570152}
+--- !u!1 &481389516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 481389517}
+  - component: {fileID: 481389518}
+  m_Layer: 0
+  m_Name: FireWave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &481389517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481389516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1927144522486559088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &481389518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481389516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5fb6dba86caed44b8661f8870b56c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  squareGrowTime: 1.5
+  squareMaxHeight: 5.7
+  squareWidth: 1
+  skillInterval: 0.35
+  _squarePrefab: {fileID: 466323163629761654, guid: be052d57134078a47b0797313bb77c14, type: 3}
+  _effectPrefab: {fileID: 55608963979007204, guid: 9decc7d921c854342a7193f13dfd65de, type: 3}
 --- !u!1 &524249408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3584,6 +3634,7 @@ Transform:
   - {fileID: 2033820568861680911}
   - {fileID: 2112762132}
   - {fileID: 1895605063}
+  - {fileID: 481389517}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1927144522486559089

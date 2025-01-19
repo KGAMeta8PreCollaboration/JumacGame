@@ -42,8 +42,8 @@ public class Younghee : MonoBehaviour
 			}
 			else
 			{
-				selectedSkill = _skills[1];
-				print("기관총 스킬");
+				selectedSkill = _skills[2];
+				print("파도 스킬");
 			}
 
 			selectedSkill.UseSkill();
@@ -64,7 +64,23 @@ public class Younghee : MonoBehaviour
 	{
 		for (int i = 0; i < count; i++)
 		{
-			Skill selectedSkill = _skills[0];
+			Skill selectedSkill;
+			float random = UnityEngine.Random.Range(0, 100f);
+			if (random <= 60)
+			{
+				selectedSkill = _skills[0];
+				print("레이저 스킬");
+			}
+			else if (random <= 90)
+			{
+				selectedSkill = _skills[2];
+				print("파도 스킬");
+			}
+			else
+			{
+				selectedSkill = _skills[1];
+				print("기관총 스킬");
+			}
 
 			selectedSkill.UseSkill();
 
@@ -76,7 +92,7 @@ public class Younghee : MonoBehaviour
 			yield return null;
 		}
 
-		print("2페이지입니다");
+		print("2페이지 스킬이 모두 종료되었습니다");
 		endSkillAction?.Invoke();
 	}
 
@@ -84,7 +100,23 @@ public class Younghee : MonoBehaviour
 	{
 		for (int i = 0; i < count; i++)
 		{
-			Skill selectedSkill = _skills[0];
+			Skill selectedSkill;
+			float random = UnityEngine.Random.Range(0, 100f);
+			if (random <= 40)
+			{
+				selectedSkill = _skills[0];
+				print("레이저 스킬");
+			}
+			else if (random <= 70)
+			{
+				selectedSkill = _skills[2];
+				print("파도 스킬");
+			}
+			else
+			{
+				selectedSkill = _skills[1];
+				print("기관총 스킬");
+			}
 
 			selectedSkill.UseSkill();
 
@@ -96,7 +128,7 @@ public class Younghee : MonoBehaviour
 			yield return null;
 		}
 
-		print("3페이지입니다");
+		print("3페이지 스킬이 모두 종료되었습니다");
 		endSkillAction?.Invoke();
 	}
 
