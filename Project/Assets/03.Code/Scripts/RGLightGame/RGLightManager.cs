@@ -79,7 +79,7 @@ namespace Minigame.RGLight
             if (IsEndGame) return;
             StartCoroutine(_youngheeAnimationUI.YoungheeAnimation(false));
             CageManager.DestroyCage();
-            StartCoroutine(_rglightGame.ControllReadSentence());
+            StartCoroutine(_rglightGame.ReadSentence2());
         }
 
         private IEnumerator IntroCoroutine()
