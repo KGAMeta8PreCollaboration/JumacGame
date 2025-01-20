@@ -18,6 +18,7 @@ public class FirebaseManager : MonoBehaviour
     public DatabaseReference LogInUsersRef => Database.GetReference("loginusers");
     public DatabaseReference LobbyUsersRef => Database.GetReference("lobby");
     public DatabaseReference LeaderBoardRef => Database.GetReference("leaderboard");
+    public DatabaseReference StatRef => Database.GetReference("stat");
 
     private async void Start()
     {
