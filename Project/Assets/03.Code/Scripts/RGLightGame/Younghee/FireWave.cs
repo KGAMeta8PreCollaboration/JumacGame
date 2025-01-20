@@ -5,101 +5,91 @@ using System;
 
 public class FireWave : Skill
 {
-	[Header("Settings")]
-	public float squareGrowTime = 1f;
-	public float squareMaxHeight = 5.7f;
-	public float squareWidth = 1f;
-	public float skillInterval = 0.5f;
+    [Header("Settings")]
+    public float squareGrowTime = 1f;
+    public float squareMaxHeight = 5.7f;
+    public float squareWidth = 1f;
+    public float skillInterval = 0.5f;
 
-	[Header("Prefabs")]
-	[SerializeField] private GameObject _squarePrefab;
-	[SerializeField] private GameObject _effectPrefab;
+    [Header("Prefabs")]
+    [SerializeField] private GameObject _squarePrefab;
+    [SerializeField] private GameObject _effectPrefab;
 
-	private Younghee _younghee;
+    private Younghee _younghee;
 
-	public override void Init(Younghee younghee)
-	{
-		_younghee = younghee;
-	}
+    public override void Init(Younghee younghee)
+    {
+        _younghee = younghee;
+    }
 
-	public override void UseSkill()
-	{
-		// ¸ğµç ¼¿ ÁÂÇ¥ °¡Á®¿À±â
-		List<Vector3> allCellCenters = _younghee.RGLightManager.CageManager.cage.GetCellCenters();
+    public override void UseSkill()
+    {
+        List<Vector3> allCellCenters = _younghee.RGLightManager.CageManager.cage.GetCellCenters();
 
-		// ¿Ü°û Á¡ °¡Á®¿À±â
-		List<Vector3> outerCellCenters = _younghee.RGLightManager.CageManager.cage.GetOuterCellCenters();
+        List<Vector3> outerCellCenters = _younghee.RGLightManager.CageManager.cage.GetOuterCellCenters();
 
-		// ¿ŞÂÊ ¿Ü°û Á¡ ÇÊÅÍ¸µ
-		float leftX = _younghee.RGLightManager.CageManager.cage.transform.position.x -
-					  _younghee.RGLightManager.CageManager.cage.width / 2f;
-		List<Vector3> leftPoints = outerCellCenters.FindAll(point => Mathf.Approximately(point.x, leftX));
+        float leftX = _younghee.RGLightManager.CageManager.cage.transform.position.x -
+                      _younghee.RGLightManager.CageManager.cage.width / 2f;
+        List<Vector3> leftPoints = outerCellCenters.FindAll(point => Mathf.Approximately(point.x, leftX));
 
-		// ¿ŞÂÊ Á¡ Áß ·£´ıÀ¸·Î ÇÏ³ª ¼±ÅÃ
-		Vector3 startPoint = leftPoints[UnityEngine.Random.Range(0, leftPoints.Count)];
+        Vector3 startPoint = leftPoints[UnityEngine.Random.Range(0, leftPoints.Count)];
 
-		// ³»ºÎ ¼¿ Áß µ¿ÀÏÇÑ Z ÁÂÇ¥¸¦ °¡Áø Á¡µé ÇÊÅÍ¸µ ¹× Á¤·Ä
-		List<Vector3> wavePath = allCellCenters.FindAll(point =>
-			Mathf.Approximately(point.z, startPoint.z)); // °°Àº Z ÁÂÇ¥ÀÎ Á¡
-		wavePath.Sort((a, b) => a.x.CompareTo(b.x)); // X ÁÂÇ¥ ±âÁØ Á¤·Ä
+        List<Vector3> wavePath = allCellCenters.FindAll(point =>
+            Mathf.Approximately(point.z, startPoint.z));
+        wavePath.Sort((a, b) => a.x.CompareTo(b.x));
 
-		// ½ºÅ³ ½ÇÇà
-		StartCoroutine(ExecuteSkillInWave(startPoint, wavePath));
-	}
+        StartCoroutine(ExecuteSkillInWave(startPoint, wavePath));
+    }
 
-	private IEnumerator ExecuteSkillInWave(Vector3 startPoint, List<Vector3> wavePath)
-	{
-		// °ø°İ ¿¹°í¿ë »¡°£ ³×¸ğ »ı¼º
-		Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
-		GameObject square = Instantiate(_squarePrefab, startPoint, rotation);
+    private IEnumerator ExecuteSkillInWave(Vector3 startPoint, List<Vector3> wavePath)
+    {
+        Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
+        GameObject square = Instantiate(_squarePrefab, startPoint, rotation);
 
-		// »¡°£ ³×¸ğ È®Àå
-		yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
+        yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
 
-		Destroy(square);
+        Destroy(square);
 
-		List<GameObject> curEffects = new List<GameObject>();
+        List<GameObject> curEffects = new List<GameObject>();
 
-		// ¼øÂ÷ÀûÀ¸·Î ÀÌÆåÆ® »ı¼º
-		foreach (Vector3 point in wavePath)
-		{
-			GameObject effect = Instantiate(_effectPrefab, point, Quaternion.identity);
-			curEffects.Add(effect);
-			yield return new WaitForSeconds(skillInterval); // Á¡ °£ °£°İ ´ë±â
-		}
+        foreach (Vector3 point in wavePath)
+        {
+            GameObject effect = Instantiate(_effectPrefab, point, Quaternion.identity);
+            curEffects.Add(effect);
+            yield return new WaitForSeconds(skillInterval);
+        }
 
-		yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3f);
 
-		foreach (GameObject effect in curEffects)
-		{
-			Destroy(effect);
-		}
+        foreach (GameObject effect in curEffects)
+        {
+            Destroy(effect);
+        }
 
-		// ½ºÅ³ ¿Ï·á Ã³¸®
-		print("FireWave ½ºÅ³ ¿Ï·á");
-		_younghee.skillDone.Add(true);
-	}
+        print("FireWave ì´í™íŠ¸ ì‚­ì œ");
+        _younghee.skillDone.Add(true);
+    }
 
-	private IEnumerator ExpandSquare(GameObject square, float squareWidth, float squareMaxHeight, float squareGrowTime)
-	{
-		square.transform.localScale = new Vector3(squareWidth, 0f, 1f);
-		Vector3 maxSize = new Vector3(squareMaxHeight, squareWidth, 1f);
+    private IEnumerator ExpandSquare(GameObject square, float squareWidth, float squareMaxHeight, float squareGrowTime)
+    {
+        square.transform.localScale = new Vector3(squareWidth, 0f, 1f);
+        Vector3 maxSize = new Vector3(squareMaxHeight, squareWidth, 1f);
 
-		float elapsedTime = 0f;
+        float elapsedTime = 0f;
 
-		while (elapsedTime < squareGrowTime)
-		{
-			elapsedTime += Time.deltaTime;
+        while (elapsedTime < squareGrowTime)
+        {
+            elapsedTime += Time.deltaTime;
 
-			float progress = Mathf.Clamp01(elapsedTime / squareGrowTime);
-			float newHeight = Mathf.Lerp(0f, squareMaxHeight, progress);
-			square.transform.localScale = new Vector3(newHeight, squareWidth, 1f);
+            float progress = Mathf.Clamp01(elapsedTime / squareGrowTime);
+            float newHeight = Mathf.Lerp(0f, squareMaxHeight, progress);
+            square.transform.localScale = new Vector3(newHeight, squareWidth, 1f);
 
-			yield return null;
-		}
+            yield return null;
+        }
 
-		square.transform.localScale = maxSize;
+        square.transform.localScale = maxSize;
 
-		yield return new WaitForSeconds(1f);
-	}
+        yield return new WaitForSeconds(1f);
+    }
 }
