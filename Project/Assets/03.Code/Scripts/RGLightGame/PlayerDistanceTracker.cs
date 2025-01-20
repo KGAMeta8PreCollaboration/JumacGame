@@ -15,7 +15,17 @@ namespace Minigame.RGLight
             public int money;
         }
 
+        [System.Serializable]
+        public struct DistanceInfo
+        {
+            public float maxDistance;
+            public float sentenceSpeed;
+            public int skillCount;
+            public float skillInterval;
+        }
+
         public List<DistanceReward> distanceRewards = new List<DistanceReward>();
+        public List<DistanceInfo> distanceInfos = new List<DistanceInfo>();
 
         public float PlayerDistance
         {
@@ -59,6 +69,21 @@ namespace Minigame.RGLight
             return GetReward().money;
         }
 
+        public float GetSentenceSpeed()
+        {
+            return GetInfo().sentenceSpeed;
+        }
+
+        public int GetSkillCount()
+        {
+            return GetInfo().skillCount;
+        }
+
+        public float GetSkillInterval()
+        {
+            return GetInfo().skillInterval;
+        }
+
         private DistanceReward GetReward()
         {
             foreach (DistanceReward reward in distanceRewards)
@@ -67,6 +92,15 @@ namespace Minigame.RGLight
                     return reward;
             }
             return distanceRewards[distanceRewards.Count - 1];
+        }
+
+        private DistanceInfo GetInfo()
+        {
+            foreach (DistanceInfo info in distanceInfos)
+            {
+                if (PlayerDistance <= info.maxDistance) return info;
+            }
+            return distanceInfos[distanceInfos.Count - 1];
         }
     }
 }

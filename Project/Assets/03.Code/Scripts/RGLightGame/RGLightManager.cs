@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -16,12 +17,14 @@ namespace Minigame.RGLight
         [SerializeField] private GoldSpawner moneySpawner;
         [SerializeField] private Younghee younghee;
         [SerializeField] private GameObject _introPanel;
-        [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private Transform _startPoint;
+
+        [Header("Prefabs")]
+        [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private CageManager _cageManagerPrefab;
         [SerializeField] private RGLightGame _rglightGamePrefab;
-        public int defaultMoney;
 
+        public int defaultMoney;
         public float limitTime;
         public float startTime;
         public float endTime;
@@ -36,8 +39,8 @@ namespace Minigame.RGLight
 
         private DatabaseReference _rglightRef;
 
-        private Minigame.RGLight.Player _player;
-        private CageManager _cageManager;
+        public Minigame.RGLight.Player player { get; private set; }
+        public CageManager CageManager { get; private set; }
         private RGLightGame _rglightGame;
         private int _addMoney;
 
@@ -48,14 +51,10 @@ namespace Minigame.RGLight
 
         private void Start()
         {
-            Minigame.RGLight.Player player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
-            _player = player;
-            player.Init(this);
-
-            _cageManager = Instantiate(_cageManagerPrefab, transform);
+            CageManager = Instantiate(_cageManagerPrefab, transform);
             _rglightGame = Instantiate(_rglightGamePrefab, transform);
 
-            _cageManager.Init(this);
+            CageManager.Init(this);
             _rglightGame.Init(this);
 
             _rglightGame.endSentenceAction = OnEndSentence;
@@ -65,23 +64,30 @@ namespace Minigame.RGLight
         public void OnEndSentence()
         {
             if (IsEndGame) return;
-            _cageManager.Spawn(_player.PlayerRay.CalcSpawnPoint());
-            moneySpawner.Spawn(_player.PlayerRay.CalcSpawnPoint(), _player.PlayerDistanceTracker.GetMoney());
-            StartCoroutine(younghee.UseSkill());
+            CageManager.Spawn(player.PlayerRay.CalcSpawnPoint());
+            moneySpawner.Spawn(player.PlayerRay.CalcSpawnPoint(), player.PlayerDistanceTracker.GetMoney());
+            younghee.UseSkill();
         }
 
         public void OnEndSkill()
         {
             if (IsEndGame) return;
-            _cageManager.DestroyCage();
+            CageManager.DestroyCage();
             StartCoroutine(_rglightGame.ControllReadSentence());
         }
 
         private IEnumerator IntroCoroutine()
         {
+            player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
+            player.Init(this);
+            float originSpeed = player.moveSpeed;
+            player.moveSpeed = 0;
+
             _introPanel.SetActive(true);
             yield return new WaitForSeconds(introTime);
             _introPanel.SetActive(false);
+
+            player.moveSpeed = originSpeed;
         }
 
         public IEnumerator TimeCheckCoroutine()
@@ -106,7 +112,7 @@ namespace Minigame.RGLight
             while (!IsEndGame)
             {
                 MainPage.SetRemainTime(ConvertToMinutesAndSeconds(RemainTime));
-                MainPage.SetMoveDistance(_player.PlayerDistanceTracker.PlayerDistance);
+                MainPage.SetMoveDistance(player.PlayerDistanceTracker.PlayerDistance);
                 yield return new WaitForSeconds(mainPageUpdateInterval);
             }
         }
@@ -138,7 +144,7 @@ namespace Minigame.RGLight
         {
             SetMoney(defaultMoney + _addMoney);
             print(defaultMoney + _addMoney);
-            SetScore(_player.PlayerDistanceTracker.GetScore());
+            SetScore(player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
@@ -147,7 +153,7 @@ namespace Minigame.RGLight
         private void OnDefeat()
         {
             SetMoney(defaultMoney);
-            SetScore(_player.PlayerDistanceTracker.GetScore());
+            SetScore(player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
             PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);
@@ -196,14 +202,17 @@ namespace Minigame.RGLight
                 DataSnapshot snapshot = await _rglightRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
                 RGLightUserData userData;
 
+                string nickname = await GetNickname();
+
                 if (snapshot.Exists)
                 {
                     userData = JsonConvert.DeserializeObject<RGLightUserData>(snapshot.GetRawJsonValue());
+                    userData.nickname = nickname;
                     userData.score += value;
                 }
                 else
                 {
-                    userData = new RGLightUserData(value);
+                    userData = new RGLightUserData(nickname, value);
                 }
 
                 string json = JsonConvert.SerializeObject(userData);
@@ -212,6 +221,29 @@ namespace Minigame.RGLight
             catch (Exception e)
             {
                 print(e.Message);
+            }
+        }
+
+        public async Task<string> GetNickname()
+        {
+            try
+            {
+                DataSnapshot snapshot = await GameManager.Instance.FirebaseManager.LogInUsersRef.Child(GameManager.Instance.FirebaseManager.User.UserId).GetValueAsync();
+                if (snapshot.Exists)
+                {
+                    if (snapshot.HasChild("nickname"))
+                    {
+                        string nickname = snapshot.Child("nickname").Value.ToString();
+                        return nickname;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                print(e.Message);
+                return null;
             }
         }
 

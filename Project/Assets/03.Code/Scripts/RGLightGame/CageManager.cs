@@ -9,16 +9,16 @@ public class CageManager : MonoBehaviour
     [SerializeField] private GameObject _cagePrefab;
     public RGLightManager RGLightManager { get; private set; }
 
-    private GameObject _cage;
+    public Cage cage { get; private set; }
 
     public void Spawn(Vector3 spawnPoint)
     {
-        _cage = Instantiate(_cagePrefab, spawnPoint, Quaternion.identity);
+        cage = Instantiate(_cagePrefab, spawnPoint, Quaternion.identity).GetComponent<Cage>();
     }
 
     public void DestroyCage()
     {
-        Destroy(_cage);
+        Destroy(cage.gameObject);
     }
 
     public void Init(RGLightManager manager)
