@@ -175,6 +175,7 @@ MonoBehaviour:
   _playerPrefab: {fileID: 7503567453162253920, guid: 0fdc08f3ce733af40920db4b02adbc86, type: 3}
   _cageManagerPrefab: {fileID: 5775595017916883048, guid: 97c1b96eccae6df409322e88586c093b, type: 3}
   _rglightGamePrefab: {fileID: 7736871315764141505, guid: 2ba6ed91370303546a828c0c2b374bdf, type: 3}
+  _youngheeAnimationUIPrefab: {fileID: 6431268303179274717, guid: ff779ae35b1266a4b86f60db32e4cd00, type: 3}
   defaultMoney: 50
   limitTime: 300
   startTime: 0

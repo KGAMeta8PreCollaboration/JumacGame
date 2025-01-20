@@ -23,6 +23,7 @@ namespace Minigame.RGLight
         [SerializeField] private Minigame.RGLight.Player _playerPrefab;
         [SerializeField] private CageManager _cageManagerPrefab;
         [SerializeField] private RGLightGame _rglightGamePrefab;
+        [SerializeField] private YoungheeAnimationUI _youngheeAnimationUIPrefab;
 
         public int defaultMoney;
         public float limitTime;
@@ -42,6 +43,7 @@ namespace Minigame.RGLight
         public Minigame.RGLight.Player player { get; private set; }
         public CageManager CageManager { get; private set; }
         private RGLightGame _rglightGame;
+        private YoungheeAnimationUI _youngheeAnimationUI;
         private int _addMoney;
 
         private void Awake()
@@ -53,9 +55,11 @@ namespace Minigame.RGLight
         {
             CageManager = Instantiate(_cageManagerPrefab, transform);
             _rglightGame = Instantiate(_rglightGamePrefab, transform);
+            _youngheeAnimationUI = Instantiate(_youngheeAnimationUIPrefab, GameObject.Find("Canvas").transform);
 
             CageManager.Init(this);
             _rglightGame.Init(this);
+            _youngheeAnimationUI.Init(this);
 
             _rglightGame.endSentenceAction = OnEndSentence;
             younghee.endSkillAction = OnEndSkill;
@@ -64,6 +68,7 @@ namespace Minigame.RGLight
         public void OnEndSentence()
         {
             if (IsEndGame) return;
+            StartCoroutine(_youngheeAnimationUI.YoungheeAnimation(true));
             CageManager.Spawn(player.PlayerRay.CalcSpawnPoint());
             moneySpawner.Spawn(player.PlayerRay.CalcSpawnPoint(), player.PlayerDistanceTracker.GetMoney());
             younghee.UseSkill();
@@ -72,6 +77,7 @@ namespace Minigame.RGLight
         public void OnEndSkill()
         {
             if (IsEndGame) return;
+            StartCoroutine(_youngheeAnimationUI.YoungheeAnimation(false));
             CageManager.DestroyCage();
             StartCoroutine(_rglightGame.ControllReadSentence());
         }
@@ -104,6 +110,8 @@ namespace Minigame.RGLight
         public void GameStart()
         {
             StartCoroutine(_rglightGame.ReadSentence2());
+
+            _youngheeAnimationUI.ShowImage(true);
         }
 
         public IEnumerator MainPageUpdateCoroutine()
