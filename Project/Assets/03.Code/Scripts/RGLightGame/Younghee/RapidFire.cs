@@ -73,10 +73,11 @@ public class RapidFire : Skill
         GameObject square = Instantiate(_squarePrefab, target, rotation);
 
         yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
-
-        GameObject effect = Instantiate(_effectPrefab, target, Quaternion.Euler(-90f, 0f, 0f));
-
         Destroy(square);
+
+        Vector3 NewP = new Vector3(target.x, 0.8f, target.z);
+        GameObject effect = Instantiate(_effectPrefab, NewP, Quaternion.Euler(-90f, 0f, 0f));
+
 
         yield return new WaitForSeconds(1.5f);
         Destroy(effect);
