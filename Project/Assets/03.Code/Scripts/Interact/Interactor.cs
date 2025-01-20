@@ -22,7 +22,6 @@ public class Interactor : MonoBehaviour
     private void Start()
     {
         interactView = GameObject.Find("InteractView").GetComponent<RectTransform>();
-        print(interactView);
     }
 
     private void OnTriggerEnter(Collider other)
