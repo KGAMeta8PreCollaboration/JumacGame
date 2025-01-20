@@ -11,6 +11,15 @@ namespace Minigame.RGLight
         public float maxHealth;
         private float _curHealth;
 
+        private MainPage _mainPage;
+
+        public float HealthAmount
+        {
+            get
+            {
+                return _curHealth / maxHealth;
+            }
+        }
         public bool IsDead { get; private set; }
 
         public RGLightManager RGLightManager { get; private set; }
@@ -19,6 +28,11 @@ namespace Minigame.RGLight
         public PlayerRay PlayerRay { get; private set; }
         private PlayerInputManager _playerInputManager;
         private Rigidbody _playerRigidbody;
+
+        private void Update()
+        {
+            _mainPage.SetHealth(HealthAmount);
+        }
 
         private void FixedUpdate()
         {
@@ -51,6 +65,8 @@ namespace Minigame.RGLight
             _playerRigidbody = GetComponent<Rigidbody>();
             PlayerDistanceTracker = GetComponent<PlayerDistanceTracker>();
             PlayerRay = GetComponent<PlayerRay>();
+            _mainPage = GameObject.FindObjectOfType<MainPage>();
+
             RGLightManager = manager;
             CinemachineVirtualCamera cvc = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
             cvc.Follow = transform;
