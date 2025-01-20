@@ -5,11 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TwoButtonPopup : OmokPopup
+public class OmokTwoButtonPopup : OmokPopup
 {
     [SerializeField] private TextMeshProUGUI contentText;
     [SerializeField] private Button yesButton;
-    private Action _callback;
+    private Action<bool> _callback;
 
     protected override void OnEnable()
     {
@@ -28,7 +28,7 @@ public class TwoButtonPopup : OmokPopup
         base.CloseButtonClick();
     }
 
-    public void SetPopup(string content, Action callback)
+    public void SetPopup(string content, Action<bool> callback)
     {
         this.contentText.text = content;
         this._callback = callback;
@@ -36,7 +36,7 @@ public class TwoButtonPopup : OmokPopup
 
     private void OnClickYesButton()
     {
-        _callback?.Invoke();
+        _callback?.Invoke(true);
         OmokUIManager.Instance.PopupClose();
     }
 }

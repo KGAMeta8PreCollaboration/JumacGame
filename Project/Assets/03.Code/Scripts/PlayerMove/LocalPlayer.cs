@@ -95,5 +95,4 @@ public class LocalPlayer : MonoBehaviour
         // print(transform.position - move);
         rb.MovePosition(transform.position - move);
     }
-
 }

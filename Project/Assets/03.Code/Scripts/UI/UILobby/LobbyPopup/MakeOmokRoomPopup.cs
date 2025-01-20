@@ -36,7 +36,7 @@ public class MakeOmokRoomPopup : LobbyPopup
         (betting) =>
         {
             newRoom.betting = betting;
-            if (newRoom.roomName == "" || newRoom.betting == 0)
+            if (newRoom.roomName == "" || newRoom.betting < 0)
             {
                 print("방 정보 입력 안됨");
                 UILobbyManager.Instance.PopupOpen<OneButtonPopup>().SetPopup("알림", "방 정보를 입력해주세요");

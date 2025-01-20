@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class OmokPopup : MonoBehaviour
 {
-    protected Action closeAction;
+    protected Action<bool> closeAction;
 
     [SerializeField] private Button _closeButton;
 
@@ -23,6 +23,6 @@ public class OmokPopup : MonoBehaviour
     protected virtual void CloseButtonClick()
     {
         OmokUIManager.Instance.PopupClose();
-        closeAction?.Invoke();
+        //closeAction?.Invoke();
     }
 }

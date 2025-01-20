@@ -30,7 +30,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     protected override void Awake()
     {
         base.Awake();
-        //DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
+        DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
     }
 
     private async void Start()
@@ -220,11 +220,21 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             {
                 string roomDataJson = roomSnapshot.GetRawJsonValue();
                 roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
+                
+                if (roomData.state != RoomState.Waiting)
+                {
+                    Debug.LogWarning("해당 방은 이미 게임 중이거나 종료된 상태입니다.");
+                    return;
+                }
 
                 if (string.IsNullOrEmpty(roomData.guest))
                 {
+                    //Turn turn = new Turn("(0,0)", true, 1);
+                    //List<Turn> temp = new List<Turn>();
                     roomData.guest = chatUserData.id;
                     roomData.state = RoomState.Playing;
+                    //roomData.turnList = temp;
+                    //roomData.turnList.Add(turn);
 
                     _roomData = roomData;
 
@@ -253,12 +263,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     public void MonitorRoomState(RoomData roomData)
     {
-        _dbRoomRef = Database.GetReference(chatUserData.serverName)
+        DatabaseReference roomStateRef = Database.GetReference(chatUserData.serverName)
             .Child($"rooms")
             .Child(roomData.roomKey)
             .Child("state");
 
-        _dbRoomRef.ValueChanged += async (sender, args) =>
+        roomStateRef.ValueChanged += async (sender, args) =>
         {
             if (args.Snapshot.Exists)
             {
@@ -279,24 +289,26 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                         .Child("rooms")
                         .Child(roomData.roomKey);
 
-                        DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
+                        //DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
+
+                        SceneManager.LoadScene("OmokScene");
 
                         //string json = snapshot.GetRawJsonValue();
                         //RoomData lastRoomData = JsonConvert.DeserializeObject<RoomData>(json);
 
-                        if (snapshot.Exists)
-                        {
-                            string roomDataJson = snapshot.GetRawJsonValue();
-                            PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
-                            PlayerPrefs.Save();
+                        //if (snapshot.Exists)
+                        //{
+                        //    string roomDataJson = snapshot.GetRawJsonValue();
+                        //    PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
+                        //    PlayerPrefs.Save();
 
-                        }
-                        SceneManager.LoadScene("OmokScene");
+                        //}
+                        //SceneManager.LoadScene("OmokScene");
                     }
 
                     else if (newState == RoomState.Finished)
                     {
-                        SceneManager.LoadScene("DES");
+                        //SceneManager.LoadScene("DES");
                     }
                 }
             }

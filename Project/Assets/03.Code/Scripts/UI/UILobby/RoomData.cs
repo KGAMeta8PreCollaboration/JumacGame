@@ -22,8 +22,10 @@ public class RoomData
     public string guest;
     public bool isHostTurn;
     public int turnCount;
+    public bool hostExited;
+    public bool guestExited;
     public RoomState state;
-    public List<Turn> turnList = new List<Turn>();
+    public List<Turn> turnList;
 
     public RoomData() { }
 
@@ -38,6 +40,8 @@ public class RoomData
         this.guest = "";
         isHostTurn = true;
         turnCount = 0;
+        hostExited = false;
+        guestExited = false;
         state = RoomState.Waiting;
         turnList = new List<Turn>();
     }
@@ -52,6 +56,8 @@ public class RoomData
         this.guest = "";
         isHostTurn = true;
         turnCount = 0;
+        hostExited = false;
+        guestExited = false;
         state = RoomState.Waiting;
         turnList = new List<Turn>();
     }
@@ -60,7 +66,16 @@ public class RoomData
 [System.Serializable]
 public class Turn
 {
-    public int turnCount;
-    public bool isHostTurn;
     public string coodinate;
+    public bool isHostTurn;
+    public int turnCount;
+
+    public Turn() { }
+
+    public Turn(string coodinate, bool isHostTurn, int turnCount)
+    {
+        this.coodinate=coodinate;
+        this.isHostTurn=isHostTurn;
+        this.turnCount=turnCount;
+    }
 }
