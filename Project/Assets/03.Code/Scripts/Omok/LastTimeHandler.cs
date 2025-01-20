@@ -13,13 +13,15 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
 
     private DatabaseReference _turnRef;
 
-    private TimeSpan turnDuration = TimeSpan.FromSeconds(30);
-    private DateTime turnEndTime;
+    private TimeSpan _turnDuration = TimeSpan.FromSeconds(30);
+    private DateTime _turnEndTime;
+    private bool _isOnGame;
+    
 
     public void SetRef(DatabaseReference turnRef)
     {
         _turnRef = turnRef;
-        //HandleTime();
+        _isOnGame = true;
     }
 
     private Coroutine _leftCo;
@@ -37,48 +39,58 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
         bool isMyTurn = ((amIHost && isHostTurn) || (!amIHost && !isHostTurn));
 
         //여기서 턴 시간 초기화
-        turnEndTime = DateTime.Now.Add(turnDuration);
+        _turnEndTime = DateTime.Now.Add(_turnDuration);
 
-        if (isMyTurn)
+        if (isMyTurn && _isOnGame == true)
         {
-            if (_leftCo != null)
-            {
-                StopCoroutine(_leftCo);
-                _leftCo = null;
-            }
+            if (_leftCo != null) StopCoroutine(_leftCo);
             leftTimeText.text = $"남은 시간 : 30 : 00";
 
             if (_rightCo != null) StopCoroutine(_rightCo);
-            _rightCo = StartCoroutine(HandleTimeCoroutine(rightTimeText));
+            _rightCo = StartCoroutine(HandleTimeCoroutine(rightTimeText, true));
         }
 
         else
         {
-            if (_rightCo != null)
-            {
-                StopCoroutine(_rightCo);
-                _rightCo = null;
-            }
-
+            if (_rightCo != null) StopCoroutine(_rightCo);
             rightTimeText.text = $"남은 시간 : 30 : 00";
 
             if (_leftCo != null) StopCoroutine(_leftCo);
-            _leftCo = StartCoroutine(HandleTimeCoroutine(leftTimeText));
+            _leftCo = StartCoroutine(HandleTimeCoroutine(leftTimeText, false));
         }
     }
 
-    private IEnumerator HandleTimeCoroutine(TextMeshProUGUI timeText)
+    public void IsOnGame(bool isOnGame)
     {
-        while (true)
+        _isOnGame = isOnGame;
+        print($"onGame의 상태 : {_isOnGame}");
+    }
+
+    private IEnumerator HandleTimeCoroutine(TextMeshProUGUI timeText, bool isMyTimer)
+    {
+        while (_isOnGame)
         {
-            TimeSpan lastTime = turnEndTime - DateTime.Now;
+            TimeSpan lastTime = _turnEndTime - DateTime.Now;
 
             if (lastTime.TotalSeconds <= 0)
             {
                 timeText.text = "남은 시간  : 00 : 00";
+                bool amIWin = true;
 
                 //여기에서 타임 초과되면 나올 UI띄우기
-
+                if (isMyTimer)
+                {
+                    OmokFirebaseManager.Instance.UpdateOmokUserData(!amIWin);
+                    OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+                    popup.AmIWinner(!amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
+                }
+                else
+                {
+                    OmokFirebaseManager.Instance.UpdateOmokUserData(amIWin);
+                    OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+                    popup.AmIWinner(amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
+                }
+                _isOnGame = false;
                 yield break;
             }
 

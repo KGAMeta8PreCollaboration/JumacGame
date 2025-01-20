@@ -23,7 +23,7 @@ public class GameEndUIPage : OmokPopup
     protected override void CloseButtonClick()
     {
         print("나가기 버튼 눌림");
-        OmokFirebaseManager.Instance.ExitGame();
+        OmokFirebaseManager.Instance.ExitGame(false);
         base.CloseButtonClick();
     }
 
