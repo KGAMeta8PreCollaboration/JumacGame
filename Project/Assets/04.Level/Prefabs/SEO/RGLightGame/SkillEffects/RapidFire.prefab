@@ -19753,7 +19753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c2911b72f8985478ae7ef7ec4457cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 3
   repeatCount: 15
 --- !u!1 &5599814637180947668
 GameObject:
