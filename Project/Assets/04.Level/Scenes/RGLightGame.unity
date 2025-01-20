@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introTime: 4
-  nextScene: SEOLobbyTest
+  nextScene: YOOLobby3
   moneySpawner: {fileID: 1297967468}
   younghee: {fileID: 1927144522486559089}
   _introPanel: {fileID: 705205361}
