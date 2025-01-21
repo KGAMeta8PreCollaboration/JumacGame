@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractBtnTest : ButtonInteractable
+[RequireComponent(typeof(SphereCollider))]
+public class CombatNPC : ButtonInteractable
 {
     private DialogueLoader _dialogueLoader;
-
 
     private void Start()
     {
