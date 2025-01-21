@@ -260,7 +260,7 @@ public class JegiGameManager : Singleton<JegiGameManager>
 
     public void GoLobby()
     {
-        SceneManager.LoadScene("DES");
+        SceneManager.LoadScene("Lobby");
     }
 }
 
