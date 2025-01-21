@@ -1260,7 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212cc38d4a5733b498f0a6c6b9a50136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionButtonPrefab: {fileID: 0}
+  _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
 --- !u!114 &3461367964595896062
 MonoBehaviour:
   m_ObjectHideFlags: 0

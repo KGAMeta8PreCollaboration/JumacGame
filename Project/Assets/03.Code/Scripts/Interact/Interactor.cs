@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(SphereCollider))]
 public class Interactor : MonoBehaviour
@@ -41,5 +42,17 @@ public class Interactor : MonoBehaviour
             _interactables.Remove(interactable);
             onExitAction?.Invoke();
         }
+    }
+
+    public void DestroyButtonAll()
+    {
+        Button[] removeButtons = interactView.GetComponentsInChildren<Button>();
+
+        foreach (Button button in removeButtons)
+        {
+            Destroy(button.gameObject, 0.1f);
+        }
+
+        _interactables.Clear();
     }
 }

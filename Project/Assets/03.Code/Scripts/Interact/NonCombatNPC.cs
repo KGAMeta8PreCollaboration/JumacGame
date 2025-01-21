@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class NonCombatNPC : ButtonInteractable
 {
+    [SerializeField] private Dialogue _dialogue;
     private DialogueLoader _dialogueLoader;
 
     private void Start()
@@ -14,6 +15,6 @@ public class NonCombatNPC : ButtonInteractable
     }
     protected override void InteractionButtonClick()
     {
-        _dialogueLoader.LoadDialogue(() => print("Dialogue ended"));
+        _dialogueLoader.LoadDialogue(_dialogue, () => print("Dialogue ended"));
     }
 }

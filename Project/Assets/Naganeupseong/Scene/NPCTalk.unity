@@ -86172,10 +86172,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1188766141}
     m_Modifications:
-    - target: {fileID: 1418984842522359745, guid: 0f26fcf8ecb1af04ca88b0d061af00d9, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2741683296618252082, guid: 0f26fcf8ecb1af04ca88b0d061af00d9, type: 3}
       propertyPath: m_Name
       value: Dancing_Man2
@@ -86447,10 +86443,6 @@ PrefabInstance:
     - target: {fileID: 5534192140047077190, guid: d65d146f3538e5c459a47c1779b6fb62, type: 3}
       propertyPath: m_Name
       value: Dancing_Man1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7362826064360371722, guid: d65d146f3538e5c459a47c1779b6fb62, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

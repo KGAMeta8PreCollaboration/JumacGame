@@ -985,7 +985,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4357073500744453346}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.521564, z: -0, w: 0.8532122}
+  m_LocalRotation: {x: 0, y: -0.5215607, z: 0, w: 0.8532142}
   m_LocalPosition: {x: 479.47153, y: 0.000006198883, z: 702.6405}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25eb44233026eb1418e8efbff2a3a35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionButtonPrefab: {fileID: 0}
+  _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
 --- !u!114 &289058005263687786
 MonoBehaviour:
   m_ObjectHideFlags: 0

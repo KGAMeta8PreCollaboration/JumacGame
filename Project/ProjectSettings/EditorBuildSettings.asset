@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/04.Level/Scenes/Login.unity
     guid: 87a7d1be70d7cc44eb56949dde84f34b
+  - enabled: 1
+    path: Assets/04.Level/Scenes/TestScene/CombatTest.unity
+    guid: 3adc42baf32cc6e4b84209aeba86ee99
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f294eccd2f1be704c9cdb7f82137f183, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 778598d0afc61114cb87bec2b3fc0105, type: 3}
