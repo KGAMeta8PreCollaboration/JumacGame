@@ -93,6 +93,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     public void ReceiveMessage(Action<MessageData> callback)
     {
+        print("일단 연결은 됨");
         try
         {
             _dbChatRef = Database.GetReference(chatUserData.serverName).Child("chats");
@@ -106,6 +107,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
             _childAddedHandler = (sender, args) =>
                 {
+                    print("메시지의 변화도 감지함");
                     if (args.Snapshot.Exists)
                     {
                         string json = args.Snapshot.GetRawJsonValue();
@@ -122,6 +124,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             _dbChatRef.OrderByChild("TimeStamp")
                 .StartAt(logInTime)
                 .ChildAdded += _childAddedHandler;
+            print("시간으로도 감지함");
         }
         catch (Exception e)
         {
