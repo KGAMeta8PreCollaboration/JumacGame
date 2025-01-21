@@ -10,6 +10,12 @@ public class JegiPrefab : MonoBehaviour
     private bool _isGrounded = false;
     public bool _isKicked = false;
 
+    [Header("해당 콤보마다 가속이 됨")]
+    [SerializeField] private int accelerateCombo;
+
+    [Header("얼마나 가속할지")]
+    [SerializeField] private float accelerateAmount;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -98,6 +104,8 @@ public class JegiPrefab : MonoBehaviour
 
         Vector2 kickDir = Quaternion.Euler(0, 0, angle) * Vector2.up;
         _rb.AddForce(kickDir * force, ForceMode2D.Impulse);
+
+        AccelerateGravity(JegiGameManager.Instance._combo);
     }
 
     private void ReflectedByWall()
@@ -106,5 +114,19 @@ public class JegiPrefab : MonoBehaviour
         float dirY = _rb.velocity.y;
 
         _rb.velocity = new Vector2(dirX, dirY);
+    }
+
+    private int _currentMul = 0;
+    private int _beforeMul = 0;
+    private void AccelerateGravity(int combo)
+    {
+        _currentMul = (combo / accelerateCombo);
+        float accelerateValue = _currentMul * accelerateAmount;
+
+        if (_currentMul != _beforeMul)
+        {
+            _rb.gravityScale = 0.7f + accelerateValue;
+            _beforeMul = _currentMul;
+        }
     }
 }

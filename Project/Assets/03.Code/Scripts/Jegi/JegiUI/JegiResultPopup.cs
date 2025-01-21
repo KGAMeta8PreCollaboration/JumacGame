@@ -29,5 +29,6 @@ public class JegiResultPopup : JegiPopup
     protected override void CloseButtonClick()
     {
         base.CloseButtonClick();
+        JegiGameManager.Instance.GoLobby();
     }
 }

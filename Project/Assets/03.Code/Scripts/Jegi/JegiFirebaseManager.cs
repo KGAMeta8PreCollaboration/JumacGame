@@ -42,9 +42,8 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
             if (logInUserData != null)
             {
                 jegiUserData = await SetJegiUserDataByLogInUserData(logInUserData);
+                JegiGameManager.Instance.Init();
             }
-
-            JegiGameManager.Instance.Init();
         }
         catch (Exception e)
         {
@@ -84,7 +83,7 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     {
         try
         {
-            DatabaseReference jegiDataRef = _jegiLeaderboardRef.Child(logInUserData.id);
+            DatabaseReference jegiDataRef = _jegiLeaderboardRef.Child(Auth.CurrentUser.UserId);
             DataSnapshot jegiDataSnapshot = await jegiDataRef.GetValueAsync();
             JegiUserData jegiUserData;
 
@@ -114,8 +113,8 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     {
         try
         {
-            DatabaseReference jegiUserDataRef = _jegiLeaderboardRef.Child($"{Auth.CurrentUser.UserId}");
-            DatabaseReference logInUserDataRef = _logInUserDataRef.Child($"{Auth.CurrentUser.UserId}");
+            DatabaseReference jegiUserDataRef = _jegiLeaderboardRef.Child(Auth.CurrentUser.UserId);
+            DatabaseReference logInUserDataRef = _logInUserDataRef.Child(Auth.CurrentUser.UserId);
 
             //들어온 점수가 본 점수보다 높으면 
             if (jegiUserData.score <= score)

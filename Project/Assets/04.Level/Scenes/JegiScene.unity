@@ -788,9 +788,16 @@ MonoBehaviour:
   perfectRange: 0.7
   greatRange: 1.4
   goodRange: 3
+  perfectScore: 20
+  greatScore: 10
+  goodScore: 5
+  perfectAngle: 10
+  greatAngle: 30
+  goodAngle: 70
   circleRange: 4
   judgePrefab: {fileID: 9022167509886023335, guid: 70dbf85ad1ed424499d4d9c67bf21965, type: 3}
   judgeTextArea: {fileID: 2040179000}
+  _combo: 0
   _pause: 1
   _isGameOver: 1
 --- !u!4 &481789807
@@ -1340,7 +1347,7 @@ GameObject:
   - component: {fileID: 687694684}
   - component: {fileID: 687694683}
   m_Layer: 5
-  m_Name: GoOutButton
+  m_Name: GoLobbyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2720,7 +2727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1296700277
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2794,6 +2801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButton: {fileID: 1020946329}
+  goLobbyButton: {fileID: 687694683}
 --- !u!1 &1296901228
 GameObject:
   m_ObjectHideFlags: 0
@@ -4706,6 +4714,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b008828a4b838748a0f0092d7df6b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gold: 0
+  jegiUserData:
+    nickName: 
+    score: 0
 --- !u!1001 &2577293104202222392
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4714,6 +4726,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5180082753636614726, guid: 35e6f6f97e4689142a0d2527db5ad22f, type: 3}
+      propertyPath: accelerateCombo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5180082753636614726, guid: 35e6f6f97e4689142a0d2527db5ad22f, type: 3}
+      propertyPath: accelerateAmount
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8136401449084017516, guid: 35e6f6f97e4689142a0d2527db5ad22f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

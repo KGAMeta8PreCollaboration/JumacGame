@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class JegiGameManager : Singleton<JegiGameManager>
@@ -44,12 +45,18 @@ public class JegiGameManager : Singleton<JegiGameManager>
     private float angleRangeMin, angleRangeMax;
     private JegiUIPage _jegiUIPage;
 
+    private bool _isInitCompelet = false;
     private int _currentScore = 0;
     private int _bestScore;
-    private int _combo = 0;
+    public int _combo = 0;
     private int _rewardGold = 0;
     public bool _pause = true;
     public bool _isGameOver = false;
+
+    private void Start()
+    {
+        _isInitCompelet = false;
+    }
 
     public void Init()
     {
@@ -61,15 +68,19 @@ public class JegiGameManager : Singleton<JegiGameManager>
 
         _targetHeight = judgeLine.position.y;
         _jegiUIPage = FindObjectOfType<JegiUIPage>();
+        _isInitCompelet = true;
     }
 
     private void Update()
     {
-        if (_pause == true) Time.timeScale = 0;
-        else Time.timeScale = 1;
+        if (_isInitCompelet)
+        {
+            if (_pause == true) Time.timeScale = 0;
+            else Time.timeScale = 1;
 
-        _jegiUIPage.SetScore(_currentScore, _bestScore);
-        _jegiUIPage.SetCombo(_combo);
+            _jegiUIPage.SetScore(_currentScore, _bestScore);
+            _jegiUIPage.SetCombo(_combo);
+        }
     }
 
     private Vector2 _worldPos;
@@ -245,6 +256,11 @@ public class JegiGameManager : Singleton<JegiGameManager>
         reward = score / 10;
 
         return reward;
+    }
+
+    public void GoLobby()
+    {
+        SceneManager.LoadScene("DES");
     }
 }
 
