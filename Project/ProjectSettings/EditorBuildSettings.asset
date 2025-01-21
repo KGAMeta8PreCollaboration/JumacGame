@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/04.Level/Scenes/YOOLogin.unity
     guid: cca17899d2bfc7d45b0f527656ec339c
   - enabled: 1
+    path: Assets/04.Level/Scenes/JegiScene.unity
+    guid: bed0e3942bbc8b849a26b25252ffa21b
+  - enabled: 1
     path: Assets/04.Level/Scenes/SEOLobbyTest.unity
     guid: 7b8623e78b624e646bf90c5d24edd6ec
   - enabled: 1

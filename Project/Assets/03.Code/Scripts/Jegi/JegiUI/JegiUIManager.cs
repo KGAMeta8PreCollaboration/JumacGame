@@ -11,10 +11,9 @@ public class JegiUIManager : Singleton<JegiUIManager>
     protected override void Awake()
     {
         base.Awake();
-        foreach (JegiPage page in pageList)
-        {
-            page.gameObject.SetActive(false);
-        }
+        
+        PageOpen<JegiPage>();
+
         foreach (JegiPopup popup in popupList)
         {
             popup.gameObject.SetActive(false);
