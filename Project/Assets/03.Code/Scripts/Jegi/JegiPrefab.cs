@@ -85,6 +85,7 @@ public class JegiPrefab : MonoBehaviour
 
     public void Kick(float force, float angle)
     {
+        print("제기 참");
         //디버깅 중이라 땅에 떨어질때 경우 해제
         if (JegiGameManager.Instance._isGameOver == true) return;
 

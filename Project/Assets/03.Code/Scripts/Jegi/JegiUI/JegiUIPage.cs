@@ -6,14 +6,22 @@ using UnityEngine.UI;
 
 public class JegiUIPage : JegiPage
 {
-    [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private TextMeshProUGUI comboText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private Button restartButton;
+    [SerializeField] private Button pauseButton;
     // Start is called before the first frame update
 
-    private void Awake()
+    private void OnEnable()
     {
         restartButton.onClick.AddListener(OnClickRestartButton);
+        pauseButton.onClick.AddListener(OnClickPauseButton);
+    }
+
+    private void OnDisable()
+    {
+        restartButton.onClick.RemoveAllListeners();
+        pauseButton.onClick.RemoveAllListeners();
     }
 
     public void SetScore(int scoreText)
@@ -21,13 +29,19 @@ public class JegiUIPage : JegiPage
         this.scoreText.text = scoreText.ToString();
     }
 
-    public void SetText(string resultText)
+    public void SetCombo(int comboCount)
     {
-        this.resultText.text = resultText;
+        comboText.text = $"Combo {comboCount}";
     }
 
     private void OnClickRestartButton()
     {
         JegiGameManager.Instance.Restart();
+    }
+
+    private void OnClickPauseButton()
+    {
+        JegiUIManager.Instance.PopupOpen<JegiUIPopup>();
+        Time.timeScale = 0f;
     }
 }

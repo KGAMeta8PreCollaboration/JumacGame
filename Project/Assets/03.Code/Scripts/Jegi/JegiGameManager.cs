@@ -18,53 +18,113 @@ public class JegiGameManager : Singleton<JegiGameManager>
     [Header("올라가는 힘")]
     [SerializeField] private float perfectForce = 9f;
     [SerializeField] private float greatForce = 7f;
-    [SerializeField] private float normalForce = 5f;
+    [SerializeField] private float goodForce = 5f;
 
-    [Header("판정 범위")]
+    [Header("각 판정 범위")]
     [SerializeField] private float perfectRange = 0.2f;
     [SerializeField] private float greatRange = 0.4f;
-    [SerializeField] private float normalRange = 0.6f;
+    [SerializeField] private float goodRange = 0.6f;
+
+    [Header("판정 범위")]
+    [SerializeField] private float circleRange = 0.6f;
+
+    [SerializeField] private JudgeTextPrefab judgePrefab;
+    [SerializeField] private RectTransform judgeTextArea;
 
     private float angleRangeMin, angleRangeMax;
+    private JegiUIPage _jegiUIPage;
 
     private int _score = 0;
+    private int _combo = 0;
     public bool _isGameOver = false;
 
     private void Start()
     {
         Init();
+        Debug.Log($"Camera.main name = {Camera.main.name}, pos = {Camera.main.transform.position}, size = {Camera.main.orthographicSize}");
     }
 
     private void Init()
     {
         _isGameOver = false;
+        _score = 0;
+        _combo = 0;
 
         _targetHeight = judgeLine.position.y;
-        JegiUIPage jegiPage = JegiUIManager.Instance.PageOpen<JegiUIPage>();
-        jegiPage.SetScore(0);
-        jegiPage.SetText("");
+        _jegiUIPage = FindObjectOfType<JegiUIPage>();
     }
 
+    private void Update()
+    {
+        _jegiUIPage.SetScore(_score);
+        _jegiUIPage.SetCombo(_combo);
+    }
+
+    private Vector2 _worldPos;
+    private Vector2 _pointerPos;
     public void OnClick(InputAction.CallbackContext context)
     {
         // 게임 오버 상태에서는 입력 무시
-        //디버깅중이라 땅에 떨어지는 경우 해제
         if (_isGameOver) return;
 
         //입력이 2번 눌려서 추가함
         if (!context.performed) return;
         if (_jegi._isKicked == true) return;
 
-        if (InputSystem.GetDevice<Touchscreen>() != null || Mouse.current != null && Mouse.current.leftButton.isPressed)
-        {
+        _pointerPos = GetInputPosition();
+        print($"마우스 좌표 : {_pointerPos}");
 
-            print("눌림");
+        Vector3 screenPoint = new Vector3(_pointerPos.x, _pointerPos.y, -Camera.main.transform.position.z);
+        _worldPos = Camera.main.ScreenToWorldPoint(screenPoint);
+        print($"클릭된 worldPos : {_worldPos}");
+        
+        if (IsHit(_worldPos) == true)
+        {
             AttempKick();
+        }
+        else
+        {
+            print("판정범위 밖");
+        }
+    }
+
+    private Vector2 GetInputPosition()
+    {
+        if (InputSystem.GetDevice<Touchscreen>() != null)
+        {
+            print("클릭됨");
+            return Touchscreen.current.primaryTouch.position.ReadValue();
+        }
+        else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        {
+            print("클릭됨");
+            return Mouse.current.position.ReadValue();
+        }
+
+        return Vector2.zero;
+    }
+
+    private bool IsHit(Vector2 pointerPos)
+    {
+        Vector2 jegiPos = _jegi.transform.position;
+        print($"jegi의 포지션 : {jegiPos}");
+
+        float distance = Vector2.Distance(pointerPos, jegiPos);
+
+        if (distance <= circleRange)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
         }
     }
 
     private void AttempKick()
     {
+        print("AttempKick까지 들어옴");
         float jegiY = _jegi.transform.position.y;
         float distanceFromTarget = Mathf.Abs(jegiY - _targetHeight);
 
@@ -81,10 +141,10 @@ public class JegiGameManager : Singleton<JegiGameManager>
             timingResult = "Great";
             forceToAdd = greatForce;
         }
-        else if (distanceFromTarget <= normalRange)
+        else if (distanceFromTarget <= goodRange)
         {
-            timingResult = "Normal";
-            forceToAdd = normalForce;
+            timingResult = "Good";
+            forceToAdd = goodForce;
         }
         else
         {
@@ -92,50 +152,54 @@ public class JegiGameManager : Singleton<JegiGameManager>
             forceToAdd = -9.81f;
             _isGameOver = true;
         }
-        JegiUIPage jegiPage = JegiUIManager.Instance.PageUse<JegiUIPage>();
-        jegiPage.SetText(timingResult);
-
-        int addScore = 0;
+        print($"timingResult : {timingResult}");
 
         switch (timingResult)
         {
-            case "Perfect": 
-                addScore = 3;
+            case "Perfect":
+                _score += 100;
+                _combo += 1;
                 angleRangeMax = 10f;
                 angleRangeMin = -10f;
                 break;
-            case "Great": 
-                addScore = 2;
+            case "Great":
+                _score += 50;
+                _combo += 1;
                 angleRangeMax = 30f;
                 angleRangeMin = -30f;
                 break;
-            case "Normal": 
-                addScore = 1;
+            case "Good":
+                _score += 10;
+                _combo += 1;
                 angleRangeMax = 70f;
                 angleRangeMin = -70f;
                 break;
             case "Miss":
-                addScore = 0;
+                _score += 0;
+                _combo = 0;
                 angleRangeMax = 0f;
                 angleRangeMin = 0f;
                 break;
         }
 
         float randomAngle = Random.Range(angleRangeMin, angleRangeMax);
+        print($"{forceToAdd}");
         if (forceToAdd >= 0f)
         {
             _jegi.Kick(forceToAdd, randomAngle);
+
+            JudgeTextPrefab judgeText = Instantiate(judgePrefab, judgeTextArea);
+            RectTransform rt = judgeText.GetComponent<RectTransform>();
+            rt.position = _pointerPos;
+
+            judgeText.SetPrefab(timingResult);
         }
-
-        jegiPage.SetScore(addScore);
     }
-
+    
     public void GameOver()
     {
         if (_isGameOver) return;
 
-        JegiUIPage jegiPage = JegiUIManager.Instance.PageUse<JegiUIPage>();
-        jegiPage.SetText("Miss");
         _isGameOver = true;
     }
 
@@ -149,3 +213,5 @@ public class JegiGameManager : Singleton<JegiGameManager>
         _isGameOver = false;
     }
 }
+
+
