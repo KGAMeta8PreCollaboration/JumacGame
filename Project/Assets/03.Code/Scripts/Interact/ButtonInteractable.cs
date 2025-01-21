@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public abstract class ButtonInteractable : MonoBehaviour, IInteractable
 {
-    [SerializeField] protected Button _interactionButtonPrefab;
+    public string buttonName;
+    [SerializeField] protected InteractionButton _interactionButtonPrefab;
 
     public void Interact(Interactor interactor)
     {
-        Button interactButton = Instantiate<Button>(_interactionButtonPrefab, interactor.interactView);
-        interactButton.onClick.AddListener(InteractionButtonClick);
-        interactButton.onClick.AddListener(interactor.DestroyButtonAll);
+        InteractionButton interactButton = Instantiate<InteractionButton>(_interactionButtonPrefab, interactor.interactView);
+
+        interactButton.SetTitle(buttonName);
+
+        Button button = interactButton.GetComponent<Button>();
+
+        button.onClick.AddListener(InteractionButtonClick);
+        button.onClick.AddListener(interactor.DestroyButtonAll);
 
         interactor.onExitAction = () => Destroy(interactButton.gameObject);
     }
