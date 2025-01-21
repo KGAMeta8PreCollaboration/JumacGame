@@ -22,7 +22,11 @@ public class JegiPrefab : MonoBehaviour
 
             //여기에서 게임오버를 줘야함 아마 GameManager?
             JegiGameManager.Instance.GameOver();
+        }
 
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            ReflectedByWall();
         }
     }
 
@@ -96,4 +100,11 @@ public class JegiPrefab : MonoBehaviour
         _rb.AddForce(kickDir * force, ForceMode2D.Impulse);
     }
 
+    private void ReflectedByWall()
+    {
+        float dirX = _rb.velocity.x;
+        float dirY = _rb.velocity.y;
+
+        _rb.velocity = new Vector2(dirX, dirY);
+    }
 }
