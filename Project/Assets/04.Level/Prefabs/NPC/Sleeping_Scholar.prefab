@@ -2031,6 +2031,7 @@ GameObject:
   - component: {fileID: 3417734328436869704}
   - component: {fileID: 2847841595040286810}
   - component: {fileID: 5052981763466571685}
+  - component: {fileID: 4655876249494880956}
   - component: {fileID: 5835415128622672633}
   m_Layer: 0
   m_Name: Sleeping_Scholar
@@ -2111,6 +2112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 5052981763466571685}
+  _combatDialogue: {fileID: 4655876249494880956}
 --- !u!114 &5052981763466571685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2129,6 +2133,21 @@ MonoBehaviour:
   - "\uC800\uAE30 \uB4A4\uB730\uC5D0\uC11C \uBC18\uC9DD\uC774\uB294 \uBB3C\uAC74\uC744
     \uBCF8 \uAC83 \uAC19\uC740\uB370\u2026"
   - "\uC74C\u2026 \uAFC8\uC774\uC5C8\uB098?"
+--- !u!114 &4655876249494880956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7791730778099103869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uC815\uB3C4\uC794"
+  sentences:
+  - "\uC5B4\uD5C8! \uB178\uC778\uB124\uD55C\uD14C \uC774\uAC8C \uBB34\uC2A8 \uC9D3\uC778\uAC00?"
 --- !u!114 &5835415128622672633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2141,7 +2160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 5052981763466571685}
 --- !u!1 &7879542205538184072
 GameObject:
   m_ObjectHideFlags: 0

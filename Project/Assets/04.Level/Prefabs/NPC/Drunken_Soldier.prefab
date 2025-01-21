@@ -1791,6 +1791,7 @@ GameObject:
   - component: {fileID: 3127825445055636388}
   - component: {fileID: 5467060023509128180}
   - component: {fileID: 4802041320885172688}
+  - component: {fileID: 1987791521625569032}
   - component: {fileID: 2614518894546422747}
   m_Layer: 0
   m_Name: Drunken_Soldier
@@ -1871,6 +1872,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 4802041320885172688}
+  _combatDialogue: {fileID: 1987791521625569032}
 --- !u!114 &4802041320885172688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1883,8 +1887,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uC815\uC21C\uC2E0"
+  sentences:
+  - "\uB538\uAFB9! \uC5B4~ \uCDE8\uD55C\uB2E4!"
+  - "\uC880 \uB354 \uB9C8\uC2DC\uACE0 \uC2F6\uC740\uB370\u2026 \uC790\uB124 \uD639\uC2DC
+    \uB0A8\uB294 \uC220 \uC5C6\uB098?"
+--- !u!114 &1987791521625569032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431863045090838447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uC815\uC21C\uC2E0"
+  sentences:
+  - "\uADF8 \uC120\uD0DD\uC744 \uD6C4\uD68C\uD558\uAC8C \uB420 \uAC83\uC774\uC57C."
 --- !u!114 &2614518894546422747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1897,7 +1919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &6533397728202381621
 GameObject:
   m_ObjectHideFlags: 0

@@ -1470,6 +1470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  _dialogue: {fileID: 0}
 --- !u!114 &4801128315759643022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1482,8 +1483,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uD5C8\uC138\uC778"
+  sentences:
+  - "\uB098 \uD558\uB098\uB3C4 \uC548 \uCDE8\uD588\uC5B4!"
+  - "\uC27F! \uBE44\uBC00 \uD558\uB098 \uC54C\uB824\uC8FC\uC9C0~"
+  - "\uC0AC\uC2E4\u2026 \uC9C0\uAE08 \uC644\uC804 \uCDE8\uD55C \uC0C1\uD0DC\uB77C\uB124\u2026!"
 --- !u!114 &3591570628756093586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,7 +1500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &5999354247914340824
 GameObject:
   m_ObjectHideFlags: 0

@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 5324249481815865657}
   - component: {fileID: 4603416911135915242}
   - component: {fileID: 4051999359189485885}
+  - component: {fileID: 5189216209249571915}
   - component: {fileID: 5308128691739007064}
   m_Layer: 0
   m_Name: Doctor
@@ -445,6 +446,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 4051999359189485885}
+  _combatDialogue: {fileID: 5189216209249571915}
 --- !u!114 &4051999359189485885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,8 +461,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uAE40\uCE58\uADE0"
+  sentences:
+  - "\uAE40\uCE58\uC5D0\uB294 \uBE44\uD0C0\uBBFC A, C, \uCE7C\uC298, \uC778, \uCCA0\uBD84
+    \uB4F1\uC774 \uD48D\uBD80\uD558\uC5EC, \uB2E4\uC591\uD55C \uAC74\uAC15 \uD6A8\uACFC\uAC00
+    \uC788\uC2B5\uB2C8\uB2E4."
+  - "\uAE40\uCE58\uC758 \uD6A8\uB2A5\uC740 \uB2E4\uC74C\uACFC \uAC19\uC2B5\uB2C8\uB2E4."
+  - "1. \uB300\uC7A5 \uAC74\uAC15 \uC99D\uC9C4 \uBC0F \uB300\uC7A5\uC554 \uC608\uBC29"
+  - "2. \uBA74\uC5ED \uAE30\uB2A5 \uAC1C\uC120"
+  - "3. \uC544\uD1A0\uD53C \uBC0F \uC54C\uB7EC\uC9C0 \uC800\uD558"
+  - "4. \uD56D\uC0B0\uD654, \uD56D\uB178\uD654 \uD6A8\uACFC"
+--- !u!114 &5189216209249571915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000505903333689229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uAE40\uCE58\uADE0"
+  sentences:
+  - "\uAE40\uCE58 \uC2F8\uB300\uAE30\uB294 \uAE40\uCE58\uB85C \uBEA8\uC744 \uB54C\uB9AC\uB294
+    \uD589\uC704\uB97C \uB73B\uD569\uB2C8\uB2E4."
 --- !u!114 &5308128691739007064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,7 +499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &1186031677933127862
 GameObject:
   m_ObjectHideFlags: 0

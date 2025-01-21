@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: 92338591414993116}
   - component: {fileID: 1546338187381196402}
   - component: {fileID: 4078237670749611874}
+  - component: {fileID: 1450418463418003380}
   - component: {fileID: 7096530617094468372}
   m_Layer: 0
   m_Name: Woodcutter
@@ -678,6 +679,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 4078237670749611874}
+  _combatDialogue: {fileID: 1450418463418003380}
 --- !u!114 &4078237670749611874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -690,8 +694,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uBC15\uB3C4\uB07C"
+  sentences:
+  - "\uC81C\uAE38! \uC815\uB9D0 \uCEE4\uB2E4\uB780 \uC81C\uAE30\uB85C\uAD70!"
+  - "\uB0B4 \uB098\uBB34 \uBCA0\uAE30 \uC2E4\uB825\uC740 \uB098\uBB34\uB784 \uB370\uAC00
+    \uC5C6\uC9C0!"
+  - "\uB9C9\uAC78\uB9AC\uB97C \uB9CC\uB4E4 \uB550 \uC2E0\uC911\uD55C \uAC70\uB974\uAE30
+    \uACFC\uC815\uC774 \uD544\uC694\uD558\uC9C0. \uB9C9 \uAC78\uB974\uBA74 \uC548
+    \uB3FC~"
+  - "\uAC00\uC6B4\uB370\uAC00 \uC624\uBAA9\uD55C \uC624\uBAA9\uD310\uC744 \uBD24\uB2E4
+    \uD558\uBA74 \uBBFF\uACA0\uB098?"
+  - "\uBA39\uC73C\uB85C \uADF8\uB9B0 \uADF8\uB9BC\uC744 \uBCFC \uB54C\uBA74 \uAC00\uC2B4\uC774
+    \uBA39\uBA39\uD574\uC9C0\uB354\uAD70~"
+--- !u!114 &1450418463418003380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684575173487796187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uBC15\uB3C4\uB07C"
+  sentences:
+  - "\uD30C\uC804\uD558\uACE0 \uAE40\uCE58\uC804\uC774 \uC2F8\uC6B0\uB294 \uAC78
+    \uBB50\uB77C \uD558\uB294\uC9C0 \uC544\uB098? \uBC14\uB85C \"\uC804\uD22C\"\uC57C!"
 --- !u!114 &7096530617094468372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,7 +734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &1691870671476586028
 GameObject:
   m_ObjectHideFlags: 0

@@ -444,6 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  _dialogue: {fileID: 0}
 --- !u!114 &3778692101328020105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,8 +457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uC815\uC21C\uC704"
+  sentences:
+  - "\uD5C8\uC787! \uD5C8\uC774\uC57C~!"
+  - "\uBBF8\uB2C8 \uAC8C\uC784 \uC2E4\uB825\uC744 \uC5F0\uB9C8\uD558\uB294 \uC911\uC774\uB77C\uB124."
+  - "\uB192\uC740 \uC810\uC218\uB97C \uAE30\uB85D\uD558\uBA74 \uC606\uC758 \uB7AD\uD0B9
+    \uAC8C\uC2DC\uD310\uC5D0 \uC774\uB984\uC744 \uC62C\uB9B4 \uC218 \uC788\uC9C0!"
 --- !u!114 &4945506768597813692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &1448359627108257230
 GameObject:
   m_ObjectHideFlags: 0

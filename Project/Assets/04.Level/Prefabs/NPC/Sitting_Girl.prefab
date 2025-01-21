@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 4518765142222652210}
   - component: {fileID: 7376755917987837470}
   - component: {fileID: 7480208944524187007}
+  - component: {fileID: 4112133874740900328}
   - component: {fileID: 2510456564165058739}
   m_Layer: 0
   m_Name: Sitting_Girl
@@ -617,6 +618,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 7480208944524187007}
+  _combatDialogue: {fileID: 4112133874740900328}
 --- !u!114 &7480208944524187007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -629,8 +633,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uAE40\uBD80\uC120"
+  sentences:
+  - "\uD788\uD788! \uBC1C\uB0C4\uC0C8 \uBC1C\uC0AC~!"
+  - "\uC774\uB7EC\uACE0 \uC788\uC73C\uBA74 \uB0C4\uC0C8\uAC00 \uC880 \uB2EC\uC544\uB098\uB354\uB77C\uACE0\uC694."
+--- !u!114 &4112133874740900328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2923126250284198728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uAE40\uBD80\uC120"
+  sentences:
+  - "\uC5B4\uBA38! \uC544\uB140\uC790\uD55C\uD14C \uC774\uAC8C \uBB34\uC2A8 \uC9D3\uC774\uC5D0\uC694?"
 --- !u!114 &2510456564165058739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &2923490688155390205
 GameObject:
   m_ObjectHideFlags: 0

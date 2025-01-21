@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5306077151376653808}
   - component: {fileID: 7286489090823875093}
-  - component: {fileID: 2334015075029077785}
+  - component: {fileID: 1116395102245764122}
   - component: {fileID: 2627746886157530887}
+  - component: {fileID: 3536814863895171339}
   - component: {fileID: 6726385701975890845}
   m_Layer: 0
   m_Name: Cow
@@ -62,7 +63,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2334015075029077785
+--- !u!114 &1116395102245764122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,10 +72,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 261496224051784818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25eb44233026eb1418e8efbff2a3a35a, type: 3}
+  m_Script: {fileID: 11500000, guid: 212cc38d4a5733b498f0a6c6b9a50136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 2627746886157530887}
+  _combatDialogue: {fileID: 3536814863895171339}
 --- !u!114 &2627746886157530887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,8 +91,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uB204\uB801\uC774"
+  sentences:
+  - "\uC74C\uBA38~"
+--- !u!114 &3536814863895171339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261496224051784818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uB204\uB801\uC774"
+  sentences:
+  - "\uC74C\uBA38!!!"
 --- !u!114 &6726385701975890845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &2416052871187796406
 GameObject:
   m_ObjectHideFlags: 0

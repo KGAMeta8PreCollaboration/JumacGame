@@ -730,6 +730,7 @@ GameObject:
   - component: {fileID: 8357733434953858062}
   - component: {fileID: 5881298932281084460}
   - component: {fileID: 8829275726872429612}
+  - component: {fileID: 511238450568360408}
   - component: {fileID: 6422114064626950482}
   m_Layer: 0
   m_Name: Drawing_Scholar
@@ -810,6 +811,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 8829275726872429612}
+  _combatDialogue: {fileID: 511238450568360408}
 --- !u!114 &8829275726872429612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -834,6 +838,20 @@ MonoBehaviour:
     \uBABB\uD55C \uCF58\uD150\uCE20\uB77C\uACE0?"
   - "\uADF8\uB7FC \uC544\uC27D\uC9C0\uB9CC \uB2E4\uC74C \uC5C5\uB370\uC774\uD2B8\uB97C
     \uAE30\uB2E4\uB824 \uC8FC\uC2DC\uAC8C\uB098. \uD5C8\uD5C8."
+--- !u!114 &511238450568360408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4500510793698206456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uAE40\uD765\uB3C4"
+  sentences:
   - "\uC5EC\uAE30\uC800\uAE30 \uC2F8\uC6C0\uC744 \uAC78\uACE0 \uB2E4\uB2CC\uB2E4\uB294
     \uC791\uC790\uAC00 \uBC14\uB85C \uC790\uB124\uC600\uAD70! \uAD00\uC2EC \uC5C6\uC73C\uB2C8
     \uAEBC\uC9C0\uAC8C!"
@@ -849,7 +867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 8829275726872429612}
 --- !u!1 &4628466888533310546
 GameObject:
   m_ObjectHideFlags: 0

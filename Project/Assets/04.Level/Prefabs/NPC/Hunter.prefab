@@ -1391,6 +1391,7 @@ GameObject:
   - component: {fileID: 1564832935246379078}
   - component: {fileID: 8138954102220646516}
   - component: {fileID: 7219854090255135938}
+  - component: {fileID: 9132452752412485427}
   - component: {fileID: 84064633681195599}
   m_Layer: 0
   m_Name: Hunter
@@ -1471,6 +1472,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionButtonPrefab: {fileID: 8738537734469023442, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  nextScene: CombatTest
+  _dialogue: {fileID: 7219854090255135938}
+  _combatDialogue: {fileID: 9132452752412485427}
 --- !u!114 &7219854090255135938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,8 +1487,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  sentences: []
+  name: "\uB809\uC0AC\uB974"
+  sentences:
+  - "\uBC18\uAC11\uB124 \uC5EC\uD589\uC790\uC5EC."
+--- !u!114 &9132452752412485427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5717466810376457939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a203cc291425a034b9e47d290327d186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\uB809\uC0AC\uB974"
+  sentences:
+  - "\uC0AC\uB0E5\uC744 \uC2DC\uC791\uD558\uC9C0!"
 --- !u!114 &84064633681195599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,7 +1517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f21cdb75782d0645aee42066c7265c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 0}
 --- !u!1 &5746714979172800308
 GameObject:
   m_ObjectHideFlags: 0
