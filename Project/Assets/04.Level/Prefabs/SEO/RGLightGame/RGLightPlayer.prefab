@@ -259,8 +259,16 @@ MonoBehaviour:
     m_ActionName: Dialogue/Interact[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a0cc080d-4972-41fa-8abf-f992b35064ab
-    m_ActionName: Test/New action[/Keyboard/q]
+    m_ActionId: b77320e2-1fb0-4429-be89-2a71e2ca6614
+    m_ActionName: Test/Z[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e6481416-9d04-432d-bd31-88bbc383e023
+    m_ActionName: Test/X[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92eb9018-5218-45fc-82e7-abff53de9bbd
+    m_ActionName: Test/C[/Keyboard/c]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -279,7 +287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxHealth: 6
+  maxHealth: 100
+  isDead: 0
 --- !u!114 &3663090094351484750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +323,19 @@ MonoBehaviour:
   - maxDistance: 150
     score: 20
     money: 4
+  distanceInfos:
+  - maxDistance: 50
+    sentenceSpeed: 5
+    skillCount: 3
+    skillInterval: 1
+  - maxDistance: 100
+    sentenceSpeed: 3
+    skillCount: 4
+    skillInterval: 0.7
+  - maxDistance: 150
+    sentenceSpeed: 2
+    skillCount: 5
+    skillInterval: 0.5
 --- !u!114 &-1887835838673895162
 MonoBehaviour:
   m_ObjectHideFlags: 0

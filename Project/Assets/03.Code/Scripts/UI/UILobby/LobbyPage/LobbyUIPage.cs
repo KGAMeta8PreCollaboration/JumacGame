@@ -10,33 +10,25 @@ public class LobbyUIPage : LobbyPage
 {
     [SerializeField] private TextMeshProUGUI userNameText;
     [SerializeField] private Button goChatButton;
-    [SerializeField] private Button goOmokButton;
     [SerializeField] private Button lobbyInButton; 
 
     private void OnEnable()
     {
         goChatButton.onClick.AddListener(OnClickGoChatButton);
-        goOmokButton.onClick.AddListener(OnClickGoOmokButton);
     }
 
     private void OnDisable()
     {
         goChatButton.onClick.RemoveAllListeners();
-        goOmokButton.onClick.RemoveAllListeners();
-    }
-
-    public void SetUserInfo()
-    {
-        userNameText.text = LobbyFirebaseManager.Instance.chatUserData.nickname;
     }
 
     private void OnClickGoChatButton()
     {
         UILobbyManager.Instance.PopupOpen<ChatPopup>();
     }
-
-    private void OnClickGoOmokButton()
-    {
-        UILobbyManager.Instance.PopupOpen<MakeOmokRoomPopup>();
-    }
+    //
+    // private void OnClickGoOmokButton()
+    // {
+    //     UILobbyManager.Instance.PopupOpen<MakeOmokRoomPopup>();
+    // }
 }

@@ -8,9 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/04.Level/Scenes/YOOLogin.unity
     guid: cca17899d2bfc7d45b0f527656ec339c
-  - enabled: 0
-    path: Assets/04.Level/Scenes/YOOLobby.unity
-    guid: 5caca0ce6b0ea47439b77a28cf0edfc3
   - enabled: 1
     path: Assets/04.Level/Scenes/JegiScene.unity
     guid: bed0e3942bbc8b849a26b25252ffa21b
@@ -26,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/04.Level/Scenes/OmokScene.unity
     guid: 327f9bc4817ae7f44aa1692a94560d2d
+  - enabled: 1
+    path: Assets/04.Level/Scenes/Lobby.unity
+    guid: ed7ec62b323deae49bd57182f22cd6f4
+  - enabled: 1
+    path: Assets/04.Level/Scenes/Login.unity
+    guid: 87a7d1be70d7cc44eb56949dde84f34b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f294eccd2f1be704c9cdb7f82137f183, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 778598d0afc61114cb87bec2b3fc0105, type: 3}

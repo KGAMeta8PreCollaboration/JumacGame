@@ -5,12 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class RGLightUserData
 {
-	public int score;
+    public string nickname;
+    public int score;
 
-	public RGLightUserData(int score = default)
-	{
-		this.score = score;
-	}
+    public RGLightUserData(string nickname, int score = default)
+    {
+        this.nickname = nickname;
+        this.score = score;
+    }
 
-	public RGLightUserData() { }
+    public RGLightUserData() { }
 }

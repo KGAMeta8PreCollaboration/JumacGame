@@ -8,10 +8,10 @@ namespace Minigame.RGLight
     public class Player : MonoBehaviour
     {
         public float moveSpeed;
-        public int maxHealth;
-        private int _curHealth;
+        public float maxHealth;
+        private float _curHealth;
 
-        public bool isDead;
+        public bool IsDead { get; private set; }
 
         public RGLightManager RGLightManager { get; private set; }
 
@@ -32,15 +32,15 @@ namespace Minigame.RGLight
             _playerRigidbody.MovePosition(_playerRigidbody.position + actualMove);
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
             _curHealth -= damage;
-            if (_curHealth <= 0 && !isDead) Die();
+            if (_curHealth <= 0 && !IsDead) Die();
         }
 
         private void Die()
         {
-            isDead = true;
+            IsDead = true;
             _curHealth = 0;
             RGLightManager.GameResult(false);
         }

@@ -9,6 +9,7 @@ namespace Minigame.RGLight
     {
         [SerializeField] private Text _remainTimeText;
         [SerializeField] private Text _moveDistanceText;
+        [SerializeField] private Slider _playerHealthBar;
 
         public void SetRemainTime(string time)
         {
@@ -18,6 +19,11 @@ namespace Minigame.RGLight
         public void SetMoveDistance(float distance)
         {
             _moveDistanceText.text = distance.ToString() + "m";
+        }
+
+        public void SetHealth()
+        {
+
         }
     }
 }
