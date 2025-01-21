@@ -67,7 +67,7 @@ public class JegiPrefab : MonoBehaviour
             float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
 
             //angle을 -90해줘야 가는 방향으로 로테이션이 돈다
-            angle -= 90f;
+            angle += 90f;
 
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
 

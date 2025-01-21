@@ -25,6 +25,16 @@ public class JegiGameManager : Singleton<JegiGameManager>
     [SerializeField] private float greatRange = 0.4f;
     [SerializeField] private float goodRange = 0.6f;
 
+    [Header("점수")]
+    [SerializeField] private int perfectScore = 20;
+    [SerializeField] private int greatScore = 10;
+    [SerializeField] private int goodScore = 5;
+
+    [Header("튀는 범위(입력값에 -,+방향)")]
+    [SerializeField] private float perfectAngle = 10;
+    [SerializeField] private int greatAngle = 30;
+    [SerializeField] private int goodAngle = 70;
+
     [Header("판정 범위")]
     [SerializeField] private float circleRange = 0.6f;
 
@@ -34,20 +44,19 @@ public class JegiGameManager : Singleton<JegiGameManager>
     private float angleRangeMin, angleRangeMax;
     private JegiUIPage _jegiUIPage;
 
-    private int _score = 0;
+    private int _currentScore = 0;
+    private int _bestScore;
     private int _combo = 0;
+    private int _rewardGold = 0;
+    public bool _pause = true;
     public bool _isGameOver = false;
 
-    private void Start()
+    public void Init()
     {
-        Init();
-        Debug.Log($"Camera.main name = {Camera.main.name}, pos = {Camera.main.transform.position}, size = {Camera.main.orthographicSize}");
-    }
-
-    private void Init()
-    {
+        _pause = true;
         _isGameOver = false;
-        _score = 0;
+        _currentScore = 0;
+        _bestScore = JegiFirebaseManager.Instance.jegiUserData.score;
         _combo = 0;
 
         _targetHeight = judgeLine.position.y;
@@ -56,7 +65,10 @@ public class JegiGameManager : Singleton<JegiGameManager>
 
     private void Update()
     {
-        _jegiUIPage.SetScore(_score);
+        if (_pause == true) Time.timeScale = 0;
+        else Time.timeScale = 1;
+
+        _jegiUIPage.SetScore(_currentScore, _bestScore);
         _jegiUIPage.SetCombo(_combo);
     }
 
@@ -124,6 +136,8 @@ public class JegiGameManager : Singleton<JegiGameManager>
 
     private void AttempKick()
     {
+        if (_pause == true) return;
+
         print("AttempKick까지 들어옴");
         float jegiY = _jegi.transform.position.y;
         float distanceFromTarget = Mathf.Abs(jegiY - _targetHeight);
@@ -157,25 +171,25 @@ public class JegiGameManager : Singleton<JegiGameManager>
         switch (timingResult)
         {
             case "Perfect":
-                _score += 100;
+                _currentScore += perfectScore;
                 _combo += 1;
-                angleRangeMax = 10f;
-                angleRangeMin = -10f;
+                angleRangeMax = perfectAngle;
+                angleRangeMin = -perfectAngle;
                 break;
             case "Great":
-                _score += 50;
+                _currentScore += greatScore;
                 _combo += 1;
-                angleRangeMax = 30f;
-                angleRangeMin = -30f;
+                angleRangeMax = greatAngle;
+                angleRangeMin = -greatAngle;
                 break;
             case "Good":
-                _score += 10;
+                _currentScore += goodScore;
                 _combo += 1;
-                angleRangeMax = 70f;
-                angleRangeMin = -70f;
+                angleRangeMax = goodAngle;
+                angleRangeMin = -goodAngle;
                 break;
             case "Miss":
-                _score += 0;
+                _currentScore += 0;
                 _combo = 0;
                 angleRangeMax = 0f;
                 angleRangeMin = 0f;
@@ -200,7 +214,11 @@ public class JegiGameManager : Singleton<JegiGameManager>
     {
         if (_isGameOver) return;
 
+        _rewardGold = CalculateReward(_currentScore);
         _isGameOver = true;
+        _pause = true;
+        OpenResultPopup();
+        JegiFirebaseManager.Instance.UpdateJegiUserData(_currentScore, _rewardGold);
     }
 
     public void Restart()
@@ -211,6 +229,22 @@ public class JegiGameManager : Singleton<JegiGameManager>
             _jegi._rb.velocity = Vector2.zero;
         }
         _isGameOver = false;
+        _jegi._isKicked = false;
+        JegiUIManager.Instance.PageUse<JegiUIPage>().SetStartButton();
+    }
+
+    private void OpenResultPopup()
+    {
+        JegiResultPopup resultPopup = JegiUIManager.Instance.PopupOpen<JegiResultPopup>();
+        resultPopup.SetPopup(_currentScore, _combo, _rewardGold);
+    }
+
+    private int CalculateReward(int score)
+    {
+        int reward = 0;
+        reward = score / 10;
+
+        return reward;
     }
 }
 

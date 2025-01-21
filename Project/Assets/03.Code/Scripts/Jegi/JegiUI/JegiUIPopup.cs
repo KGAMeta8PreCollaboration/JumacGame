@@ -17,6 +17,6 @@ public class JegiUIPopup : JegiPopup
     protected override void CloseButtonClick()
     {
         base.CloseButtonClick();
-        Time.timeScale = 1.0f;
+        JegiGameManager.Instance._pause = false;
     }
 }
