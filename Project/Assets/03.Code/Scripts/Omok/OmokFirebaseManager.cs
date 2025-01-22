@@ -21,9 +21,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     public FirebaseDatabase Database { get; private set; }
     public FirebaseUser User { get; private set; }
 
-    private LogInUserData _logInUserData;
     private DatabaseReference _dbRoomRef;
+    private DatabaseReference _dbLogInUserDataRef;
 
+    private bool amIHost = false;
+
+    private LogInUserData _logInUserData;
     public RoomData currentRoomData;
     public OmokUserData hostData;
     public OmokUserData guestData;
@@ -46,46 +49,62 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             Database = GameManager.Instance.FirebaseManager.Database;
             User = GameManager.Instance.FirebaseManager.User;
 
-            string userId = User.UserId;
+            _dbLogInUserDataRef = Database.GetReference($"loginusers");
 
-            string roomKey = await FindRoomKeyByUserId(userId);
+            //로그인한 유저에서 쓸 데이터 -> userid, nickname, gold, servername
+            //1. 현재 유저의 정보를 찾고
+            _logInUserData = await SetLogInUserDataByUserId(Auth.CurrentUser.UserId);
 
-            if (string.IsNullOrEmpty(roomKey))
+            //2. 찾은 유저의 정보로 방의 정보 찾고
+            currentRoomData = await FindRoomDataByLogInUserData(_logInUserData);
+
+            //3. 찾은 방의 정보로 방 참조 선언
+            if (_logInUserData != null && currentRoomData != null)
+            {
+                _dbRoomRef = Database.GetReference("omokuserdata")
+                    .Child("rooms")
+                    .Child(_logInUserData.serverName)
+                    .Child(currentRoomData.roomKey);
+            }
+            else
+            {
+                print("로그인 한 유저의 데이터가 없거나 방의 정보가 없다");
+            }
+
+            if (string.IsNullOrEmpty(currentRoomData.roomKey))
             {
                 Debug.LogError("방 키를 찾을 수 없습니다.");
                 return;
             }
 
-            Debug.Log($"찾은 roomKey : {roomKey}");
+            //Debug.Log($"찾은 roomKey : {currentRoomData.roomKey}");
 
-            _dbRoomRef = Database.GetReference(LobbyFirebaseManager.Instance.chatUserData.serverName)
-                .Child("rooms")
-                .Child(roomKey);
+            //_dbRoomRef = Database.GetReference(LobbyFirebaseManager.Instance.chatUserData.serverName)
+            //    .Child("rooms")
+            //    .Child(roomKey);
 
-            DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
+            //DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
 
-            if (roomSnapshot == null || !roomSnapshot.Exists)
-            {
-                Debug.LogError("roomSnapshot이 존재하지 않거나 null입니다.");
-                return;
-            }
+            //if (roomSnapshot == null || !roomSnapshot.Exists)
+            //{
+            //    Debug.LogError("roomSnapshot이 존재하지 않거나 null입니다.");
+            //    return;
+            //}
 
-            string roomDataJson = roomSnapshot.GetRawJsonValue();
+            //string roomDataJson = roomSnapshot.GetRawJsonValue();
 
-            if (string.IsNullOrEmpty(roomDataJson))
-            {
-                Debug.LogError("roomDataJson이 비어 있습니다.");
-                return;
-            }
-            print($"roomDataJson에 담겨있는 정보 : {roomDataJson}");
+            //if (string.IsNullOrEmpty(roomDataJson))
+            //{
+            //    Debug.LogError("roomDataJson이 비어 있습니다.");
+            //    return;
+            //}
+            //print($"roomDataJson에 담겨있는 정보 : {roomDataJson}");
 
 
-            //MonitorRoomState에서 가져온 CurrentRoomData로 정보 넘겨줌
-            currentRoomData =  JsonConvert.DeserializeObject<RoomData>(roomDataJson);
-            print($"현재 currentRoomData : {currentRoomData}");
+            ////MonitorRoomState에서 가져온 CurrentRoomData로 정보 넘겨줌
+            //currentRoomData =  JsonConvert.DeserializeObject<RoomData>(roomDataJson);
+            //print($"현재 currentRoomData : {currentRoomData}");
 
-            if (currentRoomData != null)
-            {
                 print($"currentRoomData가 잘 넘어왔습니다 : {currentRoomData}");
                 LastTimeHandler.Instance.SetRef(_dbRoomRef);
 
@@ -93,12 +112,15 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
                 hostData = await SetUserData(currentRoomData.host);
                 guestData = await SetUserData(currentRoomData.guest);
 
+                amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
+                print($"나 호스트임 ? {amIHost}");
+
                 OmokUIPage omokUIPage = OmokUIManager.Instance.PageOpen<OmokUIPage>();
                 omokUIPage.Init(currentRoomData);
                 MonitorTurnList();
                 MonitorPlayerExit();
                 _isDataLoaded = true;
-            }
+            
 
             //OmokUIManager.Instance.PageOpen<OmokUIPage>().Init(currentRoomData);
             //MonitorTurnList();
@@ -110,51 +132,88 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         }
     }
 
-    private async Task<string> FindRoomKeyByUserId(string userId)
+    private async Task<LogInUserData> SetLogInUserDataByUserId(string id)
     {
         try
         {
-            DatabaseReference userRef = Database.GetReference("loginusers").Child(userId);
-            DataSnapshot userSnapshot = await userRef.GetValueAsync();
+            DatabaseReference logInUserDataRef = _dbLogInUserDataRef.Child(id);
 
-            if (!userSnapshot.Exists)
+            DataSnapshot logInUserDataSnapshot = await logInUserDataRef.GetValueAsync();
+
+            if (logInUserDataSnapshot.Exists)
             {
-                Debug.LogError("유저 데이터가 존재하지 않습니다.");
+                string logInUserJson = logInUserDataSnapshot.GetRawJsonValue();
+                print($"로그인한 유저의 Json데이터 : {logInUserJson}");
+                _logInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
+                return _logInUserData;
+            }
+            else
+            {
+                Debug.LogWarning("로그인한 유저의 정보가 없습니다!");
                 return null;
             }
-            string serverName = userSnapshot.Child("serverName").Value.ToString();
-            //string serverName = userSnapshot.Child("serverName").GetRawJsonValue();
-            Debug.Log($"서버 이름 : {serverName}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"로그인 유저 정보 변환 중 오류 발생 {e.Message}");
+            return null;
+        }
+    }
 
-            DatabaseReference roomRef = Database.GetReference(serverName).Child("rooms");
-            DataSnapshot roomsSnapshot = await roomRef.GetValueAsync();
+    private async Task<RoomData> FindRoomDataByLogInUserData(LogInUserData logInUserData)
+    {
+        try
+        {
+            //DatabaseReference logInUserDataRef = _dbLogInUserDataRef.Child(logInUserData.id);
+            //DataSnapshot logInUserDataSnapshot = await logInUserDataRef.GetValueAsync();
 
-            if (!roomsSnapshot.Exists)
+            ////if (!logInUserDataSnapshot.Exists)
+            ////{
+            ////    Debug.LogError("유저 데이터가 존재하지 않습니다.");
+            ////    return null;
+            ////}
+            ////string serverName = logInUserDataSnapshot.Child("serverName").Value.ToString();
+            //////string serverName = userSnapshot.Child("serverName").GetRawJsonValue();
+            //Debug.Log($"서버 이름 : {logInUserData.serverName}");
+
+            //DatabaseReference roomRef = Database.GetReference(serverName).Child("rooms");
+
+            //일단 해당 서버에 모든 방을 찾음
+            DatabaseReference roomDataRef = Database.GetReference("omokuserdata")
+                    .Child("rooms")
+                    .Child(_logInUserData.serverName);
+
+            DataSnapshot findRoomsSnapshot = await roomDataRef.GetValueAsync();
+
+            if (!findRoomsSnapshot.Exists)
             {
-                Debug.LogWarning("해당 서버에 방이 없습니다.");
+                Debug.LogWarning("해당 서버에 방이 없음");
                 return null;
             }
-            foreach (DataSnapshot roomSnapshot in roomsSnapshot.Children)
+
+            //모든 방 중에서 내 아이디가 호스트인지 게스트인지는 모르겠으나 일단 있고, state도 1(Playing)인 방이면 참조할것임
+            foreach (DataSnapshot roomSnapshot in findRoomsSnapshot.Children)
             {
                 string roomJson = roomSnapshot.GetRawJsonValue();
                 RoomData roomData = JsonConvert.DeserializeObject<RoomData>(roomJson);
-                //string hostId = roomSnapshot.Child("host").Value.ToString();
-                //string guestId = roomSnapshot.Child("guest").Value.ToString();
-                //string roomState = roomSnapshot.Child("state").Value.ToString();
 
-                if ((roomData.host == userId || roomData.guest == userId) && (int)roomData.state == 1)
+                if ((roomData.host == logInUserData.id || roomData.guest == logInUserData.id) && (int)roomData.state == 1)
                 {
                     Debug.Log($"찾은 방 키: {roomSnapshot.Key}");
-                    return roomSnapshot.Key;
+                    return roomData;
+                }
+
+                else
+                {
+                    print("너가 원하는 방은 없는데?");
                 }
             }
             Debug.LogWarning("유저가 속한 방을 찾을 수 없습니다.");
             return null;
-
         }
         catch (Exception e)
         {
-            Debug.LogError($"Firebase 쿼리 오류: {e.Message}");
+            Debug.LogError($"방 찾는 중 오류 발생 : {e.Message}");
             return null;
         }
     }
@@ -554,7 +613,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             }
 
             await _dbRoomRef.Child("state").SetValueAsync((int)RoomState.Finished);
-            SceneManager.LoadScene("DES");
+            SceneManager.LoadScene("Lobby");
         }
         catch (Exception e)
         {
