@@ -1455,7 +1455,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.43
+  m_Radius: 0.7
   m_Center: {x: 0, y: 1.02, z: 0.57}
 --- !u!114 &8946687438306917334
 MonoBehaviour:
@@ -1469,8 +1469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25eb44233026eb1418e8efbff2a3a35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonName: "\uB300\uD654\uD558\uAE30"
   _interactionButtonPrefab: {fileID: 2274226158058053293, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  interactionButton: {fileID: 0}
   _dialogue: {fileID: 4801128315759643022}
 --- !u!114 &4801128315759643022
 MonoBehaviour:

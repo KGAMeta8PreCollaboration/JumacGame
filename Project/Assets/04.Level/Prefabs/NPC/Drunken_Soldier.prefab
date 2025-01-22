@@ -1857,8 +1857,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.76
-  m_Center: {x: -0.53, y: 0.12, z: 0.22}
+  m_Radius: 1.15
+  m_Center: {x: -0.68, y: 0.12, z: 0.44}
 --- !u!114 &5467060023509128180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1871,8 +1871,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212cc38d4a5733b498f0a6c6b9a50136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonName: "\uB300\uD654\uD558\uAE30"
   _interactionButtonPrefab: {fileID: 2274226158058053293, guid: e891d0fb53c39d442bfa903db05aa8d4, type: 3}
+  interactionButton: {fileID: 0}
   nextScene: CombatTest
   _dialogue: {fileID: 4802041320885172688}
   _combatDialogue: {fileID: 1987791521625569032}
