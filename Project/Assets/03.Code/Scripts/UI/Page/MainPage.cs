@@ -18,7 +18,14 @@ namespace LobbyUI
 		private void Start()
 		{
 			AddButtonListener();
-			_soundSettingsPopup.InitVolume();
+			if (_soundSettingsPopup.CanLoadVolume())
+			{
+				_soundSettingsPopup.LoadVolume();
+			}
+			else
+			{
+				_soundSettingsPopup.InitVolume();
+			}
 		}
 
 		private void OnDestroy()

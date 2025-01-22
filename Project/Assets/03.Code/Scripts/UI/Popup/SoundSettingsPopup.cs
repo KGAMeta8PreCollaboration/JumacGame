@@ -27,11 +27,37 @@ public class SoundSettingsPopup : Popup
 	private void SetBgmVolume(float value)
 	{
 		_audioMixer.SetFloat("bgm", Mathf.Log10(value) * 20);
+		PlayerPrefs.SetFloat("bgm", _bgmSlider.value);
 	}
 
 	private void SetSfxVolume(float value)
 	{
 		_audioMixer.SetFloat("sfx", Mathf.Log10(value) * 20);
+		PlayerPrefs.SetFloat("sfx", _sfxSlider.value);
+	}
+
+	public bool CanLoadVolume()
+	{
+		if (PlayerPrefs.HasKey("bgm") && PlayerPrefs.HasKey("sfx"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public void LoadVolume()
+	{
+		float bgmV = PlayerPrefs.GetFloat("bgm");
+		float sfxV = PlayerPrefs.GetFloat("sfx");
+
+		_bgmSlider.value = bgmV;
+		_sfxSlider.value = sfxV;
+
+		SetBgmVolume(bgmV);
+		SetSfxVolume(sfxV);
 	}
 
 	private void OnDestroy()
