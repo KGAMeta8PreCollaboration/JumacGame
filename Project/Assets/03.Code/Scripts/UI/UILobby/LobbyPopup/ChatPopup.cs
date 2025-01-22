@@ -43,6 +43,8 @@ public class ChatPopup : LobbyPopup
             );
 
         LobbyFirebaseManager.Instance.SendMessage(message);
+
+        chatInputField.text = string.Empty;
     }
 
     private void ReceiveMessage(MessageData messageData)
