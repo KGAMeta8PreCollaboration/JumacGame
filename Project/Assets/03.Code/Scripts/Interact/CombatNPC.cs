@@ -19,6 +19,7 @@ public class CombatNPC : ButtonInteractable
     private void Start()
     {
         _dialogueLoader = GetComponent<DialogueLoader>();
+        buttonName = _dialogue.name;
     }
     protected override void InteractionButtonClick()
     {

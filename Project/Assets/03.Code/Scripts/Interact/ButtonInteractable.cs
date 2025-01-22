@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public abstract class ButtonInteractable : MonoBehaviour, IInteractable
 {
-    public string buttonName;
+    protected string buttonName;
     [SerializeField] protected InteractionButton _interactionButtonPrefab;
 
     public void Interact(Interactor interactor)

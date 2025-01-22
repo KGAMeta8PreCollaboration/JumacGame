@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-[Serializable] 
+[Serializable]
 public class Dialogue : MonoBehaviour
 {
-	public string name;
-	[TextArea(3, 10)]
-	public string[] sentences;
+    public new string name;
+    [TextArea(3, 10)]
+    public string[] sentences;
 }
