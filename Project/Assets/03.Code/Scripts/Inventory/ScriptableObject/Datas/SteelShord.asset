@@ -15,4 +15,9 @@ MonoBehaviour:
   id: 1
   itemName: "\uAC15\uCCA0\uAC80"
   icon: {fileID: 4755001186799948772, guid: b3602e409cfc77243aefbf57e0b0ab0c, type: 3}
+  descriptions:
+  - "\uAC15\uCCA0\uAC80\uC778\uB370"
   damage: 10
+  defense: 0
+  luck: 0
+  health: 0
