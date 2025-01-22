@@ -1,12 +1,11 @@
 public class Accessory : EquipItem
 {
-	public int damage { get; private set; }
-	public int defense { get; private set; }
-	public int luck { get; private set; }
-	public int health { get; private set; }
 	
-	public Accessory(AccessoryData weaponData) : base(weaponData)
+	public Accessory(AccessoryData data) : base(data)
 	{
-		luck = weaponData.luck;
+		damage = data.damage;
+		defense = data.defense;
+		luck = data.luck;
+		health = data.health;
 	}
 }

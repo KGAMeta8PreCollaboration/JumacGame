@@ -11,7 +11,9 @@ public class ItemDataManager : MonoBehaviour
 	[SerializeField] private ItemData[] itemDatas;
 		
 	public Dictionary<int, int> itemDictionary = new Dictionary<int, int>();
-	private Inventory _inventory;
+	public int equippedWeapon;
+	public int equippedArmor;
+	public int equippedAccessory;
 
 	private void Start()
 	{
@@ -37,16 +39,12 @@ public class ItemDataManager : MonoBehaviour
 			inventoryData.equippedWeapon = Convert.ToInt32(data.Child("equippedWeapon").GetValue(true));
 			inventoryData.equippedArmor = Convert.ToInt32(data.Child("equippedArmor").GetValue(true));
 			inventoryData.equippedAccessory = Convert.ToInt32(data.Child("equippedAccessory").GetValue(true));
+			equippedWeapon = inventoryData.equippedWeapon;
+			equippedArmor = inventoryData.equippedArmor;
+			equippedAccessory = inventoryData.equippedAccessory;
 			foreach (DataSnapshot item in data.Child("itemDictionary").Children)
 				inventoryData.itemDictionary[int.Parse(item.Key)] = Convert.ToInt32(item.Value);
 			itemDictionary = inventoryData.itemDictionary;
-			print("파이어베이스에서 아이템 정보 로드 완료");
-		}
-		else
-		{
-			InventoryData inventoryData = new InventoryData(itemDictionary, null, null, null);
-			string json = JsonConvert.SerializeObject(inventoryData);
-			await inventoryRef.Child(uid).SetRawJsonValueAsync(json);
 		}
 	}
 
@@ -61,7 +59,15 @@ public class ItemDataManager : MonoBehaviour
 			{
 				if (itemDatas[i].id == itemPair.Value)
 				{
-					Item item = new Item(itemDatas[i]);
+					Item item;
+					if (itemDatas[i] is WeaponData weaponData)
+						item = new Weapon(weaponData);
+					else if (itemDatas[i] is ArmorData armorData)
+						item = new Armor(armorData);
+					else if (itemDatas[i] is AccessoryData accessoryData)
+						item = new Accessory(accessoryData);
+					else
+						item = new Item(itemDatas[i]);
 					resDic.Add(itemPair.Key, item);
 					break;
 				}
@@ -80,6 +86,34 @@ public class ItemDataManager : MonoBehaviour
 		string uid = GameManager.Instance.FirebaseManager.User.UserId;
 		string json = JsonConvert.SerializeObject(inventoryData);
 		await inventoryRef.Child(uid).SetRawJsonValueAsync(json);
+	}
+	
+	public void UpdateEquippedItem(int slotNumber, EquipItem item)
+	{
+		print("UpdateEquippedItem");
+		DatabaseReference inventoryRef = GameManager.Instance.FirebaseManager.InventoryRef;
+		DatabaseReference equippedItemRef;
+		if (item is Weapon)
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedWeapon");
+		else if (item is Armor)
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedArmor");
+		else
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedAccessory");
+		equippedItemRef.SetValueAsync(slotNumber);
+	}
+
+	public void UpdateUnequippedItem(EquipItem item)
+	{
+		print("UpdateUnequippedItem");
+		DatabaseReference inventoryRef = GameManager.Instance.FirebaseManager.InventoryRef;
+		DatabaseReference equippedItemRef;
+		if (item is Weapon)
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedWeapon");
+		else if (item is Armor)
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedArmor");
+		else
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedAccessory");
+		equippedItemRef.SetValueAsync(-1);
 	}
 }
 

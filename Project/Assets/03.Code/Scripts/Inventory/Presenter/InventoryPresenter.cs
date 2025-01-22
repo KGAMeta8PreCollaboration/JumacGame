@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Firebase.Database;
 using UnityEngine;
 
 public class InventoryPresenter : MonoBehaviour
@@ -18,17 +20,31 @@ public class InventoryPresenter : MonoBehaviour
 		// model to view
 		inventory.OnItemAdded += OnItemAdded;
 		inventory.OnItemRemoved += OnItemRemoved;
+		
 		inventory.OnEquipItem += UpdateEquippedItem;
 		inventory.OnUnequipItem += UpdateUnequippedItem;
+		
+		inventory.OnEquipItem += GameManager.Instance.ItemDataManager.UpdateEquippedItem;
+		inventory.OnUnequipItem += GameManager.Instance.ItemDataManager.UpdateUnequippedItem;
 		
 		// view to model
 		inventoryPanel.OnRemoveItem += RemoveItem;
 		inventoryPanel.OnEquipItem += inventory.EquipItem;
 		inventoryPanel.OnUnequipItem += inventory.UnequipItem;
 		
+		AddItemCoroutine();
+	}
+	private void AddItemCoroutine()
+	{
 		Dictionary<int, Item> dic = GameManager.Instance.ItemDataManager.GetItemDictionary();
 		foreach (KeyValuePair<int, Item> itemPair in dic)
-			inventory.Add(itemPair.Key, itemPair.Value);
+			inventory.Add(itemPair.Key, itemPair.Value,false);
+		if (GameManager.Instance.ItemDataManager.equippedWeapon != -1)
+			inventory.EquipItem(GameManager.Instance.ItemDataManager.equippedWeapon, true);
+		if (GameManager.Instance.ItemDataManager.equippedArmor != -1)
+			inventory.EquipItem(GameManager.Instance.ItemDataManager.equippedArmor, true);
+		if (GameManager.Instance.ItemDataManager.equippedAccessory != -1)
+			inventory.EquipItem(GameManager.Instance.ItemDataManager.equippedAccessory, true);
 	}
 
 	private void OnItemAdded(int index, Item item)
@@ -46,7 +62,7 @@ public class InventoryPresenter : MonoBehaviour
 		inventory.Remove(slotNumber);
 	}
 	
-	public void UpdateEquippedItem(EquipItem item)
+	public void UpdateEquippedItem(int slotNumber, EquipItem item)
 	{
 		playerStatusPanel.UpdateEquipItem(item);
 	}
@@ -56,12 +72,42 @@ public class InventoryPresenter : MonoBehaviour
 		playerStatusPanel.UpdateUnequipItem(item);
 	}
 	
-	public void UpdateStat()
+	private void UpdateStatsFromItem(DataSnapshot itemRef, ref int atk, ref int def, ref int hp, ref int luck)
 	{
-		playerStatusPanel.attackText.text = $"- 공격력: {stat.atk}";
-		playerStatusPanel.defenseText.text = $"- 방어력: {stat.def}";
-		playerStatusPanel.hpText.text = $"- 체력: {stat.hp}";
-		playerStatusPanel.luckText.text = $"- 운: {stat.luck}";
+		if (!itemRef.Exists)
+			return;
+		int itemId = int.Parse(itemRef.Value.ToString());
+		if (itemId == -1)
+			return;
+		if (inventory.GetItem(itemId) is EquipItem item)
+		{
+			atk += item.damage;
+			def += item.defense;
+			hp += item.health;
+			luck += item.luck;
+		}
+	}
+
+	public async void UpdateStat()
+	{
+		DatabaseReference inventoryRef = GameManager.Instance.FirebaseManager.InventoryRef.Child(GameManager.Instance.FirebaseManager.User.UserId);
+		DataSnapshot weaponRef = await inventoryRef.Child("equippedWeapon").GetValueAsync();
+		DataSnapshot armorRef = await inventoryRef.Child("equippedArmor").GetValueAsync();
+		DataSnapshot accessoryRef = await inventoryRef.Child("equippedAccessory").GetValueAsync();
+
+		int atk = 0;
+		int def = 0;
+		int hp = 0;
+		int luck = 0;
+
+		UpdateStatsFromItem(weaponRef, ref atk, ref def, ref hp, ref luck);
+		UpdateStatsFromItem(armorRef, ref atk, ref def, ref hp, ref luck);
+		UpdateStatsFromItem(accessoryRef, ref atk, ref def, ref hp, ref luck);
+
+		playerStatusPanel.attackText.text = $"- 공격력: {stat.atk} + {atk}";
+		playerStatusPanel.defenseText.text = $"- 방어력: {stat.def} + {def}";
+		playerStatusPanel.hpText.text = $"- 체력: {stat.hp} + {hp}";
+		playerStatusPanel.luckText.text = $"- 운: {stat.luck} + {luck}";
 	}
 	
 }
