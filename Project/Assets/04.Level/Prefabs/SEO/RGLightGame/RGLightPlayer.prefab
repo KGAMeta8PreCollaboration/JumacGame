@@ -887,6 +887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  rotateSpeed: 5
   maxHealth: 100
   _models:
   - {fileID: 3512241891640706779}
