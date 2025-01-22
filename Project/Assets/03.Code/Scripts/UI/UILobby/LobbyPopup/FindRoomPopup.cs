@@ -67,7 +67,7 @@ public class FindRoomPopup : LobbyPopup
         {
             if (selectedRoom.state == RoomState.Waiting)
             {
-                if (selectedRoom.betting >= LobbyFirebaseManager.Instance.logInUserData.gold)
+                if (selectedRoom.betting > LobbyFirebaseManager.Instance.logInUserData.gold)
                 {
                     UILobbyManager.Instance.PopupOpen<OneButtonPopup>().SetPopup("알림", "소지금이 부족합니다.");
                     return;

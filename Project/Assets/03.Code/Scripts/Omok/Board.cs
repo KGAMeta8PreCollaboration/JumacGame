@@ -209,7 +209,10 @@ public class Board : MonoBehaviour
         {
             bool result = AmIWinner(isHostTurn);
             ResultPopup(result);
-            OmokFirebaseManager.Instance.UpdateOmokUserData(result);
+
+            OmokUserData myData = 
+                OmokFirebaseManager.Instance.amIHost ? OmokFirebaseManager.Instance.hostData : OmokFirebaseManager.Instance.guestData;
+            OmokFirebaseManager.Instance.UpdateUserResult(myData, result);
             LastTimeHandler.Instance.IsOnGame(false);
         }
     }
