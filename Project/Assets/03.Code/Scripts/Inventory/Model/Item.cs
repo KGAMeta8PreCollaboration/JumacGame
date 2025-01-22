@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine.UI;
 public class Item
 {
@@ -13,6 +12,13 @@ public class Item
 		icon = weaponData.icon.GetComponent<Image>();
 		descriptions = weaponData.descriptions;
 		itemName = weaponData.itemName;
-		
+	}
+
+	public Item()
+	{
+		id = 0;
+		itemName = "Empty";
+		icon = null;
+		descriptions = new string[0];
 	}
 }

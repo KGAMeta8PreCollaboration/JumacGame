@@ -7,7 +7,6 @@ public class InteractBtnTest : ButtonInteractable
 {
     private DialogueLoader _dialogueLoader;
 
-
     private void Start()
     {
         _dialogueLoader = GetComponent<DialogueLoader>();

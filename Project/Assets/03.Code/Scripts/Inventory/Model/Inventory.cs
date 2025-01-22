@@ -13,7 +13,20 @@ public class Inventory : MonoBehaviour
 	public Accessory equippedAccessory { get; private set; }
 	
 	private Dictionary<int, Item> itemDictionary = new Dictionary<int, Item>();
-	
+
+	public bool Add(Item item)
+	{
+		for (int i = 0; i < 20; i++)                         
+		{
+			if (itemDictionary.ContainsKey(i))
+				continue;
+			itemDictionary[i] = item;
+			OnItemAdded?.Invoke(i, item);
+			break;
+		}
+		GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
+		return true;
+	}
 
 	public bool Add(int slotNumber, Item item)
 	{
@@ -21,9 +34,9 @@ public class Inventory : MonoBehaviour
 		{
 			return false;
 		}
-		print("인벤토리 아이템 추가 액션 : " + OnItemAdded + "index = " + slotNumber);
-		OnItemAdded?.Invoke(slotNumber, item);
 		itemDictionary[slotNumber] = item;
+		OnItemAdded?.Invoke(slotNumber, item);
+		GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
 		return true;
 	}
 	
@@ -34,7 +47,7 @@ public class Inventory : MonoBehaviour
 			if (itempair.Value == item)
 			{ 
 				OnItemRemoved?.Invoke(itempair.Key, item);
-				itemDictionary.Remove(itempair.Key);
+				GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
 				return true;
 			}
 		}
@@ -46,19 +59,12 @@ public class Inventory : MonoBehaviour
 		if (itemDictionary.ContainsKey(slotNumber))
 		{
 			OnItemRemoved?.Invoke(slotNumber, itemDictionary[slotNumber]);
-			itemDictionary.Remove(slotNumber);
+			GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
 			return true;
 		}
 		return false;
 	}
 	
-	public void RemoveWithoutEvent(int slotNumber)
-	{
-		if (itemDictionary.ContainsKey(slotNumber))
-		{
-			itemDictionary.Remove(slotNumber);
-		}
-	}
 	public Item GetItem(int slotNumber)
 	{
 		Item item = null;
@@ -72,17 +78,24 @@ public class Inventory : MonoBehaviour
 		if (item is not EquipItem equipItem)
 			return;
 		if (item is Weapon)
-		{
 			EquipWeapon(item as Weapon);
-		}
 		else if (item is Armor)
-		{
 			EquipArmor(item as Armor);
-		}
 		else if (item is Accessory)
-		{
 			EquipAccessory(item as Accessory);
-		}
+		else
+			return;
+		OnEquipItem?.Invoke(equipItem);
+	}
+	
+	public void EquipItem(EquipItem equipItem)
+	{
+		if (equipItem is Weapon) 
+			EquipWeapon(equipItem as Weapon);
+		else if (equipItem is Armor)
+			EquipArmor(equipItem as Armor);
+		else if (equipItem is Accessory)
+			EquipAccessory(equipItem as Accessory);
 		else
 			return;
 		OnEquipItem?.Invoke(equipItem);
@@ -91,9 +104,7 @@ public class Inventory : MonoBehaviour
 	public void EquipWeapon(Weapon weapon)
 	{
 		if (equippedWeapon != null)
-		{
 			equippedWeapon.Unequip();
-		}
 		if (itemDictionary.ContainsValue(weapon))
 		{ 
 			equippedWeapon = weapon;
@@ -104,9 +115,7 @@ public class Inventory : MonoBehaviour
 	public void EquipArmor(Armor armor)
 	{
 		if (equippedArmor != null)
-		{
 			equippedArmor.Unequip();
-		}
 		if (itemDictionary.ContainsValue(armor))
 		{
 			equippedArmor = armor;
@@ -117,9 +126,7 @@ public class Inventory : MonoBehaviour
 	public void EquipAccessory(Accessory accessory)
 	{
 		if (equippedAccessory != null)
-		{
 			equippedAccessory.Unequip();
-		}
 		if (itemDictionary.ContainsValue(accessory))
 		{
 			equippedAccessory = accessory;

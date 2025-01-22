@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryPresenter : MonoBehaviour
@@ -24,6 +25,10 @@ public class InventoryPresenter : MonoBehaviour
 		inventoryPanel.OnRemoveItem += RemoveItem;
 		inventoryPanel.OnEquipItem += inventory.EquipItem;
 		inventoryPanel.OnUnequipItem += inventory.UnequipItem;
+		
+		Dictionary<int, Item> dic = GameManager.Instance.ItemDataManager.GetItemDictionary();
+		foreach (KeyValuePair<int, Item> itemPair in dic)
+			inventory.Add(itemPair.Key, itemPair.Value);
 	}
 
 	private void OnItemAdded(int index, Item item)
@@ -33,7 +38,6 @@ public class InventoryPresenter : MonoBehaviour
 
 	private void OnItemRemoved(int index, Item item)
 	{
-		print("전달자 remove");
 		inventoryPanel.RemoveItem(index);
 	}
 

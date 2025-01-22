@@ -982,6 +982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _logInManagerPrefab: {fileID: 181660665155757417, guid: 49e7920cb0e0bb8428bbed594c7071f1, type: 3}
   _firebaseManagerPrefab: {fileID: 8388220840350606565, guid: bb3d648c2b3729944a309a41e23eeab2, type: 3}
+  _itemDataManagerPrefab: {fileID: 4786303967933990849, guid: 2f654200bdc357a4086e6c5c78820223, type: 3}
 --- !u!4 &767578973
 Transform:
   m_ObjectHideFlags: 0
