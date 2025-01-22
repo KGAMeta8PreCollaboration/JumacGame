@@ -385,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1643728820386274325, guid: 3effef0fefb972e42931c05ace14273e, type: 3}
       propertyPath: lobbySceneName
-      value: YOOLobby
+      value: YooLobby
       objectReference: {fileID: 0}
     - target: {fileID: 2474375370982196330, guid: 3effef0fefb972e42931c05ace14273e, type: 3}
       propertyPath: m_AnchorMax.y
