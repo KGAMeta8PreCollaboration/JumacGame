@@ -30,11 +30,13 @@ public class CombatNPC : ButtonInteractable
     {
         InteractionButton combatIButton = Instantiate<InteractionButton>(_interactionButtonPrefab, GameObject.Find("InteractView").transform);
         _buttons.Add(combatIButton);
+        combatIButton.SetTitle("싸운다");
         Button combatButton = combatIButton.GetComponent<Button>();
         combatButton.onClick.AddListener(CombatSelect);
 
         InteractionButton nonCombatIButton = Instantiate<InteractionButton>(_interactionButtonPrefab, GameObject.Find("InteractView").transform);
         _buttons.Add(nonCombatIButton);
+        nonCombatIButton.SetTitle("대화 그만하기");
         Button nonCombatButton = nonCombatIButton.GetComponent<Button>();
         nonCombatButton.onClick.AddListener(NonCombatSelect);
 
