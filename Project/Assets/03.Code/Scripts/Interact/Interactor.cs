@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(SphereCollider))]
 public class Interactor : MonoBehaviour
@@ -8,7 +9,6 @@ public class Interactor : MonoBehaviour
     public RectTransform interactView;
     [Range(0, 10)]
     public float radius;
-    public Action onExitAction;
 
     private SphereCollider _coll;
     private List<IInteractable> _interactables = new List<IInteractable>();
@@ -22,7 +22,6 @@ public class Interactor : MonoBehaviour
     private void Start()
     {
         interactView = GameObject.Find("InteractView").GetComponent<RectTransform>();
-        print(interactView);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,7 +38,23 @@ public class Interactor : MonoBehaviour
         if ((other.TryGetComponent<IInteractable>(out IInteractable interactable) && _interactables.Contains(interactable)))
         {
             _interactables.Remove(interactable);
-            onExitAction?.Invoke();
+
+            if (other.TryGetComponent<ButtonInteractable>(out ButtonInteractable interact))
+            {
+                Destroy(interact.interactionButton.gameObject);
+            }
         }
+    }
+
+    public void DestroyButtonAll()
+    {
+        Button[] removeButtons = interactView.GetComponentsInChildren<Button>();
+
+        foreach (Button button in removeButtons)
+        {
+            Destroy(button.gameObject, 0.1f);
+        }
+
+        _interactables.Clear();
     }
 }

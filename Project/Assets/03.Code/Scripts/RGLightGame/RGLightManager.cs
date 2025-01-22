@@ -143,7 +143,6 @@ namespace Minigame.RGLight
         private void OnSuccess()
         {
             SetMoney(defaultMoney + _addMoney);
-            print(defaultMoney + _addMoney);
             SetScore(player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
@@ -152,7 +151,7 @@ namespace Minigame.RGLight
 
         private void OnDefeat()
         {
-            SetMoney(defaultMoney);
+            SetMoney(_addMoney);
             SetScore(player.PlayerDistanceTracker.GetScore());
 
             string durationTime = ConvertToMinutesAndSeconds(TimeDiff);

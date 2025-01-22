@@ -1,8 +1,12 @@
 public abstract class EquipItem : Item
 {
 	public bool isEquipped { get; protected set; }
+	public int damage { get; protected set; }
+	public int defense { get; protected set; }
+	public int luck { get; protected set; }
+	public int health { get; protected set; }
 	
-	public EquipItem (ItemData itemData) : base(itemData)
+	public EquipItem (ItemData weaponData) : base(weaponData)
 	{
 		isEquipped = false;
 	}

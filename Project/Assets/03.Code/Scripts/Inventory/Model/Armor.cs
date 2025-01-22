@@ -1,9 +1,10 @@
 public class Armor : EquipItem
 {
-	public int defense { get; private set; }
-	
-	public Armor(ArmorData itemData) : base(itemData)
+	public Armor(ArmorData data) : base(data)
 	{
-		defense = itemData.defense;
+		damage = data.damage;
+		defense = data.defense;
+		luck = data.luck;
+		health = data.health;
 	}
 }
