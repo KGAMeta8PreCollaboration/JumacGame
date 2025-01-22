@@ -82,13 +82,13 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
                 {
                     OmokFirebaseManager.Instance.UpdateOmokUserData(!amIWin);
                     OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
-                    popup.AmIWinner(!amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
+                    popup.SetPopup(!amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
                 }
                 else
                 {
                     OmokFirebaseManager.Instance.UpdateOmokUserData(amIWin);
                     OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
-                    popup.AmIWinner(amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
+                    popup.SetPopup(amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
                 }
                 _isOnGame = false;
                 yield break;

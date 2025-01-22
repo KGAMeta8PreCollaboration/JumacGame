@@ -23,8 +23,9 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
     private DatabaseReference _dbRoomRef;
     private DatabaseReference _dbLogInUserDataRef;
+    private DatabaseReference _dbOmokUserDataRef;
 
-    private bool amIHost = false;
+    public bool amIHost = false;
 
     private LogInUserData _logInUserData;
     public RoomData currentRoomData;
@@ -105,22 +106,33 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             //currentRoomData =  JsonConvert.DeserializeObject<RoomData>(roomDataJson);
             //print($"현재 currentRoomData : {currentRoomData}");
 
-                print($"currentRoomData가 잘 넘어왔습니다 : {currentRoomData}");
-                LastTimeHandler.Instance.SetRef(_dbRoomRef);
+            print($"currentRoomData가 잘 넘어왔습니다 : {currentRoomData}");
+            LastTimeHandler.Instance.SetRef(_dbRoomRef);
 
-                //그 넘겨준 정보로 host와 guest 정보를 OmokUserData로 치환함
-                hostData = await SetUserData(currentRoomData.host);
-                guestData = await SetUserData(currentRoomData.guest);
+            //그 넘겨준 정보로 host와 guest 정보를 OmokUserData로 치환함
+            hostData = await SetUserData(currentRoomData.host);
+            guestData = await SetUserData(currentRoomData.guest);
 
-                amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
-                print($"나 호스트임 ? {amIHost}");
+            amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
+            print($"나 호스트임 ? {amIHost}");
+            if (amIHost)
+            {
+                _dbOmokUserDataRef = Database.GetReference("omokuserdata").Child(hostData.id);
+                print($"지금 참조하고 있는 유저의 데이터 레퍼런스는 호스트 : {_dbOmokUserDataRef}");
+            }
+            else
+            {
+                _dbOmokUserDataRef = Database.GetReference("omokuserdata").Child(guestData.id);
+            }
 
-                OmokUIPage omokUIPage = OmokUIManager.Instance.PageOpen<OmokUIPage>();
-                omokUIPage.Init(currentRoomData);
-                MonitorTurnList();
-                MonitorPlayerExit();
-                _isDataLoaded = true;
-            
+            OmokUIPage omokUIPage = OmokUIManager.Instance.PageOpen<OmokUIPage>();
+
+            omokUIPage.Init(currentRoomData, hostData, guestData, amIHost);
+
+            MonitorTurnList();
+            MonitorPlayerExit();
+
+            _isDataLoaded = true;
 
             //OmokUIManager.Instance.PageOpen<OmokUIPage>().Init(currentRoomData);
             //MonitorTurnList();
@@ -271,33 +283,30 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             return;
         }
 
-        bool amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
+        //bool amIHost = Auth.CurrentUser.UserId == currentRoomData.host;
 
         //턴이 맞지 않을때는 이곳이 실행됨
-        if (currentRoomData.isHostTurn && !amIHost)
+        if (!IsMyTurn())
         {
-            Debug.Log("현재 호스트 턴인데, 나는 게스트!.");
-            return;
-        }
-        if (!currentRoomData.isHostTurn && amIHost)
-        {
-            Debug.Log("현재 게스트 턴인데, 나는 호스트!.");
+            Debug.Log("내 차례가 아님!");
             return;
         }
 
         //_turnCount++;
 
+        //착수한 기록이 남는 턴 데이터
         Turn newTurn = new Turn
         {
             coodinate = $"{boardIndex.x}, {boardIndex.y}",
             isHostTurn = amIHost,
-            turnCount = currentRoomData.turnCount //여기에서 turnCount = 1
+            turnCount = currentRoomData.turnCount
         };
 
         //board.PlaceStone(newTurn.isHostTurn, new Vector2Int(boardIndex.x, boardIndex.y));
         AddTurnToFirebase(newTurn);
     }
 
+    //어디에 뒀는지 기록을 남기는 함수
     private async void AddTurnToFirebase(Turn turn)
     {
         if (turn == null)
@@ -340,6 +349,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         DatabaseReference turnListRef = _dbRoomRef.Child("turnList");
 
         //turnListRef.ChildAdded += HandleTurnAdded;
+        //턴이 바뀌는 하나만 참조함
         turnListRef.OrderByKey()
                .LimitToLast(1)
                .ChildAdded += HandleTurnAdded;
@@ -356,6 +366,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         MonitorTurnList();
     }
 
+    //턴이 바뀌면
     private void HandleTurnAdded(object sender, ChildChangedEventArgs args)
     {
         //if (!args.Snapshot.Exists) return;
@@ -398,7 +409,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         //수를 둘 때마다 시간이 흐름
         LastTimeHandler.Instance.HandleTime();
 
-        OmokUIManager.Instance.PageUse<OmokUIPage>().UpdateTurnInfo(currentRoomData.turnCount + 1);
+        OmokUIManager.Instance.PageUse<OmokUIPage>().UpdateTurnInfo(currentRoomData.turnCount, IsMyTurn());
 
         Dictionary<string, object> updateDic = new Dictionary<string, object>();
         updateDic["isHostTurn"] = currentRoomData.isHostTurn;
@@ -421,30 +432,18 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     }
 
     private bool _isHostTurn;
-    public async Task<bool> IsMyTurn()
+    public bool IsMyTurn()
     {
         bool isMyTurn;
-        //내가 호스트인지 확인
-        bool amIHost = AmIHost();
-
-        DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
-
-        if (roomSnapshot.Exists)
+        if ((currentRoomData.turnCount % 2 == 0 && amIHost == true) || (currentRoomData.turnCount % 2 == 1 && amIHost == false))
         {
-            string roomDataJson = roomSnapshot.GetRawJsonValue();
-            RoomData roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
-
-            if (roomData.turnCount % 2 == 0)
-            {
-                _isHostTurn = true;
-            }
-            else
-            {
-                _isHostTurn = false;
-            }
+            isMyTurn = true;
         }
-
-        return isMyTurn = amIHost == _isHostTurn;
+        else
+        {
+            isMyTurn = false;
+        }
+        return isMyTurn;
     }
 
     //여기에서 리더보드와 omokuserdata 둘 다 정보를 업데이트해줌
@@ -453,13 +452,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         //리더보드 정보 최신화
         DatabaseReference omokLeaderBoardRef = Database.GetReference("leaderboard")
             .Child("omok")
-            .Child(Auth.CurrentUser.UserId);
+            .Child(_logInUserData.id);
 
-        OmokUserData myOmokData = currentRoomData.host == Auth.CurrentUser.UserId ? hostData : guestData;
+        OmokUserData myOmokData = amIHost == true ? hostData : guestData;
 
         //omokuser정보 최신화
-        DatabaseReference myOmokDataRef = Database.GetReference("omokuserdata")
-            .Child(myOmokData.id);
+        //DatabaseReference myOmokDataRef = Database.GetReference("omokuserdata").Child(myOmokData.id);
 
         OmokLeaderBoardData omokLeaderBoardData = new OmokLeaderBoardData();
         //이겼을때
@@ -472,6 +470,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             omokLeaderBoardData.score = omokLeaderBoardData.win * 10 - omokLeaderBoardData.lose * 5;
 
             myOmokData.win++;
+            myOmokData.gold += currentRoomData.betting;
         }
         else
         {
@@ -482,13 +481,14 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             omokLeaderBoardData.score = omokLeaderBoardData.win * 10 - omokLeaderBoardData.lose * 5;
 
             myOmokData.lose++;
+            myOmokData.gold -= currentRoomData.betting;
         }
 
         string omokLeaderBoardDataJson = JsonConvert.SerializeObject(omokLeaderBoardData);
         await omokLeaderBoardRef.SetRawJsonValueAsync(omokLeaderBoardDataJson);
 
         string myOmokDataJson = JsonConvert.SerializeObject(myOmokData);
-        await myOmokDataRef.SetRawJsonValueAsync(myOmokDataJson);
+        await _dbOmokUserDataRef.SetRawJsonValueAsync(myOmokDataJson);
     }
 
     private async void HandleOpponentVictory(bool amIHost)
@@ -509,7 +509,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
                 // 상대방 omokuserdata가 없으면 새로 생성
                 Debug.LogWarning("상대방 omokuserdata가 없으므로 기본 데이터 생성 중...");
 
-                updatedOpponentData = new OmokUserData(opponentData.id, opponentData.nickname, 0);
+                updatedOpponentData = new OmokUserData(opponentData.id, opponentData.nickname, opponentData.gold);
                 // 필요하다면 win/lose를 0으로 초기화
             }
             else
@@ -521,6 +521,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
             // 상대방 승리 업데이트
             updatedOpponentData.win += 1;
+            updatedOpponentData.gold += currentRoomData.betting;
 
             // Firebase 저장
             string updatedOpponentJson = JsonConvert.SerializeObject(updatedOpponentData);
@@ -578,6 +579,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             _isHostExitedProcessed = true; // 중복 처리 방지 플래그 설정
             Debug.Log("호스트가 게임을 나갔습니다. 승리 처리 중...");
             //HandleOpponentVictory(true); // 게스트가 승리
+
+            if (amIHost == false)
+            {
+                OmokOneButtonPopup omokOneButtonPopup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+                omokOneButtonPopup.SetPopup(true, currentRoomData.betting);
+            }
         }
     }
 
@@ -594,6 +601,12 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             _isGuestExitedProcessed = true; // 중복 처리 방지 플래그 설정
             Debug.Log("게스트가 게임을 나갔습니다. 승리 처리 중...");
             //HandleOpponentVictory(false); // 호스트가 승리
+
+            if (amIHost == true)
+            {
+                OmokOneButtonPopup omokOneButtonPopup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
+                omokOneButtonPopup.SetPopup(true, currentRoomData.betting);
+            }
         }
     }
 
@@ -602,9 +615,9 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
         Debug.Log($"ExitGame 호출됨, isSurrender: {isSurrender}");
         try
         {
-            bool amIHost = AmIHost();
             string playerKey = amIHost ? "hostExited" : "guestExited";
 
+            //항복이면 상대방의 승리를 입력해줘야한다
             if (isSurrender)
             {
                 UpdateOmokUserData(false);

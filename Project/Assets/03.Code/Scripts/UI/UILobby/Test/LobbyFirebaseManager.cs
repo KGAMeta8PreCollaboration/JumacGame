@@ -16,6 +16,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     public FirebaseUser User { get; private set; }
 
     public ChatUserData chatUserData;
+    public LogInUserData logInUserData;
 
     private DatabaseReference _dbChatRef;
     private DatabaseReference _dbUserRef;
@@ -25,7 +26,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     private EventHandler<ChildChangedEventArgs> _childAddedHandler;
 
     private RoomData _roomData;
-    private LogInUserData _logInUserData;
 
     protected override void Awake()
     {
@@ -47,14 +47,14 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             if (logInUserSnapshot.Exists)
             {
                 string logInUserJson = logInUserSnapshot.GetRawJsonValue();
-                _logInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
+                this.logInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
 
                 chatUserData = new ChatUserData
                 {
-                    nickname = _logInUserData.nickname,
-                    id = _logInUserData.id,
-                    serverName = _logInUserData.serverName,
-                    timestamp = _logInUserData.timestamp
+                    nickname = this.logInUserData.nickname,
+                    id = this.logInUserData.id,
+                    serverName = this.logInUserData.serverName,
+                    timestamp = this.logInUserData.timestamp
                 };
 
                 _dbRoomRef = Database.GetReference("omokuserdata")
