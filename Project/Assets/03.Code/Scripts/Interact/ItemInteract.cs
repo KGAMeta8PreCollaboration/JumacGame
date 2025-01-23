@@ -5,6 +5,7 @@ public class ItemInteract : ButtonInteractable
 
 	private void Start()
 	{
+		buttonName = itemData.itemName + " 획득";
 		inventory = FindObjectOfType<Inventory>(true);
 	}
 
