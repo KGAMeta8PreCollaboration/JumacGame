@@ -13,6 +13,7 @@ public class LobbyUIPage : LobbyPage
     private void OnEnable()
     {
         goChatButton.onClick.AddListener(OnClickGoChatButton);
+        //LobbyFirebaseManager.Instance.ReceiveMessage(SubscribeBubble);
     }
 
     private void OnDisable()
@@ -20,8 +21,18 @@ public class LobbyUIPage : LobbyPage
         goChatButton.onClick.RemoveAllListeners();
     }
 
+    private void Start()
+    {
+        LobbyFirebaseManager.Instance.ReceiveMessage(SubscribeBubble);
+    }
+
     private void OnClickGoChatButton()
     {
         UILobbyManager.Instance.PopupOpen<ChatPopup>();
+    }
+
+    private void SubscribeBubble(MessageData messageData)
+    {
+        BubbleManager.Instance.MakeOtherBubble(messageData);
     }
 }

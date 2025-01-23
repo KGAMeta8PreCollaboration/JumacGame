@@ -100,7 +100,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
     }
 
-    public void ReceiveMessage(Action<MessageData> callback)
+    public void ReceiveMessage(Action<MessageData> callback = null)
     {
         print("일단 연결은 됨");
         try
