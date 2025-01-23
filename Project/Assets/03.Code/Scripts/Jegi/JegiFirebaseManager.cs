@@ -17,8 +17,8 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     public JegiUserData jegiUserData; //여기에서 유저의 최고점수 써야함
     private LogInUserData _logInUserData;
 
-    private DatabaseReference _logInUserDataRef;
-    private DatabaseReference _jegiLeaderboardRef;
+    private DatabaseReference _dbLogInUserDataRef;
+    private DatabaseReference _dbJegiLeaderboardRef;
 
     protected override void Awake()
     {
@@ -33,8 +33,8 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
             Database = GameManager.Instance.FirebaseManager.Database;
             User = GameManager.Instance.FirebaseManager.User;
 
-            _logInUserDataRef = Database.GetReference($"loginusers");
-            _jegiLeaderboardRef = Database.GetReference($"leaderboard").Child("jegi");
+            _dbLogInUserDataRef = Database.GetReference($"loginusers");
+            _dbJegiLeaderboardRef = Database.GetReference($"leaderboard").Child("jegi");
 
             LogInUserData logInUserData = await SetLogInUserDataByUserId(Auth.CurrentUser.UserId);
             print($"현재 유저 아이디 : {Auth.CurrentUser.UserId}");
@@ -55,7 +55,7 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     {
         try
         {
-            DatabaseReference logInUserDataRef = _logInUserDataRef.Child(id);
+            DatabaseReference logInUserDataRef = _dbLogInUserDataRef.Child(id);
 
             DataSnapshot logInUserDataSnapshot = await logInUserDataRef.GetValueAsync();
 
@@ -83,7 +83,7 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     {
         try
         {
-            DatabaseReference jegiDataRef = _jegiLeaderboardRef.Child(Auth.CurrentUser.UserId);
+            DatabaseReference jegiDataRef = _dbJegiLeaderboardRef.Child(Auth.CurrentUser.UserId);
             DataSnapshot jegiDataSnapshot = await jegiDataRef.GetValueAsync();
             JegiUserData jegiUserData;
 
@@ -113,8 +113,8 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     {
         try
         {
-            DatabaseReference jegiUserDataRef = _jegiLeaderboardRef.Child(Auth.CurrentUser.UserId);
-            DatabaseReference logInUserDataRef = _logInUserDataRef.Child(Auth.CurrentUser.UserId);
+            DatabaseReference jegiUserDataRef = _dbJegiLeaderboardRef.Child(Auth.CurrentUser.UserId);
+            DatabaseReference logInUserDataRef = _dbLogInUserDataRef.Child(Auth.CurrentUser.UserId);
 
             //들어온 점수가 본 점수보다 높으면 
             if (jegiUserData.score <= score)

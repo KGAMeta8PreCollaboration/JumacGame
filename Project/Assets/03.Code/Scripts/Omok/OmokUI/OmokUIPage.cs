@@ -19,26 +19,37 @@ public class OmokUIPage : OmokPage
         giveUpButton.onClick.AddListener(OnClickGiveUpButton);
     }
 
-    public void Init(RoomData roomData)
+    public void Init(RoomData roomData, OmokUserData hostData, OmokUserData guestData, bool amIHost)
     {
         try
         {
             turnCountText.text = $"{roomData.turnCount + 1}수째.";
-            turnUserName.text = $"{OmokFirebaseManager.Instance.hostData.nickname}님의 턴입니다";
 
-            bool amIHost = true;
             //내가 호스트일때
-            if (roomData.host == OmokFirebaseManager.Instance.Auth.CurrentUser.UserId)
+            if (amIHost)
             {
-                //오른쪽에는 호스트(나)의 정보, 돌의 색은 = true
-                rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, amIHost);
-                leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !amIHost);
+                rightUserInfoPrefab.SetPrefab(hostData, true);
+                leftUserInfoPrefab.SetPrefab(guestData, false);
+                turnUserName.text = $"당신의 턴입니다";
             }
-            else if (roomData.host != OmokFirebaseManager.Instance.Auth.CurrentUser.UserId)
+            else
             {
-                rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !amIHost);
-                leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, amIHost);
+                rightUserInfoPrefab.SetPrefab(guestData, false);
+                leftUserInfoPrefab.SetPrefab(hostData, true);
+                turnUserName.text = $"상대의 턴입니다";
             }
+
+            //if (roomData.host == OmokFirebaseManager.Instance.Auth.CurrentUser.UserId)
+            //{
+            //    //오른쪽에는 호스트(나)의 정보, 돌의 색은 = true
+            //    rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, amIHost);
+            //    leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !amIHost);
+            //}
+            //else if (roomData.host != OmokFirebaseManager.Instance.Auth.CurrentUser.UserId)
+            //{
+            //    rightUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.guestData, !amIHost);
+            //    leftUserInfoPrefab.SetPrefab(OmokFirebaseManager.Instance.hostData, amIHost);
+            //}
         }
         catch (Exception e)
         {
@@ -46,17 +57,17 @@ public class OmokUIPage : OmokPage
         }
     }
 
-    public void UpdateTurnInfo(int turnCount)
+    public void UpdateTurnInfo(int turnCount, bool isMyTurn)
     {
-        turnCountText.text = $"{turnCount}수째";
+        turnCountText.text = $"{turnCount + 1}수째";
 
-        if (turnCount % 2 == 1)
+        if (isMyTurn)
         {
-            turnUserName.text = $"{OmokFirebaseManager.Instance.hostData.nickname}님의 턴입니다";
+            turnUserName.text = $"당신의 턴입니다";
         }
-        else if (turnCount % 2 == 0)
+        else
         {
-            turnUserName.text = $"{OmokFirebaseManager.Instance.guestData.nickname}님의 턴입니다";
+            turnUserName.text = $"상대의 턴입니다";
         }
     }
 

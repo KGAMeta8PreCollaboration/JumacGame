@@ -55,7 +55,7 @@ public class Board : MonoBehaviour
     }
 
 
-    public async void OnClick(InputAction.CallbackContext context)
+    public void OnClick(InputAction.CallbackContext context)
     {
         if (!context.performed)
             return;
@@ -86,9 +86,9 @@ public class Board : MonoBehaviour
                     return;
                 }
 
-                bool amIHost = OmokFirebaseManager.Instance.AmIHost();
-                bool isMyTurn = await OmokFirebaseManager.Instance.IsMyTurn();
-
+                bool isMyTurn = OmokFirebaseManager.Instance.IsMyTurn();
+                
+                //내 턴일때만 임시로 돌을 놓을 수 있다
                 if (isMyTurn)
                 {
                     tempStoneIndex = boardIndex;
@@ -180,6 +180,7 @@ public class Board : MonoBehaviour
 
         OmokFirebaseManager.Instance.RequestPlaceStone(index);
 
+        //두고나면 임시좌표와 임시프리팹 삭제
         tempStoneIndex = null;
         Destroy(_redStoneObj);
     }
@@ -208,7 +209,10 @@ public class Board : MonoBehaviour
         {
             bool result = AmIWinner(isHostTurn);
             ResultPopup(result);
-            OmokFirebaseManager.Instance.UpdateOmokUserData(result);
+
+            OmokUserData myData = 
+                OmokFirebaseManager.Instance.amIHost ? OmokFirebaseManager.Instance.hostData : OmokFirebaseManager.Instance.guestData;
+            OmokFirebaseManager.Instance.UpdateUserResult(myData, result);
             LastTimeHandler.Instance.IsOnGame(false);
         }
     }
@@ -279,7 +283,7 @@ public class Board : MonoBehaviour
     private void ResultPopup(bool isHostTurn)
     {
         OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
-        popup.AmIWinner(isHostTurn, OmokFirebaseManager.Instance.currentRoomData.betting);
+        popup.SetPopup(isHostTurn, OmokFirebaseManager.Instance.currentRoomData.betting);
     }
 
     //파라미터로 승리할때의 턴을 넣으면 승리했는지 아닌지 나온다
@@ -291,7 +295,6 @@ public class Board : MonoBehaviour
         //승리할때 턴 주인 = isHostTurn
         bool winnerIsHost = isHostTurn;
 
-        
         bool amIWinner = (amIHost == winnerIsHost);
 
         return amIWinner;
