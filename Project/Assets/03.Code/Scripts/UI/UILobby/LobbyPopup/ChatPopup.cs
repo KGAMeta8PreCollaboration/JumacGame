@@ -58,5 +58,7 @@ public class ChatPopup : LobbyPopup
         MessagePrefab receivedMessage = Instantiate(messagePrefab, textArea);
         Debug.Log($"새 메시지 부모: {receivedMessage.transform.parent.name}");
         receivedMessage.messageText.text = $"{messageData.SenderName} : {messageData.Content}";
+
+        BubbleManager.Instance.MakeOtherBubble(messageData);
     }
 }
