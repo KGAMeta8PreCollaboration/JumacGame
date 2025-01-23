@@ -46,7 +46,13 @@ public class FireWave : Skill
         Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
         GameObject square = Instantiate(_squarePrefab, startPoint, rotation);
 
-        yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
+        //yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
+        //test
+
+        yield return new WaitForSeconds(squareGrowTime);
+
+
+        //test
 
         Destroy(square);
 
@@ -59,7 +65,7 @@ public class FireWave : Skill
             yield return new WaitForSeconds(skillInterval);
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
 
         foreach (GameObject effect in curEffects)
         {
@@ -90,6 +96,6 @@ public class FireWave : Skill
 
         square.transform.localScale = maxSize;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
     }
 }

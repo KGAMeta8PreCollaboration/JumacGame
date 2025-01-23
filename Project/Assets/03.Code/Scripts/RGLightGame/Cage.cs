@@ -3,107 +3,107 @@ using UnityEngine;
 
 public class Cage : MonoBehaviour
 {
-	public float width = 30f;
-	public float height = 30f;
-	public int gridSize = 3;
-	public GameObject blueSphere;
-	public GameObject redSphere;
+    public float width = 30f;
+    public float height = 30f;
+    public int gridSize = 3;
+    public GameObject blueSphere;
+    public GameObject redSphere;
 
-	private List<Vector3> _cellCenters;
-	private List<Vector3> _outerCellCenters;
+    private List<Vector3> _cellCenters;
+    private List<Vector3> _outerCellCenters;
 
-	private void Awake()
-	{
-		CalculateCellCenters();
-		CalculateOuterCellCenters();
-	}
+    private void Awake()
+    {
+        CalculateCellCenters();
+        CalculateOuterCellCenters();
+    }
 
-	private void CalculateCellCenters()
-	{
-		_cellCenters = new List<Vector3>();
-		float cellWidth = width / gridSize;
-		float cellHeight = height / gridSize;
+    private void CalculateCellCenters()
+    {
+        _cellCenters = new List<Vector3>();
+        float cellWidth = width / gridSize;
+        float cellHeight = height / gridSize;
 
-		Vector3 cageCenter = transform.position;
+        Vector3 cageCenter = transform.position;
 
-		for (int row = 0; row < gridSize; row++)
-		{
-			for (int col = 0; col < gridSize; col++)
-			{
-				Vector3 cellCenter = new Vector3(
-					cageCenter.x - width / 2f + cellWidth * (col + 0.5f),
-					0.13f,
-					cageCenter.z - height / 2f + cellHeight * (row + 0.5f)
-				);
-				_cellCenters.Add(cellCenter);
-				Instantiate(blueSphere, cellCenter, Quaternion.identity);
-			}
-		}
-	}
+        for (int row = 0; row < gridSize; row++)
+        {
+            for (int col = 0; col < gridSize; col++)
+            {
+                Vector3 cellCenter = new Vector3(
+                    cageCenter.x - width / 2f + cellWidth * (col + 0.5f),
+                    0.13f,
+                    cageCenter.z - height / 2f + cellHeight * (row + 0.5f)
+                );
+                _cellCenters.Add(cellCenter);
+                Instantiate(blueSphere, cellCenter, Quaternion.identity);
+            }
+        }
+    }
 
-	private void CalculateOuterCellCenters()
-	{
-		_outerCellCenters = new List<Vector3>();
+    private void CalculateOuterCellCenters()
+    {
+        _outerCellCenters = new List<Vector3>();
 
-		// °¢ ¼¿ÀÇ Å©±â °è»ê
-		float cellWidth = width / gridSize;
-		float cellHeight = height / gridSize;
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½
+        float cellWidth = width / gridSize;
+        float cellHeight = height / gridSize;
 
-		Vector3 cageCenter = transform.position;
+        Vector3 cageCenter = transform.position;
 
-		// »ó´Ü(À§ÂÊ Y = +15) ÁÂÇ¥ °è»ê
-		for (int col = 0; col < gridSize; col++)
-		{
-			float x = cageCenter.x - width / 2f + cellWidth * (col + 0.5f);
-			float y = 0.13f;
-			float z = cageCenter.z + height / 2f; // À§ÂÊ Y = +15
-			_outerCellCenters.Add(new Vector3(x, y, z));
-			Vector3 cellCenter = new Vector3(x, y, z);
-			Instantiate(redSphere, cellCenter, Quaternion.identity);
-		}
+        // ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ Y = +15) ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
+        for (int col = 0; col < gridSize; col++)
+        {
+            float x = cageCenter.x - width / 2f + cellWidth * (col + 0.5f);
+            float y = 0.13f;
+            float z = cageCenter.z + height / 2f; // ï¿½ï¿½ï¿½ï¿½ Y = +15
+            _outerCellCenters.Add(new Vector3(x, y, z));
+            Vector3 cellCenter = new Vector3(x, y, z);
+            Instantiate(redSphere, cellCenter, Quaternion.identity);
+        }
 
-		// ÇÏ´Ü(¾Æ·¡ÂÊ Y = -15) ÁÂÇ¥ °è»ê
-		for (int col = 0; col < gridSize; col++)
-		{
-			float x = cageCenter.x - width / 2f + cellWidth * (col + 0.5f);
-			float y = 0.13f;
-			float z = cageCenter.z - height / 2f; // ¾Æ·¡ÂÊ Y = -15
-			_outerCellCenters.Add(new Vector3(x, y, z));
-			Vector3 cellCenter = new Vector3(x, y, z);
-			Instantiate(redSphere, cellCenter, Quaternion.identity);
-		}
+        // ï¿½Ï´ï¿½(ï¿½Æ·ï¿½ï¿½ï¿½ Y = -15) ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
+        for (int col = 0; col < gridSize; col++)
+        {
+            float x = cageCenter.x - width / 2f + cellWidth * (col + 0.5f);
+            float y = 0.13f;
+            float z = cageCenter.z - height / 2f; // ï¿½Æ·ï¿½ï¿½ï¿½ Y = -15
+            _outerCellCenters.Add(new Vector3(x, y, z));
+            Vector3 cellCenter = new Vector3(x, y, z);
+            Instantiate(redSphere, cellCenter, Quaternion.identity);
+        }
 
-		// ¿ÞÂÊ(X = -15) ÁÂÇ¥ °è»ê
-		for (int row = 0; row < gridSize; row++)
-		{
-			float x = cageCenter.x - width / 2f; // ¿ÞÂÊ X = -15
-			float y = 0.13f;
-			float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
-			_outerCellCenters.Add(new Vector3(x, y, z));
-			Vector3 cellCenter = new Vector3(x, y, z);
-			Instantiate(redSphere, cellCenter, Quaternion.identity);
-		}
+        // ï¿½ï¿½ï¿½ï¿½(X = -15) ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
+        for (int row = 0; row < gridSize; row++)
+        {
+            float x = cageCenter.x - width / 2f; // ï¿½ï¿½ï¿½ï¿½ X = -15
+            float y = 0.13f;
+            float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
+            _outerCellCenters.Add(new Vector3(x, y, z));
+            Vector3 cellCenter = new Vector3(x, y, z);
+            Instantiate(redSphere, cellCenter, Quaternion.identity);
+        }
 
-		// ¿À¸¥ÂÊ(X = +15) ÁÂÇ¥ °è»ê
-		for (int row = 0; row < gridSize; row++)
-		{
-			float x = cageCenter.x + width / 2f; // ¿À¸¥ÂÊ X = +15
-			float y = 0.13f;
-			float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
-			_outerCellCenters.Add(new Vector3(x, y, z));
-			Vector3 cellCenter = new Vector3(x, y, z);
-			Instantiate(redSphere, cellCenter, Quaternion.identity);
-		}
-	}
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(X = +15) ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
+        for (int row = 0; row < gridSize; row++)
+        {
+            float x = cageCenter.x + width / 2f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X = +15
+            float y = 0.13f;
+            float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
+            _outerCellCenters.Add(new Vector3(x, y, z));
+            Vector3 cellCenter = new Vector3(x, y, z);
+            Instantiate(redSphere, cellCenter, Quaternion.identity);
+        }
+    }
 
-	public List<Vector3> GetCellCenters()
-	{
-		return _cellCenters;
-	}
+    public List<Vector3> GetCellCenters()
+    {
+        return _cellCenters;
+    }
 
-	public List<Vector3> GetOuterCellCenters()
-	{
-		return _outerCellCenters;
-	}
+    public List<Vector3> GetOuterCellCenters()
+    {
+        return _outerCellCenters;
+    }
 }
 
