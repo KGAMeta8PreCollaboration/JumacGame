@@ -6,9 +6,9 @@ public class CombatSpawnManager : Singleton<CombatSpawnManager>
 {
     [SerializeField] private List<CombatNPCData> combatNPCDataList;
 
-    private LogInUserData _logInUserData;
-    private Stat _stat;
-    private CombatNPCData _combatNPCData;
+    public LogInUserData logInUserData;
+    public Stat stat;
+    public CombatNPCData combatNPCData;
 
     protected override void Awake()
     {
@@ -17,17 +17,24 @@ public class CombatSpawnManager : Singleton<CombatSpawnManager>
     }
 
     //클릭 한 후에 정보를 담아줄거임
-    public void SetCombatData(LogInUserData logInUserData, Stat stat, CombatNPCData combatNPCdata)
+    public void SetCombatData(LogInUserData logInUserData, Stat stat, string combatNPCName)
     {
-        if (_logInUserData != null || stat != null || _combatNPCData != null)
+        if (this.logInUserData != null || stat != null || combatNPCData != null)
         {
-            _logInUserData = null;
-            _stat = null;
-            _combatNPCData = null;
+            this.logInUserData = null;
+            this.stat = null;
+            combatNPCData = null;
         }
 
-        _logInUserData = logInUserData;
-        _stat = stat;
-        _combatNPCData = combatNPCdata;
+        this.logInUserData = logInUserData;
+        this.stat = stat;
+
+        foreach (CombatNPCData combatNPCData in combatNPCDataList)
+        {
+            if (combatNPCData.name == combatNPCName)
+            {
+                this.combatNPCData = combatNPCData;
+            }
+        }
     }
 }

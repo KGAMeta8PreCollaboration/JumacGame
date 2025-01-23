@@ -1,32 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class OmokUIManager : Singleton<OmokUIManager>
+public class CombatUIManager : Singleton<CombatUIManager>
 {
-    [SerializeField] private List<OmokPage> pageList;
-    [SerializeField] private List<OmokPopup> popupList;
+    [SerializeField] private List<CombatPage> pageList;
+    [SerializeField] private List<CombatPopup> popupList;
 
-    public Stack<OmokPopup> openPopupStack = new Stack<OmokPopup>();
+    public Stack<CombatPopup> openPopupStack = new Stack<CombatPopup>();
 
     protected override void Awake()
     {
         base.Awake();
-        foreach (OmokPage page in pageList)
+        foreach (CombatPage page in pageList)
         {
             page.gameObject.SetActive(false);
         }
-        foreach (OmokPopup popup in popupList)
+        foreach (CombatPopup popup in popupList)
         {
             popup.gameObject.SetActive(false);
         }
     }
 
-    public T PageOpen<T>() where T : OmokPage
+    public T PageOpen<T>() where T : CombatPage
     {
         T @return = null;
-        foreach (OmokPage page in pageList)
+        foreach (CombatPage page in pageList)
         {
             bool isActive = page is T;
             page.gameObject.SetActive(isActive);
@@ -35,17 +34,17 @@ public class OmokUIManager : Singleton<OmokUIManager>
         return @return;
     }
 
-    public T PageUse<T>() where T : OmokPage
+    public T PageUse<T>() where T : CombatPage
     {
         T @return = null;
-        foreach (OmokPage page in pageList)
+        foreach (CombatPage page in pageList)
         {
             @return = page as T;
         }
         return @return;
     }
 
-    public T PopupOpen<T>() where T : OmokPopup
+    public T PopupOpen<T>() where T : CombatPopup
     {
         T @return = popupList.Find((popup) => popup is T) as T;
         if (@return != null && !openPopupStack.Contains(@return))
@@ -61,7 +60,7 @@ public class OmokUIManager : Singleton<OmokUIManager>
     {
         if (openPopupStack.Count > 0)
         {
-            OmokPopup targetPopup = openPopupStack.Pop();
+            CombatPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
         }
     }
@@ -70,7 +69,7 @@ public class OmokUIManager : Singleton<OmokUIManager>
     {
         while (openPopupStack.Count > 0)
         {
-            OmokPopup targetPopup = openPopupStack.Pop();
+            CombatPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
         }
     }
