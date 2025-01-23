@@ -431,7 +431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 1464, y: 150}
+  m_AnchoredPosition: {x: 0, y: 150}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &8039236967201927823
@@ -2283,7 +2283,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 1464, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &8963698279374131755
@@ -6241,8 +6241,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5528011511063153785}
-  - {fileID: 3536077531399286712}
   - {fileID: 559608526002057757}
+  - {fileID: 3536077531399286712}
   m_Father: {fileID: 3915098424142188438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6404,10 +6404,10 @@ RectTransform:
   - {fileID: 23042566104315953}
   m_Father: {fileID: 5018247841206200972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3609945543316883900
 MonoBehaviour:
@@ -6970,7 +6970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hanyangButton: {fileID: 4898943493082723575}
   _gaeseongButton: {fileID: 6234544903549155392}
-  lobbySceneName: SEOLobbyTest
+  lobbySceneName: SoundSystem
 --- !u!1 &9198006453407765103
 GameObject:
   m_ObjectHideFlags: 0
