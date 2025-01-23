@@ -5,36 +5,48 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/04.Level/Scenes/YOOLogin.unity
-    guid: cca17899d2bfc7d45b0f527656ec339c
   - enabled: 1
-    path: Assets/04.Level/Scenes/Login.unity
-    guid: 87a7d1be70d7cc44eb56949dde84f34b
-  - enabled: 0
-    path: Assets/04.Level/Scenes/SEOLobbyTest.unity
-    guid: 7b8623e78b624e646bf90c5d24edd6ec
-  - enabled: 1
-    path: Assets/04.Level/Scenes/DES/DesLobby.unity
-    guid: 8f4247846f6b38146931b94144599b3c
-  - enabled: 1
-    path: Assets/04.Level/Scenes/DES/DesLogin.unity
-    guid: 8ccf0ce5a70bf624187dba5bacbdaf81
-  - enabled: 1
-    path: Assets/04.Level/Scenes/RGLightGame.unity
-    guid: 84e71ad0a3ad1a54981552e24811380d
-  - enabled: 0
     path: Assets/04.Level/Scenes/DES.unity
     guid: c7eaa011edb3e6a4f97fd500d8412545
   - enabled: 1
-    path: Assets/04.Level/Scenes/Lobby.unity
-    guid: ed7ec62b323deae49bd57182f22cd6f4
+    path: Assets/04.Level/Scenes/Dev_OmokScene.unity
+    guid: fac62218e9d319847a8c88c8700ef8fb
+  - enabled: 1
+    path: Assets/04.Level/Scenes/HEE2.unity
+    guid: dfdc1339b240e704c8fa695b56cf4be3
   - enabled: 1
     path: Assets/04.Level/Scenes/JegiScene.unity
     guid: bed0e3942bbc8b849a26b25252ffa21b
   - enabled: 1
+    path: Assets/04.Level/Scenes/Lobby.unity
+    guid: c2e19b323e038fa4091c47c4b9ea9f6c
+  - enabled: 1
+    path: Assets/04.Level/Scenes/Login.unity
+    guid: 5f138ca29166feb488decb40583d44f9
+  - enabled: 1
     path: Assets/04.Level/Scenes/OmokScene.unity
     guid: 327f9bc4817ae7f44aa1692a94560d2d
+  - enabled: 1
+    path: Assets/04.Level/Scenes/DES/DESLobby.unity
+    guid: cff5311bed935d342b3c86efd8a29d5f
+  - enabled: 1
+    path: Assets/04.Level/Scenes/DES/DESLogin.unity
+    guid: 7e8e187542c9a5348a47b4a989f49002
+  - enabled: 1
+    path: Assets/04.Level/Scenes/RGLightGame.unity
+    guid: 84e71ad0a3ad1a54981552e24811380d
+  - enabled: 1
+    path: Assets/04.Level/Scenes/SEO.unity
+    guid: 2384737f676e6f24d83e1acb3d92751a
+  - enabled: 1
+    path: Assets/04.Level/Scenes/SEOLobbyTest.unity
+    guid: 7b8623e78b624e646bf90c5d24edd6ec
+  - enabled: 1
+    path: Assets/04.Level/Scenes/YooLobby.unity
+    guid: dfdf5a790fa59ff42b1312636642a3a9
+  - enabled: 1
+    path: Assets/04.Level/Scenes/YooLogin.unity
+    guid: 0517549578a9a51449f70161830ae7fd
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f294eccd2f1be704c9cdb7f82137f183, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 778598d0afc61114cb87bec2b3fc0105, type: 3}
