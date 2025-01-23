@@ -1,21 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class UILobbyManager : Singleton<UILobbyManager>
 {
 
     [SerializeField] private List<LobbyPage> pageList;
     [SerializeField] private List<LobbyPopup> popupList;
+    [SerializeField] private Button popupCloseButton;
 
     private Stack<LobbyPopup> openPopupStack = new Stack<LobbyPopup>();
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    private void OnEnable()
+    {
+        popupCloseButton.onClick.AddListener(PopupCloseByTouch);
+    }
+
+    private void OnDisable()
+    {
+        popupCloseButton.onClick.RemoveListener(PopupCloseByTouch);
+    }
 
     private void Start()
     {
         PageOpen<LobbyUIPage>();
 
-        foreach(LobbyPopup popup in popupList)
+        foreach (LobbyPopup popup in popupList)
         {
             popup.gameObject.SetActive(false);
         }
@@ -61,5 +77,11 @@ public class UILobbyManager : Singleton<UILobbyManager>
             LobbyPopup targetPopup = openPopupStack.Pop();
             targetPopup.gameObject.SetActive(false);
         }
+    }
+
+    private void PopupCloseByTouch()
+    {
+        print("빈공간 눌리는중");
+        PopupClose();
     }
 }

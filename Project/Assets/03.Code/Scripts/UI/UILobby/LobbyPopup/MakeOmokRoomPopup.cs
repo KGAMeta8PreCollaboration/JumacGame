@@ -35,11 +35,16 @@ public class MakeOmokRoomPopup : LobbyPopup
             },
         (betting) =>
         {
+            if (betting > LobbyFirebaseManager.Instance.logInUserData.gold)
+            {
+                UILobbyManager.Instance.PopupOpen<OneButtonPopup>().SetPopup("알림", "소지금보다 높은 금액을 입력하셨습니다.");
+                return;
+            }
             newRoom.betting = betting;
             if (newRoom.roomName == "" || newRoom.betting < 0)
             {
                 print("방 정보 입력 안됨");
-                UILobbyManager.Instance.PopupOpen<OneButtonPopup>().SetPopup("알림", "방 정보를 입력해주세요");
+                UILobbyManager.Instance.PopupOpen<OneButtonPopup>().SetPopup("알림", "방 정보를 입력해주세요.");
                 return;
             }
 
