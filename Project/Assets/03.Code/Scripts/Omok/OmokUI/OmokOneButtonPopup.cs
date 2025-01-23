@@ -6,7 +6,6 @@ using UnityEngine;
 public class OmokOneButtonPopup : OmokPopup
 {
     [SerializeField] private TextMeshProUGUI titleText;
-    [SerializeField] private TextMeshProUGUI contentText;
     [SerializeField] private TextMeshProUGUI goldText;
 
     protected override void OnEnable()
@@ -23,19 +22,17 @@ public class OmokOneButtonPopup : OmokPopup
         Debug.Log("closeAction에서 ExitGame 제거됨");
     }
 
-    public void AmIWinner(bool amIWin, int gold)
+    public void SetPopup(bool amIWin, int gold)
     {
         if (amIWin)
         {
             titleText.text = "승리하였소!";
-            contentText.text = "보상";
             goldText.text = $"X {gold}";
         }
 
         else
         {
             titleText.text = "패배하였소...";
-            contentText.text = "보상";
             goldText.text = $"X -{gold}";
         }
     }
