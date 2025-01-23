@@ -1,6 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+
+public enum Bgm { Jegi, Lobby, RGL = 4, Omok, Title }
+public enum Sfx
+{
+    ButtonPress, GameLose, GameWin, JegiHit, JegiMiss, Cow, RGL1, RGL2, GetCoin, RGLPD, RGLPEarthQ,
+    RGLPGun, Younghee2, Younghee3, Younghee5, OmokTak, Wow, Scream, Aww = 19
+}
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -10,6 +18,8 @@ public class AudioManager : Singleton<AudioManager>
         DontDestroyOnLoad(gameObject);
         Init();
     }
+    [Header("MIXER")]
+    [SerializeField] private AudioMixer _audioMixer;
 
     [Header("BGM")]
     [SerializeField] private AudioClip[] _bgmClips;
@@ -21,18 +31,15 @@ public class AudioManager : Singleton<AudioManager>
     private AudioSource[] _sfxPlayers;
     private int _channelIndex;
 
-    public enum Bgm { Jegi, Lobby, RGL = 4, Omok, Title }
-    public enum Sfx
-    {
-        ButtonPress, GameLose, GameWin, JegiHit, JegiMiss, Cow, RGL1, RGL2, GetCoin, RGLPD, RGLPEarthQ,
-        RGLPGun, Younghee2, Younghee3, Younghee5, OmokTak, Wow, Scream, Aww = 19
-    }
-
     private void Init()
     {
+        AudioMixerGroup[] group = _audioMixer.FindMatchingGroups("Master");
+
         GameObject bgmObject = new GameObject("BgmPlayer");
         bgmObject.transform.parent = transform;
         _bgmPlayer = bgmObject.AddComponent<AudioSource>();
+        _bgmPlayer.outputAudioMixerGroup = group[1];
+        print(group[1]);
         _bgmPlayer.playOnAwake = false;
         _bgmPlayer.loop = true;
 
@@ -42,6 +49,8 @@ public class AudioManager : Singleton<AudioManager>
         for (int i = 0; i < sfxChannels; i++)
         {
             _sfxPlayers[i] = sfxObject.AddComponent<AudioSource>();
+            _sfxPlayers[i].outputAudioMixerGroup = group[2];
+            print(group[2]);
             _sfxPlayers[i].playOnAwake = false;
             _sfxPlayers[i].loop = false;
         }
@@ -52,8 +61,33 @@ public class AudioManager : Singleton<AudioManager>
         for (int i = 0; i < sfxChannels; i++)
         {
             int loopIndex = (i + _channelIndex) % sfxChannels;
+
+            if (_sfxPlayers[loopIndex].isPlaying)
+            {
+                continue;
+            }
+
+            _channelIndex = loopIndex;
+            _sfxPlayers[_channelIndex].clip = _sfxClips[(int)sfx];
+            _sfxPlayers[_channelIndex].Play();
+            break;
         }
-        _sfxPlayers[0].clip = _sfxClips[(int)sfx];
-        _sfxPlayers[0].Play();
+    }
+
+    private void EndPlaySfx()
+    {
+
+    }
+
+    public void PlayBgm(Bgm bgm)
+    {
+        int random = 0;
+        if (bgm == Bgm.Lobby)
+        {
+            random = Random.Range(0, 3);
+        }
+
+        _bgmPlayer.clip = _bgmClips[(int)bgm + random];
+        _bgmPlayer.Play();
     }
 }

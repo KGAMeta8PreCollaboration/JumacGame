@@ -5,47 +5,49 @@ using UnityEngine.UI;
 
 namespace LobbyUI
 {
-	public class MainPage : Page
-	{
-		private Button _optionButton;
-		[SerializeField] private SoundSettingsPopup _soundSettingsPopup;
+    public class MainPage : Page
+    {
+        private Button _optionButton;
+        [SerializeField] private SoundSettingsPopup _soundSettingsPopup;
 
-		private void Awake()
-		{
-			_optionButton = transform.Find("OptionButton").GetComponent<Button>();
-		}
+        private void Awake()
+        {
+            _optionButton = transform.Find("OptionButton").GetComponent<Button>();
+        }
 
-		private void Start()
-		{
-			AddButtonListener();
-			if (_soundSettingsPopup.CanLoadVolume())
-			{
-				_soundSettingsPopup.LoadVolume();
-			}
-			else
-			{
-				_soundSettingsPopup.InitVolume();
-			}
-		}
+        private void Start()
+        {
+            AddButtonListener();
+            if (_soundSettingsPopup.CanLoadVolume())
+            {
+                _soundSettingsPopup.LoadVolume();
+            }
+            else
+            {
+                _soundSettingsPopup.InitVolume();
+            }
 
-		private void OnDestroy()
-		{
-			RemoveButtonListener();
-		}
+            AudioManager.Instance.PlayBgm(Bgm.Lobby);
+        }
 
-		private void OptionButtonClick()
-		{
-			PopupManager.Instance.PopupOpen<OptionPopup>();
-		}
+        private void OnDestroy()
+        {
+            RemoveButtonListener();
+        }
 
-		private void AddButtonListener()
-		{
-			_optionButton.onClick.AddListener(OptionButtonClick);
-		}
+        private void OptionButtonClick()
+        {
+            PopupManager.Instance.PopupOpen<OptionPopup>();
+        }
 
-		private void RemoveButtonListener()
-		{
-			_optionButton.onClick.RemoveListener(OptionButtonClick);
-		}
-	}
+        private void AddButtonListener()
+        {
+            _optionButton.onClick.AddListener(OptionButtonClick);
+        }
+
+        private void RemoveButtonListener()
+        {
+            _optionButton.onClick.RemoveListener(OptionButtonClick);
+        }
+    }
 }

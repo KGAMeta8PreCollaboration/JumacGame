@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/04.Level/Scenes/DES.unity
     guid: c7eaa011edb3e6a4f97fd500d8412545
   - enabled: 1
+    path: Assets/04.Level/Scenes/SoundSystem.unity
+    guid: c6afdfbaeaa6bfe48b418bb80240a6bf
+  - enabled: 1
     path: Assets/04.Level/Scenes/OmokScene.unity
     guid: 327f9bc4817ae7f44aa1692a94560d2d
   - enabled: 1
