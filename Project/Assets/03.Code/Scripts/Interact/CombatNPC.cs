@@ -46,7 +46,9 @@ public class CombatNPC : ButtonInteractable
 
     private void CombatSelect()
     {
+        Stat playerStat = FindObjectOfType<Stat>();
         _dialogueLoader.LoadDialogue(_combatDialogue, () => SceneManager.LoadScene(nextScene));
+        //CombatSpawnManager.Instance.SetCombatData(LobbyFirebaseManager.Instance.logInUserData, playerStat, )
     }
 
     private void NonCombatSelect()
