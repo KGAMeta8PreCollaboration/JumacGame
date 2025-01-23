@@ -153,7 +153,7 @@ MonoBehaviour:
   playerTransform: {fileID: 8377678205340656516}
   objectTofollow: {fileID: 4410274712165193574}
   followSpeed: 5
-  sensitivity: 100
+  sensitivity: 20
   clampAngle: 80
   realCamera: {fileID: 3222511660276853529}
   dirNormalized: {x: 0, y: 0, z: 0}
@@ -161,7 +161,7 @@ MonoBehaviour:
   minDistance: 2
   maxDistance: 10
   finalDistance: 5
-  smoothness: 10
+  smoothness: 1000
 --- !u!1 &2687801028511242078
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +177,8 @@ GameObject:
   - component: {fileID: 4827627022445300040}
   - component: {fileID: 1946727743653673845}
   - component: {fileID: 3022692299681294686}
+  - component: {fileID: 5836643991444982815}
+  - component: {fileID: 3070593344986456616}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -314,10 +316,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad2e7a0bf742c242a2a86bf10140488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  username: 
+  UID: 
+  race: 
+  speed: 5
   jumpPower: 5
-  rotateTransform: {fileID: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
+  characterList: []
 --- !u!114 &3022692299681294686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,11 +449,66 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ba0f7d80-11bc-42b1-9310-ae4feb727cf7
+    m_ActionName: Dialogue/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b77320e2-1fb0-4429-be89-2a71e2ca6614
+    m_ActionName: Test/Z[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e6481416-9d04-432d-bd31-88bbc383e023
+    m_ActionName: Test/X[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92eb9018-5218-45fc-82e7-abff53de9bbd
+    m_ActionName: Test/C[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2b0c54cf-2c45-4d48-a1cb-e4f0906ad3f1
+    m_ActionName: TestJegi/Touch[/Mouse/leftButton,/Device Simulator Touchscreen/primaryTouch/tap]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!135 &5836643991444982815
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687801028511242078}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.99999994
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3070593344986456616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687801028511242078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c07ca6a7cece04cb3b0038912feff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactView: {fileID: 2606248848039972644, guid: 01a5e4791231d674996c20f4a59b7f5b, type: 3}
+  radius: 2.5
 --- !u!1 &3369504205727144922
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,8 +640,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.46, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8377678205340656516}
   - {fileID: 7565695738301362158}
@@ -651,7 +712,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 5000
   field of view: 40
   orthographic: 0

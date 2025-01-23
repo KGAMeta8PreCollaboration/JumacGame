@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class LocalPlayer : MonoBehaviour
 {
-    public string username;
+    public string nickname;
     public string UID;
     public string race;
     public float speed = 5f;
@@ -13,6 +13,8 @@ public class LocalPlayer : MonoBehaviour
     private Vector3 dir;
     public Vector3 moveDirection = Vector3.zero;
     public Rigidbody rb;
+
+    private Stat _stat;
     private bool _isJump;
 
     [SerializeField] private List<GameObject> characterList;
@@ -29,7 +31,7 @@ public class LocalPlayer : MonoBehaviour
     public void Init(string uid, string nickname, string race)
     {
         UID = uid;
-        username = nickname;
+        this.nickname = nickname;
         this.race = race;
         if (UserRace.human.ToString() == race)
             characterList[0].SetActive(true);
@@ -40,6 +42,7 @@ public class LocalPlayer : MonoBehaviour
         else
             characterList[3].SetActive(true);
     }
+    
     
     public Vector3 position
     {
@@ -57,8 +60,8 @@ public class LocalPlayer : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        _stat = GetComponent<Stat>();
         _isJump = false;
-
     }
 
     public void OnMove(InputAction.CallbackContext context)
