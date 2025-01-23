@@ -39,19 +39,16 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		print("OnPointerDown");
 		SetHandlePosition(eventData.position);
 	}
 	
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		print("OnPointerUp");
 		SetHandlePosition(_startPosition);
 	}
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		print("OnDrag");
 		SetHandlePosition(eventData.position);
 	}
 	

@@ -16,6 +16,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     public FirebaseUser User { get; private set; }
 
     public ChatUserData chatUserData;
+    public LogInUserData logInUserData;
 
     private DatabaseReference _dbChatRef;
     private DatabaseReference _dbUserRef;
@@ -25,12 +26,11 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     private EventHandler<ChildChangedEventArgs> _childAddedHandler;
 
     private RoomData _roomData;
-    private LogInUserData _logInUserData;
 
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
+        //DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
     }
 
     private async void Start()
@@ -47,15 +47,24 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             if (logInUserSnapshot.Exists)
             {
                 string logInUserJson = logInUserSnapshot.GetRawJsonValue();
-                _logInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
+                this.logInUserData = JsonConvert.DeserializeObject<LogInUserData>(logInUserJson);
 
                 chatUserData = new ChatUserData
                 {
-                    nickname = _logInUserData.nickname,
-                    id = _logInUserData.id,
-                    serverName = _logInUserData.serverName,
-                    timestamp = _logInUserData.timestamp
+                    nickname = this.logInUserData.nickname,
+                    id = this.logInUserData.id,
+                    serverName = this.logInUserData.serverName,
+                    timestamp = this.logInUserData.timestamp
                 };
+
+                _dbRoomRef = Database.GetReference("omokuserdata")
+                .Child("rooms")
+                .Child(chatUserData.serverName);
+
+                if (_dbRoomRef == null)
+                {
+                    Debug.LogWarning("룸 참조 실패");
+                }
             }
             else
             {
@@ -75,7 +84,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbChatRef = Database.GetReference(messageData.SenderServer).Child("chats");
+            _dbChatRef = Database.GetReference("chats").Child(chatUserData.serverName);
             string key = _dbChatRef.Push().Key;
 
             print($"메시지 보낸사람 Id: {messageData.SenderId}");
@@ -91,12 +100,14 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         }
     }
 
-    public void ReceiveMessage(Action<MessageData> callback)
+    public void ReceiveMessage(Action<MessageData> callback = null)
     {
+        print("일단 연결은 됨");
         try
         {
-            _dbChatRef = Database.GetReference(chatUserData.serverName).Child("chats");
+            _dbChatRef = Database.GetReference("chats").Child(chatUserData.serverName);
 
+            //이미 이벤트가 있으면 전에 있던 이벤트를 해제
             if (_childAddedHandler != null)
             {
                 _dbChatRef.ChildAdded -= _childAddedHandler;
@@ -106,6 +117,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
             _childAddedHandler = (sender, args) =>
                 {
+                    print("메시지의 변화도 감지함");
                     if (args.Snapshot.Exists)
                     {
                         string json = args.Snapshot.GetRawJsonValue();
@@ -122,6 +134,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             _dbChatRef.OrderByChild("TimeStamp")
                 .StartAt(logInTime)
                 .ChildAdded += _childAddedHandler;
+            print("시간으로도 감지함");
         }
         catch (Exception e)
         {
@@ -133,7 +146,10 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
+            //_dbRoomRef = Database.GetReference("omokuserdata")
+            //    .Child("rooms")
+            //    .Child(chatUserData.serverName);
+
             string roomKey = _dbRoomRef.Push().Key;
 
             print($"방장의 서버 이름 : {chatUserData.serverName}");
@@ -163,9 +179,8 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbRoomRef = Database.GetReference(chatUserData.serverName)
-                .Child("rooms")
-                .Child(roomData.roomKey);
+            DatabaseReference deleteRoomData = _dbRoomRef.Child(roomData.roomKey);
+
             await _dbRoomRef.RemoveValueAsync();
         }
         catch (Exception e)
@@ -178,7 +193,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
+            //_dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
             DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
 
             List<RoomData> waitingRoomList = new List<RoomData>();
@@ -213,7 +228,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbRoomRef = Database.GetReference(chatUserData.serverName).Child($"rooms");
+            //_dbRoomRef = Database.GetReference(chatUserData.serverName).Child($"rooms");
             DataSnapshot roomSnapshot = await _dbRoomRef.Child(roomData.roomKey).GetValueAsync();
 
             if (roomSnapshot.Exists)
@@ -263,10 +278,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     public void MonitorRoomState(RoomData roomData)
     {
-        DatabaseReference roomStateRef = Database.GetReference(chatUserData.serverName)
-            .Child($"rooms")
-            .Child(roomData.roomKey)
-            .Child("state");
+        DatabaseReference roomStateRef = _dbRoomRef.Child(roomData.roomKey).Child("state");
 
         roomStateRef.ValueChanged += async (sender, args) =>
         {
@@ -285,12 +297,13 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
                     if (newState == RoomState.Playing)
                     {
-                        DatabaseReference lastRoomRef = Database.GetReference(chatUserData.serverName)
-                        .Child("rooms")
-                        .Child(roomData.roomKey);
+                        //DatabaseReference lastRoomRef = Database.GetReference(chatUserData.serverName)
+                        //.Child("rooms")
+                        //.Child(roomData.roomKey);
 
                         //DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
 
+                        print("일단 Playing으로 상태 바뀜");
                         SceneManager.LoadScene("OmokScene");
 
                         //string json = snapshot.GetRawJsonValue();

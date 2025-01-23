@@ -53,6 +53,7 @@ public class ItemPopup : MonoBehaviour
 	
 	private void EquipButtonClick()
 	{
+		print("EquipButtonClick");
 		inventoryPanel.EquipItem(slotNumber);
 	}
 	

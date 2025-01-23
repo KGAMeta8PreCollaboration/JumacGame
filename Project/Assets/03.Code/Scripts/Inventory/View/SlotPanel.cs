@@ -18,7 +18,6 @@ public class SlotPanel : MonoBehaviour, IPointerClickHandler
     
     public void SetItem(Item item)
     {
-        print("SlotPanel SetItem");
         this.item = item;
         isOccupied = true;
         icon = Instantiate(item.icon, transform);

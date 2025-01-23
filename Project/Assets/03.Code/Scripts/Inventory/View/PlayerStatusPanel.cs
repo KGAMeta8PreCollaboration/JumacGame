@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,11 @@ public class PlayerStatusPanel : MonoBehaviour
 	public Transform weaponSlot;
 	public Transform armorSlot;
 	public Transform accessorySlot;
+
+	public TextMeshProUGUI attackText;
+	public TextMeshProUGUI defenseText;
+	public TextMeshProUGUI hpText;
+	public TextMeshProUGUI luckText;
 	
 	private Image _weaponIcon;
 	private Image _armorIcon;
@@ -39,16 +45,10 @@ public class PlayerStatusPanel : MonoBehaviour
 	public void UpdateUnequipItem(EquipItem item)
 	{
 		if (item is Weapon weaponItem)
-		{
 			Destroy(_weaponIcon.gameObject);
-		}
 		else if (item is Armor armorItem)
-		{
 			Destroy(_armorIcon.gameObject);
-		}
 		else if (item is Accessory accessoryItem)
-		{
 			Destroy(_accessoryIcon.gameObject);
-		}
 	}
 }

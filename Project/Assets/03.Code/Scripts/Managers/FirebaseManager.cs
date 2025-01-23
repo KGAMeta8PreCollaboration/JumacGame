@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Firebase.Auth;
 using Firebase;
 using System;
-using System.Threading.Tasks;
 using Firebase.Database;
-using UnityEngine.UI;
-using Newtonsoft.Json;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -18,6 +13,8 @@ public class FirebaseManager : MonoBehaviour
     public DatabaseReference LogInUsersRef => Database.GetReference("loginusers");
     public DatabaseReference LobbyUsersRef => Database.GetReference("lobby");
     public DatabaseReference LeaderBoardRef => Database.GetReference("leaderboard");
+    public DatabaseReference StatRef => Database.GetReference("stat");
+    public DatabaseReference InventoryRef => Database.GetReference("inventory");
 
     private async void Start()
     {

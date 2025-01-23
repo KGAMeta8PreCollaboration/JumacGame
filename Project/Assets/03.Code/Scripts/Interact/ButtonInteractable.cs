@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +7,20 @@ using UnityEngine.UI;
 
 public abstract class ButtonInteractable : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Button _interactionButtonPrefab;
+    protected string buttonName;
+    [SerializeField] protected InteractionButton _interactionButtonPrefab;
+    [HideInInspector] public InteractionButton interactionButton;
 
     public void Interact(Interactor interactor)
     {
-        Button interactButton = Instantiate<Button>(_interactionButtonPrefab, interactor.interactView);
-        interactButton.onClick.AddListener(InteractionButtonClick);
+        interactionButton = Instantiate<InteractionButton>(_interactionButtonPrefab, interactor.interactView);
 
-        interactor.onExitAction = () => Destroy(interactButton.gameObject);
+        interactionButton.SetTitle(buttonName);
+
+        Button button = interactionButton.GetComponent<Button>();
+
+        button.onClick.AddListener(InteractionButtonClick);
+        button.onClick.AddListener(interactor.DestroyButtonAll);
     }
 
     protected abstract void InteractionButtonClick();

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
 using UnityEngine;
@@ -155,7 +154,7 @@ public class LobbyManager : MonoBehaviour
         if (myLobbyPlayer == null)
             return;
         
-        LobbyData.User user = new LobbyData.User(myLobbyPlayer.username,
+        LobbyData.User user = new LobbyData.User(myLobbyPlayer.nickname,
             new Vector3(myLobbyPlayer.transform.position.x, 
                     myLobbyPlayer.transform.position.y, 
                     myLobbyPlayer.transform.position.z));

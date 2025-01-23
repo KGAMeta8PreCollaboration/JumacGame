@@ -68,6 +68,8 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
 
     private IEnumerator HandleTimeCoroutine(TextMeshProUGUI timeText, bool isMyTimer)
     {
+        OmokUserData myData =
+                OmokFirebaseManager.Instance.amIHost ? OmokFirebaseManager.Instance.hostData : OmokFirebaseManager.Instance.guestData;
         while (_isOnGame)
         {
             TimeSpan lastTime = _turnEndTime - DateTime.Now;
@@ -80,15 +82,15 @@ public class LastTimeHandler : Singleton<LastTimeHandler>
                 //여기에서 타임 초과되면 나올 UI띄우기
                 if (isMyTimer)
                 {
-                    OmokFirebaseManager.Instance.UpdateOmokUserData(!amIWin);
+                    OmokFirebaseManager.Instance.UpdateUserResult(myData, !amIWin);
                     OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
-                    popup.AmIWinner(!amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
+                    popup.SetPopup(!amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
                 }
                 else
                 {
-                    OmokFirebaseManager.Instance.UpdateOmokUserData(amIWin);
+                    OmokFirebaseManager.Instance.UpdateUserResult(myData, amIWin);
                     OmokOneButtonPopup popup = OmokUIManager.Instance.PopupOpen<OmokOneButtonPopup>();
-                    popup.AmIWinner(amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
+                    popup.SetPopup(amIWin, OmokFirebaseManager.Instance.currentRoomData.betting);
                 }
                 _isOnGame = false;
                 yield break;

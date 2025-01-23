@@ -8,13 +8,12 @@ using UnityEngine.UI;
 
 public class LobbyUIPage : LobbyPage
 {
-    [SerializeField] private TextMeshProUGUI userNameText;
     [SerializeField] private Button goChatButton;
-    [SerializeField] private Button lobbyInButton; 
 
     private void OnEnable()
     {
         goChatButton.onClick.AddListener(OnClickGoChatButton);
+        //LobbyFirebaseManager.Instance.ReceiveMessage(SubscribeBubble);
     }
 
     private void OnDisable()
@@ -22,13 +21,18 @@ public class LobbyUIPage : LobbyPage
         goChatButton.onClick.RemoveAllListeners();
     }
 
+    private void Start()
+    {
+        LobbyFirebaseManager.Instance.ReceiveMessage(SubscribeBubble);
+    }
+
     private void OnClickGoChatButton()
     {
         UILobbyManager.Instance.PopupOpen<ChatPopup>();
     }
-    //
-    // private void OnClickGoOmokButton()
-    // {
-    //     UILobbyManager.Instance.PopupOpen<MakeOmokRoomPopup>();
-    // }
+
+    private void SubscribeBubble(MessageData messageData)
+    {
+        BubbleManager.Instance.MakeOtherBubble(messageData);
+    }
 }
