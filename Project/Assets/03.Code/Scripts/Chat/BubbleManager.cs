@@ -8,6 +8,7 @@ public class BubbleManager : Singleton<BubbleManager>
     public LocalPlayer _localPlayer;
     public List<RemotePlayer> _remotePlayerList;
     private bool isDone = false;
+    private CameraMovement main;
 
     protected override void Awake()
     {
@@ -17,7 +18,17 @@ public class BubbleManager : Singleton<BubbleManager>
     private void Start()
     {
         _localPlayer = FindObjectOfType<LocalPlayer>();
+        //Transform parent = _localPlayer.GetComponentInParent<Transform>();
+        //main = parent.GetComponentInChildren<CameraMovement>();
     }
+
+    //private IEnumerator wait()
+    //{
+    //    yield return new WaitForSeconds(2f);
+    //    _localPlayer = FindObjectOfType<LocalPlayer>();
+    //    Transform parent = _localPlayer.GetComponentInParent<Transform>();
+    //    main = parent.GetComponentInChildren<CameraMovement>();
+    //}
 
     public void MakeMyBubble(MessageData messageData)
     {
@@ -32,6 +43,7 @@ public class BubbleManager : Singleton<BubbleManager>
     public void MakeOtherBubble(MessageData messageData)
     {
         FindRemotePlayer();
+        _localPlayer = FindObjectOfType<LocalPlayer>();
 
         foreach (RemotePlayer remotePlayer in _remotePlayerList)
         {
@@ -40,7 +52,20 @@ public class BubbleManager : Singleton<BubbleManager>
                 Transform parent = remotePlayer.transform;
                 BubblePrefab bubble = Instantiate(bubblePrefab, parent);
                 bubble.SetText(messageData.Content);
+
+                //Camera main = _localPlayer.GetComponent<Camera>();
+
+                if (main == null)
+                {
+                    print("카메라 안달려있음");
+                }
                 bubble.transform.LookAt(_localPlayer.transform);
+
+                Vector3 euler = bubble.transform.rotation.eulerAngles;
+                euler.x = 0f;
+                euler.y = 180f;
+
+                bubble.transform.rotation = Quaternion.Euler(euler);
             }
         }
 

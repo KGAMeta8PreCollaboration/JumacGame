@@ -15,7 +15,7 @@ public class ChatPopup : LobbyPopup
 
     private void Start()
     {
-        LobbyFirebaseManager.Instance.ReceiveMessage(ReceiveMessage);
+        LobbyFirebaseManager.Instance.ReceiveMessage(MakeTextPrefab);
     }
 
     protected override void OnEnable()
@@ -48,7 +48,7 @@ public class ChatPopup : LobbyPopup
         chatInputField.text = string.Empty;
     }
 
-    private void ReceiveMessage(MessageData messageData)
+    private void MakeTextPrefab(MessageData messageData)
     {
         string sender = LobbyFirebaseManager.Instance.chatUserData.id;
         MessagePrefab messagePrefab = sender == messageData.SenderId
