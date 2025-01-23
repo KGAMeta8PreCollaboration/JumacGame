@@ -107,6 +107,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         {
             _dbChatRef = Database.GetReference("chats").Child(chatUserData.serverName);
 
+            //이미 이벤트가 있으면 전에 있던 이벤트를 해제
             if (_childAddedHandler != null)
             {
                 _dbChatRef.ChildAdded -= _childAddedHandler;
