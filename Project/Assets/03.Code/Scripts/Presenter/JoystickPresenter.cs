@@ -7,8 +7,8 @@ public class JoystickPresenter : MonoBehaviour
 
 	private void Start()
 	{
-		_joystick = FindObjectOfType<Joystick>();
-		_localPlayer = FindObjectOfType<LocalPlayer>();
+		_joystick = FindObjectOfType<Joystick>(true);
+		_localPlayer = FindObjectOfType<LocalPlayer>(true);
 	}
 
 	private void Update()

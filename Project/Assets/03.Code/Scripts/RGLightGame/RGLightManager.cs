@@ -148,20 +148,19 @@ namespace Minigame.RGLight
 			}
 		}
 
-		private void OnSuccess()
-		{
-			SetMoney(defaultMoney + _addMoney);
-			print(defaultMoney + _addMoney);
-			SetScore(player.PlayerDistanceTracker.GetScore());
+        private void OnSuccess()
+        {
+            SetMoney(defaultMoney + _addMoney);
+            SetScore(player.PlayerDistanceTracker.GetScore());
 
 			string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
 			PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("승리하였소", durationTime, defaultMoney, EndGame);
 		}
 
-		private void OnDefeat()
-		{
-			SetMoney(defaultMoney);
-			SetScore(player.PlayerDistanceTracker.GetScore());
+        private void OnDefeat()
+        {
+            SetMoney(_addMoney);
+            SetScore(player.PlayerDistanceTracker.GetScore());
 
 			string durationTime = ConvertToMinutesAndSeconds(TimeDiff);
 			PopupManager.Instance.PopupOpen<GameResultPopup>().SetPopup("형편 없이 졌소", durationTime, defaultMoney, EndGame);

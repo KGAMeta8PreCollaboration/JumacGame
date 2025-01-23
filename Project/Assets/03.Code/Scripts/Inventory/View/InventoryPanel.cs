@@ -9,12 +9,10 @@ public class InventoryPanel : MonoBehaviour
 	public ItemPopup itemPopup;
 	
 	public event Action<int> OnRemoveItem;
-	public event Action<int> OnEquipItem;
+	public event Action<int, bool> OnEquipItem;
 	public event Action<int> OnUnequipItem;
 	
 	private List<SlotPanel> slotPanels = new List<SlotPanel>();
-
-	
 	
 	private void Start()
 	{
@@ -22,6 +20,7 @@ public class InventoryPanel : MonoBehaviour
 			CreateSlotPanel(i);
 		
 		itemPopup.inventoryPanel = this;
+		ClosePanel();
 	}
 
 	public void AddItem(int slotNumber, Item item)
@@ -45,7 +44,6 @@ public class InventoryPanel : MonoBehaviour
 		OnRemoveItem?.Invoke(slotNumber);
 	}
 
-
 	private void CreateSlotPanel(int slotNumber)
 	{
 		GameObject itemSlot = Instantiate(itemSlotPrefab, itemSlotParent);
@@ -66,7 +64,8 @@ public class InventoryPanel : MonoBehaviour
 	}
 	public void EquipItem(int slotNumber)
 	{
-		OnEquipItem?.Invoke(slotNumber);
+		print($"EquipButtonClick : {OnEquipItem}");
+		OnEquipItem?.Invoke(slotNumber, true);
 	}
 	
 	public void UnequipItem(int slotNumber)
