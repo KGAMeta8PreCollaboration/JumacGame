@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Test
   prefab: {fileID: 8701771711470164297, guid: 3e3c73736bd94ef4ba7e1f626e4758e0, type: 3}
-  attack: 10
-  defense: 10
-  health: 10
+  atk: 10
+  def: 10
+  hp: 10
   luck: 10

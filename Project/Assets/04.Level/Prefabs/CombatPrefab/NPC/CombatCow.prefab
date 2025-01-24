@@ -509,6 +509,7 @@ GameObject:
   - component: {fileID: 4627238096121926353}
   - component: {fileID: 3285275885118247784}
   - component: {fileID: 1434534834389672802}
+  - component: {fileID: 7123364396261905625}
   m_Layer: 0
   m_Name: CombatCow
   m_TagString: Untagged
@@ -585,3 +586,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7123364396261905625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8701771711470164297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c5d36fe2850984082bd9931972049d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nickName: 
+  atk: 0
+  def: 0
+  hp: 0
+  luck: 0
+  maxHp: 0
+  stopDistance: 0
+  me: {fileID: 4472965716043209073, guid: fc79c4e72c0885449a15462804c871ad, type: 3}
+  target: {fileID: 5943272920044790761, guid: 342c259d8d758c4498b77ab7c2271b10, type: 3}
+  isAtkEnd: 0
+  isDead: 0

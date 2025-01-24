@@ -7,8 +7,9 @@ public class CombatNPCData : ScriptableObject
 {
     public string npcName;
     public GameObject prefab;
-    public float attack;
-    public float defense;
-    public float health;
+    public float atk;
+    public float def;
+    public float hp;
     public float luck;
+    public int gold;
 }
