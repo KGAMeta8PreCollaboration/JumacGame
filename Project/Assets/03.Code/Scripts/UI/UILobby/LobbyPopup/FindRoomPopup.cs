@@ -46,8 +46,11 @@ public class FindRoomPopup : LobbyPopup
 
         foreach (RoomData roomData in waitingRoomList)
         {
-            GameObject roomObj = Instantiate(waitingRoomPrefab, roomPrefabArea);
-            roomObj.GetComponent<WaitingRoomPrefab>().SetInfo(roomData);
+            if (roomData.host != LobbyFirebaseManager.Instance.chatUserData.id)
+            {
+                GameObject roomObj = Instantiate(waitingRoomPrefab, roomPrefabArea);
+                roomObj.GetComponent<WaitingRoomPrefab>().SetInfo(roomData);
+            }
         }
     }
 

@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaitingPopup : LobbyPopup
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI elapsedTimeText;
+    [SerializeField] private Button popupCloseButton;
 
     private DateTime creationTime;
 
@@ -16,12 +18,14 @@ public class WaitingPopup : LobbyPopup
     protected override void OnEnable()
     {
         base.OnEnable();
+        popupCloseButton.onClick.AddListener(CloseButtonClick);
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
         StopCoroutine(UpdateElapsedTimeCoroutine());
+        popupCloseButton.onClick.RemoveListener(CloseButtonClick) ;
     }
 
     public void SetWaitingRoom(RoomData roomData, DateTime time)
