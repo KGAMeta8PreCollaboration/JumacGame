@@ -258,9 +258,11 @@ public class JegiGameManager : Singleton<JegiGameManager>
         return reward;
     }
 
+    public string nextSceneName = "YooLobby";
+    
     public void GoLobby()
     {
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene(nextSceneName);
     }
 }
 

@@ -768,6 +768,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
     //    exitRef.cancel();
     //}
 
+    public string nextSceneName = "YooLobby";
 
     public async void ExitGame(bool isSurrender)
     {
@@ -792,7 +793,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             }
 
             await _dbRoomRef.Child("state").SetValueAsync((int)RoomState.Finished);
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene(nextSceneName);
         }
         catch (Exception e)
         {

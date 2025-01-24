@@ -350,7 +350,7 @@ MonoBehaviour:
   nickname: 
   UID: 
   race: 
-  speed: 10
+  speed: 3
   jumpPower: 40
   moveDirection: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
