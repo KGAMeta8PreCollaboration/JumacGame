@@ -10,10 +10,11 @@ public class GoldSpawner : MonoBehaviour
 
     public void Spawn(Vector3 cageCenter, int count)
     {
+        Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
         for (int i = 0; i < count; i++)
         {
             Vector3 randomPosition = GetRandomPositionInCage(cageCenter);
-            Instantiate(_goldPrefab, randomPosition, Quaternion.identity);
+            Instantiate(_goldPrefab, randomPosition, rotation);
         }
     }
 
@@ -21,7 +22,7 @@ public class GoldSpawner : MonoBehaviour
     {
         float randomX = Random.Range(center.x - spawnSize.x / 2, center.x + spawnSize.x / 2);
         float randomZ = Random.Range(center.z - spawnSize.z / 2, center.z + spawnSize.z / 2);
-        float fixedY = center.y;
+        float fixedY = 1f;
 
         return new Vector3(randomX, fixedY, randomZ);
     }
