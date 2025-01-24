@@ -193,4 +193,29 @@ public class LogInManager : MonoBehaviour
             return false;
         }
     }
+
+    public async Task<string> ServerPopulation(string serverName)
+    {
+        string @return = "0 / 100";
+        try
+        {
+
+            DataSnapshot snapshot = await GameManager.Instance.FirebaseManager.LobbyUsersRef.Child(serverName).GetValueAsync();
+            if (snapshot.Exists)
+            {
+                if (snapshot.HasChild("userlist"))
+                {
+                    long curPopulation = snapshot.Child("userlist").ChildrenCount;
+                    @return = $"{curPopulation} / 100";
+                    return @return;
+                }
+            }
+            return @return;
+        }
+        catch (Exception e)
+        {
+            print(e.Message);
+            return @return;
+        }
+    }
 }
