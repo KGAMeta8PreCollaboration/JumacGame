@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23163324f9b311846b56be5e16ec4f87, type: 3}
+  m_Name: Item_Weapon_Eonwoldo
+  m_EditorClassIdentifier: 
+  id: 11
+  buyPrice: 2000
+  itemName: "\uC5B8\uC6D4\uB3C4"
+  icon: {fileID: 4368570929676231594, guid: d20ffe6b0c9c2ea4d85dac1d10aa6920, type: 3}
+  descriptions:
+  - "\uCD08\uC2B9\uB2EC \uBAA8\uC591\uC758 \uCE7C\uB0A0\uC744 \uAC00\uC9C4 \uBB34\uAE30.
+    \uBA4B\uC73C\uB85C \uC801\uC744 \uC555\uB3C4\uD55C\uB2E4."
+  - "- \uACF5\uACA9\uB825 : 25"
+  damage: 25
+  defense: 0
+  luck: 0
+  health: 0

@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 747754793012381836}
   - component: {fileID: 8207204168820593954}
   m_Layer: 5
-  m_Name: SellGold
+  m_Name: Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

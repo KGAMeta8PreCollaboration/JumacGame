@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DialogueLoader : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class DialogueLoader : MonoBehaviour
     {
         if (_dialogueManager == null)
             _dialogueManager = FindObjectOfType<DialogueManager>();
-
         // StartCoroutine(StartDialogue());
     }
 
@@ -30,13 +30,5 @@ public class DialogueLoader : MonoBehaviour
     {
         _dialogueManager.SetDialogue(dialogue, afterAction);
         _dialogueManager.StartDialogue();
-        // afterAction.Invoke();
-        // _afterAction = afterAction;
-        // _dialogueManager.dialogueEndAction = _afterAction;
-        // _dialogueManager.StartDialogue(dialogue);
     }
-    // {
-    // 	// _dialogueManager.dialogueEndAction = _afterAction;
-    // 	// _dialogueManager.StartDialogue(dialogue);
-    // }
 }

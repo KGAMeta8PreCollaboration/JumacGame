@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53951fd87fbc0e4799ccadfcc9560dc, type: 3}
+  m_Name: Item_Ring_Finger
+  m_EditorClassIdentifier: 
+  id: 27
+  buyPrice: 3500
+  itemName: "\uC5FF\uBC18\uC9C0"
+  icon: {fileID: 7167473506634232828, guid: 38c8aa5d33004534db3b79777bba89fc, type: 3}
+  descriptions:
+  - "\uC5B4\uB518\uAC00 \uACF5\uACA9\uC131\uC774 \uB290\uAEF4\uC9C0\uB294 \uBC18\uC9C0. "
+  - "- \uACF5\uACA9\uB825 : 5"
+  - "- \uD589\uC6B4  : 20"
+  damage: 5
+  defense: 0
+  luck: 20
+  health: 0
