@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 424d4e098cfde5248b51a22ab239c925, type: 3}
+  m_Name: Item_Armor_10
+  m_EditorClassIdentifier: 
+  id: 22
+  buyPrice: 3000
+  itemName: "\uC804\uC131\uC758 \uC6A9\uD3EC"
+  icon: {fileID: 4522643171223903228, guid: a83eeb63bcb7249439d9d9a1e3f9b0c5, type: 3}
+  descriptions:
+  - "\uC870\uC120 \uCD5C\uACE0\uC758 \uC2E4\uB825\uC790\uB9CC\uC774 \uCC29\uC6A9\uD560
+    \uC218 \uC788\uB294 \uC6A9\uD3EC. \uC804\uD22C\uC5D0\uC11C\uC758 \uC704\uC5C4\uC744
+    \uADF9\uB300\uD654\uD55C\uB2E4."
+  - "- \uBC29\uC5B4\uB825 : 10"
+  - "- \uCCB4\uB825 : 50"
+  damage: 0
+  defense: 10
+  luck: 0
+  health: 50

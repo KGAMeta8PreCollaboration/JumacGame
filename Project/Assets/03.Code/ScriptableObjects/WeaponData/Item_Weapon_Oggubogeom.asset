@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23163324f9b311846b56be5e16ec4f87, type: 3}
+  m_Name: Item_Weapon_Oggubogeom
+  m_EditorClassIdentifier: 
+  id: 9
+  buyPrice: 1500
+  itemName: "\uC625\uAD6C\uBCF4\uAC80"
+  icon: {fileID: 9078074936507108569, guid: 5362596ae96e3644e9e6cf0e883c4c64, type: 3}
+  descriptions:
+  - "\uC758\uC7A5\uC6A9 \uAD00\uC81C \uB3C4\uAC80. \uAC15\uB825\uD55C \uD798\uACFC
+    \uC544\uB984\uB2E4\uC6C0\uC744 \uB3D9\uC2DC\uC5D0 \uC9C0\uB154\uB2E4."
+  - "- \uACF5\uACA9\uB825 : 22"
+  damage: 22
+  defense: 0
+  luck: 0
+  health: 0

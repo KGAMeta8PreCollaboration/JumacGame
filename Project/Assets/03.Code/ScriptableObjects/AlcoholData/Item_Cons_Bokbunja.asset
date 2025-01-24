@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 634deb32243d93149a2bec7277ade587, type: 3}
+  m_Name: Item_Cons_Bokbunja
+  m_EditorClassIdentifier: 
+  id: 33
+  buyPrice: 150
+  itemName: "\uBCF5\uBD84\uC790\uC8FC"
+  icon: {fileID: 4744856544559785244, guid: cbeb7a6fb85b85047a703b4efb07cbdb, type: 3}
+  descriptions:
+  - "\uB2EC\uCF64\uD55C \uB0C4\uC0C8\uAC00 \uB098\uB294 \uBCF5\uBD84\uC790\uC8FC."
+  - "- \uD589\uC6B4  : 25"
+  damage: 0
+  defense: 0
+  luck: 25
+  health: 0

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 424d4e098cfde5248b51a22ab239c925, type: 3}
+  m_Name: Item_Armor_09
+  m_EditorClassIdentifier: 
+  id: 21
+  buyPrice: 2000
+  itemName: "\uCCAD\uB8E1 \uAD00\uBCF5"
+  icon: {fileID: 4199407799680561913, guid: 47ad506d80c16f045bd0158f53c4f7f1, type: 3}
+  descriptions:
+  - "\uCCAD\uB8E1 \uBB38\uC591\uC774 \uC0C8\uACA8\uC9C4 \uAD00\uBCF5. \uCC29\uC6A9\uC790\uC5D0\uAC8C
+    \uC804\uC124 \uC18D \uC6A9\uC758 \uD798\uC744 \uBD80\uC5EC\uD55C\uB2E4."
+  - "- \uBC29\uC5B4\uB825 : 8"
+  - "- \uCCB4\uB825 : 30"
+  damage: 0
+  defense: 8
+  luck: 0
+  health: 30

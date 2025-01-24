@@ -15,7 +15,7 @@ public class SellItemButton : MonoBehaviour
 	private Button _sellButton;
 	private Shop _shop;
 	
-	private void Reset()
+	private void Awake()
 	{
 		_itemImage = transform.Find("Image").GetComponent<Image>();
 		_itemNameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();

@@ -1,9 +1,13 @@
+using System.Linq;
 using Firebase.Database;
 using TMPro;
 using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    [SerializeField] private SellItemButton sellItemButton;
+    [SerializeField] private Transform sellItemButtonParent;
+    
     // 플레이어의 골드
     public int gold;
     
@@ -17,9 +21,24 @@ public class Shop : MonoBehaviour
 
     private async void Init()
     {
-        DataSnapshot goldData = await GameManager.Instance.FirebaseManager.LogInUsersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/gold").GetValueAsync(); 
-        gold = int.Parse(goldData.Value.ToString());
-        _goldText.text = "$ : " + gold;
+        // DataSnapshot goldData = await GameManager.Instance.FirebaseManager.LogInUsersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/gold").GetValueAsync(); 
+        // gold = int.Parse(goldData.Value.ToString());
+        // _goldText.text = "$ : " + gold;
+        ItemData[] itemDatas = GameManager.Instance.ItemDataManager.itemDatas;
+
+        itemDatas.Where(itemData => itemData.buyPrice != -1).ToList().ForEach(itemData =>
+        {
+            SellItemButton sellItemButton = Instantiate(this.sellItemButton, sellItemButtonParent);
+            
+            if (itemData is WeaponData weaponData)
+                sellItemButton.SetItem(new Weapon(weaponData), weaponData.buyPrice);
+            else if (itemData is ArmorData armorData)
+                sellItemButton.SetItem(new Armor(armorData), armorData.buyPrice);
+            else if (itemData is AccessoryData accessoryData)
+                sellItemButton.SetItem(new Accessory(accessoryData), accessoryData.buyPrice);
+            else if (itemData is AlcoholData alcoholData)
+                sellItemButton.SetItem(new Alcohol(alcoholData), alcoholData.buyPrice);
+        });
     }
 
 

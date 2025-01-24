@@ -197,6 +197,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14162429}
   m_CullTransparentMesh: 1
+--- !u!224 &19156946 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6838970494954638514, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+  m_PrefabInstance: {fileID: 25642321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &25642321
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -365,6 +370,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -270
       objectReference: {fileID: 0}
+    - target: {fileID: 3525481391977942302, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+      propertyPath: sellItemButton
+      value: 
+      objectReference: {fileID: 3323790212334116003, guid: dd864c26f98ad564ab0e4d28789ba4df, type: 3}
+    - target: {fileID: 3525481391977942302, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+      propertyPath: sellItemButtonParent
+      value: 
+      objectReference: {fileID: 19156946}
     - target: {fileID: 3623299763289884104, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -654,7 +667,22 @@ PrefabInstance:
       value: -710
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4369733584629342453, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 5715661520747511811, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 8343513699379302139, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 3774491332155949558, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 1033715920185358167, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 2587815990278100417, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 409830549875092969, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 9142326426650973228, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 4376084814932322934, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 4617773931356865590, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 7149906275234739761, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 4468048392391291682, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 4700167076942988424, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 830054416068983778, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
+    - {fileID: 1049972848134108605, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6485135317603331969, guid: 8d3da72f15cb6ab4bbb751aed01c2a2c, type: 3}
       insertIndex: 1
@@ -3498,7 +3526,7 @@ GameObject:
   - component: {fileID: 991481258}
   - component: {fileID: 991481257}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ShopOpenButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

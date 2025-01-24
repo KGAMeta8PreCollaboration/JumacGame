@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23163324f9b311846b56be5e16ec4f87, type: 3}
+  m_Name: Item_Weapon_Pickaxe
+  m_EditorClassIdentifier: 
+  id: 7
+  buyPrice: 700
+  itemName: "\uACE1\uAD2D\uC774"
+  icon: {fileID: 3208313371296773789, guid: 0a9c4cfbf81a72141b041c24f8481145, type: 3}
+  descriptions:
+  - "\uB545\uC744 \uD30C\uB294 \uB370 \uC4F0\uC774\uB358 \uACE1\uAD2D\uC774. \uCC44\uAD11
+    \uAE30\uB2A5\uC740 \uAD6C\uD604\uB418\uC9C0 \uC54A\uC558\uB2E4."
+  - "- \uACF5\uACA9\uB825 : 17"
+  damage: 17
+  defense: 0
+  luck: 0
+  health: 0

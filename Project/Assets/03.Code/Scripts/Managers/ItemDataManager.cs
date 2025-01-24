@@ -8,7 +8,7 @@ using UnityEngine;
 public class ItemDataManager : MonoBehaviour
 {
 	[Header("모든 ItemData SO를 넣어주세요.")]
-	[SerializeField] private ItemData[] itemDatas;
+	public ItemData[] itemDatas;
 		
 	public Dictionary<int, int> itemDictionary = new Dictionary<int, int>();
 	public int equippedWeapon;
