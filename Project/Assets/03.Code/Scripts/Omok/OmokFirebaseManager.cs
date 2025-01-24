@@ -792,7 +792,7 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
             }
 
             await _dbRoomRef.Child("state").SetValueAsync((int)RoomState.Finished);
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("HeeLobby");
         }
         catch (Exception e)
         {
