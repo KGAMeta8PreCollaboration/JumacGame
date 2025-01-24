@@ -1,28 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TitlePage : Page
+public class TitlePage : Page, IPointerClickHandler
 {
-    [SerializeField] private Button signInButton;
-    [SerializeField] private Button signUpButton;
+    [SerializeField] private Button _signInButton;
+    [SerializeField] private Button _signUpButton;
 
-    private void OnEnable()
-    {
-        signInButton.onClick.AddListener(SignInButtonClick);
-        signUpButton.onClick.AddListener(SignUpButtonClick);
-    }
+    [SerializeField] private GameObject _buttonsObject;
+    [SerializeField] private Text _IntroText;
 
     private void Start()
     {
         AudioManager.Instance.PlayBgm(Bgm.Title);
+        _signInButton.onClick.AddListener(SignInButtonClick);
+        _signUpButton.onClick.AddListener(SignUpButtonClick);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        signInButton.onClick.RemoveListener(SignInButtonClick);
-        signUpButton.onClick.RemoveListener(SignUpButtonClick);
+        _signInButton.onClick.RemoveListener(SignInButtonClick);
+        _signUpButton.onClick.RemoveListener(SignUpButtonClick);
     }
 
     private void SignInButtonClick()
@@ -33,6 +33,13 @@ public class TitlePage : Page
 
     private void SignUpButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.ButtonPress);
         PopupManager.Instance.PopupOpen<SignUpPopup>();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        _IntroText.gameObject.SetActive(false);
+        _buttonsObject.SetActive(true);
     }
 }

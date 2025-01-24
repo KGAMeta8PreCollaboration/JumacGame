@@ -7,6 +7,12 @@ namespace Minigame.RGLight
     public class Gold : MonoBehaviour
     {
         public int moneyAmount;
+        public float rotateSpeed;
+
+        private void Update()
+        {
+            transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime);
+        }
 
         private void OnTriggerEnter(Collider other)
         {

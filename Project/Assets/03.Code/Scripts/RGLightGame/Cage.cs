@@ -6,8 +6,6 @@ public class Cage : MonoBehaviour
     public float width = 30f;
     public float height = 30f;
     public int gridSize = 3;
-    public GameObject blueSphere;
-    public GameObject redSphere;
 
     private List<Vector3> _cellCenters;
     private List<Vector3> _outerCellCenters;
@@ -36,7 +34,6 @@ public class Cage : MonoBehaviour
                     cageCenter.z - height / 2f + cellHeight * (row + 0.5f)
                 );
                 _cellCenters.Add(cellCenter);
-                Instantiate(blueSphere, cellCenter, Quaternion.identity);
             }
         }
     }
@@ -59,7 +56,6 @@ public class Cage : MonoBehaviour
             float z = cageCenter.z + height / 2f; // ���� Y = +15
             _outerCellCenters.Add(new Vector3(x, y, z));
             Vector3 cellCenter = new Vector3(x, y, z);
-            Instantiate(redSphere, cellCenter, Quaternion.identity);
         }
 
         // �ϴ�(�Ʒ��� Y = -15) ��ǥ ���
@@ -70,7 +66,7 @@ public class Cage : MonoBehaviour
             float z = cageCenter.z - height / 2f; // �Ʒ��� Y = -15
             _outerCellCenters.Add(new Vector3(x, y, z));
             Vector3 cellCenter = new Vector3(x, y, z);
-            Instantiate(redSphere, cellCenter, Quaternion.identity);
+
         }
 
         // ����(X = -15) ��ǥ ���
@@ -81,7 +77,7 @@ public class Cage : MonoBehaviour
             float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
             _outerCellCenters.Add(new Vector3(x, y, z));
             Vector3 cellCenter = new Vector3(x, y, z);
-            Instantiate(redSphere, cellCenter, Quaternion.identity);
+
         }
 
         // ������(X = +15) ��ǥ ���
@@ -92,7 +88,6 @@ public class Cage : MonoBehaviour
             float z = cageCenter.z - height / 2f + cellHeight * (row + 0.5f);
             _outerCellCenters.Add(new Vector3(x, y, z));
             Vector3 cellCenter = new Vector3(x, y, z);
-            Instantiate(redSphere, cellCenter, Quaternion.identity);
         }
     }
 
