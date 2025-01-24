@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23163324f9b311846b56be5e16ec4f87, type: 3}
+  m_Name: Item_Weapon_Frostmourne
+  m_EditorClassIdentifier: 
+  id: 12
+  buyPrice: 4000
+  itemName: "\uC11C\uB9AC\uD55C"
+  icon: {fileID: 4231345734208370795, guid: 3b8265afb1c0be748b731de18b123a4e, type: 3}
+  descriptions:
+  - "\uC11C\uB9AC\uD55C\uC774 \uAD76\uC8FC\uB838\uB2E4\u2026"
+  - "- \uACF5\uACA9\uB825 : 30"
+  - "- \uD589\uC6B4  : 10"
+  damage: 30
+  defense: 0
+  luck: 10
+  health: 0

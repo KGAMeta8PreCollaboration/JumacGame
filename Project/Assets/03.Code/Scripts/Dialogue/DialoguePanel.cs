@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class DialoguePanel : MonoBehaviour
 {
@@ -12,11 +13,10 @@ public class DialoguePanel : MonoBehaviour
 	{
 		_dialogueText = GetComponentInChildren<TextMeshProUGUI>();
 	}
-	
+
 	private void Start()
 	{
 		_dialogueText = GetComponentInChildren<TextMeshProUGUI>();
-		gameObject.SetActive(false);
 	}
 
 	public void SetDialogueText(string text)

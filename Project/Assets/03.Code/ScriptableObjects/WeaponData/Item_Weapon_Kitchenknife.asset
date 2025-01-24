@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23163324f9b311846b56be5e16ec4f87, type: 3}
+  m_Name: Item_Weapon_Kitchenknife
+  m_EditorClassIdentifier: 
+  id: 4
+  buyPrice: -1
+  itemName: "\uC2DD\uCE7C"
+  icon: {fileID: 8110692630650619000, guid: 51466c47efaf6d64e81f739aad2067cb, type: 3}
+  descriptions:
+  - "\uC8FC\uBAA8\uC758 \uC190\uB54C\uAC00 \uBB3B\uC740 \uBD80\uC5CC\uCE7C. \uC9E7\uC9C0\uB9CC
+    \uB0A0\uCE74\uB86D\uB2E4."
+  - "- \uACF5\uACA9\uB825 : 10"
+  damage: 10
+  defense: 0
+  luck: 0
+  health: 0

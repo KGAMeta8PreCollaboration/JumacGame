@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53951fd87fbc0e4799ccadfcc9560dc, type: 3}
+  m_Name: Item_Ring_Jade
+  m_EditorClassIdentifier: 
+  id: 23
+  buyPrice: -1
+  itemName: "\uC625\uBC18\uC9C0"
+  icon: {fileID: 6498031163654702442, guid: 81f57372435638845aa1fa4ef2a9c42d, type: 3}
+  descriptions:
+  - "\uC625\uC73C\uB85C \uB9CC\uB4E0 \uBC18\uC9C0."
+  - "- \uD589\uC6B4  : 5"
+  damage: 0
+  defense: 0
+  luck: 5
+  health: 0

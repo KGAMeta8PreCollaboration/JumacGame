@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 634deb32243d93149a2bec7277ade587, type: 3}
+  m_Name: Item_Cons_Makgeolli
+  m_EditorClassIdentifier: 
+  id: 30
+  buyPrice: 50
+  itemName: "\uB9C9\uAC78\uB9AC"
+  icon: {fileID: 4454986354199340255, guid: 43da25aaa62841548af95490b2be794d, type: 3}
+  descriptions:
+  - "\uC798 \uB9CC\uB4E4\uC5B4\uC9C4 \uB9C9\uAC78\uB9AC."
+  - "- \uD589\uC6B4  : 10"
+  damage: 0
+  defense: 0
+  luck: 10
+  health: 0

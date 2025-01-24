@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23163324f9b311846b56be5e16ec4f87, type: 3}
+  m_Name: Item_Weapon_Mace
+  m_EditorClassIdentifier: 
+  id: 6
+  buyPrice: 500
+  itemName: "\uB3C4\uB9AC\uAE68"
+  icon: {fileID: 2795592640431296631, guid: 9a41dd18269bb9546bc2474594c8b777, type: 3}
+  descriptions:
+  - "\uB0A0\uCE74\uB85C\uC6B4 \uAC00\uC2DC\uAC00 \uBC15\uD78C \uCCA0\uD1F4."
+  - "- \uACF5\uACA9\uB825 : 15"
+  damage: 15
+  defense: 0
+  luck: 0
+  health: 0
