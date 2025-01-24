@@ -13,6 +13,8 @@ public class ServerSelectPage : Page
     [SerializeField] private Text _hanyangPopulation;
     [SerializeField] private Text _gaeseongPopulation;
 
+    [SerializeField] private GameObject _loadingObject;
+
     private void OnEnable()
     {
 
@@ -42,6 +44,7 @@ public class ServerSelectPage : Page
     {
         if (await GameManager.Instance.LogInManager.SetServerName(name))
         {
+            _loadingObject.SetActive(true);
             SceneManager.LoadScene(lobbySceneName);
         }
         else
