@@ -12,6 +12,7 @@ public class MakeOmokRoomPopup : LobbyPopup
     protected override void OnEnable()
     {
         base.OnEnable();
+        PopupManager.Instance.PopupClose();
         makeRoomButton.onClick.AddListener(OnClickMakeRoomButton);
         findRoomButton.onClick.AddListener(OnClickFindRoomButton);
     }
