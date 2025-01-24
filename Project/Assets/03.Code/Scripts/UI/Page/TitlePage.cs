@@ -14,6 +14,11 @@ public class TitlePage : Page
         signUpButton.onClick.AddListener(SignUpButtonClick);
     }
 
+    private void Start()
+    {
+        AudioManager.Instance.PlayBgm(Bgm.Title);
+    }
+
     private void OnDisable()
     {
         signInButton.onClick.RemoveListener(SignInButtonClick);
@@ -22,6 +27,7 @@ public class TitlePage : Page
 
     private void SignInButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.ButtonPress);
         PopupManager.Instance.PopupOpen<SignInPopup>();
     }
 

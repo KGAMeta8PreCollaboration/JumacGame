@@ -21,9 +21,9 @@ namespace Minigame.RGLight
             _moveDistanceText.text = distance.ToString() + "m";
         }
 
-        public void SetHealth()
+        public void SetHealth(float value)
         {
-
+            _playerHealthBar.value = value;
         }
     }
 }

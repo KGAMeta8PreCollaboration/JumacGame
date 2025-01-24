@@ -72,7 +72,10 @@ public class RapidFire : Skill
 
         GameObject square = Instantiate(_squarePrefab, target, rotation);
 
-        yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
+        //yield return StartCoroutine(ExpandSquare(square, squareWidth, squareMaxHeight, squareGrowTime));
+        //test
+        yield return new WaitForSeconds(squareGrowTime);
+        //test
         Destroy(square);
 
         Vector3 NewP = new Vector3(target.x, 0.8f, target.z);
@@ -105,7 +108,7 @@ public class RapidFire : Skill
 
         square.transform.localScale = maxSize;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
     }
 }
 
