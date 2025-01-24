@@ -44,7 +44,7 @@ namespace Minigame.RGLight
         {
             if (RGLightManager.IsEndGame) return;
 
-            _playerAnimator.SetBool("Walk", _playerInputManager.InputMoveDir.magnitude >= 0.1f);
+            _playerAnimator.SetBool("Walk", _joystick.dir.magnitude >= 0.1f);
 
             Vector3 inputDir = new Vector3(-_joystick.dir.x, 0, -_joystick.dir.y);
             Move(inputDir);
