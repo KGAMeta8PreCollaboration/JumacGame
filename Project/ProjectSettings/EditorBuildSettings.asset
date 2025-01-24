@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/04.Level/Scenes/YOOLogin.unity
     guid: 0517549578a9a51449f70161830ae7fd
   - enabled: 1
-    path: Assets/04.Level/Scenes/DES/Lobby.unity
+    path: Assets/04.Level/Scenes/DES/PrevScenes/Lobby.unity
     guid: ff4cca08b94133549ae21b651b7a4602
   - enabled: 1
-    path: Assets/04.Level/Scenes/DES/Login.unity
+    path: Assets/04.Level/Scenes/DES/PrevScenes/Login.unity
     guid: 8c75f18c0e91ed04887e325c9e1d7892
   - enabled: 1
     path: Assets/04.Level/Scenes/RGLightGame.unity
