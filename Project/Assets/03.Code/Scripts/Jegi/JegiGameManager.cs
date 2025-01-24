@@ -265,10 +265,12 @@ public class JegiGameManager : Singleton<JegiGameManager>
         return reward;
     }
 
+    public string nextSceneName = "YooLobby";
+    
     public void GoLobby()
     {
         _pause = false;
-        SceneManager.LoadScene("HeeLobby");
+        SceneManager.LoadScene(nextSceneName);
     }
 }
 

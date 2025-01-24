@@ -66,6 +66,7 @@ GameObject:
   - component: {fileID: 1030994772}
   - component: {fileID: 1030994773}
   - component: {fileID: 1030994774}
+  - component: {fileID: 5684142881854176536}
   m_Layer: 0
   m_Name: SM_Wall01b
   m_TagString: Untagged
@@ -138,3 +139,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030994771}
   m_Mesh: {fileID: 4300000, guid: abc00000000015814127837994997516, type: 3}
+--- !u!65 &5684142881854176536
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030994771}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.32662386, y: 1.3100302, z: 2.1501029}
+  m_Center: {x: 0.16314518, y: 0.6534095, z: 1.0734862}
