@@ -10,6 +10,7 @@ public class LeaderBoardBtnInteract : ButtonInteractable
 	private void Start()
 	{
 		LeaderBoardManager = FindObjectOfType<LeaderBoardManager>(true);
+		buttonName = "랭킹 보기";
 	}
 	protected override void InteractionButtonClick()
 	{

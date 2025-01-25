@@ -52,6 +52,7 @@ public class JegiUIPage : JegiPage
     {
         JegiGameManager.Instance._pause = false;
         startButton.gameObject.SetActive(false);
+        //JegiUIManager.Instance.PopupOpen<JegiTimePopup>().StartTimer();
     }
 
     public void SetStartButton()
