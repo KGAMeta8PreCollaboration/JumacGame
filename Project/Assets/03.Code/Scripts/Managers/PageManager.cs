@@ -2,53 +2,73 @@ using LobbyUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PageManager : Singleton<PageManager>
 {
-    [Header("안이 비어있다면 Reset을 눌러주세용")]
-    [Header("첫번째 배열에는 반드시 맨 처음 열릴 Page가 와야합니다.")]
-    [SerializeField] private List<Page> _pages = new List<Page>();
+	[Header("게임 시작 시 Page 오브젝트가 켜져있어야 찾을 수 있음")]
+	[SerializeField] private List<Page> _pages = new List<Page>();
 
-    private void Start()
-    {
-        PageOpen(0);
-    }
+	protected override void Awake()
+	{
+		base.Awake();
+		DontDestroyOnLoad(gameObject);
+	}
 
-    public T PageOpen<T>() where T : Page
-    {
-        T @return = null;
-        foreach (Page page in _pages)
-        {
-            bool isActive = page is T;
-            page.gameObject.SetActive(isActive);
-            if (isActive) @return = page as T;
-        }
-        return @return;
-    }
+	private void Start()
+	{
+		Init();
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
 
-    public void PageOpen(int index)
-    {
-        Page selectPage = _pages[index];
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		Init();
+		Debug.Log($"Scene Loaded: {scene.name}, PageManager 초기화.");
+	}
 
-        foreach (Page page in _pages)
-        {
-            if (page == selectPage)
-            {
-                page.gameObject.SetActive(true);
-            }
-            else
-            {
-                page.gameObject.SetActive(false);
-            }
-        }
-    }
+	public T PageOpen<T>() where T : Page
+	{
+		T @return = null;
+		foreach (Page page in _pages)
+		{
+			bool isActive = page is T;
+			page.gameObject.SetActive(isActive);
+			if (isActive) @return = page as T;
+		}
+		return @return;
+	}
 
-    private void Reset()
-    {
-        Page[] foundPages = GameObject.FindObjectsOfType<Page>();
-        foreach (Page page in foundPages)
-        {
-            _pages.Add(page);
-        }
-    }
+	public void PageOpen(int index)
+	{
+		Page selectPage = _pages[index];
+
+		foreach (Page page in _pages)
+		{
+			if (page == selectPage)
+			{
+				page.gameObject.SetActive(true);
+			}
+			else
+			{
+				page.gameObject.SetActive(false);
+			}
+		}
+	}
+
+	private void Init()
+	{
+		_pages.Clear();
+		Page[] foundPages = GameObject.FindObjectsOfType<Page>();
+		foreach (Page page in foundPages)
+		{
+			_pages.Add(page);
+			page.gameObject.SetActive(page.IsDefault);
+		}
+	}
+
+	private void OnDestroy()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
 }
