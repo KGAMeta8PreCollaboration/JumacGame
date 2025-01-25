@@ -175,7 +175,9 @@ public class JegiGameManager : Singleton<JegiGameManager>
         {
             timingResult = "Miss";
             forceToAdd = -9.81f;
-            _isGameOver = true;
+
+            _jegi._isKicked = true;
+            //_isGameOver = true;
         }
         print($"timingResult : {timingResult}");
 
@@ -208,14 +210,19 @@ public class JegiGameManager : Singleton<JegiGameManager>
         }
 
         float randomAngle = Random.Range(angleRangeMin, angleRangeMax);
+        JudgeTextPrefab judgeText = Instantiate(judgePrefab, judgeTextArea);
+        RectTransform rt = judgeText.GetComponent<RectTransform>();
+        rt.position = _pointerPos;
+
+        judgeText.SetPrefab(timingResult);
         print($"{forceToAdd}");
         if (forceToAdd >= 0f)
         {
             _jegi.Kick(forceToAdd, randomAngle);
 
-            JudgeTextPrefab judgeText = Instantiate(judgePrefab, judgeTextArea);
-            RectTransform rt = judgeText.GetComponent<RectTransform>();
-            rt.position = _pointerPos;
+            //JudgeTextPrefab judgeText = Instantiate(judgePrefab, judgeTextArea);
+            //RectTransform rt = judgeText.GetComponent<RectTransform>();
+            //rt.position = _pointerPos;
 
             judgeText.SetPrefab(timingResult);
         }
@@ -258,9 +265,12 @@ public class JegiGameManager : Singleton<JegiGameManager>
         return reward;
     }
 
+    public string nextSceneName = "YooLobby";
+    
     public void GoLobby()
     {
-        SceneManager.LoadScene("Lobby");
+        _pause = false;
+        SceneManager.LoadScene(nextSceneName);
     }
 }
 
