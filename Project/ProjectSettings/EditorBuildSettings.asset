@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/04.Level/Scenes/SeoLogIn.unity
     guid: 138055e209104b24aae6716072d1384a
   - enabled: 1
+    path: Assets/04.Level/Scenes/SeoLobby.unity
+    guid: f7e1761f6bec9e34a9e52ee29967504e
+  - enabled: 1
     path: Assets/04.Level/Scenes/YooLobby.unity
     guid: dfdf5a790fa59ff42b1312636642a3a9
   - enabled: 1
