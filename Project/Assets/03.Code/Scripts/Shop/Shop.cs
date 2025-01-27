@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    [SerializeField] private SlotPanel slotPanelPrefab;
     [SerializeField] private SellItemButton sellItemButton;
     [SerializeField] private Transform sellItemButtonParent;
     
@@ -17,6 +18,7 @@ public class Shop : MonoBehaviour
     {
         _goldText = transform.Find("Gold").GetComponent<TextMeshProUGUI>();
         Init();
+        PullGold();
     }
 
     private async void Init()
@@ -40,7 +42,14 @@ public class Shop : MonoBehaviour
                 sellItemButton.SetItem(new Alcohol(alcoholData), alcoholData.buyPrice);
         });
     }
-
+    
+    private async void PullGold()
+    {
+        DataSnapshot goldData = await GameManager.Instance.FirebaseManager.LogInUsersRef.Child
+            ($"{GameManager.Instance.FirebaseManager.User.UserId}/gold").GetValueAsync(); 
+        gold = int.Parse(goldData.Value.ToString());
+        _goldText.text = "$ : " + gold;
+    }
 
     public void SellItem(EquipItem item, int price)
     {
