@@ -13,7 +13,7 @@ public class ItemPopup : MonoBehaviour
 	public Button unequipButton;
 	public Button discardButton;
 	
-	public InventoryPanel inventoryPanel;
+	[HideInInspector] public InventoryPanel inventoryPanel;
 	private int slotNumber;
 	
 	private void Reset()
