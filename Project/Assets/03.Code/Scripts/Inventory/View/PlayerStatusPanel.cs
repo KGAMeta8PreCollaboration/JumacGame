@@ -52,11 +52,11 @@ public class PlayerStatusPanel : MonoBehaviour
 	
 	public void UpdateUnequipItem(EquipItem item)
 	{
-		if (item is Weapon weaponItem)
+		if (item is Weapon weaponItem && _weaponIcon != null)
 			Destroy(_weaponIcon.gameObject);
-		else if (item is Armor armorItem)
+		else if (item is Armor armorItem && _armorIcon != null)
 			Destroy(_armorIcon.gameObject);
-		else if (item is Accessory accessoryItem)
+		else if (item is Accessory accessoryItem && _accessoryIcon != null)
 			Destroy(_accessoryIcon.gameObject);
 	}
 }

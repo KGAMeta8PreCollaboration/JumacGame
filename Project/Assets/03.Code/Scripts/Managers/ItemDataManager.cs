@@ -33,6 +33,7 @@ public class ItemDataManager : MonoBehaviour
 		string uid = GameManager.Instance.FirebaseManager.User.UserId;
 		if ((await inventoryRef.GetValueAsync()).Exists)
 		{
+			print("LoadItemDataToFirebase 데이터 있음");
 			DataSnapshot data = await inventoryRef.Child(uid).GetValueAsync();
 
 			InventoryData inventoryData = new InventoryData();

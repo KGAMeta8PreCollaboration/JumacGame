@@ -14,8 +14,9 @@ public class InventoryPanel : MonoBehaviour
 	
 	private List<SlotPanel> slotPanels = new List<SlotPanel>();
 	
-	private void Start()
+	private void Awake()
 	{
+		print("InventoryPanel Awake");
 		for (int i = 0; i < 20; i++)
 			CreateSlotPanel(i);
 		
@@ -25,8 +26,17 @@ public class InventoryPanel : MonoBehaviour
 
 	public void AddItem(int slotNumber, Item item)
 	{
+		print("InventoryPanel AddItem");
 		if (slotPanels.Count > slotNumber && !slotPanels[slotNumber].isOccupied)
 		{
+			slotPanels[slotNumber].SetItem(item);
+		}
+		if (slotPanels.Count <= slotNumber)
+		{
+			for (int i = slotPanels.Count; i < slotNumber + 5; i++)
+			{
+				CreateSlotPanel(i);
+			}
 			slotPanels[slotNumber].SetItem(item);
 		}
 	}
