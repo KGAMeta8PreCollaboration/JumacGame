@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Firebase.Database;
+using TMPro;
 using UnityEngine;
 
 public class InventoryPanel : MonoBehaviour
@@ -7,6 +10,7 @@ public class InventoryPanel : MonoBehaviour
 	public GameObject itemSlotPrefab;
 	public Transform itemSlotParent;
 	public ItemPopup itemPopup;
+	[SerializeField] private TextMeshProUGUI nameText;
 	
 	public event Action<int> OnRemoveItem;
 	public event Action<int, bool> OnEquipItem;
@@ -23,6 +27,31 @@ public class InventoryPanel : MonoBehaviour
 		itemPopup.inventoryPanel = this;
 		ClosePanel();
 	}
+	
+	private void Start()
+	{
+		StartCoroutine(CheckFirebaseLogin());
+	}
+
+	private IEnumerator CheckFirebaseLogin()
+	{
+		yield return new WaitUntil(() => GameManager.Instance.FirebaseManager.User != null);
+
+		SetNameToFirebaseUser();
+	}
+	
+	private async void SetNameToFirebaseUser()
+	{
+
+		DatabaseReference usersRef = GameManager.Instance.FirebaseManager.LogInUsersRef;
+		DataSnapshot nameDataSnapshot = 
+			await usersRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/nickname").GetValueAsync();
+		string name = nameDataSnapshot.Value.ToString();
+		print(name);
+		nameText.text = name;
+	}
+	
+	
 
 	public void AddItem(int slotNumber, Item item)
 	{
