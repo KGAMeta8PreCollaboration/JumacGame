@@ -932,14 +932,17 @@ MonoBehaviour:
     sentenceSpeed: 5
     skillCount: 3
     skillInterval: 1
+    youngheeSentenceSpeed: 14
   - maxDistance: 100
-    sentenceSpeed: 3
+    sentenceSpeed: 2.5
     skillCount: 4
     skillInterval: 0.7
+    youngheeSentenceSpeed: 13
   - maxDistance: 150
     sentenceSpeed: 2
     skillCount: 5
     skillInterval: 0.5
+    youngheeSentenceSpeed: 12
 --- !u!114 &-1887835838673895162
 MonoBehaviour:
   m_ObjectHideFlags: 0
