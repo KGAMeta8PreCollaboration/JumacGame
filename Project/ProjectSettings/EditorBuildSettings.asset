@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/04.Level/Scenes/SeoLogIn.unity
-    guid: 138055e209104b24aae6716072d1384a
+    path: Assets/04.Level/Scenes/HeeLogIn.unity
+    guid: 2ee27cd7f8a94684bb994bab13538d8b
   - enabled: 1
+    path: Assets/04.Level/Scenes/HeeLobbyTest.unity
+    guid: c42ffcbbf6a48144aa23024553575543
+  - enabled: 0
     path: Assets/04.Level/Scenes/SeoLobby.unity
     guid: f7e1761f6bec9e34a9e52ee29967504e
-  - enabled: 1
+  - enabled: 0
     path: Assets/04.Level/Scenes/YooLobby.unity
     guid: dfdf5a790fa59ff42b1312636642a3a9
   - enabled: 1
@@ -23,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/04.Level/Scenes/OmokScene.unity
     guid: 327f9bc4817ae7f44aa1692a94560d2d
+  - enabled: 1
+    path: Assets/04.Level/Scenes/CombatTest.unity
+    guid: 39231671aad09d141ac08db60d5ead95
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f294eccd2f1be704c9cdb7f82137f183, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 778598d0afc61114cb87bec2b3fc0105, type: 3}

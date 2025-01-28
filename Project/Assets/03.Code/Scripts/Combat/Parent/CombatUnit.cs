@@ -62,7 +62,8 @@ public class CombatUnit : MonoBehaviour
         //여기서 공격하는 애니메이션 넣어도 됨
         //gameObject.PlayAttackAnimation();
 
-        target.TakeDamage(atk);
+        float realDamage = CirculateDamage(target);
+        target.TakeDamage(realDamage);
         //맞는 애니메이션은 각자 함수에서 실행
 
         yield return new WaitForSeconds(1f);
@@ -75,13 +76,44 @@ public class CombatUnit : MonoBehaviour
         }
         isAtkEnd = true;
     }
-
+    
+    //데미지는 항상 양수가 나와야함
     protected virtual float CirculateDamage(CombatUnit target)
     {
-        float probability = luck / 100;
-        //if (luck <= Range)
-        float damage = atk - target.def;
-        return 0;
+        int probability = Random.Range(0, 100);
+        float damage = 0;
+        if (luck >= probability)
+        {
+            //크리티컬
+            float criticalDamage = Critical(this.atk);
+
+            if (criticalDamage < target.def)
+            {
+                return damage = 0;
+            }
+            else
+            {
+                return damage = criticalDamage - target.def;
+            }
+        }
+        else
+        {
+            if (this.atk < target.def)
+            {
+                return damage = 0;
+            }
+            else
+            {
+                return damage = this.atk - target.def;
+            }
+        }
+    }
+
+    //여기에 치명타시 애니메이션 추가 가능
+    private float Critical(float damage)
+    {
+        float criticalDamage = damage * 2;
+        return criticalDamage;
     }
 
     protected virtual void TakeDamage(float damage)
