@@ -12,6 +12,9 @@ public class CombatUnit : MonoBehaviour
     public float maxHp;
 
     [SerializeField] private float stopDistance;
+
+    public DamageTextPrefab damageTextPrefab;
+
     public GameObject me;
     public GameObject target;
 

@@ -20,6 +20,12 @@ public class LeftCombatUnit : CombatUnit
 
         float hpAmout = hp / maxHp;
         CombatUIManager.Instance.PageUse<CombatUIPage>().SetLeftHpBar(hpAmout);
+
+        DamageTextPrefab damageText = Instantiate(damageTextPrefab, transform);
+
+        Vector3 spawnPos = me.transform.position + new Vector3(0.5f, 0.7f, -1.5f);
+        damageText.transform.position = spawnPos;
+        damageText.SetDamageText(damage);
     }
 
     //왼쪽 플레이어가 죽으면 진거임

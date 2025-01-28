@@ -3,7 +3,10 @@ guid: a790e86641b6d204e98d6195d82b7b20
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - damageTextPrefab: {fileID: 8501623018923396442, guid: a6b2abe753323fc4391de6f2461399d1, type: 3}
+  - me: {fileID: 5943272920044790761, guid: 342c259d8d758c4498b77ab7c2271b10, type: 3}
+  - target: {fileID: 4472965716043209073, guid: fc79c4e72c0885449a15462804c871ad, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
