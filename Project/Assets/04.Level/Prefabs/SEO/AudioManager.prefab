@@ -74,4 +74,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3f50596caecdcbc488ee6312a74003e4, type: 3}
   - {fileID: 8300000, guid: 75c7404b7b3578e46b09f9772486d665, type: 3}
   - {fileID: 8300000, guid: a4c461ddb3a8b1c4397139860c10ba92, type: 3}
-  sfxChannels: 10
+  sfxChannels: 20

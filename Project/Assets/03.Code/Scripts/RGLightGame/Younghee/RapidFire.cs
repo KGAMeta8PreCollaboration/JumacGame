@@ -80,6 +80,7 @@ public class RapidFire : Skill
 
         Vector3 NewP = new Vector3(target.x, 0.8f, target.z);
         GameObject effect = Instantiate(_effectPrefab, NewP, Quaternion.Euler(-90f, 0f, 0f));
+        AudioManager.Instance.PlaySfx(Sfx.RGLPGun);
 
 
         yield return new WaitForSeconds(1.5f);
