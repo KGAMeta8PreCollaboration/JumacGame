@@ -781,7 +781,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raceList:
-  - {fileID: 3359271151108766695, guid: beba8d8d35a7c2a488a669b833404287, type: 3}
+  - {fileID: 6603879435597259612, guid: f9155873c83b32840bec07368594b25f, type: 3}
+  - {fileID: 4597443188160856706, guid: 8a06a48f350803f4f98a1713146249ac, type: 3}
+  - {fileID: 6590857605272407289, guid: 152321d11b622ee49a82f91ca38fc9fd, type: 3}
   leftSpawnPos: {fileID: 29326328}
   rightSpawnPos: {fileID: 1092237818}
   logInUserData:
@@ -797,7 +799,7 @@ MonoBehaviour:
   leftCombatUnit: {fileID: 0}
   rightCombatUnit: {fileID: 0}
   gold: 0
-  lobbyName: HeeLobbyTest
+  lobbyName: SeoLobby
 --- !u!1 &2143865379
 GameObject:
   m_ObjectHideFlags: 0

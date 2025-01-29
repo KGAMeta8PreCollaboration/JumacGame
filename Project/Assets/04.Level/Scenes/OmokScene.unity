@@ -584,7 +584,7 @@ MonoBehaviour:
     win: 0
     lose: 0
   board: {fileID: 6697621764418071045}
-  nextSceneName: YooLobby
+  nextSceneName: SeoLobby
 --- !u!23 &455238732127003565
 MeshRenderer:
   m_ObjectHideFlags: 0
