@@ -83,16 +83,20 @@ public class PopupManager : Singleton<PopupManager>
 			_popups.Add(popup);
 		}
 
+
 		_canvasPos = GameObject.Find("Canvas").transform;
-
-		_openPoupsPos = new GameObject("OpenPopups").transform;
-		_openPoupsPos.transform.SetParent(_canvasPos);
-
-		_popupsPos = _canvasPos.Find("Popups");
-		foreach (Popup popup in _popups)
+		if (_canvasPos != null)
 		{
-			popup.gameObject.SetActive(false);
+			_openPoupsPos = new GameObject("OpenPopups").transform;
+			_openPoupsPos.transform.SetParent(_canvasPos);
+
+			_popupsPos = _canvasPos.Find("Popups");
+			foreach (Popup popup in _popups)
+			{
+				popup.gameObject.SetActive(false);
+			}
 		}
+
 	}
 
 	private void OnDestroy()

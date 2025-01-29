@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum Bgm { None = -1, Jegi, Lobby, RGL = 4, Omok, Title }
+public enum Bgm { None = -1, Jegi, Lobby, RGL = 4, Omok, Title, BattleBoss, BattleElite, BattleNormal }
 public enum Sfx
 {
 	ButtonPress, GameLose, GameWin, JegiHit, JegiMiss, Cow, RGL1, RGL2, GetCoin, RGLPD, RGLPEarthQ,
