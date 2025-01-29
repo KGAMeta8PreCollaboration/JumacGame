@@ -7,7 +7,7 @@ public enum Bgm { None = -1, Jegi, Lobby, RGL = 4, Omok, Title }
 public enum Sfx
 {
 	ButtonPress, GameLose, GameWin, JegiHit, JegiMiss, Cow, RGL1, RGL2, GetCoin, RGLPD, RGLPEarthQ,
-	RGLPGun, Younghee2, Younghee3, Younghee5, OmokTak, Wow, Scream, Aww = 19
+	RGLPGun, Younghee2, Younghee3, Younghee5, OmokTak, Wow, Scream, Aww = 19, BattleHit, BattleLose, BattleReady, BattleStart, BattleWin, BattleHitCritical
 }
 
 public class AudioManager : Singleton<AudioManager>
