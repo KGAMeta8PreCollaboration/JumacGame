@@ -781,7 +781,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raceList:
-  - {fileID: 3359271151108766695, guid: beba8d8d35a7c2a488a669b833404287, type: 3}
+  - {fileID: 919132149155446097, guid: 6510e6698ef1ecb4d9b3cac60495b0f0, type: 3}
+  - {fileID: 919132149155446097, guid: 0ba41136dc5821d41b053e5cdd27ca78, type: 3}
+  - {fileID: 919132149155446097, guid: 8833b482bea6db247b63c146db328036, type: 3}
   leftSpawnPos: {fileID: 29326328}
   rightSpawnPos: {fileID: 1092237818}
   logInUserData:

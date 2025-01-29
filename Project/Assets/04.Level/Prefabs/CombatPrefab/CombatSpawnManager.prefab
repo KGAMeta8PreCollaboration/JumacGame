@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7822638031328673486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7785949344508964124}
+  - component: {fileID: 5081601005148784416}
+  m_Layer: 0
+  m_Name: CombatSpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7785949344508964124
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7822638031328673486}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 451.80005, y: 1.12, z: 697.5134}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5081601005148784416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7822638031328673486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41fbeb517ba5ca04f916d8c31b70588f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatNPCDataList:
+  - {fileID: 11400000, guid: 49d28217ab654ef47b0284884a84e66e, type: 2}
+  - {fileID: 11400000, guid: 643cc44037b4fc748a346660bf5cdcb1, type: 2}
+  - {fileID: 11400000, guid: 8fcdd8a84458db04fb380302758b2776, type: 2}
+  - {fileID: 11400000, guid: 819824889805fb647b419b06cdac25a1, type: 2}
+  - {fileID: 11400000, guid: 1357cf6e58006b04dabaabf3674fc520, type: 2}
+  - {fileID: 11400000, guid: fb6ce2ffe0a76b24e9e06022f6e06519, type: 2}
+  - {fileID: 11400000, guid: 42cc572c288a3d344a61fd2244e745f9, type: 2}
+  - {fileID: 11400000, guid: 5ae63b9fcffcad24eb7b358641a2dd14, type: 2}
+  - {fileID: 11400000, guid: e6e049a9d02dd9845a1060240f805b35, type: 2}
+  - {fileID: 11400000, guid: c800e15a59633384d9dafb2bbbe09077, type: 2}
+  - {fileID: 11400000, guid: a2ae1a1085f103e48b64aea95a3405bb, type: 2}
+  - {fileID: 11400000, guid: fe1d8a71265b1a542a78550a14c5f827, type: 2}
+  logInUserData:
+    id: 
+    timestamp: 
+    nickname: 
+    race: 
+    serverName: 
+    gold: 0
+    setNicknameRace: 0
+  stat: {fileID: 0}
+  combatNPCData: {fileID: 0}
