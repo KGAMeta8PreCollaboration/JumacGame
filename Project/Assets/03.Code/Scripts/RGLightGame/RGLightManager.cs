@@ -42,7 +42,7 @@ namespace Minigame.RGLight
 		public Minigame.RGLight.Player player { get; private set; }
 		public CageManager CageManager { get; private set; }
 		private RGLightGame _rglightGame;
-		private YoungheeAnimationUI _youngheeAnimationUI;
+		[SerializeField] private YoungheeAnimationUI _youngheeAnimationUI;
 		private int _addMoney;
 
 		private void Awake()
@@ -55,11 +55,11 @@ namespace Minigame.RGLight
 		{
 			CageManager = Instantiate(_cageManagerPrefab, transform);
 			_rglightGame = Instantiate(_rglightGamePrefab, transform);
-			_youngheeAnimationUI = Instantiate(_youngheeAnimationUIPrefab, GameObject.Find("Canvas").transform);
+			//_youngheeAnimationUI = Instantiate(_youngheeAnimationUIPrefab, GameObject.Find("Canvas").transform);
 
 			CageManager.Init(this);
 			_rglightGame.Init(this);
-			_youngheeAnimationUI.Init(this);
+			//_youngheeAnimationUI.Init(this);
 
 			_rglightGame.endSentenceAction = OnEndSentence;
 			younghee.endSkillAction = OnEndSkill;
