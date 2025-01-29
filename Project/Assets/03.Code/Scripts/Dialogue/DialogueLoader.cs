@@ -10,13 +10,13 @@ public class DialogueLoader : MonoBehaviour
 
     private void Reset()
     {
-        _dialogueManager = FindObjectOfType<DialogueManager>();
+        _dialogueManager = FindObjectOfType<DialogueManager>(true);
     }
 
     private void Start()
     {
         if (_dialogueManager == null)
-            _dialogueManager = FindObjectOfType<DialogueManager>();
+            _dialogueManager = FindObjectOfType<DialogueManager>(true);
         // StartCoroutine(StartDialogue());
     }
 
