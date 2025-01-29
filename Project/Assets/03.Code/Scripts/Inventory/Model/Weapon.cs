@@ -1,11 +1,11 @@
 public class Weapon : EquipItem
 {
 
-	public Weapon (WeaponData weaponData) : base(weaponData)
+	public Weapon (WeaponData itemData) : base(itemData)
 	{
-		damage = weaponData.damage;
-		defense = weaponData.defense;
-		luck = weaponData.luck;
-		health = weaponData.health;
+		damage = itemData.damage;
+		defense = itemData.defense;
+		luck = itemData.luck;
+		health = itemData.health;
 	}
 }

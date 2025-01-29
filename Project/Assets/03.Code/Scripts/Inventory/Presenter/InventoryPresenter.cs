@@ -37,6 +37,7 @@ public class InventoryPresenter : MonoBehaviour
 	private void AddItemCoroutine()
 	{
 		Dictionary<int, Item> dic = GameManager.Instance.ItemDataManager.GetItemDictionary();
+		print("인벤토리 초기 아이템 셋팅" + dic.Count);
 		foreach (KeyValuePair<int, Item> itemPair in dic)
 			inventory.Add(itemPair.Key, itemPair.Value,false);
 		if (GameManager.Instance.ItemDataManager.equippedWeapon != -1)
@@ -49,6 +50,7 @@ public class InventoryPresenter : MonoBehaviour
 
 	private void OnItemAdded(int index, Item item)
 	{
+		print("InventoryPresenter OnItemAdded");
 		inventoryPanel.AddItem(index, item);
 	}
 

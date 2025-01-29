@@ -5,13 +5,16 @@ public class Item
 	public string itemName { get; protected set; }
 	public Image icon { get; protected set; }
 	public string[] descriptions { get; protected set; }
+	public int buyPrice { get; protected set; }
+
 	
-	public Item(ItemData weaponData)
+	public Item(ItemData itemData)
 	{
-		id = weaponData.id;
-		icon = weaponData.icon.GetComponent<Image>();
-		descriptions = weaponData.descriptions;
-		itemName = weaponData.itemName;
+		id = itemData.id;
+		icon = itemData.icon.GetComponent<Image>();
+		descriptions = itemData.descriptions;
+		itemName = itemData.itemName;
+		buyPrice = itemData.buyPrice;
 	}
 
 	public Item()
