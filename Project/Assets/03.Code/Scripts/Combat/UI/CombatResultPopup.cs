@@ -37,6 +37,7 @@ public class CombatResultPopup : CombatPopup
     protected override void CloseButtonClick()
     {
         base.CloseButtonClick();
-        SceneManager.LoadScene("Lobby");
+        CombatManager.Instance.GoLobby();
+        //SceneManager.LoadScene("Lobby");
     }
 }

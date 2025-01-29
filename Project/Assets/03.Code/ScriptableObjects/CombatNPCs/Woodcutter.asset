@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d445aa19bee2b468fa352695b3af0c, type: 3}
+  m_Name: Woodcutter
+  m_EditorClassIdentifier: 
+  npcName: Woodcutter
+  prefab: {fileID: 1684575173487796187, guid: f2eac45508bf64c42a1dd67dcd8b2282, type: 3}
+  atk: 10
+  def: 10
+  hp: 10
+  luck: 10
+  gold: 0

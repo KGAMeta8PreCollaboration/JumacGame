@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class LeftCombatUnit : CombatUnit
 {
@@ -20,6 +21,18 @@ public class LeftCombatUnit : CombatUnit
 
         float hpAmout = hp / maxHp;
         CombatUIManager.Instance.PageUse<CombatUIPage>().SetLeftHpBar(hpAmout);
+
+        DamageTextPrefab damageObj = Instantiate(damageTextPrefab, transform);
+
+        Vector3 worldPos = transform.position + Vector3.up * 1.0f;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
+        damageObj.damageText.GetComponent<RectTransform>().position = screenPos;
+
+        damageObj.SetDamageText(damage);
+        //Vector3 spawnPos = me.transform.position + new Vector3(0.5f, 0.7f, -1.5f);
+        //damageText.transform.position = spawnPos;
+        //damageText.SetDamageText(damage);
     }
 
     //왼쪽 플레이어가 죽으면 진거임

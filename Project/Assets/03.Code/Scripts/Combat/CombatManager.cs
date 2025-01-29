@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class CombatManager : Singleton<CombatManager>
@@ -195,5 +196,11 @@ public class CombatManager : Singleton<CombatManager>
 
             rightCombatUnit.isAtkEnd = false;
         }
+    }
+
+    public string lobbyName = "HeeLobbyTest";
+    public void GoLobby()
+    {
+        SceneManager.LoadScene( lobbyName );
     }
 }

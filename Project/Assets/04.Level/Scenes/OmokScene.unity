@@ -584,6 +584,7 @@ MonoBehaviour:
     win: 0
     lose: 0
   board: {fileID: 6697621764418071045}
+  nextSceneName: YooLobby
 --- !u!23 &455238732127003565
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1013,6 +1014,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 756632552108551420, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f0f406c2a3de344d81e5b06991402ac, type: 3}
+    - target: {fileID: 756632552108551420, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.99607843
+      objectReference: {fileID: 0}
     - target: {fileID: 1720905953357118745, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
       propertyPath: m_Name
       value: OmokUICanvas
@@ -1020,6 +1029,14 @@ PrefabInstance:
     - target: {fileID: 3445709353837439359, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821011334708447966, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f0f406c2a3de344d81e5b06991402ac, type: 3}
+    - target: {fileID: 4821011334708447966, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.99607843
       objectReference: {fileID: 0}
     - target: {fileID: 5925476733717518756, guid: 8abb372289b1c24499f690f672699d8f, type: 3}
       propertyPath: m_IsActive
