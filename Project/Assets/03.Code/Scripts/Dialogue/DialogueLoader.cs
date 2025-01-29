@@ -17,13 +17,6 @@ public class DialogueLoader : MonoBehaviour
     {
         if (_dialogueManager == null)
             _dialogueManager = FindObjectOfType<DialogueManager>(true);
-        // StartCoroutine(StartDialogue());
-    }
-
-    private IEnumerator StartDialogue()
-    {
-        //LoadDialogue(null);
-        yield return null;
     }
 
     public void LoadDialogue(Dialogue dialogue, Action afterAction)
