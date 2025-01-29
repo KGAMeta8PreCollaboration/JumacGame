@@ -19,6 +19,7 @@ namespace Minigame.RGLight
             if (other.TryGetComponent<Minigame.RGLight.Player>(out Minigame.RGLight.Player player))
             {
                 player.RGLightManager.AddMoney(moneyAmount);
+                AudioManager.Instance.PlaySfx(Sfx.GetCoin);
                 Destroy(gameObject);
             }
         }

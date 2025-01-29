@@ -56,6 +56,7 @@ public class Raser : Skill
         yield return StartCoroutine(ExpandCircle(circle));
 
         GameObject raser = Instantiate(_lightningPrefab, target, Quaternion.identity);
+        AudioManager.Instance.PlaySfx(Sfx.RGLPD);
 
         Destroy(circle);
         Destroy(circleDes);
