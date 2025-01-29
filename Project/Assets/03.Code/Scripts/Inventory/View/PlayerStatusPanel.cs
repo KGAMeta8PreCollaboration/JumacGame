@@ -9,6 +9,7 @@ public class PlayerStatusPanel : MonoBehaviour
 	public Transform weaponSlot;
 	public Transform armorSlot;
 	public Transform accessorySlot;
+	public Transform alcoholSlot;
 
 	public TextMeshProUGUI attackText;
 	public TextMeshProUGUI defenseText;
@@ -18,6 +19,7 @@ public class PlayerStatusPanel : MonoBehaviour
 	private Image _weaponIcon;
 	private Image _armorIcon;
 	private Image _accessoryIcon;
+	private Image _alcoholIcon;
 
 	public void UpdateEquipItem(EquipItem item)
 	{
@@ -40,15 +42,21 @@ public class PlayerStatusPanel : MonoBehaviour
 				Destroy(_accessoryIcon.gameObject);
 			_accessoryIcon = Instantiate(item.icon, accessorySlot);
 		}
+		else if (item is Alcohol alcoholItem)
+		{
+			if (_alcoholIcon != null)
+				Destroy(_alcoholIcon.gameObject);
+			_alcoholIcon = Instantiate(item.icon, alcoholSlot);
+		}
 	}
 	
 	public void UpdateUnequipItem(EquipItem item)
 	{
-		if (item is Weapon weaponItem)
+		if (item is Weapon weaponItem && _weaponIcon != null)
 			Destroy(_weaponIcon.gameObject);
-		else if (item is Armor armorItem)
+		else if (item is Armor armorItem && _armorIcon != null)
 			Destroy(_armorIcon.gameObject);
-		else if (item is Accessory accessoryItem)
+		else if (item is Accessory accessoryItem && _accessoryIcon != null)
 			Destroy(_accessoryIcon.gameObject);
 	}
 }

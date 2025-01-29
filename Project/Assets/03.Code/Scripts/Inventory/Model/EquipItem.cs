@@ -6,7 +6,7 @@ public abstract class EquipItem : Item
 	public int luck { get; protected set; }
 	public int health { get; protected set; }
 	
-	public EquipItem (ItemData weaponData) : base(weaponData)
+	public EquipItem (ItemData itemData) : base(itemData)
 	{
 		isEquipped = false;
 	}

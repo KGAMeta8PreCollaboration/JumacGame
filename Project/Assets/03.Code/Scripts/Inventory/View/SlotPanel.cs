@@ -30,6 +30,7 @@ public class SlotPanel : MonoBehaviour, IPointerClickHandler
         isOccupied = false;
         Destroy(icon.gameObject);
     }
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!isOccupied)
@@ -38,4 +39,5 @@ public class SlotPanel : MonoBehaviour, IPointerClickHandler
         inventoryPanel.itemPopup.OpenPopup();
         // inventoryPanel.RemoveButtonClick(slotNumber);
     }
+    
 }
