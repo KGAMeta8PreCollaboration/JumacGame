@@ -784,6 +784,7 @@ MonoBehaviour:
   - {fileID: 6603879435597259612, guid: f9155873c83b32840bec07368594b25f, type: 3}
   - {fileID: 4597443188160856706, guid: 8a06a48f350803f4f98a1713146249ac, type: 3}
   - {fileID: 6590857605272407289, guid: 152321d11b622ee49a82f91ca38fc9fd, type: 3}
+  - {fileID: 407599487140665236, guid: 06f81cf991d5a5846b183cabf1be50be, type: 3}
   leftSpawnPos: {fileID: 29326328}
   rightSpawnPos: {fileID: 1092237818}
   logInUserData:
