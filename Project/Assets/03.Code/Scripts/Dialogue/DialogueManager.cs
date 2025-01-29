@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour, IPointerClickHandler
         _playerInput = FindObjectOfType<PlayerInput>(true);
         _backgroundImage.gameObject.SetActive(false);
         _dialoguePanel.gameObject.SetActive(false);
-
+        Close();
     }
 
     public void SetDialogue(Dialogue dialogue, Action afterAction)
@@ -31,9 +31,22 @@ public class DialogueManager : MonoBehaviour, IPointerClickHandler
         _currentSentenceIndex = 0;
         this.afterAction = afterAction;
     }
+    
+    public void Open()
+    {
+        gameObject.SetActive(true);
+    }
+    
+    public void Close()
+    {
+        gameObject.SetActive(false);
+    }
+    
+    
 
     public void StartDialogue()
     {
+        Open();
         _dialoguePanel.SetDialogueText(_currentDialogue.sentences[0]);
         if (_playerInput == null)
             _playerInput = FindObjectOfType<PlayerInput>();
@@ -66,6 +79,7 @@ public class DialogueManager : MonoBehaviour, IPointerClickHandler
 
     private void EndDialogue()
     {
+        Close();
         _dialoguePanel.gameObject.SetActive(false);
         _backgroundImage.gameObject.SetActive(false);
         _playerInput.SwitchCurrentActionMap(_prevActionMap);
