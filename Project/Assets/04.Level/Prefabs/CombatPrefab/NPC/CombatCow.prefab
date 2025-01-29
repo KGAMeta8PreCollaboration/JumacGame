@@ -581,7 +581,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -604,7 +604,7 @@ MonoBehaviour:
   hp: 0
   luck: 0
   maxHp: 0
-  stopDistance: 0
+  stopDistance: 1
   damageTextPrefab: {fileID: 0}
   me: {fileID: 4472965716043209073, guid: fc79c4e72c0885449a15462804c871ad, type: 3}
   target: {fileID: 5943272920044790761, guid: 342c259d8d758c4498b77ab7c2271b10, type: 3}

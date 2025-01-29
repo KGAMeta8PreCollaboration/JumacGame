@@ -1790,6 +1790,7 @@ GameObject:
   - component: {fileID: 6282795100366514925}
   - component: {fileID: 3127825445055636388}
   - component: {fileID: -489013805825599443}
+  - component: {fileID: 5008137856059696009}
   m_Layer: 0
   m_Name: CombatDrunken_Soldier
   m_TagString: Untagged
@@ -1805,15 +1806,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6431863045090838447}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.5146042, z: 0, w: 0.8574279}
-  m_LocalPosition: {x: -108.805695, y: 34.35855, z: -20.553284}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5413598456569208817}
   - {fileID: 6462608568429973276}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 61.942, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &6282795100366514925
 Animator:
   serializedVersion: 5
@@ -1874,12 +1875,39 @@ MonoBehaviour:
   hp: 0
   luck: 0
   maxHp: 0
-  stopDistance: 0
+  stopDistance: 1
   damageTextPrefab: {fileID: -9174904505861415235, guid: f9b32bf88a3f4b046b03a5f756e47409, type: 3}
   me: {fileID: 4472965716043209073, guid: fc79c4e72c0885449a15462804c871ad, type: 3}
   target: {fileID: 5943272920044790761, guid: 342c259d8d758c4498b77ab7c2271b10, type: 3}
   isAtkEnd: 0
   isDead: 0
+--- !u!54 &5008137856059696009
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431863045090838447}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6533397728202381621
 GameObject:
   m_ObjectHideFlags: 0
