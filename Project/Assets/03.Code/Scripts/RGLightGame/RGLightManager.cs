@@ -47,8 +47,8 @@ namespace Minigame.RGLight
 
 		private void Awake()
 		{
-			player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
-			player.Init(this);
+			AudioManager.Instance.PlayBgm(Bgm.None);
+			StartCoroutine(IntroCoroutine());
 		}
 
 		private void Start()
@@ -80,6 +80,23 @@ namespace Minigame.RGLight
 			StartCoroutine(_youngheeAnimationUI.YoungheeAnimation(false));
 			CageManager.DestroyCage();
 			StartCoroutine(_rglightGame.ReadSentence2());
+		}
+
+		public IEnumerator IntroCoroutine()
+		{
+			float RGL1 = AudioManager.Instance.GetClipLength(Sfx.RGL1);
+			float RGL2 = AudioManager.Instance.GetClipLength(Sfx.RGL2);
+
+			player = Instantiate(_playerPrefab, _startPoint.position, _startPoint.rotation);
+			player.Init(this);
+			float playerMoveSpeed = player.moveSpeed;
+			player.moveSpeed = 0;
+
+			AudioManager.Instance.PlaySfx(Sfx.RGL1);
+			yield return new WaitForSeconds(RGL1);
+			AudioManager.Instance.PlaySfx(Sfx.RGL2);
+			yield return new WaitForSeconds(RGL2);
+			player.moveSpeed = playerMoveSpeed;
 		}
 
 		public IEnumerator TimeCheckCoroutine()

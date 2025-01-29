@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum Bgm { Jegi, Lobby, RGL = 4, Omok, Title }
+public enum Bgm { None = -1, Jegi, Lobby, RGL = 4, Omok, Title }
 public enum Sfx
 {
 	ButtonPress, GameLose, GameWin, JegiHit, JegiMiss, Cow, RGL1, RGL2, GetCoin, RGLPD, RGLPEarthQ,
@@ -75,13 +75,25 @@ public class AudioManager : Singleton<AudioManager>
 
 	public void PlayBgm(Bgm bgm)
 	{
+		if (bgm == Bgm.None)
+		{
+			_bgmPlayer.clip = null;
+			return;
+		}
+
 		int random = 0;
 		if (bgm == Bgm.Lobby)
 		{
 			random = Random.Range(0, 3);
 		}
 
+
 		_bgmPlayer.clip = _bgmClips[(int)bgm + random];
 		_bgmPlayer.Play();
+	}
+
+	public float GetClipLength(Sfx sfx)
+	{
+		return _sfxClips[(int)sfx].length;
 	}
 }
