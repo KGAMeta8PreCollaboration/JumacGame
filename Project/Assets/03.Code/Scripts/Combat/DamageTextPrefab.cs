@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DamageTextPrefab : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI damageText;
+    public TextMeshProUGUI damageText;
     [SerializeField] private Vector3 targetPos;
 
     private void Start()
