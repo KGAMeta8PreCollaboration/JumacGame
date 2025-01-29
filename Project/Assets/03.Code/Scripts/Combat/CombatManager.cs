@@ -13,7 +13,7 @@ public class CombatManager : Singleton<CombatManager>
     [SerializeField] private Transform rightSpawnPos;
 
     public LogInUserData logInUserData;
-    public Stat stat;
+    public CombatStat combatStat;
     public CombatNPCData combatNPCData;
 
     public LeftCombatUnit leftCombatUnit;
@@ -33,16 +33,19 @@ public class CombatManager : Singleton<CombatManager>
 
     private void Start()
     {
-        if (logInUserData != null || stat != null || combatNPCData != null)
+        if (logInUserData != null || combatStat != null || combatNPCData != null)
         {
             logInUserData = null;
-            stat = null;
+            combatStat = null;
             combatNPCData = null;
         }
 
         logInUserData = CombatSpawnManager.Instance.logInUserData;
-        stat = CombatSpawnManager.Instance.stat;
+        combatStat = CombatSpawnManager.Instance.combatStat;
         combatNPCData = CombatSpawnManager.Instance.combatNPCData;
+
+        print($"combatStat 넘어옴 : {combatStat.atk}");
+        print($"combatStat 넘어옴 : {combatStat.plusAtk}");
 
         _isBattleEnd = false;
         _isInitEnd = false;
@@ -75,25 +78,26 @@ public class CombatManager : Singleton<CombatManager>
         {
             if (race.name == logInUserData.race)
             {
-                GameObject leftUnit = Instantiate(race, leftSpawnPos.position, Quaternion.identity);
-                leftUnit.transform.rotation = race.transform.localRotation;
+                GameObject leftCombatUnitObj = Instantiate(race, leftSpawnPos.position, Quaternion.identity);
+                leftCombatUnitObj.transform.rotation = race.transform.localRotation;
 
-                if (leftUnit != null)
+                if (leftCombatUnitObj != null)
                 {
                     print("1");
-                    LeftCombatUnit tempUnit = leftUnit.GetComponent<LeftCombatUnit>();
+                    LeftCombatUnit leftCombatUnit = leftCombatUnitObj.GetComponent<LeftCombatUnit>();
 
                     print("2");
-                    tempUnit.nickName = logInUserData.nickname;
-                    tempUnit.atk = 10;
-                    tempUnit.def = 10;
-                    tempUnit.hp = 30;
-                    tempUnit.luck = 10;
+                    //LeftCombatUnit newUnit = new LeftCombatUnit(logInUserData, combatStat);
+                    leftCombatUnit.nickName = logInUserData.nickname;
+                    leftCombatUnit.atk = combatStat.atk + combatStat.plusAtk;
+                    leftCombatUnit.def = combatStat.def + combatStat.plusDef;
+                    leftCombatUnit.hp = combatStat.hp + combatStat.plusHp;
+                    leftCombatUnit.luck = combatStat.luck + combatStat.plusLuck;
 
                     print("3");
-                    leftCombatUnit = tempUnit;
+                    this.leftCombatUnit = leftCombatUnit;
 
-                    print($"왼쪽 유닛 지정 완료 : {leftCombatUnit.name}");
+                    print($"왼쪽 유닛 지정 완료 : {this.leftCombatUnit.name}");
                 }
                 else
                 {

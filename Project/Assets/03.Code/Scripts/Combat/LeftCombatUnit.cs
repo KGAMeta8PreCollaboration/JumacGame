@@ -5,13 +5,13 @@ using UnityEngine.Tilemaps;
 
 public class LeftCombatUnit : CombatUnit
 {
-    public LeftCombatUnit(string nickName, float atk, float def, float hp, float luck)
+    public LeftCombatUnit(LogInUserData logInUserData, CombatStat combatStat)
     {
-        this.nickName = nickName;
-        this.atk = atk;
-        this.def = def;
-        this.hp = 10000;
-        this.luck = luck;
+        this.nickName = logInUserData.nickname;
+        this.atk = combatStat.atk + combatStat.plusAtk;
+        this.def = combatStat.def + combatStat.plusDef;
+        this.hp = combatStat.hp + combatStat.plusHp;
+        this.luck = combatStat.luck + combatStat.plusLuck;
     }
 
     protected override void TakeDamage(float damage)
