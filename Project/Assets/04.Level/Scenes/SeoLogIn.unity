@@ -6698,7 +6698,7 @@ MonoBehaviour:
   isDefault: 0
   _hanyangButton: {fileID: 4898943492436418139}
   _gaeseongButton: {fileID: 1249285876}
-  lobbySceneName: YooLobby
+  lobbySceneName: SeoLobby
   _hanyangPopulation: {fileID: 1063078255442570425}
   _gaeseongPopulation: {fileID: 1545635445}
   _loadingObject: {fileID: 135755764}
