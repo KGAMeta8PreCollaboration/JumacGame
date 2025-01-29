@@ -7,7 +7,7 @@ public class CombatSpawnManager : Singleton<CombatSpawnManager>
     [SerializeField] private List<CombatNPCData> combatNPCDataList;
 
     public LogInUserData logInUserData;
-    public Stat stat;
+    public CombatStat combatStat;
     public CombatNPCData combatNPCData;
 
     protected override void Awake()
@@ -22,12 +22,13 @@ public class CombatSpawnManager : Singleton<CombatSpawnManager>
         if (this.logInUserData != null || stat != null || combatNPCData != null)
         {
             this.logInUserData = null;
-            this.stat = null;
+            this.combatStat = null;
             combatNPCData = null;
         }
 
         this.logInUserData = logInUserData;
-        this.stat = stat;
+        CombatStat newStat = new CombatStat(stat);
+        combatStat = newStat;
 
         foreach (CombatNPCData combatNPCData in combatNPCDataList)
         {
