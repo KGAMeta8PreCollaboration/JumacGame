@@ -1767,7 +1767,7 @@ MonoBehaviour:
   hp: 0
   luck: 0
   maxHp: 0
-  stopDistance: 0
+  stopDistance: 1
   damageTextPrefab: {fileID: -9174904505861415235, guid: f9b32bf88a3f4b046b03a5f756e47409, type: 3}
   me: {fileID: 5943272920044790761, guid: 342c259d8d758c4498b77ab7c2271b10, type: 3}
   target: {fileID: 4472965716043209073, guid: fc79c4e72c0885449a15462804c871ad, type: 3}
