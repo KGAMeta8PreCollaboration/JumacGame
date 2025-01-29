@@ -204,6 +204,8 @@ public class Board : MonoBehaviour
         //stone.transform.localScale = new Vector3(556, 556, 556);
         stone.transform.SetParent(transform);
 
+        AudioManager.Instance.PlaySfx(Sfx.OmokTak);
+
         //오목이 되면
         if (isFive == 1)
         {
