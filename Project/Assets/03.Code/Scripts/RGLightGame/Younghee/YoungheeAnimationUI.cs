@@ -7,46 +7,53 @@ using UnityEngine.UI;
 
 public class YoungheeAnimationUI : MonoBehaviour
 {
-    private Image _image;
-    [SerializeField] private List<Sprite> sprites = new List<Sprite>();
+	private Image _image;
+	[SerializeField] private List<Sprite> sprites = new List<Sprite>();
 
-    public RGLightManager RGLightManager { get; private set; }
+	public RGLightManager RGLightManager { get; private set; }
 
-    public IEnumerator YoungheeAnimation(bool forward)
-    {
-        if (forward == false) UpsetYounghee(false);
-        for (int i = 0; i < sprites.Count; i++)
-        {
-            if (forward) _image.sprite = sprites[i];
-            else _image.sprite = sprites[sprites.Count - (i + 1)];
-            yield return new WaitForSeconds(0.05f);
-        }
+	private void Awake()
+	{
+		_image = GetComponent<Image>();
 
-        if (forward) UpsetYounghee(true);
-    }
+		//ShowImage(false);
+	}
 
-    private void UpsetYounghee(bool value)
-    {
-        _image.color = Color.white;
+	public IEnumerator YoungheeAnimation(bool forward)
+	{
+		if (forward == false) UpsetYounghee(false);
+		for (int i = 0; i < sprites.Count; i++)
+		{
+			if (forward) _image.sprite = sprites[i];
+			else _image.sprite = sprites[sprites.Count - (i + 1)];
+			yield return new WaitForSeconds(0.05f);
+		}
 
-        if (value) _image.color = Color.red;
-    }
+		if (forward) UpsetYounghee(true);
+	}
 
-    public void ShowImage(bool value)
-    {
-        _image.enabled = value;
+	private void UpsetYounghee(bool value)
+	{
+		_image.color = Color.white;
 
-        if (value)
-        {
-            _image.sprite = sprites[0];
-        }
-    }
+		if (value) _image.color = Color.red;
+	}
 
-    public void Init(RGLightManager manager)
-    {
-        RGLightManager = manager;
-        _image = GetComponent<Image>();
+	public void ShowImage(bool value)
+	{
+		_image.enabled = value;
 
-        ShowImage(false);
-    }
+		if (value)
+		{
+			_image.sprite = sprites[0];
+		}
+	}
+
+	public void Init(RGLightManager manager)
+	{
+		RGLightManager = manager;
+		_image = GetComponent<Image>();
+
+		ShowImage(false);
+	}
 }

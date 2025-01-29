@@ -847,10 +847,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6334635447310934767, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
-      propertyPath: _sfxClips.Array.data[10]
-      value: 
-      objectReference: {fileID: 8300000, guid: c8335c4ab7e04c440b616086cec5ff5e, type: 3}
     - target: {fileID: 7338912426886140780, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6443,6 +6439,7 @@ MonoBehaviour:
   _humanButton: {fileID: 1527768509}
   _ghostButton: {fileID: 1248871748}
   _dokkaebiButton: {fileID: 370311854}
+  _orcButton: {fileID: 245158097}
   _commitButton: {fileID: 7606026871373238154}
 --- !u!222 &1154392458578659744
 CanvasRenderer:
