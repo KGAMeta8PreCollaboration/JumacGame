@@ -6443,6 +6443,7 @@ MonoBehaviour:
   _humanButton: {fileID: 1527768509}
   _ghostButton: {fileID: 1248871748}
   _dokkaebiButton: {fileID: 370311854}
+  _orcButton: {fileID: 245158097}
   _commitButton: {fileID: 7606026871373238154}
 --- !u!222 &1154392458578659744
 CanvasRenderer:
