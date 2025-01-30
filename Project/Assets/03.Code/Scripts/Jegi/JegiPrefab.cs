@@ -110,7 +110,7 @@ public class JegiPrefab : MonoBehaviour
 
     private void ReflectedByWall()
     {
-        float dirX = _rb.velocity.x;
+        float dirX = -_rb.velocity.x;
         float dirY = _rb.velocity.y;
 
         _rb.velocity = new Vector2(dirX, dirY);
