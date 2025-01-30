@@ -105,11 +105,16 @@ public class InventoryPresenter : MonoBehaviour
 		UpdateStatsFromItem(weaponRef, ref atk, ref def, ref hp, ref luck);
 		UpdateStatsFromItem(armorRef, ref atk, ref def, ref hp, ref luck);
 		UpdateStatsFromItem(accessoryRef, ref atk, ref def, ref hp, ref luck);
-
-		playerStatusPanel.attackText.text = $"- 공격력: {stat.atk} + {atk}";
-		playerStatusPanel.defenseText.text = $"- 방어력: {stat.def} + {def}";
-		playerStatusPanel.hpText.text = $"- 체력: {stat.hp} + {hp}";
-		playerStatusPanel.luckText.text = $"- 운: {stat.luck} + {luck}";
+		
+		stat.plusAtk = atk;
+		stat.plusDef = def;
+		stat.plusHp = hp;
+		stat.plusLuck = luck;
+		
+		playerStatusPanel.attackText.text = $"- 공격력: {stat.atk} + {stat.plusAtk}";
+		playerStatusPanel.defenseText.text = $"- 방어력: {stat.def} + {stat.plusDef}";
+		playerStatusPanel.hpText.text = $"- 체력: {stat.hp} + {stat.plusHp}";
+		playerStatusPanel.luckText.text = $"- 운: {stat.luck} + {stat.plusLuck}";
 	}
 	
 }
