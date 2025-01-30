@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Jumo
   prefab: {fileID: 2937438140242801394, guid: 1f68aaa6d8ca71c48b1f8432fbd9e796, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  atk: 12
+  def: 5
+  hp: 120
+  luck: 20
+  gold: 250

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Drunken_Soldier
   prefab: {fileID: 6431863045090838447, guid: 330d4d7990cc00b448a72c51e1fa1f15, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
+  atk: 15
+  def: 7
+  hp: 100
   luck: 0
-  gold: 0
+  gold: 300

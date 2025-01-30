@@ -17,6 +17,11 @@ public class OmokGameManager : Singleton<OmokGameManager>
         //DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        AudioManager.Instance.PlayBgm(Bgm.Omok);
+    }
+
     public void SetUsers()
     {
         try

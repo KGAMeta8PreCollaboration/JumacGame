@@ -47,6 +47,8 @@ public class LeftCombatUnit : CombatUnit
         CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("YOU LOSE");
         yield return new WaitForSeconds(2f);
 
+        AudioManager.Instance.PlaySfx(Sfx.BattleLose);
+
         //골드량은 나중에 CombatManager에서 가져오자
         CombatUIManager.Instance.PopupOpen<CombatResultPopup>().SetPopup(false, CombatManager.Instance.gold);
     }

@@ -41,6 +41,8 @@ public class RightCombatUnit : CombatUnit
         base.OnDead();
         CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("YOU WIN!");
 
+        AudioManager.Instance.PlaySfx(Sfx.BattleWin);
+
         CombatUIManager.Instance.PopupOpen<CombatResultPopup>().SetPopup(true, CombatManager.Instance.gold);
     }
 }

@@ -58,6 +58,9 @@ public class LeaderBoard : MonoBehaviour
 		int rank = 1;
 		List<KeyValuePair<int, string>> rankList = new List<KeyValuePair<int, string>>();
 
+		print("1");
+		print(data);
+		print("2");
 		foreach (DataSnapshot item in data.Children)
 		{
 			string nickname = item.Child("nickname").Value.ToString();

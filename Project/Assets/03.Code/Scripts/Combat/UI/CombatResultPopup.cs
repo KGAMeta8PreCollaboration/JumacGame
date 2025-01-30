@@ -25,6 +25,9 @@ public class CombatResultPopup : CombatPopup
         {
             titleText.text = "승리!";
             goldText.text = $"X {gold}";
+
+            CombatFirebaseManager.Instance.UpdateUserGold(gold);
+            print($"획득한 골드량 : {gold}");
         }
 
         else

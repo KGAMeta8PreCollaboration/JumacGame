@@ -847,6 +847,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6334635447310934767, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
+      propertyPath: _bgmClips.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6334635447310934767, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
+      propertyPath: _bgmClips.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 08100d7281826ee4a8641e50f625ef39, type: 3}
+    - target: {fileID: 6334635447310934767, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
+      propertyPath: _bgmClips.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: 67e6b30b4b9a5c343ab5384cdd1d2026, type: 3}
+    - target: {fileID: 6334635447310934767, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
+      propertyPath: _bgmClips.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: 559471bf723579e4aa64c45b5ba8dd62, type: 3}
     - target: {fileID: 7338912426886140780, guid: 5a882bea14d6f59429549a006b710bb2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7404,8 +7420,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCE90\uB9AD\uD130 \uC120\uD0DD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e4173895235cbc418ea547ebcb36d76, type: 2}
-  m_sharedMaterial: {fileID: -8372370992203566970, guid: 7e4173895235cbc418ea547ebcb36d76, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8744,8 +8760,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC120\uD0DD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e4173895235cbc418ea547ebcb36d76, type: 2}
-  m_sharedMaterial: {fileID: -8372370992203566970, guid: 7e4173895235cbc418ea547ebcb36d76, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

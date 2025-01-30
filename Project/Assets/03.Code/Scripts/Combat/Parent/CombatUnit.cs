@@ -63,6 +63,8 @@ public class CombatUnit : MonoBehaviour
         //시간 다시 초기화
         movingTime = 0;
 
+        AudioManager.Instance.PlaySfx(Sfx.BattleHit);
+
         //여기서 공격하는 애니메이션 넣어도 됨
         //gameObject.PlayAttackAnimation();
 
@@ -116,6 +118,7 @@ public class CombatUnit : MonoBehaviour
     //여기에 치명타시 애니메이션 추가 가능
     private float Critical(float damage)
     {
+        AudioManager.Instance.PlaySfx(Sfx.BattleHitCritical);
         float criticalDamage = damage * 2;
         return criticalDamage;
     }

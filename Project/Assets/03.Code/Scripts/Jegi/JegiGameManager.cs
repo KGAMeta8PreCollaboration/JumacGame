@@ -69,6 +69,8 @@ public class JegiGameManager : Singleton<JegiGameManager>
         _targetHeight = judgeLine.position.y;
         _jegiUIPage = FindObjectOfType<JegiUIPage>();
         _isInitCompelet = true;
+
+        AudioManager.Instance.PlayBgm(Bgm.Jegi);
     }
 
     private void Update()
@@ -160,21 +162,25 @@ public class JegiGameManager : Singleton<JegiGameManager>
         {
             timingResult = "Perfect";
             forceToAdd = perfectForce;
+            AudioManager.Instance.PlaySfx(Sfx.JegiHit);
         }
         else if (distanceFromTarget <= greatRange)
         {
             timingResult = "Great";
             forceToAdd = greatForce;
+            AudioManager.Instance.PlaySfx(Sfx.JegiHit);
         }
         else if (distanceFromTarget <= goodRange)
         {
             timingResult = "Good";
             forceToAdd = goodForce;
+            AudioManager.Instance.PlaySfx(Sfx.JegiHit);
         }
         else
         {
             timingResult = "Miss";
             forceToAdd = -9.81f;
+            AudioManager.Instance.PlaySfx(Sfx.JegiMiss);
 
             _jegi._isKicked = true;
             //_isGameOver = true;
@@ -231,6 +237,8 @@ public class JegiGameManager : Singleton<JegiGameManager>
     public void GameOver()
     {
         if (_isGameOver) return;
+
+        AudioManager.Instance.PlaySfx(Sfx.JegiMiss);
 
         _rewardGold = CalculateReward(_currentScore);
         _isGameOver = true;
