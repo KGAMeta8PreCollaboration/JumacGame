@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Woodcutter
   prefab: {fileID: 1684575173487796187, guid: f2eac45508bf64c42a1dd67dcd8b2282, type: 3}
-  atk: 10
-  def: 10
-  hp: 10
-  luck: 100
-  gold: 100
+  atk: 12
+  def: 2
+  hp: 100
+  luck: 0
+  gold: 80

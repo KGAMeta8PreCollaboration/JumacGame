@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Sleeping_Scholar
   prefab: {fileID: 7791730778099103869, guid: 2692ff9e48a0f5046975f0016a173321, type: 3}
-  atk: 0
+  atk: 8
   def: 0
-  hp: 0
+  hp: 10
   luck: 0
-  gold: 0
+  gold: 10

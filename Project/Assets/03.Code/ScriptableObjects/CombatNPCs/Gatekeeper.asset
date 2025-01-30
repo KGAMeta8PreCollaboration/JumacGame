@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Gatekeeper
   prefab: {fileID: 3679099150336354629, guid: e1970623ca17d4544a66430f7c5c4a87, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  atk: 10
+  def: 10
+  hp: 10
+  luck: 10
+  gold: 10

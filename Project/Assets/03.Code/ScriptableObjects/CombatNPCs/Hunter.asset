@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Hunter
   prefab: {fileID: 5717466810376457939, guid: 7e16a173e9a0674498d653c5b1b59f21, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  atk: 30
+  def: 5
+  hp: 100
+  luck: 30
+  gold: 800
