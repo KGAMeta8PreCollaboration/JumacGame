@@ -58,8 +58,7 @@ public class CombatManager : Singleton<CombatManager>
         InstantiateCombatUnits();
         CombatUIManager.Instance.PageOpen<CombatUIPage>().SetPage(leftCombatUnit.nickName, rightCombatUnit.nickName);
 
-        //전투씬 배경음악이 없음
-        //AudioManager.Instance.PlayBgm(Bgm.)
+        AudioManager.Instance.PlayBgm(Bgm.BattleNormal);
 
         if (_isInitEnd == true)
         {
