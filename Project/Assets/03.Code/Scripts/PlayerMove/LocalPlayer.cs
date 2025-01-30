@@ -16,8 +16,11 @@ public class LocalPlayer : MonoBehaviour
 
     private Stat _stat;
     private bool _isJump;
+    private Animator _animator;
 
     [SerializeField] private List<GameObject> characterList;
+    
+    
 
     private void Reset()
     {
@@ -34,13 +37,25 @@ public class LocalPlayer : MonoBehaviour
         this.nickname = nickname;
         this.race = race;
         if (UserRace.human.ToString() == race)
+        {
             characterList[0].SetActive(true);
+            _animator = characterList[0].GetComponent<Animator>();
+        }
         else if (UserRace.dokkaebi.ToString() == race)
+        {
             characterList[1].SetActive(true);
+            _animator = characterList[1].GetComponent<Animator>();
+        }
         else if (UserRace.ghost.ToString() == race)
+        {
             characterList[2].SetActive(true);
+            _animator = characterList[2].GetComponent<Animator>();
+        }
         else
+        {
             characterList[3].SetActive(true);
+            _animator = characterList[3].GetComponent<Animator>();
+        }
     }
     
     
@@ -95,7 +110,9 @@ public class LocalPlayer : MonoBehaviour
         Vector3 forwardMove = transform.forward * moveDirection.z * speed * Time.deltaTime;
         Vector3 rightMove = transform.right * moveDirection.x * speed * Time.deltaTime;
         Vector3 move = forwardMove + rightMove;
+        
         // print(transform.position - move);
         rb.MovePosition(transform.position - move);
+        _animator.SetBool("Walk", moveDirection.magnitude > 0.1f);
     }
 }
