@@ -332,6 +332,50 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 202946202352878081, guid: f9b32bf88a3f4b046b03a5f756e47409, type: 3}
   m_PrefabInstance: {fileID: 7985719235062792927}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1038548741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1038548742}
+  - component: {fileID: 1038548743}
+  m_Layer: 0
+  m_Name: CombatFirebaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1038548742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038548741}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1038548743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038548741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818fb0017f524bb4b965db891f7240ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1092237818 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2199228901917119820, guid: fc79c4e72c0885449a15462804c871ad, type: 3}
@@ -782,8 +826,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raceList:
   - {fileID: 6603879435597259612, guid: f9155873c83b32840bec07368594b25f, type: 3}
-  - {fileID: 6590857605272407289, guid: 8a06a48f350803f4f98a1713146249ac, type: 3}
-  - {fileID: 4597443188160856706, guid: 152321d11b622ee49a82f91ca38fc9fd, type: 3}
+  - {fileID: 6590857605272407289, guid: 152321d11b622ee49a82f91ca38fc9fd, type: 3}
+  - {fileID: 4597443188160856706, guid: 8a06a48f350803f4f98a1713146249ac, type: 3}
   - {fileID: 407599487140665236, guid: 06f81cf991d5a5846b183cabf1be50be, type: 3}
   leftSpawnPos: {fileID: 29326328}
   rightSpawnPos: {fileID: 1092237818}
@@ -1537,3 +1581,4 @@ SceneRoots:
   - {fileID: 1672958665054898862}
   - {fileID: 4973247840308999633}
   - {fileID: 2143865382}
+  - {fileID: 1038548742}

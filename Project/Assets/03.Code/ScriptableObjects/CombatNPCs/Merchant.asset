@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Merchant
   prefab: {fileID: 6443618816730286290, guid: 1a7b4d5e88f22714986ba0ccf9dd2b3e, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  atk: 12
+  def: 5
+  hp: 100
+  luck: 10
+  gold: 200

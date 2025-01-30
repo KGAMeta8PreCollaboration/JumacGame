@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Senior_Soldier
   prefab: {fileID: 4358602115205642704, guid: 2fd12c7ab46ab4544a17564f4f0ce3e7, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  atk: 20
+  def: 8
+  hp: 150
+  luck: 10
+  gold: 500

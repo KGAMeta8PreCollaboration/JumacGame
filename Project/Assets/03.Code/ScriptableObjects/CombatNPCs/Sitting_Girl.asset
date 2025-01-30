@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Sitting_Girl
   prefab: {fileID: 2923126250284198728, guid: fa757e8889d3b5f4ebf01e1286bc2921, type: 3}
-  atk: 0
+  atk: 10
   def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  hp: 100
+  luck: 5
+  gold: 20

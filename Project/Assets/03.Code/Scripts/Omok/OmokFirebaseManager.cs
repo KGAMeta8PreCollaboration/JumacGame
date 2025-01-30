@@ -138,6 +138,8 @@ public class OmokFirebaseManager : Singleton<OmokFirebaseManager>
 
             _isDataLoaded = true;
 
+            AudioManager.Instance.PlayBgm(Bgm.None);
+
             //OmokUIManager.Instance.PageOpen<OmokUIPage>().Init(currentRoomData);
             //MonitorTurnList();
             //_isDataLoaded = true;

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Drawing_Scholar
   prefab: {fileID: 4500510793698206456, guid: f70eb4cbd973f344ba68a4fb0e2b4c38, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
-  luck: 0
-  gold: 0
+  atk: 18
+  def: 7
+  hp: 150
+  luck: 10
+  gold: 500

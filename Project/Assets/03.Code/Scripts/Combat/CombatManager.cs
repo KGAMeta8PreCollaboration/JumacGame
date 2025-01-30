@@ -58,6 +58,8 @@ public class CombatManager : Singleton<CombatManager>
         InstantiateCombatUnits();
         CombatUIManager.Instance.PageOpen<CombatUIPage>().SetPage(leftCombatUnit.nickName, rightCombatUnit.nickName);
 
+        AudioManager.Instance.PlayBgm(Bgm.BattleNormal);
+
         if (_isInitEnd == true)
         {
             StartCoroutine(Temp());
@@ -125,7 +127,7 @@ public class CombatManager : Singleton<CombatManager>
             tempUnit.nickName = combatNPCData.npcName;
             tempUnit.atk = combatNPCData.atk;
             tempUnit.def = combatNPCData.def;
-            tempUnit.hp = 30;
+            tempUnit.hp = combatNPCData.hp;
             tempUnit.luck = combatNPCData.luck;
 
 
@@ -147,6 +149,7 @@ public class CombatManager : Singleton<CombatManager>
     private IEnumerator WaitingTextCoroutine()
     {
         CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("Ready?");
+        AudioManager.Instance.PlaySfx(Sfx.BattleReady);
         yield return new WaitForSeconds(2.5f);
         CombatUIManager.Instance.PopupClose();
         CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("3");
@@ -159,6 +162,7 @@ public class CombatManager : Singleton<CombatManager>
         yield return new WaitForSeconds(1f);
         CombatUIManager.Instance.PopupClose();
         CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("Fight!");
+        AudioManager.Instance.PlaySfx(Sfx.BattleStart);
         yield return new WaitForSeconds(1f);
         CombatUIManager.Instance.PopupClose();
 

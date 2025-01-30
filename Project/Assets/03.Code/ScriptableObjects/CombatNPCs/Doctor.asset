@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Doctor
   prefab: {fileID: 1000505903333689229, guid: 609f03c9c5f9eac4cb40b135db24a6e2, type: 3}
-  atk: 0
-  def: 0
-  hp: 0
+  atk: 10
+  def: 5
+  hp: 120
   luck: 0
-  gold: 0
+  gold: 100
