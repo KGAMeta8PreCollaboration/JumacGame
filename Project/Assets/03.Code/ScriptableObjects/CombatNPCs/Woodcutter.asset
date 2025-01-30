@@ -17,5 +17,5 @@ MonoBehaviour:
   atk: 10
   def: 10
   hp: 10
-  luck: 10
-  gold: 0
+  luck: 100
+  gold: 100
