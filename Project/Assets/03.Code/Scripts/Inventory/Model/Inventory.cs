@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour
 	public Weapon equippedWeapon { get; private set; }
 	public Armor equippedArmor { get; private set; }
 	public Accessory equippedAccessory { get; private set; }
+	public Alcohol equippedAlcohol { get; private set; }
 	
 	private Dictionary<int, Item> itemDictionary = new Dictionary<int, Item>();
 
@@ -25,7 +26,7 @@ public class Inventory : MonoBehaviour
 			break;
 		}
 		if (isAction)
-			GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
+			GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory, equippedAlcohol);
 		return true;
 	}
 
@@ -38,7 +39,7 @@ public class Inventory : MonoBehaviour
 		itemDictionary[slotNumber] = item;
 		OnItemAdded?.Invoke(slotNumber, item);
 		if (isAction)
-			GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
+			GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory, equippedAlcohol);
 		return true;
 	}
 	
@@ -51,7 +52,7 @@ public class Inventory : MonoBehaviour
 				OnItemRemoved?.Invoke(itempair.Key, item);
 				itemDictionary.Remove(itempair.Key);
 				if (isAction)
-					GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
+					GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory, equippedAlcohol);
 				return true;
 			}
 		}
@@ -65,7 +66,7 @@ public class Inventory : MonoBehaviour
 			OnItemRemoved?.Invoke(slotNumber, itemDictionary[slotNumber]);
 			itemDictionary.Remove(slotNumber);
 			if (isAction)
-				GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
+				GameManager.Instance.ItemDataManager.SaveItemDataToFirebase(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory, equippedAlcohol);
 			return true;
 		}
 		return false;
@@ -91,6 +92,8 @@ public class Inventory : MonoBehaviour
 			EquipArmor(armor);
 		else if (item is Accessory accessory)
 			EquipAccessory(accessory);
+		else if (item is Alcohol alcohol)
+			EquipAlcohol(alcohol);
 		else
 			return;
 		if (isAction)
@@ -128,6 +131,17 @@ public class Inventory : MonoBehaviour
 		{
 			equippedAccessory = accessory;
 			equippedAccessory.Equip();
+		}
+	}
+	
+	public void EquipAlcohol(Alcohol alcohol)
+	{
+		if (equippedAlcohol != null)
+			equippedAlcohol.Unequip();
+		if (itemDictionary.ContainsValue(alcohol))
+		{
+			equippedAlcohol = alcohol;
+			equippedAlcohol.Equip();
 		}
 	}
 	

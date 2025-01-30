@@ -5,14 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class JegiUserData
 {
-    public string nickName;
+    public string nickname;
     public int score;
 
     public JegiUserData() { }
 
     public JegiUserData(string nickName, int score)
     {
-        this.nickName = nickName;
+        this.nickname = nickName;
         this.score = score;
     }
 }

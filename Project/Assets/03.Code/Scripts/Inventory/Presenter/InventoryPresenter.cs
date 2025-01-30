@@ -32,6 +32,9 @@ public class InventoryPresenter : MonoBehaviour
 		inventoryPanel.OnEquipItem += inventory.EquipItem;
 		inventoryPanel.OnUnequipItem += inventory.UnequipItem;
 		
+		GameManager.Instance.FirebaseManager.InventoryRef.Child(GameManager.Instance.FirebaseManager.User.UserId).ValueChanged
+			+= (sender, args) => UpdateStat();
+		
 		AddItemCoroutine();
 	}
 	private void AddItemCoroutine()
@@ -46,6 +49,8 @@ public class InventoryPresenter : MonoBehaviour
 			inventory.EquipItem(GameManager.Instance.ItemDataManager.equippedArmor, true);
 		if (GameManager.Instance.ItemDataManager.equippedAccessory != -1)
 			inventory.EquipItem(GameManager.Instance.ItemDataManager.equippedAccessory, true);
+		if (GameManager.Instance.ItemDataManager.equippedAlcohol != -1)
+			inventory.EquipItem(GameManager.Instance.ItemDataManager.equippedAlcohol, true);
 	}
 
 	private void OnItemAdded(int index, Item item)
@@ -96,6 +101,7 @@ public class InventoryPresenter : MonoBehaviour
 		DataSnapshot weaponRef = await inventoryRef.Child("equippedWeapon").GetValueAsync();
 		DataSnapshot armorRef = await inventoryRef.Child("equippedArmor").GetValueAsync();
 		DataSnapshot accessoryRef = await inventoryRef.Child("equippedAccessory").GetValueAsync();
+		DataSnapshot alcoholRef = await inventoryRef.Child("equippedAlcohol").GetValueAsync();
 
 		int atk = 0;
 		int def = 0;
@@ -105,6 +111,7 @@ public class InventoryPresenter : MonoBehaviour
 		UpdateStatsFromItem(weaponRef, ref atk, ref def, ref hp, ref luck);
 		UpdateStatsFromItem(armorRef, ref atk, ref def, ref hp, ref luck);
 		UpdateStatsFromItem(accessoryRef, ref atk, ref def, ref hp, ref luck);
+		UpdateStatsFromItem(alcoholRef, ref atk, ref def, ref hp, ref luck);
 		
 		stat.plusAtk = atk;
 		stat.plusDef = def;

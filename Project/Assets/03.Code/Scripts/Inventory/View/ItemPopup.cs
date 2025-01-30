@@ -47,7 +47,12 @@ public class ItemPopup : MonoBehaviour
 		titleText.text = item.itemName;
 		iconImage.sprite = item.icon.sprite;
 		for (int i = 0; i < item.descriptions.Length; i++)
+		{
 			descriptionTexts[i].text = item.descriptions[i];
+			descriptionTexts[i].gameObject.SetActive(true);
+		}
+		for (int i = item.descriptions.Length; i < descriptionTexts.Count; i++)
+			descriptionTexts[i].gameObject.SetActive(false);
 		this.slotNumber = slotNumber;
 	}
 	

@@ -14,6 +14,7 @@ public class ItemDataManager : MonoBehaviour
 	public int equippedWeapon;
 	public int equippedArmor;
 	public int equippedAccessory;
+	public int equippedAlcohol;
 
 	private void Start()
 	{
@@ -40,12 +41,20 @@ public class ItemDataManager : MonoBehaviour
 			inventoryData.equippedWeapon = Convert.ToInt32(data.Child("equippedWeapon").GetValue(true));
 			inventoryData.equippedArmor = Convert.ToInt32(data.Child("equippedArmor").GetValue(true));
 			inventoryData.equippedAccessory = Convert.ToInt32(data.Child("equippedAccessory").GetValue(true));
+			inventoryData.equippedAlcohol = Convert.ToInt32(data.Child("equippedAlcohol").GetValue(true));
+			
 			equippedWeapon = inventoryData.equippedWeapon;
 			equippedArmor = inventoryData.equippedArmor;
 			equippedAccessory = inventoryData.equippedAccessory;
+			equippedAlcohol = inventoryData.equippedAlcohol;
+			
 			foreach (DataSnapshot item in data.Child("itemDictionary").Children)
 				inventoryData.itemDictionary[int.Parse(item.Key)] = Convert.ToInt32(item.Value);
 			itemDictionary = inventoryData.itemDictionary;
+			print(data.Value.ToString());
+			print("data.Child(\"itemDictionary\").Children 사이즈 : "+ data.Child("itemDictionary").ChildrenCount);
+			print("inventoryData.itemDictionary 사이즈 : "+ inventoryData.itemDictionary.Count);
+			print("itemDictionary 사이즈 : "+ itemDictionary.Count);
 		}
 	}
 
@@ -67,6 +76,8 @@ public class ItemDataManager : MonoBehaviour
 						item = new Armor(armorData);
 					else if (itemDatas[i] is AccessoryData accessoryData)
 						item = new Accessory(accessoryData);
+					else if (itemDatas[i] is AlcoholData alcoholData)
+						item = new Alcohol(alcoholData);
 					else
 						item = new Item(itemDatas[i]);
 					resDic.Add(itemPair.Key, item);
@@ -77,12 +88,12 @@ public class ItemDataManager : MonoBehaviour
 		return resDic;
 	}
 	
-	public async void SaveItemDataToFirebase(Dictionary<int, Item> itemDic, Weapon equippedWeapon, Armor equippedArmor, Accessory equippedAccessory)
+	public async void SaveItemDataToFirebase(Dictionary<int, Item> itemDic, Weapon equippedWeapon, Armor equippedArmor, Accessory equippedAccessory, Alcohol equippedAlcohol)
 	{
 		itemDictionary.Clear();
 		foreach (KeyValuePair<int, Item> item in itemDic)
 			itemDictionary[item.Key] = item.Value.id;
-		InventoryData inventoryData = new InventoryData(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory);
+		InventoryData inventoryData = new InventoryData(itemDictionary, equippedWeapon, equippedArmor, equippedAccessory, equippedAlcohol);
 		DatabaseReference inventoryRef = GameManager.Instance.FirebaseManager.InventoryRef;
 		string uid = GameManager.Instance.FirebaseManager.User.UserId;
 		string json = JsonConvert.SerializeObject(inventoryData);
@@ -98,8 +109,10 @@ public class ItemDataManager : MonoBehaviour
 			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedWeapon");
 		else if (item is Armor)
 			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedArmor");
-		else
+		else if (item is Accessory)
 			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedAccessory");
+		else
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedAlcohol");
 		equippedItemRef.SetValueAsync(slotNumber);
 	}
 
@@ -112,8 +125,10 @@ public class ItemDataManager : MonoBehaviour
 			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedWeapon");
 		else if (item is Armor)
 			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedArmor");
-		else
+		else if (item is Accessory)
 			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedAccessory");
+		else
+			equippedItemRef = inventoryRef.Child($"{GameManager.Instance.FirebaseManager.User.UserId}/equippedAlcohol");
 		equippedItemRef.SetValueAsync(-1);
 	}
 }
@@ -124,28 +139,37 @@ public class InventoryData
 	public int equippedWeapon;
 	public int equippedArmor;
 	public int equippedAccessory;
+	public int equippedAlcohol;
 
 	public InventoryData()
 	{
 		equippedWeapon = -1;
 		equippedArmor = -1;
 		equippedAccessory = -1;
+		equippedAlcohol = -1;
 	}
 	
-	public InventoryData(Dictionary<int, int> itemDic, Weapon equippedWeapon, Armor equippedArmor, Accessory equippedAccessory)
+	public InventoryData(Dictionary<int, int> itemDic, Weapon equippedWeapon, Armor equippedArmor, Accessory equippedAccessory, Alcohol equippedAlcohol)
 	{
 		itemDictionary = new Dictionary<int, int>(itemDic);
 		if (equippedWeapon == null)
 			this.equippedWeapon = -1;
 		else
 			this.equippedWeapon = equippedWeapon.id;
+		
 		if (equippedArmor == null)
 			this.equippedArmor = -1;
 		else
 			this.equippedArmor = equippedArmor.id;
+		
 		if (equippedAccessory == null)
 			this.equippedAccessory = -1;
 		else
 			this.equippedAccessory = equippedAccessory.id;
+		
+		if (equippedAlcohol == null)
+			this.equippedAlcohol = -1;
+		else
+			this.equippedAlcohol = equippedAlcohol.id;
 	}
 }
