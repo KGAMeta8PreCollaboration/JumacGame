@@ -21,6 +21,6 @@ MonoBehaviour:
   - "- \uBC29\uC5B4\uB825 : 3"
   - "- \uCCB4\uB825 : 5"
   damage: 0
-  defense: 0
+  defense: 3
   luck: 0
-  health: 0
+  health: 5

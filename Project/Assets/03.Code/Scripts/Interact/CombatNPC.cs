@@ -14,7 +14,7 @@ public class CombatNPC : ButtonInteractable
     [SerializeField] private Dialogue _combatDialogue;
 
     private DialogueLoader _dialogueLoader;
-    private List<InteractionButton> _buttons = new List<InteractionButton>();
+    protected List<InteractionButton> _buttons = new List<InteractionButton>();
 
     private void Start()
     {
@@ -26,14 +26,15 @@ public class CombatNPC : ButtonInteractable
         _dialogueLoader.LoadDialogue(_dialogue, CombatChoice);
     }
 
-    private void CombatChoice()
+    protected virtual void CombatChoice()
     {
+
         InteractionButton combatIButton = Instantiate<InteractionButton>(_interactionButtonPrefab, GameObject.Find("InteractView").transform);
         _buttons.Add(combatIButton);
         combatIButton.SetTitle("싸운다");
         Button combatButton = combatIButton.GetComponent<Button>();
         combatButton.onClick.AddListener(CombatSelect);
-
+        
         InteractionButton nonCombatIButton = Instantiate<InteractionButton>(_interactionButtonPrefab, GameObject.Find("InteractView").transform);
         _buttons.Add(nonCombatIButton);
         nonCombatIButton.SetTitle("대화 그만하기");
@@ -56,7 +57,7 @@ public class CombatNPC : ButtonInteractable
 
     }
 
-    private void DestroyButtonAll()
+    protected void DestroyButtonAll()
     {
         foreach (InteractionButton button in _buttons)
         {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
@@ -26,7 +27,7 @@ public class LeaderBoard : MonoBehaviour
 	public FirebaseAuth Auth { get; private set; }
 	public FirebaseDatabase Database { get; private set; }
 	
-	private DatabaseReference _omokRef;
+	private DatabaseReference _gameRankRef;
 	private DatabaseReference _loginusersRef;
 
 	public LeaderBoardType leaderBoardType;
@@ -45,7 +46,7 @@ public class LeaderBoard : MonoBehaviour
 			Auth = FirebaseAuth.DefaultInstance;
 			Database = FirebaseDatabase.DefaultInstance;
 
-			_omokRef = Database.GetReference($"leaderboard/{leaderBoardType.ToString()}");
+			_gameRankRef = Database.GetReference($"leaderboard/{leaderBoardType.ToString()}");
 			_loginusersRef = Database.GetReference($"loginusers");
 		}
 		catch (Exception e)
@@ -53,9 +54,13 @@ public class LeaderBoard : MonoBehaviour
 			Debug.LogError($"파이어베이스 초기화 에러 : {e.Message}");
 		}
 		
-		DataSnapshot data = await _omokRef.GetValueAsync();
+		DataSnapshot data = await _gameRankRef.GetValueAsync();
 		int rank = 1;
 		List<KeyValuePair<int, string>> rankList = new List<KeyValuePair<int, string>>();
+
+		print("1");
+		print(data);
+		print("2");
 		foreach (DataSnapshot item in data.Children)
 		{
 			string nickname = item.Child("nickname").Value.ToString();
