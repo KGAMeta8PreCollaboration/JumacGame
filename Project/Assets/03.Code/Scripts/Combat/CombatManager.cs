@@ -89,7 +89,7 @@ public class CombatManager : Singleton<CombatManager>
                     LeftCombatUnit leftCombatUnit = leftCombatUnitObj.GetComponent<LeftCombatUnit>();
 
                     print("2");
-                    //LeftCombatUnit newUnit = new LeftCombatUnit(logInUserData, combatStat);
+
                     leftCombatUnit.nickName = logInUserData.nickname;
                     leftCombatUnit.atk = combatStat.atk + combatStat.plusAtk;
                     leftCombatUnit.def = combatStat.def + combatStat.plusDef;

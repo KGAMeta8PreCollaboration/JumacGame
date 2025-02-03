@@ -11,9 +11,9 @@ public class WaitingPopup : LobbyPopup
     [SerializeField] private TextMeshProUGUI elapsedTimeText;
     [SerializeField] private Button popupCloseButton;
 
-    private DateTime creationTime;
+    private DateTime _creationTime;
 
-    private RoomData waitingRoom; //������ �ϳ��� ���� �� �־ List�� �ƴ� RoomData �����̴�.
+    private RoomData _waitingRoom; //������ �ϳ��� ���� �� �־ List�� �ƴ� RoomData �����̴�.
 
     protected override void OnEnable()
     {
@@ -30,11 +30,11 @@ public class WaitingPopup : LobbyPopup
 
     public void SetWaitingRoom(RoomData roomData, DateTime time)
     {
-        waitingRoom = roomData;
+        _waitingRoom = roomData;
 
         titleText.text = roomData.roomName;
 
-        creationTime = time;
+        _creationTime = time;
 
         StartCoroutine(UpdateElapsedTimeCoroutine());
     }
@@ -43,7 +43,7 @@ public class WaitingPopup : LobbyPopup
     {
         while (true)
         {
-            TimeSpan timePassed = DateTime.Now - creationTime;
+            TimeSpan timePassed = DateTime.Now - _creationTime;
             elapsedTimeText.text = $"{timePassed.Minutes:D2} : {timePassed.Seconds:D2}";
 
             yield return new WaitForSeconds(1f);
@@ -53,6 +53,6 @@ public class WaitingPopup : LobbyPopup
     protected override void CloseButtonClick()
     {
         base.CloseButtonClick();
-        LobbyFirebaseManager.Instance.DeleteRoom(waitingRoom);
+        LobbyFirebaseManager.Instance.DeleteRoom(_waitingRoom);
     }
 }

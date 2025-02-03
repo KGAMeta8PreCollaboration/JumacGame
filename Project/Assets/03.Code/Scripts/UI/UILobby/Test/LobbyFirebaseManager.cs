@@ -18,11 +18,13 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     public ChatUserData chatUserData;
     public LogInUserData logInUserData;
 
+    //각각의 Firebase 참조 Reference
     private DatabaseReference _dbChatRef;
     private DatabaseReference _dbUserRef;
     private DatabaseReference _dbServerRef;
     private DatabaseReference _dbRoomRef;
 
+    //채팅 변화를 감지하는 EventHandler
     private EventHandler<ChildChangedEventArgs> _childAddedHandler;
 
     private RoomData _roomData;
@@ -33,6 +35,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         //DontDestroyOnLoad(gameObject); //-> 없어도 roomState변경을 추적한다.
     }
 
+    //lobby입장 시 logInUserData, chatUserData, _dbRoomRef를 초기화해줌
     private async void Start()
     {
         try
@@ -53,13 +56,13 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 {
                     nickname = this.logInUserData.nickname,
                     id = this.logInUserData.id,
-                    serverName = this.logInUserData.serverName,
+                    servername = this.logInUserData.serverName,
                     timestamp = this.logInUserData.timestamp
                 };
 
                 _dbRoomRef = Database.GetReference("omokuserdata")
                 .Child("rooms")
-                .Child(chatUserData.serverName);
+                .Child(chatUserData.servername);
 
                 if (_dbRoomRef == null)
                 {
@@ -84,7 +87,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            _dbChatRef = Database.GetReference("chats").Child(chatUserData.serverName);
+            _dbChatRef = Database.GetReference("chats").Child(chatUserData.servername);
             string key = _dbChatRef.Push().Key;
 
             print($"메시지 보낸사람 Id: {messageData.SenderId}");
@@ -105,7 +108,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         print("일단 연결은 됨");
         try
         {
-            _dbChatRef = Database.GetReference("chats").Child(chatUserData.serverName);
+            _dbChatRef = Database.GetReference("chats").Child(chatUserData.servername);
 
             //이미 이벤트가 있으면 전에 있던 이벤트를 해제
             if (_childAddedHandler != null)
@@ -146,20 +149,17 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            //_dbRoomRef = Database.GetReference("omokuserdata")
-            //    .Child("rooms")
-            //    .Child(chatUserData.serverName);
-
             string roomKey = _dbRoomRef.Push().Key;
 
-            print($"방장의 서버 이름 : {chatUserData.serverName}");
+            print($"방장의 서버 이름 : {chatUserData.servername}");
             print($"만든 방의 이름 : {roomData.roomName}");
 
+            //방 생성 당시에는 방이름, 배팅금, 서버이름, 만든이의id만 저장
             RoomData newRoom = new RoomData(
                 roomKey,
                 roomData.roomName,
                 roomData.betting,
-                chatUserData.serverName,
+                chatUserData.servername,
                 chatUserData.id
                 );
 
@@ -193,7 +193,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            //_dbRoomRef = Database.GetReference(chatUserData.serverName).Child("rooms");
             DataSnapshot roomSnapshot = await _dbRoomRef.GetValueAsync();
 
             List<RoomData> waitingRoomList = new List<RoomData>();
@@ -228,7 +227,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
     {
         try
         {
-            //_dbRoomRef = Database.GetReference(chatUserData.serverName).Child($"rooms");
             DataSnapshot roomSnapshot = await _dbRoomRef.Child(roomData.roomKey).GetValueAsync();
 
             if (roomSnapshot.Exists)
@@ -236,20 +234,18 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 string roomDataJson = roomSnapshot.GetRawJsonValue();
                 roomData = JsonConvert.DeserializeObject<RoomData>(roomDataJson);
                 
+                //방 상태가 Waiting일때만 입장 가능
                 if (roomData.state != RoomState.Waiting)
                 {
                     Debug.LogWarning("해당 방은 이미 게임 중이거나 종료된 상태입니다.");
                     return;
                 }
 
+                //게스트가 이미 들어오면 불가능
                 if (string.IsNullOrEmpty(roomData.guest))
                 {
-                    //Turn turn = new Turn("(0,0)", true, 1);
-                    //List<Turn> temp = new List<Turn>();
                     roomData.guest = chatUserData.id;
                     roomData.state = RoomState.Playing;
-                    //roomData.turnList = temp;
-                    //roomData.turnList.Add(turn);
 
                     _roomData = roomData;
 
@@ -276,7 +272,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     private RoomState _previousState = RoomState.Waiting;
 
-    public void MonitorRoomState(RoomData roomData)
+    private void MonitorRoomState(RoomData roomData)
     {
         DatabaseReference roomStateRef = _dbRoomRef.Child(roomData.roomKey).Child("state");
 
@@ -285,7 +281,7 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             if (args.Snapshot.Exists)
             {
                 string stateValue = args.Snapshot.Value.ToString();
-                print($"바뀌기 전 방 상태 : {stateValue}");
+                print($"바뀐 후 방 상태 : {stateValue}");
 
                 RoomState newState = (RoomState)Enum.Parse(typeof(RoomState), stateValue);
 
@@ -293,35 +289,16 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
                 {
                     _previousState = newState;
 
-                    print($"바뀐 후 방 상태 : {stateValue}");
-
                     if (newState == RoomState.Playing)
                     {
-                        //DatabaseReference lastRoomRef = Database.GetReference(chatUserData.serverName)
-                        //.Child("rooms")
-                        //.Child(roomData.roomKey);
-
-                        //DataSnapshot snapshot = await lastRoomRef.GetValueAsync();
-
                         print("일단 Playing으로 상태 바뀜");
                         SceneManager.LoadScene("OmokScene");
-
-                        //string json = snapshot.GetRawJsonValue();
-                        //RoomData lastRoomData = JsonConvert.DeserializeObject<RoomData>(json);
-
-                        //if (snapshot.Exists)
-                        //{
-                        //    string roomDataJson = snapshot.GetRawJsonValue();
-                        //    PlayerPrefs.SetString("CurrentRoomData", roomDataJson);
-                        //    PlayerPrefs.Save();
-
-                        //}
-                        //SceneManager.LoadScene("OmokScene");
                     }
 
                     else if (newState == RoomState.Finished)
                     {
-                        //SceneManager.LoadScene("DES");
+                        //게임 끝나고 나서 기록 지우려면 아래 주석 제거
+                        //DeleteRoom(roomData);
                     }
                 }
             }

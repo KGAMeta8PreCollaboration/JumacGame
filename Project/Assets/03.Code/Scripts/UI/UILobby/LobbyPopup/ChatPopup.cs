@@ -38,7 +38,7 @@ public class ChatPopup : LobbyPopup
         MessageData message = new MessageData(
             chatUserData.id,
             chatUserData.nickname,
-            chatUserData.serverName,
+            chatUserData.servername,
             chatInputField.text
             );
 
