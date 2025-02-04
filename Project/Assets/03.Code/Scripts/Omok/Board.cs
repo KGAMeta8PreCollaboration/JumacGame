@@ -19,14 +19,10 @@ public class Board : MonoBehaviour
     private float _boardSize;
     private float _cellSize;
     private Vector3 _boardStartPos;
-    private Vector2Int? tempStoneIndex = null; //임시 돌의 위치(없으면 null)
+    private Vector2Int? _tempStoneIndex = null; //임시 돌의 위치(없으면 null)
 
     private int[,] boardState; //0 -> 기본, 1 -> 흑, 2 -> 백
 
-    //private void OnEnable()
-    //{
-    //    doPlaceButton.onClick.AddListener(OnClickDoPlaceStoneButton);
-    //}
 
     private void OnDisable()
     {
@@ -91,7 +87,7 @@ public class Board : MonoBehaviour
                 //내 턴일때만 임시로 돌을 놓을 수 있다
                 if (isMyTurn)
                 {
-                    tempStoneIndex = boardIndex;
+                    _tempStoneIndex = boardIndex;
                     ShowTempStoneImage(boardIndex);
                     //OmokFirebaseManager.Instance.RequestPlaceStone(boardIndex);
                     //Instantiate(tempStoneImagePrefab, new Vector3(boardIndex.x, boardIndex.y, 0), Quaternion.identity, tempStoneUI);
@@ -164,13 +160,13 @@ public class Board : MonoBehaviour
 
     private void OnClickDoPlaceStoneButton()
     {
-        if (tempStoneIndex == null)
+        if (_tempStoneIndex == null)
         {
             Debug.LogWarning("착수 위치를 고르세요");
             return;
         }
 
-        Vector2Int index = tempStoneIndex.Value;
+        Vector2Int index = _tempStoneIndex.Value;
 
         if (boardState[index.x, index.y] != 0)
         {
@@ -181,7 +177,7 @@ public class Board : MonoBehaviour
         OmokFirebaseManager.Instance.RequestPlaceStone(index);
 
         //두고나면 임시좌표와 임시프리팹 삭제
-        tempStoneIndex = null;
+        _tempStoneIndex = null;
         Destroy(_redStoneObj);
     }
 

@@ -20,7 +20,7 @@ public class JegiUIPopup : JegiPopup
     protected override void CloseButtonClick()
     {
         base.CloseButtonClick();
-        JegiGameManager.Instance._pause = false;
+        JegiGameManager.Instance.pause = false;
     }
 
     private void OnClickGoLobbyButton()

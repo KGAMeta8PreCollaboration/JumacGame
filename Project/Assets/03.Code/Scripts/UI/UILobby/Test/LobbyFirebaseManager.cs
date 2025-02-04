@@ -105,7 +105,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
     public void ReceiveMessage(Action<MessageData> callback = null)
     {
-        print("일단 연결은 됨");
         try
         {
             _dbChatRef = Database.GetReference("chats").Child(chatUserData.servername);
@@ -151,9 +150,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
         {
             string roomKey = _dbRoomRef.Push().Key;
 
-            print($"방장의 서버 이름 : {chatUserData.servername}");
-            print($"만든 방의 이름 : {roomData.roomName}");
-
             //방 생성 당시에는 방이름, 배팅금, 서버이름, 만든이의id만 저장
             RoomData newRoom = new RoomData(
                 roomKey,
@@ -166,7 +162,6 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
             string roomJson = JsonConvert.SerializeObject(newRoom);
             await _dbRoomRef.Child(roomKey).SetRawJsonValueAsync(roomJson);
 
-            print($"방의 Key : {roomKey}");
             MonitorRoomState(newRoom);
         }
         catch (Exception e)
@@ -291,13 +286,12 @@ public class LobbyFirebaseManager : Singleton<LobbyFirebaseManager>
 
                     if (newState == RoomState.Playing)
                     {
-                        print("일단 Playing으로 상태 바뀜");
                         SceneManager.LoadScene("OmokScene");
                     }
 
                     else if (newState == RoomState.Finished)
                     {
-                        //게임 끝나고 나서 기록 지우려면 아래 주석 제거
+                        //게임 기록 지우려면 아래 주석 제거
                         //DeleteRoom(roomData);
                     }
                 }

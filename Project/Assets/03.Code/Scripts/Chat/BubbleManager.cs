@@ -18,17 +18,7 @@ public class BubbleManager : Singleton<BubbleManager>
     private void Start()
     {
         _localPlayer = FindObjectOfType<LocalPlayer>();
-        //Transform parent = _localPlayer.GetComponentInParent<Transform>();
-        //main = parent.GetComponentInChildren<CameraMovement>();
     }
-
-    //private IEnumerator wait()
-    //{
-    //    yield return new WaitForSeconds(2f);
-    //    _localPlayer = FindObjectOfType<LocalPlayer>();
-    //    Transform parent = _localPlayer.GetComponentInParent<Transform>();
-    //    main = parent.GetComponentInChildren<CameraMovement>();
-    //}
 
     public void MakeMyBubble(MessageData messageData)
     {

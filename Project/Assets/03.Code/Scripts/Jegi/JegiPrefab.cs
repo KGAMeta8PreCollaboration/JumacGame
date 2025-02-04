@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class JegiPrefab : MonoBehaviour
 {
-    public Rigidbody2D _rb;
+    private Rigidbody2D _rb;
     private bool _isGrounded = false;
     public bool _isKicked = false;
 
@@ -41,22 +41,7 @@ public class JegiPrefab : MonoBehaviour
 
     private void Update()
     {
-        //그냥 위아래로 움직이기
-        //float verticalVel = _rb.velocity.y;
-
-        //if (verticalVel > 0.01f)
-        //{
-        //    transform.rotation = Quaternion.Euler(0, 0, 0);
-        //}
-
-        ////내려가면 찬 상태가 초기화
-        //else if (verticalVel < -0.01f)
-        //{
-        //    transform.rotation = Quaternion.Euler(0, 0, 180);
-        //    _isKicked = false;
-        //}
-
-        if (JegiGameManager.Instance._isGameOver == true) return;
+        if (JegiGameManager.Instance.isGameOver == true) return;
 
         Vector2 velocity = _rb.velocity;
         float currentVelY = velocity.y;
@@ -67,12 +52,13 @@ public class JegiPrefab : MonoBehaviour
         }
 
         float speed = velocity.magnitude;
+
         //이동 중이라면
         if (speed > 0.01f)
         {
             float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
 
-            //angle을 -90해줘야 가는 방향으로 로테이션이 돈다
+            //angle을 +90해줘야 가는 방향으로 머리가 향함
             angle += 90f;
 
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
@@ -81,8 +67,6 @@ public class JegiPrefab : MonoBehaviour
             float rotationSpeed = 5f;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-
-            //_isKicked = false;
         }
 
         else
@@ -95,9 +79,7 @@ public class JegiPrefab : MonoBehaviour
 
     public void Kick(float force, float angle)
     {
-        print("제기 참");
-        //디버깅 중이라 땅에 떨어질때 경우 해제
-        if (JegiGameManager.Instance._isGameOver == true) return;
+        if (JegiGameManager.Instance.isGameOver == true) return;
 
         _isKicked = true;
         _rb.velocity = Vector2.zero;
@@ -105,7 +87,7 @@ public class JegiPrefab : MonoBehaviour
         Vector2 kickDir = Quaternion.Euler(0, 0, angle) * Vector2.up;
         _rb.AddForce(kickDir * force, ForceMode2D.Impulse);
 
-        AccelerateGravity(JegiGameManager.Instance._combo);
+        AccelerateGravity(JegiGameManager.Instance.combo);
     }
 
     private void ReflectedByWall()

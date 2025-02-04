@@ -29,6 +29,6 @@ public class JegiTimePopup : JegiPopup
         yield return new WaitForSeconds(1f);
         JegiUIManager.Instance.PopupClose();
 
-        JegiGameManager.Instance._pause = false;
+        JegiGameManager.Instance.pause = false;
     }
 }

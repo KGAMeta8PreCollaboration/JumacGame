@@ -39,10 +39,16 @@ public class RightCombatUnit : CombatUnit
     public override void OnDead()
     {
         base.OnDead();
-        CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("YOU WIN!");
+        StartCoroutine(HandleWin());
+    }
 
-        AudioManager.Instance.PlaySfx(Sfx.BattleWin);
+    private IEnumerator HandleWin()
+    {
+        CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("YOU WIN!!");
+        yield return new WaitForSeconds(2f);
 
-        CombatUIManager.Instance.PopupOpen<CombatResultPopup>().SetPopup(true, CombatManager.Instance.gold);
+        AudioManager.Instance.PlaySfx(Sfx.BattleLose);
+
+        CombatUIManager.Instance.PopupOpen<CombatResultPopup>().SetPopup(false, CombatManager.Instance.gold);
     }
 }

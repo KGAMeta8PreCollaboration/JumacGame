@@ -62,11 +62,11 @@ public class CombatManager : Singleton<CombatManager>
 
         if (_isInitEnd == true)
         {
-            StartCoroutine(Temp());
+            StartCoroutine(HandleCombat());
         }
     }
 
-    private IEnumerator Temp()
+    private IEnumerator HandleCombat()
     {
         StartCoroutine(WaitingTextCoroutine());
 

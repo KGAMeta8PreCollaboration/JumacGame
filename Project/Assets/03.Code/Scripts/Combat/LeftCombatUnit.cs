@@ -39,10 +39,10 @@ public class LeftCombatUnit : CombatUnit
     public override void OnDead()
     {
         base.OnDead();
-        StartCoroutine(HandleWin());
+        StartCoroutine(HandleLose());
     }
 
-    private IEnumerator HandleWin()
+    private IEnumerator HandleLose()
     {
         CombatUIManager.Instance.PopupOpen<JudgePopup>().SetJudgeText("YOU LOSE");
         yield return new WaitForSeconds(2f);

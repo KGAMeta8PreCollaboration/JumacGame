@@ -13,7 +13,7 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
     public FirebaseDatabase Database { get; private set; }
     public FirebaseUser User { get; private set; }
 
-    public int _gold;
+    public int gold;
     public JegiUserData jegiUserData; //여기에서 유저의 최고점수 써야함
     private LogInUserData _logInUserData;
 
@@ -99,7 +99,7 @@ public class JegiFirebaseManager : Singleton<JegiFirebaseManager>
                 jegiUserData = new JegiUserData(logInUserData.nickname, 0);
             }
 
-            _gold = logInUserData.gold;
+            gold = logInUserData.gold;
             return jegiUserData;
         }
         catch (Exception e)

@@ -10,20 +10,17 @@ public class JegiUIPage : JegiPage
     [SerializeField] private TextMeshProUGUI currentScoreText;
     [SerializeField] private TextMeshProUGUI bestScoreText;
     [SerializeField] private Button startButton;
-    [SerializeField] private Button restartButton;
     [SerializeField] private Button pauseButton;
     // Start is called before the first frame update
 
     private void OnEnable()
     {
-        restartButton.onClick.AddListener(OnClickRestartButton);
         pauseButton.onClick.AddListener(OnClickPauseButton);
         startButton.onClick.AddListener(OnClickStartButton);
     }
 
     private void OnDisable()
     {
-        restartButton.onClick.RemoveAllListeners();
         pauseButton.onClick.RemoveAllListeners();
         startButton.onClick.RemoveAllListeners();
     }
@@ -50,7 +47,7 @@ public class JegiUIPage : JegiPage
 
     private void OnClickStartButton()
     {
-        JegiGameManager.Instance._pause = false;
+        JegiGameManager.Instance.pause = false;
         startButton.gameObject.SetActive(false);
         //JegiUIManager.Instance.PopupOpen<JegiTimePopup>().StartTimer();
     }
@@ -60,14 +57,9 @@ public class JegiUIPage : JegiPage
         startButton.gameObject.SetActive(true);
     }
 
-    private void OnClickRestartButton()
-    {
-        JegiGameManager.Instance.Restart();
-    }
-
     private void OnClickPauseButton()
     {
-        JegiGameManager.Instance._pause = true;
+        JegiGameManager.Instance.pause = true;
         JegiUIManager.Instance.PopupOpen<JegiUIPopup>();
         Time.timeScale = 0f;
     }
