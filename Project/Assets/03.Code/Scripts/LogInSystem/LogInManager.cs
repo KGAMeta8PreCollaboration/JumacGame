@@ -11,6 +11,7 @@ public class LogInManager : MonoBehaviour
 {
     private DatabaseReference _logInUsersRef;
 
+    //회원가입
     public async Task<bool> Create(string email, string password)
     {
         try
@@ -26,8 +27,7 @@ public class LogInManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            print($"���� ���� ���� : {e.Message}");
-
+            print(e.Message);
             return false;
         }
     }
@@ -59,22 +59,17 @@ public class LogInManager : MonoBehaviour
                 string json = JsonConvert.SerializeObject(userData);
                 await _logInUsersRef.Child(result.User.UserId).SetRawJsonValueAsync(json);
 
-                Debug.Log($"�α��� ����! �α��� �ð� ������Ʈ: {logInTime}");
                 return true;
             }
             catch (Exception e)
             {
-                print($"�����͸� ������ �� ���� : {e.Message}");
-                Debug.LogWarning($"1111 :{e.Data}, {e.Message}");
-                SignOut();
+                Debug.LogWarning(e.Message);
                 return false;
             }
         }
         catch (Exception e)
         {
-            print($"�α��� ���� : {e.Message}");
-            Debug.LogWarning($"2222 : {e.Data},  {e.Message}");
-
+            Debug.LogWarning(e.Message);
             return false;
         }
     }
