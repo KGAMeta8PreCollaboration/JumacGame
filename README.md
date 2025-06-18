@@ -10,17 +10,7 @@ Firebase를 통해 인증/로그인, 실시간 데이터 동기화, 데이터베
 - Unity (C#)
 - Firebase (Authentication, Realtime Database)
 - Newtonsoft.Json (데이터 직렬화/역직렬화)
-
----
-
-## 시작 방법
-
-1. Firebase 콘솔에서 프로젝트 생성 및 인증/DB 설정
-2. Unity에서 Firebase SDK 및 Newtonsoft.Json 패키지 설치
-3. FirebaseManager에서 Firebase 초기화
-4. 각 미니게임 및 UI 매니저에서 Firebase 연동
-
-
+  
 ---
 
 ## 주요 기능
